@@ -1,7 +1,22 @@
 #'
 #' Base function to get event from API and convert response to data frame
 #'
-#' @param event_type
+#' @param event_type Type of event to get data of. It can be "port_visit" or "fishing"
+#' @param limit Number of events to import. We need some documentation for the max.
+#' @param vessel VesselID. How to get this?
+#' @param auth Authorization token. Can be obtained with gfw_auth function
+#'
+#' @importFrom dplyr across
+#' @importFrom dplyr mutate
+#' @importFrom httr content
+#' @importFrom httr GET
+#' @importFrom purrr map_dfr
+#' @importFrom rlang .data
+#' @importFrom tibble as_tibble
+#' @importFrom tibble enframe
+#' @importFrom tidyr pivot_wider
+#' @importFrom tidyr unnest_wider
+#' @importFrom tidyselect everything
 
 get_event <- function(event_type='port_visit',
                       limit = 10,
@@ -19,10 +34,10 @@ get_event <- function(event_type='port_visit',
 
   # Function to extract each entry to tibble
   event_entry <- function(x){
-    enframe(x) %>%
-      as_tibble() %>%
-      pivot_wider(., names_from = name, values_from = value) %>%
-      unnest_wider(position)
+    tibble::enframe(x) %>%
+      tibble::as_tibble() %>%
+      tidyr::pivot_wider(names_from = .data$name, values_from = .data$value) %>%
+      tidyr::unnest_wider(.data$position)
   }
 
   # basic function to make length 1 lists into characters
@@ -41,9 +56,9 @@ get_event <- function(event_type='port_visit',
 
   # Map function to each event to convert to data frame
   # and format non-list columns to character and datetime
-  event_df <- map_dfr(gfw_list$entries, event_entry) %>%
-    mutate(across(everything(), make_char)) %>%
-    mutate(across(c(start, end), make_datetime))
+  event_df <- purrr::map_dfr(gfw_list$entries, event_entry) %>%
+    dplyr::mutate(dplyr::across(tidyselect::everything(), make_char)) %>%
+    dplyr::mutate(dplyr::across(c(.data$start, .data$end), make_datetime))
 
   # Return final data frame
   return(event_df)

@@ -1,6 +1,10 @@
 #'
 #' Function to get endpoint for given event type
 #'
+#' @param event_type Type of event to get data of. It can be "port_visit" or "fishing"
+#' @param limit Number of events to import. We need some documentation for the max.
+#' @param vessel VesselID. How to get this?
+
 
 get_endpoint <- function(event_type = 'port_visit',
                          limit = 10,
