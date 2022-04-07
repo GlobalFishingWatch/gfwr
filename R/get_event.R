@@ -10,6 +10,7 @@
 #' @importFrom dplyr mutate
 #' @importFrom httr content
 #' @importFrom httr GET
+#' @importFrom httr add_headers
 #' @importFrom purrr map_dfr
 #' @importFrom rlang .data
 #' @importFrom tibble as_tibble
@@ -19,17 +20,46 @@
 #' @importFrom tidyselect everything
 
 get_event <- function(event_type='port_visit',
-                      limit = 10,
-                      vessel = '6583c51e3-3626-5638-866a-f47c3bc7ef7c',
-                      auth){
+                      response_limit = 1000,
+                      vessel_list = NULL,
+                      include_regions = NULL,
+                      start_date = NULL,
+                      end_date = NULL
+                      ){
 
-  # Set endpoint
-  # TODO: Use lookup table to select endpoint based on event_type param
-  endpoint <- get_endpoint(event_type, limit, vessel=vessel)
+
+  # Event datasets to pass to param list
+  event_datasets <- c(
+    'port_visit' = "public-global-port-visits-c2-events:v20201001",
+    'fishing' = "public-global-fishing-events:v20201001"
+  )
+
+  # Get dataset for selected event
+  event_dataset <- event_datasets[event_type]
+
+  # List of query params to pass to modify_url
+  params <- list(
+    dataset =  I(event_dataset),
+    limit = response_limit,
+    includeRegions = include_regions,
+    vessels = vessel_list,
+    startDate  = start_date,
+    endDate = end_date
+  )
+
+  endpoint <- modify_url("https://gateway.api.globalfishingwatch.org//v1/events", query = params)
+
+  # Get API key
+  key <- Sys.getenv("GFW_TOKEN")
 
   # API call
   # TODO: Add exception handling
-  gfw_json <- httr::GET(endpoint, auth)
+  # TODO: Handle paginated responses
+  gfw_json <- httr::GET(endpoint,
+                        config = list(httr::add_headers(Authorization = paste("Bearer", key, sep = " ")))
+                      )
+
+  # Make request
   gfw_list <- httr::content(gfw_json)
 
   # Function to extract each entry to tibble

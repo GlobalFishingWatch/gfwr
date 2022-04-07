@@ -2,26 +2,17 @@
 #' Function to get endpoint for given event type
 #'
 #' @param event_type Type of event to get data of. It can be "port_visit" or "fishing"
-#' @param limit Number of events to import. We need some documentation for the max.
-#' @param vessel VesselID. How to get this?
 
+get_endpoint <- function(event_type){
 
-get_endpoint <- function(event_type = 'port_visit',
-                         limit = 10,
-                         vessel){
+  # Event datasets to pass to param list
+  event_datasets <- c(
+    'port_visit' = "public-global-port-visits-c2-events:v20201001",
+    'fishing' = "public-global-fishing-events:v20201001"
+  )
 
-  if(event_type == 'port_visit'){
+  # Get dataset for selected event
+  event_dataset <- event_datasets[event_type]
 
-    endpoint <- glue::glue("https://gateway.api.globalfishingwatch.org//v1/",
-                           "events?datasets=public-global-port-visits-c2-events:v20201001",
-                           "&limit={limit}&vessels={vessel}")
-
-  } else if(event_type == 'fishing'){
-
-    endpoint <- glue::glue("https://gateway.api.globalfishingwatch.org//v1/",
-                           "events?datasets=public-global-fishing-events:v20201001",
-                           "&limit={limit}&vessels={vessel}")
-  }
-
-  return(endpoint)
+  return(event_dataset)
 }
