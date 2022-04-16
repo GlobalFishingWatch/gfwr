@@ -1,6 +1,7 @@
 #'
 #' Get vessel track
 #'
+#' @param auth Authorization token. Can be obtained with gfw_auth function
 
 get_vessel_track <- function(auth){
 
