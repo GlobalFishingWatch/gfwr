@@ -25,5 +25,7 @@ Imports:
     tibble,
     tidyr,
     tidyselect
+Suggests:
+    glue
 URL: https://github.com/GlobalFishingWatch/gfwr
 BugReports: https://github.com/GlobalFishingWatch/gfwr/issues

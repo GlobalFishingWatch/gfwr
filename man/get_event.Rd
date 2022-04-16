@@ -6,19 +6,28 @@
 \usage{
 get_event(
   event_type = "port_visit",
-  limit = 10,
-  vessel = "6583c51e3-3626-5638-866a-f47c3bc7ef7c",
-  auth
+  response_limit = 1000,
+  vessel = NULL,
+  include_regions = NULL,
+  start_date = NULL,
+  end_date = NULL,
+  key
 )
 }
 \arguments{
 \item{event_type}{Type of event to get data of. It can be "port_visit" or "fishing"}
 
-\item{limit}{Number of events to import. We need some documentation for the max.}
+\item{response_limit}{Number of events to import. We need some documentation for the max.}
 
 \item{vessel}{VesselID. How to get this?}
 
-\item{auth}{Authorization token. Can be obtained with gfw_auth function}
+\item{include_regions}{Whether to include regions? Ask engineering if this can always be false}
+
+\item{start_date}{Start of date range to search events}
+
+\item{end_date}{End of date range to search events}
+
+\item{key}{Authorization token. Can be obtained with gfw_auth function}
 }
 \description{
 Base function to get event from API and convert response to data frame

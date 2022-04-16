@@ -2,17 +2,15 @@
 % Please edit documentation in R/get_endpoint.R
 \name{get_endpoint}
 \alias{get_endpoint}
-\title{Function to get endpoint for given event type}
+\title{Function to get API dataset name for given event type}
 \usage{
-get_endpoint(event_type = "port_visit", limit = 10, vessel)
+get_endpoint(dataset_type, ...)
 }
 \arguments{
-\item{event_type}{Type of event to get data of. It can be "port_visit" or "fishing"}
+\item{dataset_type}{Type of dataset to get API dataset name for. It can be "port_visit" or "fishing"}
 
-\item{limit}{Number of events to import. We need some documentation for the max.}
-
-\item{vessel}{VesselID. How to get this?}
+\item{...}{Other arguments that would depend on the dataset type.}
 }
 \description{
-Function to get endpoint for given event type
+Function to get API dataset name for given event type
 }
