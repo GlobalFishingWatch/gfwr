@@ -54,7 +54,7 @@ get_event <- function(event_type='port_visit',
   all_results <- paginate(gfw_list, endpoint, key)
 
   # Extract all entries from list of responses
-  all_entries <- purrr::map(all_results, pluck, 'entries') %>% flatten()
+  all_entries <- purrr::map(all_results, purrr::pluck, 'entries') %>% purrr::flatten()
 
   # Function to extract each entry to tibble
   event_entry <- function(x){
