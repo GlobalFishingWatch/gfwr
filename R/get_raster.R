@@ -1,6 +1,4 @@
-
-#'
-#' Base function to get event from API and convert response to data frame
+#'Base function to get event from API and convert response to data frame
 #'
 #' @param event_type Type of event to get data of. It can be "port_visit" or "fishing"
 #' @param response_limit Number of events to import. We need some documentation for the max.
@@ -31,18 +29,16 @@ get_raster <- function(spatialResolution = NULL,
                        format= NULL,
                        shape_json = NULL,
                        key
-){
-
+) {
 
   # Event datasets to pass to param list
-  endpoint <- get_endpoint(event_type = 'raster'
-                           spatialResolution = NULL,
-                           temporalResolution = NULL,
-                           groupBy = NULL,
-                           start_date = NULL,
-                           end_date = NULL,
-                           format= NULL)
-
+  endpoint <- get_endpoint(dataset_type = 'raster',
+                           spatialResolution = spatialResolution,
+                           temporalResolution = temporalResolution,
+                           groupBy = groupBy,
+                           start_date = start_date,
+                           end_date = end_date,
+                           format= format)
 
 
   # API call
@@ -51,7 +47,7 @@ get_raster <- function(spatialResolution = NULL,
   gfw_json <- httr::POST(endpoint,
                         config = httr::add_headers(Authorization = paste("Bearer", key, sep = " ")),
                         body = shape_json,
-                        endcode = 'application/json'
+                        content_type = 'application/json'
   )
 
   # Make request
@@ -61,6 +57,7 @@ get_raster <- function(spatialResolution = NULL,
   temp <- tempfile()
   writeBin(gfw_list, temp)
   names <- utils::unzip(temp,list = TRUE)$Name
-  readr::read_csv(unz(temp,names[grepl('.csv',names)]), header = T)
+
+  return(readr::read_csv(unz(temp,names[grepl('.csv',names)])))
 
 }
