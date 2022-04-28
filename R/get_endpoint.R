@@ -31,7 +31,7 @@ get_endpoint <- function(dataset_type,...){
   if (dataset_type %in% c('port_visits','fishing')) {
     base <- "https://gateway.api.globalfishingwatch.org/v1/events"
   } else {
-    base <- "https://gateway.api.globalfishingwatch.org/v1/4wings/report"
+    base <- "https://gateway.api.globalfishingwatch.org/v1/4wings/report?datasets[0]"
   }
 
   endpoint <- httr::modify_url(base,
