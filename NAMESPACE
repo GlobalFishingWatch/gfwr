@@ -3,6 +3,7 @@
 export("%>%")
 export(make_char)
 export(make_datetime)
+export(paginate)
 importFrom(dplyr,across)
 importFrom(dplyr,mutate)
 importFrom(httr,GET)

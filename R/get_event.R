@@ -43,13 +43,18 @@ get_event <- function(event_type='port_visit',
 
   # API call
   # TODO: Add exception handling
-  # TODO: Handle paginated responses
   gfw_json <- httr::GET(endpoint,
                         config = httr::add_headers(Authorization = paste("Bearer", key, sep = " "))
                       )
 
   # Make request
   gfw_list <- httr::content(gfw_json)
+
+  # Paginate if neccessary, otherwise return list with one response
+  all_results <- paginate(gfw_list, endpoint, key)
+
+  # Extract all entries from list of responses
+  all_entries <- purrr::map(all_results, purrr::pluck, 'entries') %>% purrr::flatten()
 
   # Function to extract each entry to tibble
   event_entry <- function(x){
@@ -61,7 +66,7 @@ get_event <- function(event_type='port_visit',
 
   # Map function to each event to convert to data frame
   # and format non-list columns to character and datetime
-  event_df <- purrr::map_dfr(gfw_list$entries, event_entry) %>%
+  event_df <- purrr::map_dfr(all_entries, event_entry) %>%
     dplyr::mutate(dplyr::across(tidyselect::everything(), make_char)) %>%
     dplyr::mutate(dplyr::across(c(.data$start, .data$end), make_datetime))
 
