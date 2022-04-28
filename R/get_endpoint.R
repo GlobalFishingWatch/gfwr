@@ -15,7 +15,8 @@ get_endpoint <- function(dataset_type,...){
   # API datasets to pass to param list
   api_datasets <- c(
     'port_visit' = "public-global-port-visits-c2-events:v20201001",
-    'fishing' = "public-global-fishing-events:v20201001"
+    'fishing' = "public-global-fishing-events:v20201001",
+    'raster' = "public-global-fishing-effort:v20201001"
   )
 
   # Get dataset ID for selected API
@@ -26,7 +27,14 @@ get_endpoint <- function(dataset_type,...){
 
   # Modify base URL with query parameters
   # TODO: The "/events" will have to change if querying vessels/4Wings etc.
-  endpoint <- httr::modify_url("https://gateway.api.globalfishingwatch.org/v1/events",
+
+  if (dataset_type %in% c('port_visits','fishing')) {
+    base <- "https://gateway.api.globalfishingwatch.org/v1/events"
+  } else {
+    base <- "https://gateway.api.globalfishingwatch.org/v1/4wings/report"
+  }
+
+  endpoint <- httr::modify_url(base,
                                query = args)
 
   return(endpoint)
