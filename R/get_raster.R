@@ -38,8 +38,7 @@ get_raster <- function(spatialResolution = NULL,
                            groupBy = groupBy,
                            start_date = start_date,
                            end_date = end_date,
-                           format= format)
-
+                           format = format)
 
   # API call
   # TODO: Add exception handling
@@ -58,6 +57,7 @@ get_raster <- function(spatialResolution = NULL,
   writeBin(gfw_list, temp)
   names <- utils::unzip(temp,list = TRUE)$Name
 
-  return(readr::read_csv(unz(temp,names[grepl('.csv',names)])))
-
+  # OPTION: could incorporate `format` to process .tif as well
+  file = unz(temp,names[grepl('.csv$',names)])
+  return(readr::read_csv(file))
 }
