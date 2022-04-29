@@ -12,7 +12,6 @@ get_endpoint <- function(dataset_type,...){
     assign(names(args[i]), args[[i]])
   }
 
-  print(args)
   # API datasets to pass to param list
   api_datasets <- c(
     'port_visit' = "public-global-port-visits-c2-events:v20201001",
@@ -23,20 +22,17 @@ get_endpoint <- function(dataset_type,...){
   # Get dataset ID for selected API
   dataset <- api_datasets[[dataset_type]]
 
-  date_range = paste0(start_date, ',', end_date)
-  # Add datasets ID to params list
-
-
-
   # Modify base URL with query parameters
   # TODO: The "/events" will have to change if querying vessels/4Wings etc.
 
   if (dataset_type %in% c('port_visits','fishing')) {
+    #datasets used in events API
     args <- c(datasets = dataset,  args)
     base <- "https://gateway.api.globalfishingwatch.org/v1/events"
   } else if (dataset_type == 'raster') {
+    #datasets[0] and date range used in 4wings reports
+    date_range = paste0(start_date, ',', end_date)
     args <- c(`datasets[0]` = dataset,`date-range` = date_range,  args)
-
     base <- "https://gateway.api.globalfishingwatch.org/v1/4wings/report"
   } else {
     stop('Select valid dataset type')
