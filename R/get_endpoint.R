@@ -33,7 +33,7 @@ get_endpoint <- function(dataset_type,...){
     #datasets[0] and date range used in 4wings reports
     date_range = paste0(start_date, ',', end_date)
     args <- c(`datasets[0]` = dataset,`date-range` = date_range,  args)
-    base <- "https://gateway.api.globalfishingwatch.org/v1/4wings/report"
+    base <- "https://gateway.api.dev.globalfishingwatch.org/v2/4wings/report"
   } else {
     stop('Select valid dataset type')
   }
