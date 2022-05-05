@@ -1,4 +1,4 @@
-#'Base function to get raster from API and convert response to data frame
+#' Base function to get raster from API and convert response to data frame
 #'
 #' @param spatial_resolution raster spatial resolution. Can be "low" = 0.1 degree or "high" = 0.01 degree
 #' @param temporal_resolution raster temporal resolution. Can be 'daily','monthly','yearly'.
@@ -9,56 +9,51 @@
 #' @param shape_json geojson, shape to filter raster
 #' @param key Authorization token. Can be obtained with gfw_auth function
 #'
-#' @importFrom dplyr across
-#' @importFrom dplyr mutate
-#' @importFrom httr content
-#' @importFrom httr GET
-#' @importFrom httr add_headers
-#' @importFrom purrr map_dfr
-#' @importFrom rlang .data
-#' @importFrom tibble as_tibble
-#' @importFrom tibble enframe
-#' @importFrom tidyr pivot_wider
-#' @importFrom tidyr unnest_wider
-#' @importFrom tidyselect everything
+#' @importFrom magrittr `%>%`
+#' @importFrom readr read_csv
+#' @importFrom httr2 resp_body_raw
+#' @importFrom utils unzip
+#'
 
 get_raster <- function(spatial_resolution = NULL,
                        temporal_resolution = NULL,
                        group_by = NULL,
                        start_date = NULL,
                        end_date = NULL,
-                       format= 'csv',
+                       format = "csv",
                        shape_json = NULL,
-                       key
-) {
+                       key) {
 
-  # Event datasets to pass to param list
-  endpoint <- get_endpoint(dataset_type = 'raster',
-                           `spatial-resolution` = spatial_resolution,
-                           `temporal-resolution` = temporal_resolution,
-                           `group-by` = group_by,
-                           start_date = start_date,
-                           end_date = end_date,
-                           format = format)
+  # Endpoint
+  endpoint <- get_endpoint(
+    dataset_type = "raster",
+    `spatial-resolution` = spatial_resolution,
+    `temporal-resolution` = temporal_resolution,
+    `group-by` = group_by,
+    start_date = start_date,
+    end_date = end_date,
+    format = format,
+    key = key
+  )
 
   # API call
   # TODO: Add exception handling
   # TODO: Handle paginated responses
-  gfw_json <- httr::POST(endpoint,
-                        config = httr::add_headers(Authorization = paste("Bearer", key, sep = " ")),
-                        body = shape_json,
-                        content_type = 'application/json'
-  )
+  response <- endpoint %>%
+    httr2::req_headers(Authorization = paste("Bearer",
+                                             key,
+                                             sep = " "),
+                       `Content-Type` = 'application/json') %>%
+    httr2::req_body_raw(., body = shape_json) %>%
+    httr2::req_perform(.) %>%
+    httr2::resp_body_raw(.)
 
-  # Make request
-  gfw_list <- httr::content(gfw_json)
-
-  # unzip download and read as
+  # save zip and get .csv file name
   temp <- tempfile()
-  writeBin(gfw_list, temp)
-  names <- utils::unzip(temp,list = TRUE)$Name
+  writeBin(response, temp)
+  names <- utils::unzip(temp, list = TRUE)$Name
 
-  # OPTION: could incorporate `format` to process .tif as well
-  file = unz(temp,names[grepl('.csv$',names)])
+  # unzip zip file and extract .csv
+  file <- unz(temp, names[grepl(".csv$", names)])
   return(readr::read_csv(file))
 }
