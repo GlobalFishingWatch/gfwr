@@ -19,6 +19,8 @@ get_endpoint <- function(dataset_type,...){
     'raster' = "public-global-fishing-effort:v20201001"
   )
 
+  base <- httr2::request("https://gateway.api.dev.globalfishingwatch.org/v2/")
+
   # Get dataset ID for selected API
   dataset <- api_datasets[[dataset_type]]
 
@@ -26,20 +28,21 @@ get_endpoint <- function(dataset_type,...){
   # TODO: The "/events" will have to change if querying vessels/4Wings etc.
 
   if (dataset_type %in% c('port_visits','fishing')) {
-    #datasets used in events API
+
     args <- c(datasets = dataset,  args)
-    base <- "https://gateway.api.globalfishingwatch.org/v1/events"
+    endpoint <- base %>%
+      httr2::req_url_path_append('events') %>%
+      httr2::req_url_query(!!!args)
+
   } else if (dataset_type == 'raster') {
-    #datasets[0] and date range used in 4wings reports
-    date_range = paste0(start_date, ',', end_date)
+    date_range <- paste0(start_date, ',', end_date)
     args <- c(`datasets[0]` = dataset,`date-range` = date_range,  args)
-    base <- "https://gateway.api.dev.globalfishingwatch.org/v2/4wings/report"
+    endpoint <- base %>%
+      httr2::req_url_path_append('4wings/report') %>%
+      httr2::req_url_query(!!!args)
   } else {
     stop('Select valid dataset type')
   }
-
-  endpoint <- httr::modify_url(base,
-                               query = args)
 
   return(endpoint)
 }
