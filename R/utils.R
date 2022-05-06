@@ -13,6 +13,16 @@
 #' @return The result of calling `rhs(lhs)`.
 NULL
 
+#'
+#' Get user API token from .Renviron
+#' @name gfw_auth
+#' @export
+gfw_auth <- function(){
+  # Define authorization token
+  key <- Sys.getenv("GFW_TOKEN")
+  return(key)
+}
+
 #' Basic function to make length 1 lists into characters
 #' @name make_char
 #' @keywords internal

@@ -30,13 +30,19 @@ You can install the development version of gfwr like so:
 devtools::install_github("GlobalFishingWatch/gfwr")
 ```
 
+## Authorization
+
+The use of `gfwr` requires a GFW API token, which users can request from the [GFW API Portal](). Save this token to your `.Renviron` file as a string called `"GFW_TOKEN"`. Then use `gfw_auth()` to extract the token and pass it to subsequent `gfwr` functions.
+
 ## Example
 
 This is a basic example which shows you how to solve a common problem:
 
 ```{r example, eval=F}
 library(gfwr)
-## basic example code
+
+# Get API key from local .Renviron file
+key <- gfw_auth()
 ```
 
 You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. You could also use GitHub Actions to re-render `README.Rmd` every time you push. An example workflow can be found here: <https://github.com/r-lib/actions/tree/v1/examples>.
