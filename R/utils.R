@@ -79,3 +79,27 @@ paginate <- function(response, endpoint, key){
   # Return list of response pages
   return(responses)
 }
+
+
+#' Function to pull numeric EEZ code using EEZ name
+#' @name get_eez_code
+#' @param eez_name string, EEZ name
+#' @param key string, API token
+#' @export
+#' @return dataframe, eez code and EEZ name for matching EEZs
+#'
+#' @importFrom dplyr filter
+#' @importFrom dplyr bind_rows
+#' @importFrom httr2 req_headers
+#' @importFrom httr2 req_perform
+#' @importFrom httr2 resp_body_json
+#'
+
+get_eez_code <- function(eez_name, key) {
+  get_endpoint(dataset_type = "eez_id") %>%
+    httr2::req_headers(Authorization = paste("Bearer", key, sep = " ")) %>%
+    httr2::req_perform(.) %>%
+    httr2::resp_body_json(.) %>%
+    dplyr::bind_rows() %>%
+    dplyr::filter(agrepl(eez_name, .$label) | agrepl(paste0('^',eez_name), .$iso3))
+}
