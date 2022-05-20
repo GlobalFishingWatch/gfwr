@@ -40,7 +40,7 @@ get_vessel_info <- function(query = NULL,
     httr2::resp_body_json()
 
   output <- enframe(response$entries) %>%
-    tidyr::unnest_wider(col = value)
+    tidyr::unnest_wider(data = ., col = value)
 
   return(output)
 }
