@@ -20,14 +20,12 @@
 #' at once. This is generally recommended.
 #'
 #' @examples
-#' get_vessel_info(query = 224224000, search_type = 'basic')
-#' get_vessel_info(query = "shipname LIKE '%GABU REEFE%' OR imo = '8300949'", search_type = 'advanced')
-#' get_vessel_info(query = "8c7304226-6c71-edbe-0b63-c246734b3c01", search_type = 'id')
-
+#' get_vessel_info(query = 224224000, search_type = "basic")
+#' get_vessel_info(query = "shipname LIKE '%GABU REEFE%' OR imo = '8300949'", search_type = "advanced")
+#' get_vessel_info(query = "8c7304226-6c71-edbe-0b63-c246734b3c01", search_type = "id")
 get_vessel_info <- function(query = NULL,
                             search_type = NULL,
                             dataset = "all") {
-
   endpoint <- get_identity_endpoint(
     dataset_type = dataset,
     search_type = search_type,
