@@ -36,6 +36,14 @@ get_raster <- function(spatial_resolution = NULL,
     key = key
   )
 
+
+  # Handle eez numeric code as input
+  # TODO: Need to update if MPA codes are also available
+  if (is.numeric(shape_json)) {
+    shape_json = rjson::toJSON(list(region = list(dataset = 'public-eez-areas',
+                                                  id = shape_json)))
+  }
+
   # API call
   # TODO: Add exception handling
   # TODO: Handle paginated responses
