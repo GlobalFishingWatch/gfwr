@@ -50,7 +50,7 @@ get_endpoint <- function(dataset_type,...){
 
 
 #'
-#' Function to get API dataset name for given event type
+#' Function to get API endpoint name for identity search
 #'
 #' @param dataset_type Type of identity dataset to get API dataset name for. It can be "support_vessel", "carrier_vessel" or "fishing_vessel"
 #' @param search_type Type of vessel search to perform. Can be "basic", "advanced", or "id"
@@ -78,7 +78,7 @@ get_identity_endpoint <- function(dataset_type, search_type, ...) {
   dataset <- api_datasets[[dataset_type]]
 
   # swap name is searching by vessel id
-  if (search_type == 'id') {
+  if (search_type == "id") {
     names(args)[names(args) == "query"] <- "ids"
   }
 
@@ -86,14 +86,14 @@ get_identity_endpoint <- function(dataset_type, search_type, ...) {
   # basic = using MMSI, IMO, shipname, etc
   # advanced = %LIKE%
   # id = using vessel id
-  if (search_type == 'basic') {
-    path_append = 'vessels/search'
-  } else if (search_type == 'advanced') {
-    path_append = 'vessels/advanced-search'
-  } else if (search_type == 'id') {
-    path_append = 'vessels'
+  if (search_type == "basic") {
+    path_append <- "vessels/search"
+  } else if (search_type == "advanced") {
+    path_append <- "vessels/advanced-search"
+  } else if (search_type == "id") {
+    path_append <- "vessels"
   } else {
-    cat('Specify appropriate search format')
+    cat("Specify appropriate search format")
   }
   args <- c(datasets = dataset, args)
 
@@ -103,4 +103,3 @@ get_identity_endpoint <- function(dataset_type, search_type, ...) {
 
   return(endpoint)
 }
-
