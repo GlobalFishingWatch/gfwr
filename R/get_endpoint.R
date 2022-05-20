@@ -22,7 +22,9 @@ get_endpoint <- function(dataset_type,...){
   base <- httr2::request("https://gateway.api.dev.globalfishingwatch.org/v2/")
 
   # Get dataset ID for selected API
-  dataset <- api_datasets[[dataset_type]]
+  if (dataset_type != 'eez_id') {
+    dataset <- api_datasets[[dataset_type]]
+  }
 
   # Modify base URL with query parameters
   # TODO: The "/events" will have to change if querying vessels/4Wings etc.
@@ -35,13 +37,20 @@ get_endpoint <- function(dataset_type,...){
       httr2::req_url_query(!!!args)
 
   } else if (dataset_type == 'raster') {
+
     date_range <- paste0(start_date, ',', end_date)
     args <- c(`datasets[0]` = dataset,`date-range` = date_range,  args)
     endpoint <- base %>%
       httr2::req_url_path_append('4wings/report') %>%
       httr2::req_url_query(!!!args)
+
+  } else if (dataset_type == "eez_id") {
+
+    endpoint <- base %>%
+      httr2::req_url_path_append("datasets/public-eez-areas/user-context-layers")
+
   } else {
-    stop('Select valid dataset type')
+    stop("Select valid dataset type")
   }
 
   return(endpoint)
