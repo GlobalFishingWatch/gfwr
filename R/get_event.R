@@ -11,9 +11,9 @@
 #'
 #' @importFrom dplyr across
 #' @importFrom dplyr mutate
-#' @importFrom httr content
-#' @importFrom httr GET
-#' @importFrom httr add_headers
+#' @importFrom httr2
+#' @importFrom httr2 req_perform
+#' @importFrom httr2 resp_body_json
 #' @importFrom purrr map_dfr
 #' @importFrom rlang .data
 #' @importFrom tibble as_tibble
@@ -35,23 +35,18 @@ get_event <- function(event_type='port_visit',
   # Event datasets to pass to param list
   endpoint <- get_endpoint(event_type,
                            limit = response_limit,
-                           includeRegions = include_regions,
+                           `include-regions` = include_regions,
                            vessels = vessel,
-                           startDate  = start_date,
-                           endDate = end_date)
+                           `start-date` = start_date,
+                           `end-date` = end_date
+                           )
 
 
   # API call
   # TODO: Add exception handling
-  gfw_json <- httr::GET(endpoint,
-                        config = httr::add_headers(Authorization = paste("Bearer", key, sep = " "))
-                      )
-
-  # Make request
-  gfw_list <- httr::content(gfw_json)
 
   # Paginate if neccessary, otherwise return list with one response
-  all_results <- paginate(gfw_list, endpoint, key)
+  all_results <- paginate(endpoint, key)
 
   # Extract all entries from list of responses
   all_entries <- purrr::map(all_results, purrr::pluck, 'entries') %>% purrr::flatten()

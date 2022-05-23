@@ -45,17 +45,46 @@ make_datetime <- function(x) {
   as.POSIXct(as.character(x), format = '%Y-%m-%dT%H:%M:%S', tz = 'UTC')
 }
 
+#' Helper function to parse error message data
+#' and display appropriately to user
+#' Taken from httr2 docs: https://httr2.r-lib.org/articles/wrapping-apis.html#sending-data
+#' @name gist_error_body
+#' @keywords internal
+#' @export
+#' @return
+gist_error_body <- function(resp) {
+  body <- httr2::resp_body_json(resp)
+
+  message <- body$message
+  if (!is.null(body$documentation_url)) {
+    message <- c(message, paste0("See docs at <", body$documentation_url, ">"))
+  }
+  message
+}
+
 #' Pagination function for GFW API calls
 #' @name paginate
 #' @keywords internal
 #' @export
 #' @return
 # pagination function
-paginate <- function(response, endpoint, key){
+paginate <- function(endpoint, key){
+
+  browser()
+  # Make initial API request
+  response <- endpoint %>%
+    httr2::req_headers(Authorization = paste("Bearer",
+                                             key,
+                                             sep = " "),
+                       `Content-Type` = 'application/json') %>%
+    httr2::req_error(body = gist_error_body) %>%
+    httr2::req_perform() %>%
+    httr2::resp_body_raw()
 
   # List to store responses
   responses <- list()
   responses[[1]] <- response
+
   # Current page values
   total <- response$total
   next_off <- response$nextOffset
