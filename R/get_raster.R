@@ -8,7 +8,6 @@
 #' @param format output format. Current support for 'csv'.
 #' @param shape_json geojson, shape to filter raster
 #' @param key Authorization token. Can be obtained with gfw_auth function
-#'
 #' @importFrom magrittr `%>%`
 #' @importFrom readr read_csv
 #' @importFrom httr2 resp_body_raw
@@ -35,6 +34,14 @@ get_raster <- function(spatial_resolution = NULL,
     format = format,
     key = key
   )
+
+
+  # Handle eez numeric code as input
+  # TODO: Need to update if MPA codes are also available
+  if (is.numeric(shape_json)) {
+    shape_json = rjson::toJSON(list(region = list(dataset = 'public-eez-areas',
+                                                  id = shape_json)))
+  }
 
   # API call
   # TODO: Add exception handling

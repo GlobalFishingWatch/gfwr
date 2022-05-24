@@ -2,19 +2,17 @@
 #' Base function to get event from API and convert response to data frame
 #'
 #' @param event_type Type of event to get data of. It can be "port_visit" or "fishing"
-#' @param response_limit Number of events to import. We need some documentation for the max.
 #' @param vessel VesselID. How to get this?
 #' @param include_regions Whether to include regions? Ask engineering if this can always be false
 #' @param start_date Start of date range to search events
 #' @param end_date End of date range to search events
 #' @param key Authorization token. Can be obtained with gfw_auth function
-#'
 #' @importFrom dplyr across
 #' @importFrom dplyr mutate
-#' @importFrom httr content
-#' @importFrom httr GET
-#' @importFrom httr add_headers
+#' @importFrom httr2 req_perform
+#' @importFrom httr2 resp_body_json
 #' @importFrom purrr map_dfr
+#' @importFrom purrr flatten
 #' @importFrom rlang .data
 #' @importFrom tibble as_tibble
 #' @importFrom tibble enframe
@@ -23,7 +21,6 @@
 #' @importFrom tidyselect everything
 
 get_event <- function(event_type='port_visit',
-                      response_limit = 1000,
                       vessel = NULL,
                       include_regions = NULL,
                       start_date = NULL,
@@ -34,24 +31,14 @@ get_event <- function(event_type='port_visit',
 
   # Event datasets to pass to param list
   endpoint <- get_endpoint(event_type,
-                           limit = response_limit,
-                           includeRegions = include_regions,
+                           `include-regions` = include_regions,
                            vessels = vessel,
-                           startDate  = start_date,
-                           endDate = end_date)
+                           `start-date` = start_date,
+                           `end-date` = end_date
+                           )
 
-
-  # API call
-  # TODO: Add exception handling
-  gfw_json <- httr::GET(endpoint,
-                        config = httr::add_headers(Authorization = paste("Bearer", key, sep = " "))
-                      )
-
-  # Make request
-  gfw_list <- httr::content(gfw_json)
-
-  # Paginate if neccessary, otherwise return list with one response
-  all_results <- paginate(gfw_list, endpoint, key)
+  # API call; will paginate if neccessary, otherwise return list with one response
+  all_results <- paginate(endpoint, key)
 
   # Extract all entries from list of responses
   all_entries <- purrr::map(all_results, purrr::pluck, 'entries') %>% purrr::flatten()

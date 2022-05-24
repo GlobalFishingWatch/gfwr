@@ -3,6 +3,9 @@
 #'
 #' @param dataset_type Type of dataset to get API dataset name for. It can be "port_visit" or "fishing"
 #' @param ... Other arguments that would depend on the dataset type.
+#' @importFrom httr2 request
+#' @importFrom httr2 req_url_path_append
+#' @importFrom httr2 req_url_query
 
 get_endpoint <- function(dataset_type,...){
 
@@ -14,20 +17,22 @@ get_endpoint <- function(dataset_type,...){
 
   # API datasets to pass to param list
   api_datasets <- c(
-    'port_visit' = "public-global-port-visits-c2-events:v20201001",
-    'fishing' = "public-global-fishing-events:v20201001",
+    'port_visit' = "public-global-port-visits-c2-events:latest",
+    'encounter' = "public-global-encounters-events:latest",
+    'loitering' = "public-global-loitering-events-carriers:latest",
+    'fishing' = "public-global-fishing-events:latest",
     'raster' = "public-global-fishing-effort:v20201001"
   )
 
   base <- httr2::request("https://gateway.api.dev.globalfishingwatch.org/v2/")
 
   # Get dataset ID for selected API
-  dataset <- api_datasets[[dataset_type]]
+  if (dataset_type != 'eez_id') {
+    dataset <- api_datasets[[dataset_type]]
+  }
 
   # Modify base URL with query parameters
-  # TODO: The "/events" will have to change if querying vessels/4Wings etc.
-
-  if (dataset_type %in% c('port_visits','fishing')) {
+  if (dataset_type %in% c('port_visit','fishing','encounter','loitering')) {
 
     args <- c(datasets = dataset,  args)
     endpoint <- base %>%
@@ -35,13 +40,20 @@ get_endpoint <- function(dataset_type,...){
       httr2::req_url_query(!!!args)
 
   } else if (dataset_type == 'raster') {
+
     date_range <- paste0(start_date, ',', end_date)
     args <- c(`datasets[0]` = dataset,`date-range` = date_range,  args)
     endpoint <- base %>%
       httr2::req_url_path_append('4wings/report') %>%
       httr2::req_url_query(!!!args)
+
+  } else if (dataset_type == "eez_id") {
+
+    endpoint <- base %>%
+      httr2::req_url_path_append("datasets/public-eez-areas/user-context-layers")
+
   } else {
-    stop('Select valid dataset type')
+    stop("Select valid dataset type")
   }
 
   return(endpoint)
