@@ -23,7 +23,6 @@
 #' @importFrom tidyselect everything
 
 get_event <- function(event_type='port_visit',
-                      response_limit = 1000,
                       vessel = NULL,
                       include_regions = NULL,
                       start_date = NULL,
@@ -34,18 +33,13 @@ get_event <- function(event_type='port_visit',
 
   # Event datasets to pass to param list
   endpoint <- get_endpoint(event_type,
-                           limit = response_limit,
                            `include-regions` = include_regions,
                            vessels = vessel,
                            `start-date` = start_date,
                            `end-date` = end_date
                            )
 
-
-  # API call
-  # TODO: Add exception handling
-
-  # Paginate if neccessary, otherwise return list with one response
+  # API call; will paginate if neccessary, otherwise return list with one response
   all_results <- paginate(endpoint, key)
 
   # Extract all entries from list of responses

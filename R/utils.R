@@ -29,11 +29,7 @@ gfw_auth <- function(){
 #' @export
 #' @return
 make_char <- function(col) {
-  if(is.list(col) & lengths(col) == 1) {
-    as.character(col)
-  } else {
-    col
-  }
+  ifelse(is.list(col) & lengths(col) == 1, as.character(col), col)
 }
 
 #' Helper function to convert datetime responses
@@ -54,10 +50,9 @@ make_datetime <- function(x) {
 #' @return
 gist_error_body <- function(resp) {
   body <- httr2::resp_body_json(resp)
-
   message <- body$message
-  if (!is.null(body$documentation_url)) {
-    message <- c(message, paste0("See docs at <", body$documentation_url, ">"))
+  if(length(message) > 1){
+    message <- purrr::map_chr(message, purrr::pluck, 'detail')
   }
   message
 }
@@ -70,7 +65,6 @@ gist_error_body <- function(resp) {
 # pagination function
 paginate <- function(endpoint, key){
 
-  browser()
   # Make initial API request
   response <- endpoint %>%
     httr2::req_headers(Authorization = paste("Bearer",
@@ -79,7 +73,7 @@ paginate <- function(endpoint, key){
                        `Content-Type` = 'application/json') %>%
     httr2::req_error(body = gist_error_body) %>%
     httr2::req_perform() %>%
-    httr2::resp_body_raw()
+    httr2::resp_body_json()
 
   # List to store responses
   responses <- list()
@@ -90,20 +84,22 @@ paginate <- function(endpoint, key){
   next_off <- response$nextOffset
 
   # While nextOffset is less than total, pull additional response pages
-  while(next_off < total){
+  if(!is.null(next_off)){
+    while(next_off < total){
 
-    # Event datasets to pass to param list
-    next_endpoint <- httr::modify_url(endpoint, query = list(offset = next_off))
-    # API call for next page
-    next_response <- httr::GET(next_endpoint,
-                               config = httr::add_headers(Authorization = paste("Bearer", key, sep = " "))) %>%
-      httr::content()
+      # Event datasets to pass to param list
+      next_endpoint <- httr::modify_url(endpoint, query = list(offset = next_off))
+      # API call for next page
+      next_response <- httr::GET(next_endpoint,
+                                 config = httr::add_headers(Authorization = paste("Bearer", key, sep = " "))) %>%
+        httr::content()
 
-    # Append response to list
-    responses[[length(responses)+1]] <- next_response
+      # Append response to list
+      responses[[length(responses)+1]] <- next_response
 
-    # Pull out nextOffset of latest API response
-    next_off <- next_response$nextOffset
+      # Pull out nextOffset of latest API response
+      next_off <- next_response$nextOffset
+    }
   }
   # Return list of response pages
   return(responses)
