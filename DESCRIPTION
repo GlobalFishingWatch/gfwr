@@ -19,7 +19,8 @@ RoxygenNote: 7.1.2
 Imports: 
     magrittr,
     dplyr,
-    httr,
+    httr2,
+    readr,
     purrr,
     rlang,
     tibble,

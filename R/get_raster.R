@@ -8,7 +8,6 @@
 #' @param format output format. Current support for 'csv'.
 #' @param shape_json geojson, shape to filter raster
 #' @param key Authorization token. Can be obtained with gfw_auth function
-#'
 #' @importFrom magrittr `%>%`
 #' @importFrom readr read_csv
 #' @importFrom httr2 resp_body_raw
