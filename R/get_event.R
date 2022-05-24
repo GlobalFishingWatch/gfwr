@@ -2,19 +2,17 @@
 #' Base function to get event from API and convert response to data frame
 #'
 #' @param event_type Type of event to get data of. It can be "port_visit" or "fishing"
-#' @param response_limit Number of events to import. We need some documentation for the max.
 #' @param vessel VesselID. How to get this?
 #' @param include_regions Whether to include regions? Ask engineering if this can always be false
 #' @param start_date Start of date range to search events
 #' @param end_date End of date range to search events
 #' @param key Authorization token. Can be obtained with gfw_auth function
-#'
 #' @importFrom dplyr across
 #' @importFrom dplyr mutate
-#' @importFrom httr2
 #' @importFrom httr2 req_perform
 #' @importFrom httr2 resp_body_json
 #' @importFrom purrr map_dfr
+#' @importFrom purrr flatten
 #' @importFrom rlang .data
 #' @importFrom tibble as_tibble
 #' @importFrom tibble enframe

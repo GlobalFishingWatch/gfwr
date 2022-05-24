@@ -4,7 +4,7 @@
 \alias{paginate}
 \title{Pagination function for GFW API calls}
 \usage{
-paginate(response, endpoint, key)
+paginate(endpoint, key)
 }
 \value{
 

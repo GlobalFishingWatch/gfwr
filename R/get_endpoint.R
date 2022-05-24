@@ -3,6 +3,9 @@
 #'
 #' @param dataset_type Type of dataset to get API dataset name for. It can be "port_visit" or "fishing"
 #' @param ... Other arguments that would depend on the dataset type.
+#' @importFrom httr2 request
+#' @importFrom httr2 req_url_path_append
+#' @importFrom httr2 req_url_query
 
 get_endpoint <- function(dataset_type,...){
 

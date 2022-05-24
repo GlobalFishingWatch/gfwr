@@ -46,6 +46,9 @@ make_datetime <- function(x) {
 #' Taken from httr2 docs: https://httr2.r-lib.org/articles/wrapping-apis.html#sending-data
 #' @name gist_error_body
 #' @keywords internal
+#' @importFrom httr2 resp_body_json
+#' @importFrom purrr map_chr
+#' @importFrom purrr pluck
 #' @export
 #' @return
 gist_error_body <- function(resp) {
@@ -60,6 +63,10 @@ gist_error_body <- function(resp) {
 #' Pagination function for GFW API calls
 #' @name paginate
 #' @keywords internal
+#' @importFrom httr2 req_headers
+#' @importFrom httr2 req_error
+#' @importFrom httr2 req_perform
+#' @importFrom httr2 resp_body_json
 #' @export
 #' @return
 # pagination function
@@ -87,12 +94,9 @@ paginate <- function(endpoint, key){
   if(!is.null(next_off)){
     while(next_off < total){
 
-      # Event datasets to pass to param list
-      next_endpoint <- httr::modify_url(endpoint, query = list(offset = next_off))
-      # API call for next page
-      next_response <- httr::GET(next_endpoint,
-                                 config = httr::add_headers(Authorization = paste("Bearer", key, sep = " "))) %>%
-        httr::content()
+      # # API call for next page
+      next_response <- endpoint %>%
+        httr2::req_url_query(offset = next_off)
 
       # Append response to list
       responses[[length(responses)+1]] <- next_response
