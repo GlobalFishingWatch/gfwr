@@ -81,3 +81,13 @@ To specify a `vessel id`:
 get_vessel_info(query = "8c7304226-6c71-edbe-0b63-c246734b3c01", 
                 search_type = "id")
 ```
+
+To specify more than one `vessel id`:
+
+``` r
+get_vessel_info(query = 
+                  "8c7304226-6c71-edbe-0b63-c246734b3c01,
+                6583c51e3-3626-5638-866a-f47c3bc7ef7c,
+                71e7da672-2451-17da-b239-857831602eca", 
+                search_type = 'id')
+```
