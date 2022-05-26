@@ -17,8 +17,7 @@
 get_raster <- function(spatial_resolution = NULL,
                        temporal_resolution = NULL,
                        group_by = NULL,
-                       start_date = NULL,
-                       end_date = NULL,
+                       date_range = NULL,
                        format = "csv",
                        shape_json = NULL,
                        key) {
@@ -29,12 +28,9 @@ get_raster <- function(spatial_resolution = NULL,
     `spatial-resolution` = spatial_resolution,
     `temporal-resolution` = temporal_resolution,
     `group-by` = group_by,
-    start_date = start_date,
-    end_date = end_date,
-    format = format,
-    key = key
+    `date-range` = date_range,
+    format = format
   )
-
 
   # Handle eez numeric code as input
   # TODO: Need to update if MPA codes are also available
@@ -52,6 +48,7 @@ get_raster <- function(spatial_resolution = NULL,
                                              sep = " "),
                        `Content-Type` = 'application/json') %>%
     httr2::req_body_raw(., body = shape_json) %>%
+    httr2::req_error(body = gist_error_body) %>%
     httr2::req_perform(.) %>%
     httr2::resp_body_raw(.)
 
