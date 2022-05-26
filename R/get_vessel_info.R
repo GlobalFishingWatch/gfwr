@@ -34,11 +34,11 @@ get_vessel_info <- function(query = NULL,
     query = query
   )
 
-  response <- paginate(endpoint,key = key)
-  # response <- endpoint %>%
-  #   httr2::req_headers(Authorization = paste("Bearer", key, sep = " ")) %>%
-  #   httr2::req_perform(.) %>%
-  #   httr2::resp_body_json()
+  response <- endpoint %>%
+    httr2::req_headers(Authorization = paste("Bearer", key, sep = " ")) %>%
+    httr2::req_error(., body = gist_error_body) %>%
+    httr2::req_perform(.) %>%
+    httr2::resp_body_json()
 
   output <- enframe(response$entries) %>%
     tidyr::unnest_wider(data = ., col = value)
