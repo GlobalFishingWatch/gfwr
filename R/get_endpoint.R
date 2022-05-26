@@ -21,7 +21,7 @@ get_endpoint <- function(dataset_type,...){
     'encounter' = "public-global-encounters-events:latest",
     'loitering' = "public-global-loitering-events-carriers:latest",
     'fishing' = "public-global-fishing-events:latest",
-    'raster' = "public-global-fishing-effort:v20201001"
+    'raster' = "public-global-fishing-effort:latest"
   )
 
   base <- httr2::request("https://gateway.api.dev.globalfishingwatch.org/v2/")
@@ -41,8 +41,7 @@ get_endpoint <- function(dataset_type,...){
 
   } else if (dataset_type == 'raster') {
 
-    date_range <- paste0(start_date, ',', end_date)
-    args <- c(`datasets[0]` = dataset,`date-range` = date_range,  args)
+    args <- c(`datasets[0]` = dataset, args)
     endpoint <- base %>%
       httr2::req_url_path_append('4wings/report') %>%
       httr2::req_url_query(!!!args)
