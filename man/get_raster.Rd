@@ -8,8 +8,7 @@ get_raster(
   spatial_resolution = NULL,
   temporal_resolution = NULL,
   group_by = NULL,
-  start_date = NULL,
-  end_date = NULL,
+  date_range = NULL,
   format = "csv",
   shape_json = NULL,
   key
@@ -22,15 +21,15 @@ get_raster(
 
 \item{group_by}{parameter to group by. Can be 'vessel_id', 'flag', 'geartype', 'flagAndGearType'}
 
-\item{start_date}{Start of date range for raster}
-
-\item{end_date}{End of date range for raster}
-
 \item{format}{output format. Current support for 'csv'.}
 
 \item{shape_json}{geojson, shape to filter raster}
 
 \item{key}{Authorization token. Can be obtained with gfw_auth function}
+
+\item{start_date}{Start of date range for raster}
+
+\item{end_date}{End of date range for raster}
 }
 \description{
 Base function to get raster from API and convert response to data frame
