@@ -113,4 +113,57 @@ such as: [apparent fishing events](), [encounters](), [loitering](), and
 
 ### Examples
 
+To get a list of port visits for some vessels:
+
+``` r
+get_event(event_type='port_visit',
+                      vessel = '8c7304226-6c71-edbe-0b63-c246734b3c01,6583c51e3-3626-5638-866a-f47c3bc7ef7c',
+                      include_regions = NULL,
+                      start_date = NULL,
+                      end_date = NULL,
+                      key = key
+                      )
+```
+
+<!-- what about confidence levels for port visits? -->
+
+``` r
+get_event(event_type='port_visit',
+                      vessel = NULL,
+                      include_regions = NULL,
+                      start_date = "2020-01-01",
+                      end_date = "2020-02-01",
+                      key = key
+                      )
+```
+
+<!-- getting error with dates for now -->
+
 ## Map Visualization API
+
+The `get_raster` function gets a raster from the 4Wings API and converts
+the response to a data frame. In order to use it, you should specify:
+
+-   The spatial resolution, which can be `low` (0.1 degree) or `high`
+    (0.01 degree)
+-   The temporal resolution, which can be `daily`, `monthly`, or
+    `yearly`.
+-   The variable to group by: `vessel_id`, `flag`, `geartype`, or
+    `flagAndGearType`
+-   The date range
+-   The output format (currently supporting csv)
+-   The `geojson` shape to filter the raster
+
+### Examples
+
+``` r
+shape_json = '{"geojson":{"type":"Polygon","coordinates":[[[-76.11328125,-26.273714024406416],[-76.201171875,-26.980828590472093],[-76.376953125,-27.527758206861883],[-76.81640625,-28.30438068296276],[-77.255859375,-28.767659105691244],[-77.87109375,-29.152161283318918],[-78.486328125,-29.45873118535532],[-79.189453125,-29.61167011519739],[-79.892578125,-29.6880527498568],[-80.595703125,-29.61167011519739],[-81.5625,-29.382175075145277],[-82.177734375,-29.07537517955835],[-82.705078125,-28.6905876542507],[-83.232421875,-28.071980301779845],[-83.49609375,-27.683528083787756],[-83.759765625,-26.980828590472093],[-83.84765625,-26.35249785815401],[-83.759765625,-25.64152637306576],[-83.583984375,-25.16517336866393],[-83.232421875,-24.447149589730827],[-82.705078125,-23.966175871265037],[-82.177734375,-23.483400654325635],[-81.5625,-23.241346102386117],[-80.859375,-22.998851594142906],[-80.15625,-22.917922936146027],[-79.453125,-22.998851594142906],[-78.662109375,-23.1605633090483],[-78.134765625,-23.40276490540795],[-77.431640625,-23.885837699861995],[-76.9921875,-24.28702686537642],[-76.552734375,-24.846565348219727],[-76.2890625,-25.48295117535531],[-76.11328125,-26.273714024406416]]]}}'
+
+get_raster(spatial_resolution = 'low',
+           temporal_resolution = 'yearly',
+           group_by = 'flag',
+           date_range = '2020-01-01,2021-10-01',
+           format = "csv",
+           shape_json = shape_json,
+           key = key)
+```
