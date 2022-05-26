@@ -34,7 +34,7 @@ get_vessel_info <- function(query = NULL,
     query = query
   )
 
-  response <- paginate(endpoint)
+  response <- paginate(endpoint,key = key)
   # response <- endpoint %>%
   #   httr2::req_headers(Authorization = paste("Bearer", key, sep = " ")) %>%
   #   httr2::req_perform(.) %>%
