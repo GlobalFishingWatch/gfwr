@@ -67,14 +67,16 @@ This is generally recommended and is the option set by default.
 
 ### Examples
 
-To get information of a vessel with MMSI = 224224000:
+To get information of a vessel with MMSI = 224224000 using the `support vessel`
+dataset:
 
 ```{r example_vessel_info_1, eval=F}
 get_vessel_info(query = 224224000, search_type = "basic", 
                 dataset = "support_vessel", key = key)
 ```
 
-To combine different fields and do fuzzy matching:
+To combine different fields and do fuzzy matching to search the `carrier vessel`
+dataset:
 
 ```{r example_vessel_info_2, eval=F}
 get_vessel_info(query = "shipname LIKE '%GABU REEFE%' OR imo = '8300949'", 
@@ -85,7 +87,7 @@ To specify a `vessel id`:
 
 ```{r example_vessel_info_3, eval=F}
 get_vessel_info(query = "8c7304226-6c71-edbe-0b63-c246734b3c01", 
-                search_type = "id")
+                search_type = "id", dataset = "carrier_vessel", key = key)
 ```
 
 To specify more than one `vessel id`:
@@ -95,7 +97,7 @@ get_vessel_info(query =
                   "8c7304226-6c71-edbe-0b63-c246734b3c01,
                 6583c51e3-3626-5638-866a-f47c3bc7ef7c,
                 71e7da672-2451-17da-b239-857831602eca", 
-                search_type = 'id')
+                search_type = 'id', dataset = "carrier_vessel", key = key)
 ```
 
 
@@ -103,6 +105,8 @@ get_vessel_info(query =
 
 The `get_event` function allows you to get data from vessel activities such as: 
 [apparent fishing events](), [encounters](), [loitering](), and [port visits]().
+
+
 
 <!-- I don't think we have tested loitering, or encounters yet-->
 
@@ -118,7 +122,45 @@ The `get_event` function allows you to get data from vessel activities such as:
 
 ### Examples
 
+To get a list of port visits for some vessels:
+
+```{r example_event_type_1, eval=F}
+get_event(event_type='port_visit',
+                      vessel = '8c7304226-6c71-edbe-0b63-c246734b3c01,6583c51e3-3626-5638-866a-f47c3bc7ef7c',
+                      include_regions = NULL,
+                      start_date = NULL,
+                      end_date = NULL,
+                      key = key
+                      )
+```
+
+<!-- what about confidence levels for port visits? -->
+
+```{r example_event_type_2, eval=F}
+get_event(event_type='port_visit',
+                      vessel = NULL,
+                      include_regions = NULL,
+                      start_date = "2020-01-01",
+                      end_date = "2020-02-01",
+                      key = key
+                      )
+```
+
+<!-- getting error with dates for now -->
+
+
 
 ## Map Visualization API 
 
+
+```{r example_map_1, eval=F}
+get_raster(spatial_resolution = "low",
+                       temporal_resolution = "monthly",
+                       group_by = "flag",
+                       start_date = NULL,
+                       end_date = NULL,
+                       format = "csv",
+                       shape_json = NULL,
+                       key = key)
+```
 

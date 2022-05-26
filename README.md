@@ -62,14 +62,16 @@ recommended and is the option set by default.
 
 ### Examples
 
-To get information of a vessel with MMSI = 224224000:
+To get information of a vessel with MMSI = 224224000 using the
+`support vessel` dataset:
 
 ``` r
 get_vessel_info(query = 224224000, search_type = "basic", 
                 dataset = "support_vessel", key = key)
 ```
 
-To combine different fields and do fuzzy matching:
+To combine different fields and do fuzzy matching to search the
+`carrier vessel` dataset:
 
 ``` r
 get_vessel_info(query = "shipname LIKE '%GABU REEFE%' OR imo = '8300949'", 
@@ -80,7 +82,7 @@ To specify a `vessel id`:
 
 ``` r
 get_vessel_info(query = "8c7304226-6c71-edbe-0b63-c246734b3c01", 
-                search_type = "id")
+                search_type = "id", dataset = "carrier_vessel", key = key)
 ```
 
 To specify more than one `vessel id`:
@@ -90,7 +92,7 @@ get_vessel_info(query =
                   "8c7304226-6c71-edbe-0b63-c246734b3c01,
                 6583c51e3-3626-5638-866a-f47c3bc7ef7c,
                 71e7da672-2451-17da-b239-857831602eca", 
-                search_type = 'id')
+                search_type = 'id', dataset = "carrier_vessel", key = key)
 ```
 
 ## Events API
