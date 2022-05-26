@@ -65,14 +65,15 @@ recommended and is the option set by default.
 To get information of a vessel with MMSI = 224224000:
 
 ``` r
-get_vessel_info(query = 224224000, search_type = "basic")
+get_vessel_info(query = 224224000, search_type = "basic", 
+                dataset = "support_vessel", key = key)
 ```
 
 To combine different fields and do fuzzy matching:
 
 ``` r
 get_vessel_info(query = "shipname LIKE '%GABU REEFE%' OR imo = '8300949'", 
-                search_type = "advanced")
+                search_type = "advanced", dataset = "carrier_vessel", key = key)
 ```
 
 To specify a `vessel id`:
@@ -91,3 +92,23 @@ get_vessel_info(query =
                 71e7da672-2451-17da-b239-857831602eca", 
                 search_type = 'id')
 ```
+
+## Events API
+
+The `get_event` function allows you to get data from vessel activities
+such as: [apparent fishing events](), [encounters](), [loitering](), and
+[port visits]().
+
+<!-- I don't think we have tested loitering, or encounters yet-->
+<!-- #' Base function to get event from API and convert response to data frame -->
+<!-- #' -->
+<!-- #' @param event_type Type of event to get data of. It can be "port_visit" or "fishing" -->
+<!-- #' @param vessel VesselID. How to get this? -->
+<!-- #' @param include_regions Whether to include regions? Ask engineering if this can always be false -->
+<!-- #' @param start_date Start of date range to search events -->
+<!-- #' @param end_date End of date range to search events -->
+<!-- #' @param key Authorization token. Can be obtained with gfw_auth function -->
+
+### Examples
+
+## Map Visualization API
