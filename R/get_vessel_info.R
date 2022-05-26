@@ -3,6 +3,7 @@
 #' @param query search terms to identify vessel
 #' @param search_type type of search, may be 'basic','advanced', or 'id'
 #' @param dataset identity datasets to search against, default = 'all'
+#' @param key Authorization token. Can be obtained with gfw_auth function
 
 #' @importFrom httr2 req_headers
 #' @importFrom httr2 req_perform
@@ -19,15 +20,11 @@
 #' and `"fishing_vessel"`. The user can also specify `"all"` and search again all databases
 #' at once. This is generally recommended.
 #'
-#' @examples
-#' get_vessel_info(query = 224224000, search_type = "basic")
-#' get_vessel_info(query = "shipname LIKE '%GABU REEFE%' OR imo = '8300949'", search_type = "advanced")
-#' get_vessel_info(query = "8c7304226-6c71-edbe-0b63-c246734b3c01", search_type = "id")
-#' get_vessel_info(query = "8c7304226-6c71-edbe-0b63-c246734b3c01,6583c51e3-3626-5638-866a-f47c3bc7ef7c,71e7da672-2451-17da-b239-857831602eca", search_type = 'id')
+
 get_vessel_info <- function(query = NULL,
                             search_type = NULL,
                             dataset = "all",
-                            key) {
+                            key = gfw_auth()) {
   endpoint <- get_identity_endpoint(
     dataset_type = dataset,
     search_type = search_type,

@@ -3,8 +3,7 @@
 #' @param spatial_resolution raster spatial resolution. Can be "low" = 0.1 degree or "high" = 0.01 degree
 #' @param temporal_resolution raster temporal resolution. Can be 'daily','monthly','yearly'.
 #' @param group_by parameter to group by. Can be 'vessel_id', 'flag', 'geartype', 'flagAndGearType'
-#' @param start_date Start of date range for raster
-#' @param end_date End of date range for raster
+#' @param date_range Start and end of date range for raster
 #' @param format output format. Current support for 'csv'.
 #' @param shape_json geojson, shape to filter raster
 #' @param key Authorization token. Can be obtained with gfw_auth function
@@ -20,7 +19,7 @@ get_raster <- function(spatial_resolution = NULL,
                        date_range = NULL,
                        format = "csv",
                        shape_json = NULL,
-                       key) {
+                       key = gfw_auth()) {
 
   # Endpoint
   endpoint <- get_endpoint(
