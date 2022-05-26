@@ -67,12 +67,11 @@ This is generally recommended and is the option set by default.
 
 ### Examples
 
-To get information of a vessel with MMSI = 224224000 using the `support vessel`
-dataset:
+To get information of a vessel with MMSI = 224224000 using all datasets:
 
 ```{r example_vessel_info_1, eval=F}
 get_vessel_info(query = 224224000, search_type = "basic", 
-                dataset = "support_vessel", key = key)
+                dataset = "all", key = key)
 ```
 
 To combine different fields and do fuzzy matching to search the `carrier vessel`
@@ -138,7 +137,7 @@ get_event(event_type='port_visit',
 
 ```{r example_event_type_2, eval=F}
 get_event(event_type='port_visit',
-                      vessel = NULL,
+                      vessel = '8c7304226-6c71-edbe-0b63-c246734b3c01,6583c51e3-3626-5638-866a-f47c3bc7ef7c',
                       include_regions = NULL,
                       start_date = "2020-01-01",
                       end_date = "2020-02-01",
@@ -176,6 +175,30 @@ get_raster(spatial_resolution = 'low',
            date_range = '2020-01-01,2021-10-01',
            format = "csv",
            shape_json = shape_json,
+           key = key)
+
+# use EEZ function to get EEZ code
+get_eez_code('CIV', key = key)
+get_eez_code('RUS', key = key)
+get_eez_code('United', key = key)
+get_eez_code('French', key = key)
+
+# Cote d'Ivoire
+get_raster(spatial_resolution = 'low',
+           temporal_resolution = 'yearly',
+           group_by = 'flag',
+           date_range = '2021-01-01,2021-10-01',
+           format = "csv",
+           shape_json = 8473,
+           key = key)
+
+# Russia
+get_raster(spatial_resolution = 'low',
+           temporal_resolution = 'yearly',
+           group_by = 'flag',
+           date_range = '2021-01-01,2021-10-01',
+           format = "csv",
+           shape_json = 5690,
            key = key)
 ```
 
