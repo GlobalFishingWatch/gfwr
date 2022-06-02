@@ -4,7 +4,12 @@
 \alias{get_vessel_info}
 \title{Base function to get vessel information from API and convert response to data frame}
 \usage{
-get_vessel_info(query = NULL, search_type = NULL, dataset = "all", key)
+get_vessel_info(
+  query = NULL,
+  search_type = NULL,
+  dataset = "all",
+  key = gfw_auth()
+)
 }
 \arguments{
 \item{query}{search terms to identify vessel}
@@ -12,6 +17,8 @@ get_vessel_info(query = NULL, search_type = NULL, dataset = "all", key)
 \item{search_type}{type of search, may be 'basic','advanced', or 'id'}
 
 \item{dataset}{identity datasets to search against, default = 'all'}
+
+\item{key}{Authorization token. Can be obtained with gfw_auth function}
 }
 \description{
 Base function to get vessel information from API and convert response to data frame
@@ -25,10 +32,4 @@ id.
 There are three identity databases available, \code{"carrier_vessel"}, \code{"support_vessel"},
 and \code{"fishing_vessel"}. The user can also specify \code{"all"} and search again all databases
 at once. This is generally recommended.
-}
-\examples{
-get_vessel_info(query = 224224000, search_type = "basic")
-get_vessel_info(query = "shipname LIKE '\%GABU REEFE\%' OR imo = '8300949'", search_type = "advanced")
-get_vessel_info(query = "8c7304226-6c71-edbe-0b63-c246734b3c01", search_type = "id")
-get_vessel_info(query = "8c7304226-6c71-edbe-0b63-c246734b3c01,6583c51e3-3626-5638-866a-f47c3bc7ef7c,71e7da672-2451-17da-b239-857831602eca", search_type = 'id')
 }

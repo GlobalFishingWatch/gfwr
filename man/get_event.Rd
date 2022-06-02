@@ -10,7 +10,7 @@ get_event(
   include_regions = NULL,
   start_date = NULL,
   end_date = NULL,
-  key
+  key = gfw_auth()
 )
 }
 \arguments{

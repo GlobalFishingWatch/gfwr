@@ -25,7 +25,7 @@ get_event <- function(event_type='port_visit',
                       include_regions = NULL,
                       start_date = NULL,
                       end_date = NULL,
-                      key
+                      key = gfw_auth()
                       ){
 
 
