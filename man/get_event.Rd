@@ -6,18 +6,15 @@
 \usage{
 get_event(
   event_type = "port_visit",
-  response_limit = 1000,
   vessel = NULL,
   include_regions = NULL,
   start_date = NULL,
   end_date = NULL,
-  key
+  key = gfw_auth()
 )
 }
 \arguments{
 \item{event_type}{Type of event to get data of. It can be "port_visit" or "fishing"}
-
-\item{response_limit}{Number of events to import. We need some documentation for the max.}
 
 \item{vessel}{VesselID. How to get this?}
 
