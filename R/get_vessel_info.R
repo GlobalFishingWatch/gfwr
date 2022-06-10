@@ -20,6 +20,7 @@
 #' and `"fishing_vessel"`. The user can also specify `"all"` and search again all databases
 #' at once. This is generally recommended.
 #'
+#'@export
 
 get_vessel_info <- function(query = NULL,
                             search_type = NULL,
