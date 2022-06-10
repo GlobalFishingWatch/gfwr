@@ -39,7 +39,7 @@ library(gfwr)
 ## Authorization
 
 The use of `gfwr` requires a GFW API token, which users can request from
-the [GFW API Portal](https://globalfishingwatch.org/api-portal). Save
+the [GFW API Portal](https://globalfishingwatch.org/ocean-engine/tokens/signup). Save
 this token to your `.Renviron` file as a string called `"GFW_TOKEN"`.
 Then use `Sys.getenv("GFW_TOKEN")` and save the information in an object
 in your R workspace every time you need to extract the token and pass it
