@@ -19,6 +19,8 @@
 #' @importFrom tidyr pivot_wider
 #' @importFrom tidyr unnest_wider
 #' @importFrom tidyselect everything
+#'
+#' @export
 
 get_event <- function(event_type='port_visit',
                       vessel = NULL,
@@ -41,14 +43,14 @@ get_event <- function(event_type='port_visit',
   all_results <- paginate(endpoint, key)
 
   # Extract all entries from list of responses
-  all_entries <- purrr::map(all_results, purrr::pluck, 'entries') %>% purrr::flatten()
+  all_entries <- purrr::map(all_results, purrr::pluck, 'entries') %>% purrr::flatten(.)
 
   # Function to extract each entry to tibble
   event_entry <- function(x){
     tibble::enframe(x) %>%
       tibble::as_tibble() %>%
       tidyr::pivot_wider(names_from = .data$name, values_from = .data$value) %>%
-      tidyr::unnest_wider(.data$position)
+      tidyr::unnest_wider(col = .data$position)
   }
 
   # Map function to each event to convert to data frame

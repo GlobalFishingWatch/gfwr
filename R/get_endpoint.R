@@ -6,6 +6,7 @@
 #' @importFrom httr2 request
 #' @importFrom httr2 req_url_path_append
 #' @importFrom httr2 req_url_query
+#'
 
 get_endpoint <- function(dataset_type,...){
 
@@ -66,6 +67,7 @@ get_endpoint <- function(dataset_type,...){
 #' @param dataset_type Type of identity dataset to get API dataset name for. It can be "support_vessel", "carrier_vessel" or "fishing_vessel"
 #' @param search_type Type of vessel search to perform. Can be "basic", "advanced", or "id"
 #' @param ... Other arguments that would depend on the dataset type.
+#'
 
 get_identity_endpoint <- function(dataset_type, search_type, ...) {
 
