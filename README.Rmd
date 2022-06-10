@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 <!-- Add link to API documentation page once it's ready-->
 
-The `gfwr` R package is a simple wrapper for the Global Fishing Watch (GFW) [APIs](). 
+The `gfwr` R package is a simple wrapper for the Global Fishing Watch (GFW) [APIs](https://api-doc.dev.globalfishingwatch.org/#introduction). 
 It provides convenient functions to pull GFW data directly into R in tidy formats.
 
 The package currently works with the following APIs:
@@ -51,7 +51,7 @@ devtools::load_all()
 
 ## Authorization
 
-The use of `gfwr` requires a GFW API token, which users can request from the [GFW API Portal](). Save this token to your `.Renviron` file as a string called `"GFW_TOKEN"`. Then use `Sys.getenv("GFW_TOKEN")` and save the information in an object in your R workspace every time you need to extract the token and pass it to subsequent `gfwr` functions.
+The use of `gfwr` requires a GFW API token, which users can request from the [GFW API Portal](https://globalfishingwatch.org/api-portal). Save this token to your `.Renviron` file as a string called `"GFW_TOKEN"`. Then use `Sys.getenv("GFW_TOKEN")` and save the information in an object in your R workspace every time you need to extract the token and pass it to subsequent `gfwr` functions.
 
 So you can do:
 
@@ -123,7 +123,8 @@ get_vessel_info(query =
 ## Events API
 
 The `get_event` function allows you to get data from vessel activities such as: 
-[apparent fishing events](), [encounters](), [loitering](), and [port visits]().
+apparent fishing events, encounters, loitering, and port visits. 
+Find more information in our [caveat documentation](https://api-doc.dev.globalfishingwatch.org/#data-caveat).
 
 
 

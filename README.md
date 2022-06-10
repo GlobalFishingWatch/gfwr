@@ -8,8 +8,9 @@
 <!-- Add link to API documentation page once it's ready-->
 
 The `gfwr` R package is a simple wrapper for the Global Fishing Watch
-(GFW) [APIs](). It provides convenient functions to pull GFW data
-directly into R in tidy formats.
+(GFW) [APIs](https://api-doc.dev.globalfishingwatch.org/#introduction).
+It provides convenient functions to pull GFW data directly into R in
+tidy formats.
 
 The package currently works with the following APIs:
 
@@ -38,10 +39,11 @@ library(gfwr)
 ## Authorization
 
 The use of `gfwr` requires a GFW API token, which users can request from
-the [GFW API Portal](). Save this token to your `.Renviron` file as a
-string called `"GFW_TOKEN"`. Then use `Sys.getenv("GFW_TOKEN")` and save
-the information in an object in your R workspace every time you need to
-extract the token and pass it to subsequent `gfwr` functions.
+the [GFW API Portal](https://globalfishingwatch.org/api-portal). Save
+this token to your `.Renviron` file as a string called `"GFW_TOKEN"`.
+Then use `Sys.getenv("GFW_TOKEN")` and save the information in an object
+in your R workspace every time you need to extract the token and pass it
+to subsequent `gfwr` functions.
 
 So you can do:
 
@@ -79,12 +81,12 @@ To get information of a vessel with MMSI = 224224000 using all datasets:
 get_vessel_info(query = 224224000, search_type = "basic", 
                 dataset = "all", key = key)
 #> # A tibble: 1 × 17
-#>    name callsign firstTransmissionDate flag  forcedLabour geartype id      imo  
-#>   <int> <chr>    <chr>                 <chr> <lgl>        <lgl>    <chr>   <chr>
-#> 1     1 EBSJ     2015-10-13T15:47:16Z  ESP   NA           NA       3c99c3… 8733…
-#> # … with 9 more variables: lastTransmissionDate <chr>, mmsi <chr>,
-#> #   msgCount <int>, posCount <int>, shipname <chr>, source <chr>,
-#> #   vesselType <chr>, dataset <chr>, score <dbl>
+#>    name callsign firstTransmissionD… flag  geartype id    imo   lastTransmissio…
+#>   <int> <chr>    <chr>               <chr> <lgl>    <chr> <chr> <chr>           
+#> 1     1 EBSJ     2015-10-13T15:47:1… ESP   NA       3c99… 8733… 2019-10-15T12:1…
+#> # … with 9 more variables: mmsi <chr>, msgCount <int>, posCount <int>,
+#> #   shipname <chr>, source <chr>, vesselType <chr>, years <list>,
+#> #   dataset <chr>, score <dbl>
 ```
 
 To combine different fields and do fuzzy matching to search the
@@ -109,14 +111,15 @@ get_vessel_info(query =
                   "8c7304226-6c71-edbe-0b63-c246734b3c01,
                 6583c51e3-3626-5638-866a-f47c3bc7ef7c,
                 71e7da672-2451-17da-b239-857831602eca", 
-                search_type = 'id', dataset = "carrier_vessel", key = key)
+                search_type = 'id', key = key)
 ```
 
 ## Events API
 
 The `get_event` function allows you to get data from vessel activities
-such as: [apparent fishing events](), [encounters](), [loitering](), and
-[port visits]().
+such as: apparent fishing events, encounters, loitering, and port
+visits. Find more information in our [caveat
+documentation](https://api-doc.dev.globalfishingwatch.org/#data-caveat).
 
 <!-- I don't think we have tested loitering, or encounters yet-->
 <!-- #' Base function to get event from API and convert response to data frame -->
@@ -243,20 +246,33 @@ decide which one you want:
 #> 2  8462 FRA   French Guiana Exclusive Economic Zone    
 #> 3  8440 FRA   French Polynesian Exclusive Economic Zone
 
+# Let's say we're interested in the French Exclusive Economic Zone, 5677
 get_raster(spatial_resolution = 'low',
            temporal_resolution = 'yearly',
            group_by = 'flag',
            date_range = '2021-01-01,2021-10-01',
            shape_json = 5677,
            key = key)
-#> Rows: 0 Columns: 5
+#> Rows: 5500 Columns: 5
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
-#> chr (5): Lat, Lon, Time Range, flag, Apparent Fishing hours
+#> chr (1): flag
+#> dbl (4): Lat, Lon, Time Range, Apparent Fishing hours
 #> 
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-#> # A tibble: 0 × 5
-#> # … with 5 variables: Lat <chr>, Lon <chr>, Time Range <chr>, flag <chr>,
-#> #   Apparent Fishing hours <chr>
+#> # A tibble: 5,500 × 5
+#>      Lat   Lon `Time Range` flag  `Apparent Fishing hours`
+#>    <dbl> <dbl>        <dbl> <chr>                    <dbl>
+#>  1  47.3  -5.8         2021 FRA                     1446. 
+#>  2  49.5  -3.7         2021 GBR                      307. 
+#>  3  48.2  -8.3         2021 FRA                      415. 
+#>  4  48.8  -5.3         2021 FRA                      218. 
+#>  5  48.8  -5.1         2021 FRA                      431. 
+#>  6  47.4  -6.5         2021 FRA                       62.6
+#>  7  47.9  -5.7         2021 ESP                       26.4
+#>  8  50    -0.9         2021 FRA                       39.0
+#>  9  50.2  -0.3         2021 FRA                       64.1
+#> 10  50.2  -0.1         2021 FRA                       95.3
+#> # … with 5,490 more rows
 ```
