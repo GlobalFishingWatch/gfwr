@@ -12,6 +12,7 @@
 #' @importFrom httr2 resp_body_raw
 #' @importFrom utils unzip
 #'
+#' @export
 
 get_raster <- function(spatial_resolution = NULL,
                        temporal_resolution = NULL,
@@ -47,7 +48,7 @@ get_raster <- function(spatial_resolution = NULL,
                                              sep = " "),
                        `Content-Type` = 'application/json') %>%
     httr2::req_body_raw(., body = shape_json) %>%
-    httr2::req_error(body = gist_error_body) %>%
+    httr2::req_error(req = ., body = gist_error_body) %>%
     httr2::req_perform(.) %>%
     httr2::resp_body_raw(.)
 
