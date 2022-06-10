@@ -10,7 +10,12 @@
 #' @importFrom magrittr `%>%`
 #' @importFrom readr read_csv
 #' @importFrom httr2 resp_body_raw
+#' @importFrom httr2 req_body_raw
+#' @importFrom httr2 req_headers
+#' @importFrom httr2 req_error
+#' @importFrom httr2 req_perform
 #' @importFrom utils unzip
+#' @importFrom rjson toJSON
 #'
 #' @export
 

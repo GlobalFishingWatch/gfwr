@@ -25,7 +25,8 @@ Imports:
     rlang,
     tibble,
     tidyr,
-    tidyselect
+    tidyselect,
+    rjson
 Suggests:
     glue
 URL: https://github.com/GlobalFishingWatch/gfwr
