@@ -40,14 +40,20 @@ library(gfwr)
 
 The use of `gfwr` requires a GFW API token, which users can request from
 the [GFW API Portal](https://globalfishingwatch.org/ocean-engine/tokens/signup). Save
-this token to your `.Renviron` file as a string called `"GFW_TOKEN"`.
-Then use `Sys.getenv("GFW_TOKEN")` and save the information in an object
+this token to your `.Renviron` file (using `usethis::edit_r_environ()`) by adding a string
+named `"GFW_TOKEN"` to the file (`"GFW_TOKEN" = "PASTE_YOUR_TOKEN_HERE"`). Save 
+the `.Renviron` file and restart the R session to make the edit effective.  
+
+Then use the `get_auth` helper function to save the information in an object
 in your R workspace every time you need to extract the token and pass it
 to subsequent `gfwr` functions.
 
 So you can do:
 
 ``` r
+key <- get_auth()
+
+# or this
 key <- Sys.getenv("GFW_TOKEN")
 ```
 
