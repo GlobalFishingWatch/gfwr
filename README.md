@@ -201,7 +201,7 @@ the response to a data frame. In order to use it, you should specify:
     `flagAndGearType`
 -   The date range
 -   The output format (currently supporting csv)
--   The `geojson` shape to filter the raster
+-   The `geojson` shape or region code (such as an EEZ code) to filter the raster
 
 ### Examples
 
@@ -214,13 +214,13 @@ get_raster(spatial_resolution = 'low',
            temporal_resolution = 'yearly',
            group_by = 'flag',
            date_range = '2020-01-01,2021-10-01',
-           shape_json = shape_json,
+           shape = shape_json,
            key = key)
 ```
 
 If you want raster data from a particular EEZ, you can use the
 `get_eez_code` function to get the EEZ code and enter that code in the
-`shape_json` argument of `get_raster` instead of the geojson data:
+`shape` argument of `get_raster` instead of the geojson data:
 
 ``` r
 # use EEZ function to get EEZ code of Cote d'Ivoire
@@ -230,7 +230,7 @@ get_raster(spatial_resolution = 'low',
            temporal_resolution = 'yearly',
            group_by = 'flag',
            date_range = '2021-01-01,2021-10-01',
-           shape_json = code_eez$id,
+           shape = code_eez$id,
            key = key)
 ```
 
@@ -251,7 +251,7 @@ get_raster(spatial_resolution = 'low',
            temporal_resolution = 'yearly',
            group_by = 'flag',
            date_range = '2021-01-01,2021-10-01',
-           shape_json = 5677,
+           shape = 5677,
            key = key)
 #> Rows: 5500 Columns: 5
 #> ── Column specification ────────────────────────────────────────────────────────
