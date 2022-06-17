@@ -10,7 +10,7 @@ get_raster(
   group_by = NULL,
   date_range = NULL,
   format = "csv",
-  shape_json = NULL,
+  shape = NULL,
   key = gfw_auth()
 )
 }
@@ -25,10 +25,13 @@ get_raster(
 
 \item{format}{output format. Current support for 'csv'.}
 
-\item{shape_json}{geojson, shape to filter raster}
+\item{shape}{geojson or GFW region code, shape to filter raster}
 
 \item{key}{Authorization token. Can be obtained with gfw_auth function}
 }
 \description{
 Base function to get raster from API and convert response to data frame
+}
+\details{
+See examples at https://github.com/GlobalFishingWatch/gfwr
 }

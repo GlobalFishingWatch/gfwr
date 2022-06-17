@@ -5,7 +5,7 @@
 #' @param group_by parameter to group by. Can be 'vessel_id', 'flag', 'geartype', 'flagAndGearType'
 #' @param date_range Start and end of date range for raster
 #' @param format output format. Current support for 'csv'.
-#' @param shape_json geojson, shape to filter raster
+#' @param shape geojson or GFW region code, shape to filter raster
 #' @param key Authorization token. Can be obtained with gfw_auth function
 #' @importFrom magrittr `%>%`
 #' @importFrom readr read_csv
@@ -18,13 +18,16 @@
 #' @importFrom rjson toJSON
 #'
 #' @export
+#'
+#' @details
+#' See examples at https://github.com/GlobalFishingWatch/gfwr
 
 get_raster <- function(spatial_resolution = NULL,
                        temporal_resolution = NULL,
                        group_by = NULL,
                        date_range = NULL,
                        format = "csv",
-                       shape_json = NULL,
+                       shape = NULL,
                        key = gfw_auth()) {
 
   # Endpoint
@@ -39,9 +42,9 @@ get_raster <- function(spatial_resolution = NULL,
 
   # Handle eez numeric code as input
   # TODO: Need to update if MPA codes are also available
-  if (is.numeric(shape_json)) {
-    shape_json = rjson::toJSON(list(region = list(dataset = 'public-eez-areas',
-                                                  id = shape_json)))
+  if (is.numeric(shape)) {
+    shape = rjson::toJSON(list(region = list(dataset = 'public-eez-areas',
+                                                  id = shape)))
   }
 
   # API call
@@ -52,7 +55,7 @@ get_raster <- function(spatial_resolution = NULL,
                                              key,
                                              sep = " "),
                        `Content-Type` = 'application/json') %>%
-    httr2::req_body_raw(., body = shape_json) %>%
+    httr2::req_body_raw(., body = shape) %>%
     httr2::req_error(req = ., body = gist_error_body) %>%
     httr2::req_perform(.) %>%
     httr2::resp_body_raw(.)
