@@ -25,7 +25,7 @@ get_endpoint <- function(dataset_type,...){
     'raster' = "public-global-fishing-effort:latest"
   )
 
-  base <- httr2::request("https://gateway.api.dev.globalfishingwatch.org/v2/")
+  base <- httr2::request("https://gateway.api.globalfishingwatch.org/v2/")
 
   # Get dataset ID for selected API
   if (dataset_type != 'eez_id') {
@@ -77,7 +77,7 @@ get_identity_endpoint <- function(dataset_type, search_type, ...) {
     assign(names(args[i]), args[[i]])
   }
 
-  base <- httr2::request("https://gateway.api.dev.globalfishingwatch.org/v2/")
+  base <- httr2::request("https://gateway.api.globalfishingwatch.org/v2/")
 
   # API datasets to pass to param list
   api_datasets <- c(
