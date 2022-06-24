@@ -110,10 +110,9 @@ get_vessel_info(query = "8c7304226-6c71-edbe-0b63-c246734b3c01",
                 search_type = "id", dataset = "carrier_vessel", key = key)
 ```
 
-To specify more than one `vessel id`:
-> **Note**: 
-<br>
-> No spaces or newlines are permitted between the `vessel ids` 
+To specify more than one `vessel id`:  
+
+**Note**: No spaces or newlines are permitted between the `vessel ids`  
 
 ``` r
 get_vessel_info(query = 
