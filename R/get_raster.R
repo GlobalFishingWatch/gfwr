@@ -26,7 +26,7 @@ get_raster <- function(spatial_resolution = NULL,
                        temporal_resolution = NULL,
                        group_by = NULL,
                        date_range = NULL,
-                       format = "csv",
+                       shape_source = NULL,
                        shape = NULL,
                        key = gfw_auth()) {
 
@@ -37,14 +37,22 @@ get_raster <- function(spatial_resolution = NULL,
     `temporal-resolution` = temporal_resolution,
     `group-by` = group_by,
     `date-range` = date_range,
-    format = format
+    format = 'csv'
   )
 
-  # Handle eez numeric code as input
-  # TODO: Need to update if MPA codes are also available
-  if (is.numeric(shape)) {
+
+
+  if (shape_source == 'mpa' & is.numeric(shape)) {
+    shape = rjson::toJSON(list(region = list(dataset = 'public-mpa-all',
+                                             id = shape)))
+
+  } else if (shape_source == 'eez' & is.numeric(shape)) {
     shape = rjson::toJSON(list(region = list(dataset = 'public-eez-areas',
-                                                  id = shape)))
+                                             id = shape)))
+  } else if (shape_source == 'user_json' & is.character(shape)) {
+    shape
+  } else {
+    stop('shape source and shape formats to not match')
   }
 
   # API call
