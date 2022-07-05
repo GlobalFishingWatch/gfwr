@@ -9,8 +9,8 @@ get_raster(
   temporal_resolution = NULL,
   group_by = NULL,
   date_range = NULL,
-  format = "csv",
-  shape = NULL,
+  region = NULL,
+  region_source = NULL,
   key = gfw_auth()
 )
 }
@@ -23,9 +23,9 @@ get_raster(
 
 \item{date_range}{Start and end of date range for raster}
 
-\item{format}{output format. Current support for 'csv'.}
+\item{region}{geojson or GFW region code, shape to filter raster}
 
-\item{shape}{geojson or GFW region code, shape to filter raster}
+\item{region_source}{source of the region ('eez','mpa', or 'user_json')}
 
 \item{key}{Authorization token. Can be obtained with gfw_auth function}
 }

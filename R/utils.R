@@ -107,8 +107,9 @@ paginate <- function(endpoint, key){
 
 
 #' Function to pull numeric EEZ code using EEZ name
-#' @name get_eez_code
-#' @param eez_name string, EEZ name
+#' @name get_region_id
+#' @param region_name string, EEZ/MPA name
+#' @param region_source string, source of region data ('eez' or 'mpa')
 #' @param key string, API token
 #' @export
 #' @return dataframe, eez code and EEZ name for matching EEZs
@@ -120,11 +121,23 @@ paginate <- function(endpoint, key){
 #' @importFrom httr2 resp_body_json
 #'
 
-get_eez_code <- function(eez_name, key) {
-  get_endpoint(dataset_type = "eez_id") %>%
+get_region_id <- function(region_name, region_source = 'eez', key) {
+
+  result <- get_endpoint(dataset_type = region_source) %>%
     httr2::req_headers(Authorization = paste("Bearer", key, sep = " ")) %>%
     httr2::req_perform(.) %>%
     httr2::resp_body_json(.) %>%
-    dplyr::bind_rows() %>%
-    dplyr::filter(agrepl(eez_name, .$label) | agrepl(paste0('^',eez_name), .$iso3))
+    dplyr::bind_rows()
+
+  if (region_source == 'eez') {
+    result %>%
+      dplyr::filter(agrepl(region_name, .$label) | agrepl(paste0('^',region_name), .$iso3)) %>%
+      dplyr::mutate(id = as.numeric(id))
+  } else if (region_source == 'mpa') {
+    result %>%
+      dplyr::filter(agrepl(region_name, .$label)) %>%
+      dplyr::mutate(id = as.numeric(id))
+  } else {
+    stop('Enter a valid region source')
+  }
 }

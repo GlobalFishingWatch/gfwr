@@ -36,17 +36,22 @@ scripts with `library(gfwr)`
 library(gfwr)
 ```
 
+    #> Warning in setup_ns_exports(path, export_all, export_imports): Objects listed as
+    #> exports, but not present in namespace: get_eez_code
+
 ## Authorization
 
 The use of `gfwr` requires a GFW API token, which users can request from
-the [GFW API Portal](https://globalfishingwatch.org/ocean-engine/tokens/signup). Save
-this token to your `.Renviron` file (using `usethis::edit_r_environ()`) by adding a string
-named `"GFW_TOKEN"` to the file (`"GFW_TOKEN" = "PASTE_YOUR_TOKEN_HERE"`). Save 
-the `.Renviron` file and restart the R session to make the edit effective.  
+the [GFW API
+Portal](https://globalfishingwatch.org/ocean-engine/tokens/signup). Save
+this token to your `.Renviron` file (using `usethis::edit_r_environ()`)
+by adding a string named `"GFW_TOKEN"` to the file
+(`"GFW_TOKEN" = "PASTE_YOUR_TOKEN_HERE"`). Save the `.Renviron` file and
+restart the R session to make the edit effective.
 
-Then use the `gfw_auth` helper function to save the information in an object
-in your R workspace every time you need to extract the token and pass it
-to subsequent `gfwr` functions.
+Then use the `gfw_auth` helper function to save the information in an
+object in your R workspace every time you need to extract the token and
+pass it to subsequent `gfwr` functions.
 
 So you can do:
 
@@ -110,9 +115,8 @@ get_vessel_info(query = "8c7304226-6c71-edbe-0b63-c246734b3c01",
                 search_type = "id", dataset = "carrier_vessel", key = key)
 ```
 
-To specify more than one `vessel id`:  
-
-**Note**: No spaces or newlines are permitted between the `vessel ids`  
+To specify more than one `vessel id`: \> **Note**: <br> \> No spaces or
+newlines are permitted between the `vessel ids`
 
 ``` r
 get_vessel_info(query = 
@@ -206,37 +210,42 @@ the response to a data frame. In order to use it, you should specify:
 -   The variable to group by: `vessel_id`, `flag`, `geartype`, or
     `flagAndGearType`
 -   The date range
--   The output format (currently supporting csv)
--   The `geojson` shape or region code (such as an EEZ code) to filter the raster
+-   The `geojson` region or region code (such as an EEZ code) to filter
+    the raster
+-   The source for the specified region (currently, `eez`, `mpa`, or
+    `user_json`)
 
 ### Examples
 
 Here’s an example where we enter the geojson data manually:
 
 ``` r
-shape_json = '{"geojson":{"type":"Polygon","coordinates":[[[-76.11328125,-26.273714024406416],[-76.201171875,-26.980828590472093],[-76.376953125,-27.527758206861883],[-76.81640625,-28.30438068296276],[-77.255859375,-28.767659105691244],[-77.87109375,-29.152161283318918],[-78.486328125,-29.45873118535532],[-79.189453125,-29.61167011519739],[-79.892578125,-29.6880527498568],[-80.595703125,-29.61167011519739],[-81.5625,-29.382175075145277],[-82.177734375,-29.07537517955835],[-82.705078125,-28.6905876542507],[-83.232421875,-28.071980301779845],[-83.49609375,-27.683528083787756],[-83.759765625,-26.980828590472093],[-83.84765625,-26.35249785815401],[-83.759765625,-25.64152637306576],[-83.583984375,-25.16517336866393],[-83.232421875,-24.447149589730827],[-82.705078125,-23.966175871265037],[-82.177734375,-23.483400654325635],[-81.5625,-23.241346102386117],[-80.859375,-22.998851594142906],[-80.15625,-22.917922936146027],[-79.453125,-22.998851594142906],[-78.662109375,-23.1605633090483],[-78.134765625,-23.40276490540795],[-77.431640625,-23.885837699861995],[-76.9921875,-24.28702686537642],[-76.552734375,-24.846565348219727],[-76.2890625,-25.48295117535531],[-76.11328125,-26.273714024406416]]]}}'
+region_json = '{"geojson":{"type":"Polygon","coordinates":[[[-76.11328125,-26.273714024406416],[-76.201171875,-26.980828590472093],[-76.376953125,-27.527758206861883],[-76.81640625,-28.30438068296276],[-77.255859375,-28.767659105691244],[-77.87109375,-29.152161283318918],[-78.486328125,-29.45873118535532],[-79.189453125,-29.61167011519739],[-79.892578125,-29.6880527498568],[-80.595703125,-29.61167011519739],[-81.5625,-29.382175075145277],[-82.177734375,-29.07537517955835],[-82.705078125,-28.6905876542507],[-83.232421875,-28.071980301779845],[-83.49609375,-27.683528083787756],[-83.759765625,-26.980828590472093],[-83.84765625,-26.35249785815401],[-83.759765625,-25.64152637306576],[-83.583984375,-25.16517336866393],[-83.232421875,-24.447149589730827],[-82.705078125,-23.966175871265037],[-82.177734375,-23.483400654325635],[-81.5625,-23.241346102386117],[-80.859375,-22.998851594142906],[-80.15625,-22.917922936146027],[-79.453125,-22.998851594142906],[-78.662109375,-23.1605633090483],[-78.134765625,-23.40276490540795],[-77.431640625,-23.885837699861995],[-76.9921875,-24.28702686537642],[-76.552734375,-24.846565348219727],[-76.2890625,-25.48295117535531],[-76.11328125,-26.273714024406416]]]}}'
 
 get_raster(spatial_resolution = 'low',
            temporal_resolution = 'yearly',
            group_by = 'flag',
            date_range = '2020-01-01,2021-10-01',
-           shape = shape_json,
+           region = region_json,
+           region_source = 'user_json',
            key = key)
 ```
 
 If you want raster data from a particular EEZ, you can use the
-`get_eez_code` function to get the EEZ code and enter that code in the
-`shape` argument of `get_raster` instead of the geojson data:
+`get_region_id` function to get the EEZ id, enter that code in the
+`region` argument of `get_raster` instead of the geojson data (ensuring
+you specify the `region_source` as `'eez'`:
 
 ``` r
 # use EEZ function to get EEZ code of Cote d'Ivoire
-code_eez <- get_eez_code(eez_name = 'CIV', key = key)
+code_eez <- get_region_id(region_name = 'CIV', region_source = 'eez', key = key)
 
 get_raster(spatial_resolution = 'low',
            temporal_resolution = 'yearly',
            group_by = 'flag',
            date_range = '2021-01-01,2021-10-01',
-           shape = code_eez$id,
+           region = code_eez$id,
+           region_source = 'eez',
            key = key)
 ```
 
@@ -244,10 +253,10 @@ You could search for just one word in the name of the EEZ and then
 decide which one you want:
 
 ``` r
-(get_eez_code(eez_name = 'French', key = key))
+(get_region_id(region_name = 'French', region_source = 'eez', key = key))
 #> # A tibble: 3 × 3
 #>      id iso3  label                                    
-#>   <int> <chr> <chr>                                    
+#>   <dbl> <chr> <chr>                                    
 #> 1  5677 FRA   French Exclusive Economic Zone           
 #> 2  8462 FRA   French Guiana Exclusive Economic Zone    
 #> 3  8440 FRA   French Polynesian Exclusive Economic Zone
@@ -257,9 +266,10 @@ get_raster(spatial_resolution = 'low',
            temporal_resolution = 'yearly',
            group_by = 'flag',
            date_range = '2021-01-01,2021-10-01',
-           shape = 5677,
+           region = 5677,
+           region_source = 'eez',
            key = key)
-#> Rows: 5500 Columns: 5
+#> Rows: 5433 Columns: 5
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (1): flag
@@ -267,18 +277,36 @@ get_raster(spatial_resolution = 'low',
 #> 
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-#> # A tibble: 5,500 × 5
+#> # A tibble: 5,433 × 5
 #>      Lat   Lon `Time Range` flag  `Apparent Fishing hours`
 #>    <dbl> <dbl>        <dbl> <chr>                    <dbl>
-#>  1  47.3  -5.8         2021 FRA                     1446. 
-#>  2  49.5  -3.7         2021 GBR                      307. 
-#>  3  48.2  -8.3         2021 FRA                      415. 
-#>  4  48.8  -5.3         2021 FRA                      218. 
-#>  5  48.8  -5.1         2021 FRA                      431. 
-#>  6  47.4  -6.5         2021 FRA                       62.6
-#>  7  47.9  -5.7         2021 ESP                       26.4
-#>  8  50    -0.9         2021 FRA                       39.0
-#>  9  50.2  -0.3         2021 FRA                       64.1
-#> 10  50.2  -0.1         2021 FRA                       95.3
-#> # … with 5,490 more rows
+#>  1  49.2  -5           2021 FRA                     432.  
+#>  2  46.4  -3.4         2021 FRA                     381.  
+#>  3  45.9  -3.2         2021 FRA                     134.  
+#>  4  47.1  -2.5         2021 FRA                     387.  
+#>  5  49.6  -0.6         2021 FRA                     537.  
+#>  6  49.8  -0.8         2021 GBR                       5.24
+#>  7  48.8  -6.8         2021 FRA                      49.3 
+#>  8  48.6  -6.5         2021 FRA                     156.  
+#>  9  47.7  -4.6         2021 FRA                    2627.  
+#> 10  47.4  -3.8         2021 FRA                    1653.  
+#> # … with 5,423 more rows
 ```
+
+A similar approach can be used to search for a specific Marine Protected
+Area, in this case the Phoenix Island Protected Area (PIPA)
+
+``` r
+# use region id function to get MPA code of Phoenix Island Protected Area
+code_mpa <- get_region_id(region_name = 'Phoenix', region_source = 'mpa', key = key)
+
+get_raster(spatial_resolution = 'low',
+           temporal_resolution = 'yearly',
+           group_by = 'flag',
+           date_range = '2015-01-01,2018-01-01',
+           region = code_mpa$id[1],
+           region_source = 'mpa',
+           key = key)
+```
+
+\`\`\`
