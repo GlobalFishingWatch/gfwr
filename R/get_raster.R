@@ -49,7 +49,7 @@ get_raster <- function(spatial_resolution = NULL,
   } else if (region_source == 'eez' & is.numeric(region)) {
     region = rjson::toJSON(list(region = list(dataset = 'public-eez-areas',
                                              id = region)))
-  } else if (region_source == 'trfmo' & is.numeric(region)) {
+  } else if (region_source == 'trfmo' & is.character(region)) {
     region = rjson::toJSON(list(region = list(dataset = 'public-tuna-rfmo',
                                               id = region)))
   } else if (region_source == 'user_json' & is.character(region)) {
