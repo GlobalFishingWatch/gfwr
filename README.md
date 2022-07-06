@@ -36,9 +36,6 @@ scripts with `library(gfwr)`
 library(gfwr)
 ```
 
-    #> Warning in setup_ns_exports(path, export_all, export_imports): Objects listed as
-    #> exports, but not present in namespace: get_eez_code
-
 ## Authorization
 
 The use of `gfwr` requires a GFW API token, which users can request from
@@ -280,16 +277,16 @@ get_raster(spatial_resolution = 'low',
 #> # A tibble: 5,433 × 5
 #>      Lat   Lon `Time Range` flag  `Apparent Fishing hours`
 #>    <dbl> <dbl>        <dbl> <chr>                    <dbl>
-#>  1  49.2  -5           2021 FRA                     432.  
-#>  2  46.4  -3.4         2021 FRA                     381.  
-#>  3  45.9  -3.2         2021 FRA                     134.  
-#>  4  47.1  -2.5         2021 FRA                     387.  
-#>  5  49.6  -0.6         2021 FRA                     537.  
-#>  6  49.8  -0.8         2021 GBR                       5.24
-#>  7  48.8  -6.8         2021 FRA                      49.3 
-#>  8  48.6  -6.5         2021 FRA                     156.  
-#>  9  47.7  -4.6         2021 FRA                    2627.  
-#> 10  47.4  -3.8         2021 FRA                    1653.  
+#>  1  49.9  -0.5         2021 FRA                     107.  
+#>  2  46.8  -2.5         2021 FRA                     529.  
+#>  3  45.8  -1.4         2021 FRA                     723.  
+#>  4  48.3  -8.3         2021 FRA                     127.  
+#>  5  46.8  -3.2         2021 FRA                    1093.  
+#>  6  46.3  -2.1         2021 FRA                     418.  
+#>  7  45.1  -1.5         2021 FRA                     411.  
+#>  8  47.4  -4.8         2021 FRA                     408.  
+#>  9  49.9  -0.5         2021 GBR                       7.60
+#> 10  49    -6.2         2021 GBR                      51.5 
 #> # … with 5,423 more rows
 ```
 
@@ -309,4 +306,17 @@ get_raster(spatial_resolution = 'low',
            key = key)
 ```
 
-\`\`\`
+It is also possible to filter rasters to one of the five regional
+fisheries management organizations (RFMO) that manage tuna and tuna-like
+species. These include `"ICCAT"`, `"IATTC"`,`"IOTC"`, `"CCSBT"` and
+`"WCPFC"`.
+
+``` r
+get_raster(spatial_resolution = 'low',
+           temporal_resolution = 'daily',
+           group_by = 'flag',
+           date_range = '2021-01-01,2021-01-15',
+           region = 'ICCAT',
+           region_source = 'trfmo',
+           key = key)
+```
