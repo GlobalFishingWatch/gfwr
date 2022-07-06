@@ -5,7 +5,7 @@
 #' @param group_by parameter to group by. Can be 'vessel_id', 'flag', 'geartype', 'flagAndGearType'
 #' @param date_range Start and end of date range for raster
 #' @param region geojson or GFW region code, shape to filter raster
-#' @param region_source source of the region ('eez','mpa', or 'user_json')
+#' @param region_source source of the region ('eez','mpa', 'trfmo' or 'user_json')
 #' @param key Authorization token. Can be obtained with gfw_auth function
 #' @importFrom magrittr `%>%`
 #' @importFrom readr read_csv

@@ -25,7 +25,7 @@ get_raster(
 
 \item{region}{geojson or GFW region code, shape to filter raster}
 
-\item{region_source}{source of the region ('eez','mpa', or 'user_json')}
+\item{region_source}{source of the region ('eez','mpa', 'trfmo' or 'user_json')}
 
 \item{key}{Authorization token. Can be obtained with gfw_auth function}
 }
