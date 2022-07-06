@@ -276,5 +276,17 @@ get_raster(spatial_resolution = 'low',
            key = key)
 ```
 
+It is also possible to filter rasters to one of the five regional fisheries management
+organizations (RFMO) that manage tuna and tuna-like species. These include `"ICCAT"`,
+`"IATTC"`,`"IOTC"`, `"CCSBT"` and `"WCPFC"`.
+
+```{r example_map_5, eval=F}
+get_raster(spatial_resolution = 'low',
+           temporal_resolution = 'daily',
+           group_by = 'flag',
+           date_range = '2021-01-01,2021-01-15',
+           region = 'ICCAT',
+           region_source = 'trfmo',
+           key = key)
 ```
 
