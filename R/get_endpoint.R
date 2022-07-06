@@ -57,6 +57,11 @@ get_endpoint <- function(dataset_type,...){
     endpoint <- base %>%
       httr2::req_url_path_append("datasets/public-mpa-all/user-context-layers")
 
+  } else if (dataset_type == "trfmo") {
+
+    endpoint <- base %>%
+      httr2::req_url_path_append("datasets/public-tuna-rfmo/user-context-layers")
+
   } else {
     stop("Select valid dataset type")
   }
