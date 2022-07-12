@@ -29,15 +29,15 @@ to tell us about a spelling mistake,
 some awkward wording,
 or a bug.
 
-1.  If you do not have a [GitHub][github] account,
-    you can [send us comments by email][email].
+1.  If you do not have a [GitHub](https://github.com) account,
+    you can send us comments by email (see our emails in the [DESCRIPTION file](DESCRIPTION)).
     However,
     we will be able to respond more quickly if you use one of the other methods described below.
 
-2.  If you have a [GitHub][github] account,
-    or are willing to [create one][github-join],
+2.  If you have a [GitHub](https://github.com) account,
+    or are willing to [create one](https://github.com/join),
     but do not know how to use Git,
-    you can report problems or suggest improvements by [creating an issue][issues].
+    you can report problems or suggest improvements by [creating an issue](https://github.com/GlobalFishingWatch/gfwr/issues).
     This allows us to assign the item to someone
     and to respond to it in a threaded discussion.
 
