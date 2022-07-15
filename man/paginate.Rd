@@ -6,9 +6,6 @@
 \usage{
 paginate(endpoint, key)
 }
-\value{
-
-}
 \description{
 Pagination function for GFW API calls
 }

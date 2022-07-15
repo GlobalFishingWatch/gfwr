@@ -64,6 +64,7 @@ gist_error_body <- function(resp) {
 #' @importFrom httr2 req_error
 #' @importFrom httr2 req_perform
 #' @importFrom httr2 resp_body_json
+#' @importFrom httr2 req_user_agent
 #' @return
 # pagination function
 paginate <- function(endpoint, key){
@@ -74,6 +75,7 @@ paginate <- function(endpoint, key){
                                              key,
                                              sep = " "),
                        `Content-Type` = 'application/json') %>%
+    httr2::req_user_agent("gfwr/0.0.1 (https://github.com/GlobalFishingWatch/gfwr)") %>%
     httr2::req_error(body = gist_error_body) %>%
     httr2::req_perform() %>%
     httr2::resp_body_json()
@@ -87,12 +89,20 @@ paginate <- function(endpoint, key){
   next_off <- response$nextOffset
 
   # While nextOffset is less than total, pull additional response pages
-  if(!is.null(next_off)){
+  if(next_off < total){
     while(next_off < total){
 
       # # API call for next page
       next_response <- endpoint %>%
-        httr2::req_url_query(offset = next_off)
+        httr2::req_url_query(offset = next_off) %>%
+        httr2::req_headers(Authorization = paste("Bearer",
+                                                 key,
+                                                 sep = " "),
+                           `Content-Type` = 'application/json') %>%
+        httr2::req_user_agent("gfwr/0.0.1 (https://github.com/GlobalFishingWatch/gfwr)") %>%
+        httr2::req_error(body = gist_error_body) %>%
+        httr2::req_perform() %>%
+        httr2::resp_body_json()
 
       # Append response to list
       responses[[length(responses)+1]] <- next_response
