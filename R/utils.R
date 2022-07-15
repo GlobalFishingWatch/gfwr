@@ -64,6 +64,7 @@ gist_error_body <- function(resp) {
 #' @importFrom httr2 req_error
 #' @importFrom httr2 req_perform
 #' @importFrom httr2 resp_body_json
+#' @importFrom httr2 req_user_agent
 #' @return
 # pagination function
 paginate <- function(endpoint, key){
@@ -74,7 +75,7 @@ paginate <- function(endpoint, key){
                                              key,
                                              sep = " "),
                        `Content-Type` = 'application/json') %>%
-    req_user_agent("gfwr/0.0.1 (https://github.com/GlobalFishingWatch/gfwr)") %>%
+    httr2::req_user_agent("gfwr/0.0.1 (https://github.com/GlobalFishingWatch/gfwr)") %>%
     httr2::req_error(body = gist_error_body) %>%
     httr2::req_perform() %>%
     httr2::resp_body_json()
