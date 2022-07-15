@@ -27,6 +27,8 @@ get_event <- function(event_type='port_visit',
                       include_regions = NULL,
                       start_date = NULL,
                       end_date = NULL,
+                      limit = 1000,
+                      offset = 0,
                       key = gfw_auth()
                       ){
 
@@ -36,7 +38,9 @@ get_event <- function(event_type='port_visit',
                            `include-regions` = include_regions,
                            vessels = vessel,
                            `start-date` = start_date,
-                           `end-date` = end_date
+                           `end-date` = end_date,
+                           limit = limit,
+                           offset = offset
                            )
 
   # API call; will paginate if neccessary, otherwise return list with one response
