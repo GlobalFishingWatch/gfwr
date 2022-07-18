@@ -10,7 +10,7 @@ get_event(
   include_regions = NULL,
   start_date = NULL,
   end_date = NULL,
-  limit = 1000,
+  limit = 10000,
   offset = 0,
   key = gfw_auth()
 )

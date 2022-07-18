@@ -15,9 +15,7 @@
 #' @importFrom purrr flatten
 #' @importFrom rlang .data
 #' @importFrom tibble as_tibble
-#' @importFrom tibble enframe
-#' @importFrom tidyr pivot_wider
-#' @importFrom tidyr unnest_wider
+#' @importFrom progress progress_bar
 #' @importFrom tidyselect everything
 #'
 #' @export
@@ -27,7 +25,7 @@ get_event <- function(event_type='port_visit',
                       include_regions = NULL,
                       start_date = NULL,
                       end_date = NULL,
-                      limit = 1000,
+                      limit = 10000,
                       offset = 0,
                       key = gfw_auth()
                       ){
@@ -49,18 +47,36 @@ get_event <- function(event_type='port_visit',
   # Extract all entries from list of responses
   all_entries <- purrr::map(all_results, purrr::pluck, 'entries') %>% purrr::flatten(.)
 
+  # Create progress bar
+  pb <- progress::progress_bar$new(
+    format = "Processing events: [:bar] :current/:total (:percent)",
+    total = length(all_entries)
+    )
+
   # Function to extract each entry to tibble
   event_entry <- function(x){
-    tibble::enframe(x) %>%
-      tibble::as_tibble() %>%
-      tidyr::pivot_wider(names_from = .data$name, values_from = .data$value) %>%
-      tidyr::unnest_wider(col = .data$position)
+    df_out <- tibble::tibble(
+      id = x$id,
+      type = x$type,
+      start = x$start,
+      end = x$end,
+      lat = x$position$lat,
+      lon = x$position$lon,
+      regions = list(x$regions),
+      boundingBox = list(x$boundingBox),
+      distances = list(x$distances),
+      vessel = list(x$vessel),
+      event_info = list(x[length(x)])
+    )
+    # Iterate progress bar
+    pb$tick()
+    Sys.sleep(0.01)
+    # return data
+    return(df_out)
   }
 
   # Map function to each event to convert to data frame
-  # and format non-list columns to character and datetime
   event_df <- purrr::map_dfr(all_entries, event_entry) %>%
-    dplyr::mutate(dplyr::across(tidyselect::everything(), make_char)) %>%
     dplyr::mutate(dplyr::across(c(.data$start, .data$end), make_datetime))
 
   # Return final data frame
