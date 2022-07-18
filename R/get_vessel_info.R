@@ -3,12 +3,18 @@
 #' @param query search terms to identify vessel
 #' @param search_type type of search, may be 'basic','advanced', or 'id'
 #' @param dataset identity datasets to search against, default = 'all'
+#' @param limit max number of entries to return in each API response. All results will
+#' be returned regardless of limit
+#' @param offset
 #' @param key Authorization token. Can be obtained with gfw_auth function
 
 #' @importFrom httr2 req_headers
 #' @importFrom httr2 req_perform
+#' @importFrom httr2 req_user_agent
+#' @importFrom httr2 req_error
 #' @importFrom httr2 resp_body_json
 #' @importFrom tidyr unnest_wider
+#' @importFrom tibble enframe
 #'
 #' @details
 #' There are three search types. `basic` search takes features like MMSI,
@@ -25,16 +31,21 @@
 get_vessel_info <- function(query = NULL,
                             search_type = NULL,
                             dataset = "all",
+                            limit = 10000,
+                            offset = 0,
                             key = gfw_auth()) {
   endpoint <- get_identity_endpoint(
     dataset_type = dataset,
     search_type = search_type,
-    query = query
+    query = query,
+    limit = limit,
+    offset = offset
   )
 
   response <- endpoint %>%
     httr2::req_headers(Authorization = paste("Bearer", key, sep = " ")) %>%
     httr2::req_error(., body = gist_error_body) %>%
+    httr2::req_user_agent("gfwr/1.0.0 (https://github.com/GlobalFishingWatch/gfwr)") %>%
     httr2::req_perform(.) %>%
     httr2::resp_body_json()
 

@@ -105,6 +105,11 @@ get_identity_endpoint <- function(dataset_type, search_type, ...) {
     names(args)[names(args) == "query"] <- "ids"
   }
 
+  # TODO: Remove this once engineering fixes limit/offset for ids search type
+  if (search_type == "id") {
+    args <- args[!names(args) %in% c('limit','offset')]
+  }
+
   # different search options
   # basic = using MMSI, IMO, shipname, etc
   # advanced = %LIKE%

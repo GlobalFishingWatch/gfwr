@@ -88,13 +88,12 @@ To get information of a vessel with MMSI = 224224000 using all datasets:
 ``` r
 get_vessel_info(query = 224224000, search_type = "basic", 
                 dataset = "all", key = key)
-#> # A tibble: 1 × 17
-#>    name callsign firstTransmissionD… flag  geartype id    imo   lastTransmissio…
-#>   <int> <chr>    <chr>               <chr> <lgl>    <chr> <chr> <chr>           
-#> 1     1 EBSJ     2015-10-13T15:47:1… ESP   NA       3c99… 8733… 2019-10-15T12:1…
-#> # … with 9 more variables: mmsi <chr>, msgCount <int>, posCount <int>,
-#> #   shipname <chr>, source <chr>, vesselType <chr>, years <list>,
-#> #   dataset <chr>, score <dbl>
+#> # A tibble: 1 × 16
+#>    name callsign firstTransmissionDate flag  id     imo   lastTransmissio… mmsi 
+#>   <int> <chr>    <chr>                 <chr> <chr>  <chr> <chr>            <chr>
+#> 1     1 EBSJ     2015-10-13T15:47:16Z  ESP   3c99c… 8733… 2019-10-15T12:1… 2242…
+#> # … with 8 more variables: msgCount <int>, posCount <int>, shipname <chr>,
+#> #   source <chr>, vesselType <chr>, years <list>, dataset <chr>, score <dbl>
 ```
 
 To combine different fields and do fuzzy matching to search the
@@ -153,36 +152,38 @@ To get a list of port visits for that vessel:
 
 ``` r
 get_event(event_type='port_visit',
-                      vessel = vessel_id,
-                      key = key
-                      )
-#> # A tibble: 49 × 11
+          vessel = vessel_id,
+          confidences = '4',
+          key = key
+          )
+#> [1] "Downloading 34 events from GFW"
+#> # A tibble: 34 × 11
 #>    id    type  start               end                   lat    lon regions     
 #>    <chr> <chr> <dttm>              <dttm>              <dbl>  <dbl> <list>      
-#>  1 4478… port… 2015-10-15 10:40:07 2015-10-15 11:45:44  5.21  -4.01 <named list>
-#>  2 b725… port… 2015-11-04 05:22:13 2015-11-07 10:46:28  5.23  -4.00 <named list>
-#>  3 f03f… port… 2015-12-06 11:48:38 2015-12-10 16:19:37  5.24  -4.08 <named list>
-#>  4 cbd7… port… 2016-01-09 06:47:57 2016-01-13 14:30:33  5.24  -4.00 <named list>
-#>  5 6265… port… 2016-02-25 14:26:38 2016-03-01 13:21:21  5.25  -4.00 <named list>
-#>  6 4a7f… port… 2016-03-03 05:47:02 2016-03-03 11:46:33  5.20  -4.02 <named list>
-#>  7 617d… port… 2016-03-31 04:43:41 2016-04-02 09:07:10  5.23  -4.00 <named list>
-#>  8 3c26… port… 2016-04-20 06:50:58 2016-04-20 19:47:10 14.7  -17.4  <named list>
-#>  9 104e… port… 2016-04-24 07:14:33 2016-04-24 11:54:59 14.7  -17.4  <named list>
-#> 10 8f19… port… 2016-05-18 19:31:04 2016-05-22 14:20:05  5.20  -4.01 <named list>
-#> # … with 39 more rows, and 4 more variables: boundingBox <list>,
-#> #   distances <list>, vessel <list>, port_visit <list>
+#>  1 b725… port… 2015-11-04 05:22:13 2015-11-07 10:46:28  5.23  -4.00 <named list>
+#>  2 f03f… port… 2015-12-06 11:48:38 2015-12-10 16:19:37  5.24  -4.08 <named list>
+#>  3 6265… port… 2016-02-25 14:26:38 2016-03-01 13:21:21  5.25  -4.00 <named list>
+#>  4 4a7f… port… 2016-03-03 05:47:02 2016-03-03 11:46:33  5.20  -4.02 <named list>
+#>  5 617d… port… 2016-03-31 04:43:41 2016-04-02 09:07:10  5.23  -4.00 <named list>
+#>  6 3c26… port… 2016-04-20 06:50:58 2016-04-20 19:47:10 14.7  -17.4  <named list>
+#>  7 104e… port… 2016-04-24 07:14:33 2016-04-24 11:54:59 14.7  -17.4  <named list>
+#>  8 8f19… port… 2016-05-18 19:31:04 2016-05-22 14:20:05  5.20  -4.01 <named list>
+#>  9 bf64… port… 2016-06-26 15:08:16 2016-06-30 10:39:03  5.20  -4.07 <named list>
+#> 10 3a7e… port… 2016-08-17 18:17:46 2016-08-20 14:18:44  5.28  -4.01 <named list>
+#> # … with 24 more rows, and 4 more variables: boundingBox <list>,
+#> #   distances <list>, vessel <list>, event_info <list>
 ```
 
 We can also use more than one `vessel id`:
 
 ``` r
 get_event(event_type='port_visit',
-                      vessel = '8c7304226-6c71-edbe-0b63-c246734b3c01,6583c51e3-3626-5638-866a-f47c3bc7ef7c',
-                      include_regions = NULL,
-                      start_date = "2020-01-01",
-                      end_date = "2020-02-01",
-                      key = key
-                      )
+          vessel = '8c7304226-6c71-edbe-0b63-c246734b3c01,6583c51e3-3626-5638-866a-f47c3bc7ef7c',
+          confidences = 4,
+          start_date = "2020-01-01",
+          end_date = "2020-02-01",
+          key = key
+          )
 ```
 
 Or get encounters for all vessels in a given date range:
@@ -277,16 +278,16 @@ get_raster(spatial_resolution = 'low',
 #> # A tibble: 5,433 × 5
 #>      Lat   Lon `Time Range` flag  `Apparent Fishing hours`
 #>    <dbl> <dbl>        <dbl> <chr>                    <dbl>
-#>  1  49.9  -0.5         2021 FRA                     107.  
-#>  2  46.8  -2.5         2021 FRA                     529.  
-#>  3  45.8  -1.4         2021 FRA                     723.  
-#>  4  48.3  -8.3         2021 FRA                     127.  
-#>  5  46.8  -3.2         2021 FRA                    1093.  
-#>  6  46.3  -2.1         2021 FRA                     418.  
-#>  7  45.1  -1.5         2021 FRA                     411.  
-#>  8  47.4  -4.8         2021 FRA                     408.  
-#>  9  49.9  -0.5         2021 GBR                       7.60
-#> 10  49    -6.2         2021 GBR                      51.5 
+#>  1  44.7  -1.4         2021 FRA                      1877.
+#>  2  44.7  -1.3         2021 FRA                      2353.
+#>  3  46.7  -3.1         2021 FRA                      1423.
+#>  4  48.7  -5.8         2021 FRA                       460.
+#>  5  47.5  -4.3         2021 FRA                      1137.
+#>  6  47.6  -3.9         2021 FRA                      1534.
+#>  7  46.4  -2.4         2021 FRA                       670.
+#>  8  45.3  -2           2021 FRA                       463.
+#>  9  44.6  -1.5         2021 FRA                      1152.
+#> 10  46.2  -4.2         2021 ESP                       184.
 #> # … with 5,423 more rows
 ```
 
