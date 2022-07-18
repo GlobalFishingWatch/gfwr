@@ -162,21 +162,22 @@ To get a list of port visits for that vessel:
 
 ```{r example_event_type_1, eval=T}
 get_event(event_type='port_visit',
-                      vessel = vessel_id,
-                      key = key
-                      )
+          vessel = vessel_id,
+          confidences = '4',
+          key = key
+          )
 ```
 
 We can also use more than one `vessel id`:
 
 ```{r example_event_type_2, eval=F}
 get_event(event_type='port_visit',
-                      vessel = '8c7304226-6c71-edbe-0b63-c246734b3c01,6583c51e3-3626-5638-866a-f47c3bc7ef7c',
-                      include_regions = NULL,
-                      start_date = "2020-01-01",
-                      end_date = "2020-02-01",
-                      key = key
-                      )
+          vessel = '8c7304226-6c71-edbe-0b63-c246734b3c01,6583c51e3-3626-5638-866a-f47c3bc7ef7c',
+          confidences = 4,
+          start_date = "2020-01-01",
+          end_date = "2020-02-01",
+          key = key
+          )
 ```
 
 Or get encounters for all vessels in a given date range:

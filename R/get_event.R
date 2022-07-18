@@ -25,6 +25,7 @@ get_event <- function(event_type='port_visit',
                       include_regions = NULL,
                       start_date = NULL,
                       end_date = NULL,
+                      confidences = NULL,
                       limit = 10000,
                       offset = 0,
                       key = gfw_auth()
@@ -37,6 +38,7 @@ get_event <- function(event_type='port_visit',
                            vessels = vessel,
                            `start-date` = start_date,
                            `end-date` = end_date,
+                           confidences = confidences,
                            limit = limit,
                            offset = offset
                            )
