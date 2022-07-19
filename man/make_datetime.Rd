@@ -6,9 +6,6 @@
 \usage{
 make_datetime(x)
 }
-\value{
-
-}
 \description{
 Helper function to convert datetime responses
 }

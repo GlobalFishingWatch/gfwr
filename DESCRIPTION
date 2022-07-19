@@ -12,10 +12,10 @@ Authors@R: c(
           comment = c(ORCID = "YOUR-ORCID-ID"))      
     )
 Description: This package connects to several Global Fishing Watch APIs to get vessel and events information in an R-friendly format.
-License: GPL (>= 3)
+License: Apache License (>= 2)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 Imports: 
     magrittr,
     dplyr,
@@ -26,6 +26,7 @@ Imports:
     tibble,
     tidyr,
     tidyselect,
+    progress,
     rjson
 Suggests:
     glue
