@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # `gfwr`: Access data from Global Fishing Watch APIs  <img src="man/figures/gfwr_hex_rgb.png" align="right" width="200px"/>
 
 <!-- badges: start -->
+[![DOI](https://zenodo.org/badge/450635054.svg)](https://zenodo.org/badge/latestdoi/450635054)
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Licence](https://img.shields.io/badge/license-Apache%202-blue)](https://opensource.org/licenses/Apache-2.0)
 <!-- badges: end -->
