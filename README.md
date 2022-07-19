@@ -1,29 +1,36 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# gfwr
+# `gfwr`: Access data from Global Fishing Watch APIs <img src="man/figures/gfwr_hex_rgb.png" align="right" width="200px"/>
 
 <!-- badges: start -->
+
+[![Project Status: Active - The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Licence](https://img.shields.io/badge/license-Apache%202-blue)](https://opensource.org/licenses/Apache-2.0)
 <!-- badges: end -->
-<!-- Add link to API documentation page once it's ready-->
 
 The `gfwr` R package is a simple wrapper for the Global Fishing Watch
-(GFW) [APIs](https://api-doc.dev.globalfishingwatch.org/#introduction).
-It provides convenient functions to pull GFW data directly into R in
-tidy formats.
+(GFW)
+[APIs](https://globalfishingwatch.org/our-apis/documentation#introduction).
+It provides convenient functions to freely pull GFW data directly into R
+in tidy formats. The package currently works with the following APIs:
 
-The package currently works with the following APIs:
-
--   Vessel API: vessel search and identity based on AIS self reported
+-   [Vessels
+    API](https://globalfishingwatch.org/our-apis/documentation#vessels-api):
+    vessel search and identity based on AIS self reported data
+-   [Events
+    API](https://globalfishingwatch.org/our-apis/documentation#events-api):
+    encounters, loitering, port visits and fishing events based on AIS
     data
--   Events API: encounters, loitering, port visits and fishing events
-    based on AIS data
--   Map Visualization (4Wings API): apparent fishing effort based on AIS
-    data
+-   [Map Visualization (4Wings
+    API)](https://globalfishingwatch.org/our-apis/documentation#map-visualization-4wings-api):
+    apparent fishing effort based on AIS data
 
 ## Installation
 
-You can install the development version of gfwr like so:
+You can install the development version of `gfwr` like so:
 
 ``` r
 devtools::install_github("GlobalFishingWatch/gfwr")
@@ -39,14 +46,13 @@ library(gfwr)
 ## Authorization
 
 The use of `gfwr` requires a GFW API token, which users can request from
-the [GFW API
-Portal](https://globalfishingwatch.org/ocean-engine/tokens/signup). Save
-this token to your `.Renviron` file (using `usethis::edit_r_environ()`)
-by adding a string named `"GFW_TOKEN"` to the file
-(`"GFW_TOKEN" = "PASTE_YOUR_TOKEN_HERE"`). Save the `.Renviron` file and
-restart the R session to make the edit effective.
+the [GFW API Portal](https://globalfishingwatch.org/our-apis/tokens).
+Save this token to your `.Renviron` file (using
+`usethis::edit_r_environ()`) by adding a string named `"GFW_TOKEN"` to
+the file (`"GFW_TOKEN" = "PASTE_YOUR_TOKEN_HERE"`). Save the `.Renviron`
+file and restart the R session to make the edit effective.
 
-Then use the `gfw_auth` helper function to save the information in an
+Then use the `gfw_auth` helper function to save the information to an
 object in your R workspace every time you need to extract the token and
 pass it to subsequent `gfwr` functions.
 
@@ -59,10 +65,15 @@ key <- gfw_auth()
 key <- Sys.getenv("GFW_TOKEN")
 ```
 
+> **Note**: `gfwr` functions are set to use `key = gfw_auth()` by
+> default.
+
 ## Vessels API
 
-The `get_vessel_info` function allows you to get vessel identity
-details. There are three search types: `basic`, `advanced`, and `id`.
+The `get_vessel_info` function allows you to get vessel identity details
+from the [GFW Vessels
+API](https://globalfishingwatch.org/our-apis/documentation#introduction-vessels-api).
+There are three search types: `basic`, `advanced`, and `id`.
 
 -   `basic` search takes features like MMSI, IMO, callsign, shipname as
     inputs and identifies all vessels in the specified dataset that
@@ -122,20 +133,13 @@ get_vessel_info(query =
 
 ## Events API
 
-The `get_event` function allows you to get data from vessel activities
-such as: apparent fishing events, encounters, loitering, and port
-visits. Find more information in our [caveat
-documentation](https://api-doc.dev.globalfishingwatch.org/#data-caveat).
-
-<!-- I don't think we have tested loitering, or encounters yet-->
-<!-- #' Base function to get event from API and convert response to data frame -->
-<!-- #' -->
-<!-- #' @param event_type Type of event to get data of. It can be "port_visit" or "fishing" -->
-<!-- #' @param vessel VesselID. How to get this? -->
-<!-- #' @param include_regions Whether to include regions? Ask engineering if this can always be false -->
-<!-- #' @param start_date Start of date range to search events -->
-<!-- #' @param end_date End of date range to search events -->
-<!-- #' @param key Authorization token. Can be obtained with gfw_auth function -->
+The `get_event` function allows you to get data on specific vessel
+activities from the [GFW Events
+API](https://globalfishingwatch.org/our-apis/documentation#events-api).
+Event types include: apparent fishing events, potential transshipment
+events (two vessel encounters and loitering by refrigerated carrier
+vessels), and port visits. Find more information in our [caveat
+documentation](https://globalfishingwatch.org/our-apis/documentation#data-caveat).
 
 ### Examples
 
@@ -156,21 +160,21 @@ get_event(event_type='port_visit',
           confidences = '4',
           key = key
           )
-#> [1] "Downloading 34 events from GFW"
-#> # A tibble: 34 × 11
+#> [1] "Downloading 35 events from GFW"
+#> # A tibble: 35 × 11
 #>    id    type  start               end                   lat    lon regions     
 #>    <chr> <chr> <dttm>              <dttm>              <dbl>  <dbl> <list>      
 #>  1 b725… port… 2015-11-04 05:22:13 2015-11-07 10:46:28  5.23  -4.00 <named list>
 #>  2 f03f… port… 2015-12-06 11:48:38 2015-12-10 16:19:37  5.24  -4.08 <named list>
-#>  3 6265… port… 2016-02-25 14:26:38 2016-03-01 13:21:21  5.25  -4.00 <named list>
-#>  4 4a7f… port… 2016-03-03 05:47:02 2016-03-03 11:46:33  5.20  -4.02 <named list>
-#>  5 617d… port… 2016-03-31 04:43:41 2016-04-02 09:07:10  5.23  -4.00 <named list>
-#>  6 3c26… port… 2016-04-20 06:50:58 2016-04-20 19:47:10 14.7  -17.4  <named list>
-#>  7 104e… port… 2016-04-24 07:14:33 2016-04-24 11:54:59 14.7  -17.4  <named list>
-#>  8 8f19… port… 2016-05-18 19:31:04 2016-05-22 14:20:05  5.20  -4.01 <named list>
-#>  9 bf64… port… 2016-06-26 15:08:16 2016-06-30 10:39:03  5.20  -4.07 <named list>
-#> 10 3a7e… port… 2016-08-17 18:17:46 2016-08-20 14:18:44  5.28  -4.01 <named list>
-#> # … with 24 more rows, and 4 more variables: boundingBox <list>,
+#>  3 cbd7… port… 2016-01-09 06:47:57 2016-01-13 14:30:33  5.24  -4.00 <named list>
+#>  4 6265… port… 2016-02-25 14:26:38 2016-03-01 13:21:21  5.25  -4.00 <named list>
+#>  5 4a7f… port… 2016-03-03 05:47:02 2016-03-03 11:46:33  5.20  -4.02 <named list>
+#>  6 617d… port… 2016-03-31 04:43:41 2016-04-02 09:07:10  5.23  -4.00 <named list>
+#>  7 3c26… port… 2016-04-20 06:50:58 2016-04-20 19:47:10 14.7  -17.4  <named list>
+#>  8 104e… port… 2016-04-24 07:14:33 2016-04-24 11:54:59 14.7  -17.4  <named list>
+#>  9 8f19… port… 2016-05-18 19:31:04 2016-05-22 14:20:05  5.20  -4.01 <named list>
+#> 10 bf64… port… 2016-06-26 15:08:16 2016-06-30 10:39:03  5.20  -4.07 <named list>
+#> # … with 25 more rows, and 4 more variables: boundingBox <list>,
 #> #   distances <list>, vessel <list>, event_info <list>
 ```
 
@@ -190,16 +194,54 @@ Or get encounters for all vessels in a given date range:
 
 ``` r
 get_event(event_type='encounter',
-                      start_date = "2020-01-01",
-                      end_date = "2020-02-01",
-                      key = key
-                      )
+          start_date = "2020-01-01",
+          end_date = "2020-02-01",
+          key = key
+          )
+```
+
+As another example, let’s combine the Vessels and Events APIs to get
+fishing events for a list of 10 USA-flagged trawlers:
+
+``` r
+# Download the list of USA trawlers
+usa_trawlers <- get_vessel_info(
+  query = "flag = 'USA' AND geartype = 'trawlers'", 
+  search_type = "advanced", 
+  dataset = "fishing_vessel"
+  )
+
+# Collapse vessel ids into a commas separated list to pass to Events API
+usa_tralwer_ids <- paste0(usa_trawlers$id[1:10], collapse = ',')
+```
+
+Now get the list of fishing events for these trawlers in January, 2020:
+
+``` r
+get_event(event_type='fishing',
+          vessel = usa_tralwer_ids,
+          start_date = "2020-01-01",
+          end_date = "2020-02-01"
+          )
+#> [1] "Downloading 5 events from GFW"
+#> # A tibble: 5 × 11
+#>   id      type  start               end                   lat   lon regions     
+#>   <chr>   <chr> <dttm>              <dttm>              <dbl> <dbl> <list>      
+#> 1 7deeba… fish… 2020-01-07 23:20:56 2020-01-08 02:47:56  28.0 -95.2 <named list>
+#> 2 46b955… fish… 2020-01-10 04:59:35 2020-01-10 14:00:20  28.1 -95.0 <named list>
+#> 3 5a5cc9… fish… 2020-01-12 18:25:47 2020-01-13 09:29:53  28.1 -94.0 <named list>
+#> 4 64ad1a… fish… 2020-01-13 21:52:14 2020-01-14 01:12:14  28.1 -92.6 <named list>
+#> 5 55cdf9… fish… 2020-01-26 17:41:27 2020-01-26 19:18:22  41.2 -69.1 <named list>
+#> # … with 4 more variables: boundingBox <list>, distances <list>, vessel <list>,
+#> #   event_info <list>
 ```
 
 ## Map Visualization API
 
-The `get_raster` function gets a raster from the 4Wings API and converts
-the response to a data frame. In order to use it, you should specify:
+The `get_raster` function gets a raster from the [4Wings
+API](https://globalfishingwatch.org/our-apis/documentation#map-visualization-4wings-api)
+and converts the response to a data frame. In order to use it, you
+should specify:
 
 -   The spatial resolution, which can be `low` (0.1 degree) or `high`
     (0.01 degree)
