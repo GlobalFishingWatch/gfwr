@@ -182,20 +182,22 @@ As another example, let's combine the Vessels and Events APIs to get fishing eve
 usa_trawlers <- get_vessel_info(
   query = "flag = 'USA' AND geartype = 'trawlers'", 
   search_type = "advanced", 
-  dataset = "fishing_vessel"
+  dataset = "fishing_vessel",
+  key = key
   )
 
 # Collapse vessel ids into a commas separated list to pass to Events API
-usa_tralwer_ids <- paste0(usa_trawlers$id[1:10], collapse = ',')
+usa_trawler_ids <- paste0(usa_trawlers$id[1:10], collapse = ',')
 ```
 
 Now get the list of fishing events for these trawlers in January, 2020:
 
 ```{r example_event_type_4b, eval=T}
 get_event(event_type='fishing',
-          vessel = usa_tralwer_ids,
+          vessel = usa_trawler_ids,
           start_date = "2020-01-01",
-          end_date = "2020-02-01"
+          end_date = "2020-02-01",
+          key = key
           )
 ```
 
