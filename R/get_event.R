@@ -49,38 +49,57 @@ get_event <- function(event_type='port_visit',
   # Extract all entries from list of responses
   all_entries <- purrr::map(all_results, purrr::pluck, 'entries') %>% purrr::flatten(.)
 
-  # Create progress bar
-  pb <- progress::progress_bar$new(
-    format = "Processing events: [:bar] :current/:total (:percent)",
-    total = length(all_entries)
+  # Process results if they exist
+  if(length(all_entries) > 0){
+    # Create progress bar
+    pb <- progress::progress_bar$new(
+      format = "Processing events: [:bar] :current/:total (:percent)",
+      total = length(all_entries)
     )
 
-  # Function to extract each entry to tibble
-  event_entry <- function(x){
-    df_out <- tibble::tibble(
-      id = x$id,
-      type = x$type,
-      start = x$start,
-      end = x$end,
-      lat = x$position$lat,
-      lon = x$position$lon,
-      regions = list(x$regions),
-      boundingBox = list(x$boundingBox),
-      distances = list(x$distances),
-      vessel = list(x$vessel),
-      event_info = list(x[length(x)])
+    # Function to extract each entry to tibble
+    event_entry <- function(x){
+      df_out <- tibble::tibble(
+        id = x$id,
+        type = x$type,
+        start = x$start,
+        end = x$end,
+        lat = x$position$lat,
+        lon = x$position$lon,
+        regions = list(x$regions),
+        boundingBox = list(x$boundingBox),
+        distances = list(x$distances),
+        vessel = list(x$vessel),
+        event_info = list(x[length(x)])
+      )
+      # Iterate progress bar
+      pb$tick()
+      Sys.sleep(0.01)
+      # return data
+      return(df_out)
+    }
+
+    # Map function to each event to convert to data frame
+    event_df <- purrr::map_dfr(all_entries, event_entry) %>%
+      dplyr::mutate(dplyr::across(c(.data$start, .data$end), make_datetime))
+
+    } else {
+    # Create empty dataframe to return when zero entries.
+    event_df <- tibble::tibble(
+      id = NA_character_,
+      type = NA_character_,
+      start = NA,
+      end = NA,
+      lat = NA_real_,
+      lon = NA_real_,
+      regions = NA,
+      boundingBox = NA,
+      distances = NA,
+      vessel = NA,
+      event_info = NA
     )
-    # Iterate progress bar
-    pb$tick()
-    Sys.sleep(0.01)
-    # return data
-    return(df_out)
   }
 
-  # Map function to each event to convert to data frame
-  event_df <- purrr::map_dfr(all_entries, event_entry) %>%
-    dplyr::mutate(dplyr::across(c(.data$start, .data$end), make_datetime))
-
-  # Return final data frame
+  # Return results
   return(event_df)
 }
