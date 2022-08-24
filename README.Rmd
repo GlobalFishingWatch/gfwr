@@ -201,6 +201,7 @@ get_event(event_type='fishing',
           )
 ```
 
+When no events are available, the `get_event()` function returns an empty tibble.
 
 ## Map Visualization API 
 

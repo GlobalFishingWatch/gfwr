@@ -209,33 +209,33 @@ fishing events for a list of 10 USA-flagged trawlers:
 usa_trawlers <- get_vessel_info(
   query = "flag = 'USA' AND geartype = 'trawlers'", 
   search_type = "advanced", 
-  dataset = "fishing_vessel"
+  dataset = "fishing_vessel",
+  key = key
   )
 
 # Collapse vessel ids into a commas separated list to pass to Events API
-usa_tralwer_ids <- paste0(usa_trawlers$id[1:10], collapse = ',')
+usa_trawler_ids <- paste0(usa_trawlers$id[1:10], collapse = ',')
 ```
 
 Now get the list of fishing events for these trawlers in January, 2020:
 
 ``` r
 get_event(event_type='fishing',
-          vessel = usa_tralwer_ids,
+          vessel = usa_trawler_ids,
           start_date = "2020-01-01",
-          end_date = "2020-02-01"
+          end_date = "2020-02-01",
+          key = key
           )
-#> [1] "Downloading 5 events from GFW"
-#> # A tibble: 5 × 11
-#>   id      type  start               end                   lat   lon regions     
-#>   <chr>   <chr> <dttm>              <dttm>              <dbl> <dbl> <list>      
-#> 1 7deeba… fish… 2020-01-07 23:20:56 2020-01-08 02:47:56  28.0 -95.2 <named list>
-#> 2 46b955… fish… 2020-01-10 04:59:35 2020-01-10 14:00:20  28.1 -95.0 <named list>
-#> 3 5a5cc9… fish… 2020-01-12 18:25:47 2020-01-13 09:29:53  28.1 -94.0 <named list>
-#> 4 64ad1a… fish… 2020-01-13 21:52:14 2020-01-14 01:12:14  28.1 -92.6 <named list>
-#> 5 55cdf9… fish… 2020-01-26 17:41:27 2020-01-26 19:18:22  41.2 -69.1 <named list>
-#> # … with 4 more variables: boundingBox <list>, distances <list>, vessel <list>,
-#> #   event_info <list>
+#> [1] "Downloading 0 events from GFW"
+#> # A tibble: 1 × 11
+#>   id    type  start end     lat   lon regions boundingBox distances vessel
+#>   <chr> <chr> <lgl> <lgl> <dbl> <dbl> <lgl>   <lgl>       <lgl>     <lgl> 
+#> 1 <NA>  <NA>  NA    NA       NA    NA NA      NA          NA        NA    
+#> # … with 1 more variable: event_info <lgl>
 ```
+
+When no events are available, the `get_event()` function returns an
+empty tibble.
 
 ## Map Visualization API
 
@@ -261,6 +261,7 @@ should specify:
 Here’s an example where we enter the geojson data manually:
 
 ``` r
+
 region_json = '{"geojson":{"type":"Polygon","coordinates":[[[-76.11328125,-26.273714024406416],[-76.201171875,-26.980828590472093],[-76.376953125,-27.527758206861883],[-76.81640625,-28.30438068296276],[-77.255859375,-28.767659105691244],[-77.87109375,-29.152161283318918],[-78.486328125,-29.45873118535532],[-79.189453125,-29.61167011519739],[-79.892578125,-29.6880527498568],[-80.595703125,-29.61167011519739],[-81.5625,-29.382175075145277],[-82.177734375,-29.07537517955835],[-82.705078125,-28.6905876542507],[-83.232421875,-28.071980301779845],[-83.49609375,-27.683528083787756],[-83.759765625,-26.980828590472093],[-83.84765625,-26.35249785815401],[-83.759765625,-25.64152637306576],[-83.583984375,-25.16517336866393],[-83.232421875,-24.447149589730827],[-82.705078125,-23.966175871265037],[-82.177734375,-23.483400654325635],[-81.5625,-23.241346102386117],[-80.859375,-22.998851594142906],[-80.15625,-22.917922936146027],[-79.453125,-22.998851594142906],[-78.662109375,-23.1605633090483],[-78.134765625,-23.40276490540795],[-77.431640625,-23.885837699861995],[-76.9921875,-24.28702686537642],[-76.552734375,-24.846565348219727],[-76.2890625,-25.48295117535531],[-76.11328125,-26.273714024406416]]]}}'
 
 get_raster(spatial_resolution = 'low',
@@ -278,6 +279,7 @@ If you want raster data from a particular EEZ, you can use the
 you specify the `region_source` as `'eez'`:
 
 ``` r
+
 # use EEZ function to get EEZ code of Cote d'Ivoire
 code_eez <- get_region_id(region_name = 'CIV', region_source = 'eez', key = key)
 
@@ -294,6 +296,7 @@ You could search for just one word in the name of the EEZ and then
 decide which one you want:
 
 ``` r
+
 (get_region_id(region_name = 'French', region_source = 'eez', key = key))
 #> # A tibble: 3 × 3
 #>      id iso3  label                                    
@@ -310,7 +313,7 @@ get_raster(spatial_resolution = 'low',
            region = 5677,
            region_source = 'eez',
            key = key)
-#> Rows: 5433 Columns: 5
+#> Rows: 5420 Columns: 5
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (1): flag
@@ -318,26 +321,27 @@ get_raster(spatial_resolution = 'low',
 #> 
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-#> # A tibble: 5,433 × 5
+#> # A tibble: 5,420 × 5
 #>      Lat   Lon `Time Range` flag  `Apparent Fishing hours`
 #>    <dbl> <dbl>        <dbl> <chr>                    <dbl>
-#>  1  44.7  -1.4         2021 FRA                      1877.
-#>  2  44.7  -1.3         2021 FRA                      2353.
-#>  3  46.7  -3.1         2021 FRA                      1423.
-#>  4  48.7  -5.8         2021 FRA                       460.
-#>  5  47.5  -4.3         2021 FRA                      1137.
-#>  6  47.6  -3.9         2021 FRA                      1534.
-#>  7  46.4  -2.4         2021 FRA                       670.
-#>  8  45.3  -2           2021 FRA                       463.
-#>  9  44.6  -1.5         2021 FRA                      1152.
-#> 10  46.2  -4.2         2021 ESP                       184.
-#> # … with 5,423 more rows
+#>  1  46.2  -2.8         2021 FRA                     778.  
+#>  2  44.8  -2           2021 ESP                     117.  
+#>  3  45.9  -1.2         2021 FRA                      59.2 
+#>  4  47.2  -2.7         2021 GBR                      76.4 
+#>  5  44.6  -2           2021 FRA                     708.  
+#>  6  49.8  -2           2021 GBR                       3.57
+#>  7  49.5  -1           2021 FRA                     502.  
+#>  8  48.1  -6.6         2021 FRA                     319.  
+#>  9  48.9  -4.3         2021 FRA                      86.5 
+#> 10  46.1  -1.8         2021 FRA                     393.  
+#> # … with 5,410 more rows
 ```
 
 A similar approach can be used to search for a specific Marine Protected
 Area, in this case the Phoenix Island Protected Area (PIPA)
 
 ``` r
+
 # use region id function to get MPA code of Phoenix Island Protected Area
 code_mpa <- get_region_id(region_name = 'Phoenix', region_source = 'mpa', key = key)
 

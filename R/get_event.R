@@ -6,6 +6,9 @@
 #' @param include_regions Whether to include regions? Ask engineering if this can always be false
 #' @param start_date Start of date range to search events
 #' @param end_date End of date range to search events
+#' @param confidences Confidence levels (1-4) of events (port visits only).
+#' @param limit Limit of response size for each GFW API call.
+#' @param offset Internal parameter to GFW pagination
 #' @param key Authorization token. Can be obtained with gfw_auth function
 #' @importFrom dplyr across
 #' @importFrom dplyr mutate
@@ -26,7 +29,7 @@ get_event <- function(event_type='port_visit',
                       start_date = NULL,
                       end_date = NULL,
                       confidences = NULL,
-                      limit = 10000,
+                      limit = 99999,
                       offset = 0,
                       key = gfw_auth()
                       ){
@@ -51,36 +54,24 @@ get_event <- function(event_type='port_visit',
 
   # Process results if they exist
   if(length(all_entries) > 0){
-    # Create progress bar
-    pb <- progress::progress_bar$new(
-      format = "Processing events: [:bar] :current/:total (:percent)",
-      total = length(all_entries)
+
+    # Convert list to dataframe
+    df_out <- tibble::tibble(
+      id = purrr::map_chr(all_entries, 'id'),
+      type = purrr::map_chr(all_entries, 'type'),
+      start = purrr::map_chr(all_entries, 'start'),
+      end = purrr::map_chr(all_entries, 'end'),
+      lat = purrr::map_dbl(purrr::map(all_entries, 'position'), 'lat'),
+      lon = purrr::map_dbl(purrr::map(all_entries, 'position'), 'lon'),
+      regions = purrr::map(all_entries, 'regions'),
+      boundingBox = purrr::map(all_entries, 'boundingBox'),
+      distances = purrr::map(all_entries, 'distances'),
+      vessel = purrr::map(all_entries, 'vessel'),
+      event_info = purrr::map(all_entries, length(all_entries[[1]])) # the event_info is always the last element
     )
 
-    # Function to extract each entry to tibble
-    event_entry <- function(x){
-      df_out <- tibble::tibble(
-        id = x$id,
-        type = x$type,
-        start = x$start,
-        end = x$end,
-        lat = x$position$lat,
-        lon = x$position$lon,
-        regions = list(x$regions),
-        boundingBox = list(x$boundingBox),
-        distances = list(x$distances),
-        vessel = list(x$vessel),
-        event_info = list(x[length(x)])
-      )
-      # Iterate progress bar
-      pb$tick()
-      Sys.sleep(0.01)
-      # return data
-      return(df_out)
-    }
-
     # Map function to each event to convert to data frame
-    event_df <- purrr::map_dfr(all_entries, event_entry) %>%
+    event_df <- df_out %>%
       dplyr::mutate(dplyr::across(c(.data$start, .data$end), make_datetime))
 
     } else {
