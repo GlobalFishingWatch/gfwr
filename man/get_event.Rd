@@ -11,7 +11,7 @@ get_event(
   start_date = NULL,
   end_date = NULL,
   confidences = NULL,
-  limit = 10000,
+  limit = 99999,
   offset = 0,
   key = gfw_auth()
 )
@@ -26,6 +26,12 @@ get_event(
 \item{start_date}{Start of date range to search events}
 
 \item{end_date}{End of date range to search events}
+
+\item{confidences}{Confidence levels (1-4) of events (port visits only).}
+
+\item{limit}{Limit of response size for each GFW API call.}
+
+\item{offset}{Internal parameter to GFW pagination}
 
 \item{key}{Authorization token. Can be obtained with gfw_auth function}
 }

@@ -5,7 +5,7 @@
 #' @param dataset identity datasets to search against, default = 'all'
 #' @param limit max number of entries to return in each API response. All results will
 #' be returned regardless of limit
-#' @param offset
+#' @param offset Internal parameter to GFW pagination
 #' @param key Authorization token. Can be obtained with gfw_auth function
 
 #' @importFrom httr2 req_headers
@@ -31,7 +31,7 @@
 get_vessel_info <- function(query = NULL,
                             search_type = NULL,
                             dataset = "all",
-                            limit = 10000,
+                            limit = 99999,
                             offset = 0,
                             key = gfw_auth()) {
   endpoint <- get_identity_endpoint(

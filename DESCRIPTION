@@ -3,7 +3,7 @@ Title: Interactions with GFW APIs providing data tibbles
 Version: 0.0.0.9000
 Authors@R: c(
     person("Tyler", "Clavelle", , "tyler@globalfishingwatch.org", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID")),
+           comment = c(ORCID = "0000-0002-2155-2459")),
     person("Rocío", "Joo", , "rocio.joo@globalfishingwatch.org",
           role = c("aut"),
           comment = c(ORCID = "0000-0003-0319-4210")),
@@ -12,7 +12,7 @@ Authors@R: c(
           comment = c(ORCID = "YOUR-ORCID-ID"))      
     )
 Description: This package connects to several Global Fishing Watch APIs to get vessel and events information in an R-friendly format.
-License: Apache License (>= 2)
+License: file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.0

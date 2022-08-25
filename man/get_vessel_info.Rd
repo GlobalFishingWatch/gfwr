@@ -8,7 +8,7 @@ get_vessel_info(
   query = NULL,
   search_type = NULL,
   dataset = "all",
-  limit = 10000,
+  limit = 99999,
   offset = 0,
   key = gfw_auth()
 )
@@ -22,6 +22,8 @@ get_vessel_info(
 
 \item{limit}{max number of entries to return in each API response. All results will
 be returned regardless of limit}
+
+\item{offset}{Internal parameter to GFW pagination}
 
 \item{key}{Authorization token. Can be obtained with gfw_auth function}
 }

@@ -21,12 +21,16 @@ knitr::opts_chunk$set(
 [![Licence](https://img.shields.io/badge/license-Apache%202-blue)](https://opensource.org/licenses/Apache-2.0)
 <!-- badges: end -->
 
-The `gfwr` R package is a simple wrapper for the Global Fishing Watch (GFW) [APIs](https://globalfishingwatch.org/our-apis/documentation#introduction). It provides convenient functions to freely pull GFW data directly into R in tidy formats. The package currently works with the following APIs:
+The `gfwr` R package is a simple wrapper for the Global Fishing Watch (GFW) [APIs](https://globalfishingwatch.org/our-apis/documentation#introduction). It provides convenient functions to freely pull GFW data directly into R in tidy formats. 
+
+The package currently works with the following APIs:
 
 * [Vessels API](https://globalfishingwatch.org/our-apis/documentation#vessels-api): vessel search and identity based on AIS self reported data
 * [Events API](https://globalfishingwatch.org/our-apis/documentation#events-api): encounters, loitering, port visits and fishing events based on AIS data
 * [Map Visualization (4Wings API)](https://globalfishingwatch.org/our-apis/documentation#map-visualization-4wings-api): apparent fishing effort based on AIS data
 
+> **Note** 
+> See the [Terms of Use](https://globalfishingwatch.org/our-apis/documentation#reference-data) page for GFW APIs for information on our API licenses and rate limits.
 
 ## Installation
 
@@ -201,6 +205,7 @@ get_event(event_type='fishing',
           )
 ```
 
+When no events are available, the `get_event()` function returns an empty tibble.
 
 ## Map Visualization API 
 

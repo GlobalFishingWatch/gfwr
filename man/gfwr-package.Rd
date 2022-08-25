@@ -17,7 +17,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Tyler Clavelle \email{tyler@globalfishingwatch.org} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Tyler Clavelle \email{tyler@globalfishingwatch.org} (\href{https://orcid.org/0000-0002-2155-2459}{ORCID})
 
 Authors:
 \itemize{
