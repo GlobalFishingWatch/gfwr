@@ -12,14 +12,13 @@
 #' @param key Authorization token. Can be obtained with gfw_auth function
 #' @importFrom dplyr across
 #' @importFrom dplyr mutate
-#' @importFrom httr2 req_perform
-#' @importFrom httr2 resp_body_json
-#' @importFrom purrr map_dfr
+#' @importFrom purrr map_chr
+#' @importFrom purrr map_dbl
+#' @importFrom purrr map
+#' @importFrom purrr pluck
 #' @importFrom purrr flatten
 #' @importFrom rlang .data
-#' @importFrom tibble as_tibble
-#' @importFrom progress progress_bar
-#' @importFrom tidyselect everything
+#' @importFrom tibble tibble
 #'
 #' @export
 
@@ -61,8 +60,8 @@ get_event <- function(event_type='port_visit',
       type = purrr::map_chr(all_entries, 'type'),
       start = purrr::map_chr(all_entries, 'start'),
       end = purrr::map_chr(all_entries, 'end'),
-      lat = purrr::map_dbl(purrr::map(all_entries, 'position'), 'lat'),
-      lon = purrr::map_dbl(purrr::map(all_entries, 'position'), 'lon'),
+      lat = purrr::map_dbl(all_entries, purrr::pluck, 'position','lat'),
+      lon = purrr::map_dbl(all_entries, purrr::pluck, 'position','lon'),
       regions = purrr::map(all_entries, 'regions'),
       boundingBox = purrr::map(all_entries, 'boundingBox'),
       distances = purrr::map(all_entries, 'distances'),

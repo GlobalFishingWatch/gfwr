@@ -16,7 +16,9 @@ The `gfwr` R package is a simple wrapper for the Global Fishing Watch
 (GFW)
 [APIs](https://globalfishingwatch.org/our-apis/documentation#introduction).
 It provides convenient functions to freely pull GFW data directly into R
-in tidy formats. The package currently works with the following APIs:
+in tidy formats.
+
+The package currently works with the following APIs:
 
 -   [Vessels
     API](https://globalfishingwatch.org/our-apis/documentation#vessels-api):
@@ -28,6 +30,10 @@ in tidy formats. The package currently works with the following APIs:
 -   [Map Visualization (4Wings
     API)](https://globalfishingwatch.org/our-apis/documentation#map-visualization-4wings-api):
     apparent fishing effort based on AIS data
+
+> **Note** See the [Terms of
+> Use](https://globalfishingwatch.org/our-apis/documentation#reference-data)
+> page for GFW APIs for information on our API licenses and rate limits.
 
 ## Installation
 
@@ -226,12 +232,17 @@ get_event(event_type='fishing',
           end_date = "2020-02-01",
           key = key
           )
-#> [1] "Downloading 0 events from GFW"
-#> # A tibble: 1 × 11
-#>   id    type  start end     lat   lon regions boundingBox distances vessel
-#>   <chr> <chr> <lgl> <lgl> <dbl> <dbl> <lgl>   <lgl>       <lgl>     <lgl> 
-#> 1 <NA>  <NA>  NA    NA       NA    NA NA      NA          NA        NA    
-#> # … with 1 more variable: event_info <lgl>
+#> [1] "Downloading 5 events from GFW"
+#> # A tibble: 5 × 11
+#>   id     type  start               end                   lat    lon regions     
+#>   <chr>  <chr> <dttm>              <dttm>              <dbl>  <dbl> <list>      
+#> 1 b7f0e… fish… 2020-01-02 18:16:53 2020-01-02 19:06:52  44.6 -124.  <named list>
+#> 2 b2781… fish… 2020-01-05 02:00:04 2020-01-05 03:06:30  44.5 -124.  <named list>
+#> 3 91724… fish… 2020-01-05 03:57:26 2020-01-05 04:31:55  44.4 -124.  <named list>
+#> 4 3e1e3… fish… 2020-01-16 17:43:11 2020-01-16 18:37:02  44.6 -124.  <named list>
+#> 5 55cdf… fish… 2020-01-26 17:41:27 2020-01-26 19:18:22  41.2  -69.1 <named list>
+#> # … with 4 more variables: boundingBox <list>, distances <list>, vessel <list>,
+#> #   event_info <list>
 ```
 
 When no events are available, the `get_event()` function returns an
