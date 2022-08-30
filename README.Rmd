@@ -306,3 +306,26 @@ get_raster(spatial_resolution = 'low',
            key = key)
 ```
 
+The `get_region_id` function also works in reverse. If a region id as passed as
+a `numeric` to the function as the `region_name`, the corresponding region label or iso3 can be returned. 
+This is especially useful when events are returned with regions.
+
+```{r example_region_id, eval=T}
+# using same example as above
+get_event(event_type = 'fishing',
+          vessel = usa_trawler_ids,
+          start_date = "2020-01-01",
+          end_date = "2020-02-01",
+          include_regions = TRUE,
+          key = key
+          ) %>%
+  # extract EEZ id code
+  dplyr::mutate(eez = as.character(purrr::map(purrr::map(regions, pluck, 'eez'), 
+                                              paste0, collapse = ','))) %>%
+  dplyr::select(id, type, start, end, lat, lon, eez) %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(eez_name = get_region_id(region_name = as.numeric(eez),
+                                         region_source = 'eez',
+                                         key = key)$label)
+```
+
