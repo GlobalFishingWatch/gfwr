@@ -34,6 +34,11 @@ get_vessel_info <- function(query = NULL,
                             limit = 99999,
                             offset = 0,
                             key = gfw_auth()) {
+
+  if (!search_type %in% c("basic", "advanced", "id")) {
+    stop("Please specify 'basic', 'advanced' or 'id' for the argument `search_type`.")
+  }
+
   endpoint <- get_identity_endpoint(
     dataset_type = dataset,
     search_type = search_type,
