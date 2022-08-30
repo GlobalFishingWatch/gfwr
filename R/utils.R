@@ -120,7 +120,7 @@ paginate <- function(endpoint, key){
 
 #' Function to pull numeric EEZ code using EEZ name
 #' @name get_region_id
-#' @param region_name string, EEZ/MPA name
+#' @param region_name string or numeric, EEZ/MPA name or EEZ/MPA id
 #' @param region_source string, source of region data ('eez' or 'mpa')
 #' @param key string, API token
 #' @export
