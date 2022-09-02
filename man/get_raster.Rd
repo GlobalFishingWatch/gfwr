@@ -19,7 +19,7 @@ get_raster(
 
 \item{temporal_resolution}{raster temporal resolution. Can be 'daily','monthly','yearly'.}
 
-\item{group_by}{parameter to group by. Can be 'vessel_id', 'flag', 'geartype', 'flagAndGearType'}
+\item{group_by}{parameter to group by. Can be 'vessel_id', 'flag', 'gearType', 'flagAndGearType'}
 
 \item{date_range}{Start and end of date range for raster}
 

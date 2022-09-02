@@ -110,13 +110,12 @@ To get information of a vessel with MMSI = 224224000 using all datasets:
 get_vessel_info(query = 224224000, search_type = "basic", 
                 dataset = "all", key = key)
 #> # A tibble: 1 × 17
-#>    name callsign first…¹ flag  geart…² id    imo   lastT…³ mmsi  msgCo…⁴ posCo…⁵
-#>   <int> <chr>    <chr>   <chr> <lgl>   <chr> <chr> <chr>   <chr>   <int>   <int>
-#> 1     1 EBSJ     2015-1… ESP   NA      3c99… 8733… 2019-1… 2242… 1887249   73677
-#> # … with 6 more variables: shipname <chr>, source <chr>, vesselType <chr>,
-#> #   years <list>, dataset <chr>, score <dbl>, and abbreviated variable names
-#> #   ¹​firstTransmissionDate, ²​geartype, ³​lastTransmissionDate, ⁴​msgCount,
-#> #   ⁵​posCount
+#>    name callsign firstTransmissionD… flag  geartype id    imo   lastTransmissio…
+#>   <int> <chr>    <chr>               <chr> <lgl>    <chr> <chr> <chr>           
+#> 1     1 EBSJ     2015-10-13T15:47:1… ESP   NA       3c99… 8733… 2019-10-15T12:1…
+#> # … with 9 more variables: mmsi <chr>, msgCount <int>, posCount <int>,
+#> #   shipname <chr>, source <chr>, vesselType <chr>, years <list>,
+#> #   dataset <chr>, score <dbl>
 ```
 
 To combine different fields and do fuzzy matching to search the
@@ -274,7 +273,7 @@ should specify:
     (0.01 degree)
 -   The temporal resolution, which can be `daily`, `monthly`, or
     `yearly`.
--   The variable to group by: `vessel_id`, `flag`, `geartype`, or
+-   The variable to group by: `vessel_id`, `flag`, `gearType`, or
     `flagAndGearType`
 -   The date range
 -   The `geojson` region or region code (such as an EEZ code) to filter
@@ -420,24 +419,24 @@ get_event(event_type = 'fishing',
 #> [1] "Downloading 15 events from GFW"
 #> # A tibble: 15 × 8
 #> # Rowwise: 
-#>    id    type  start               end                   lat   lon eez   eez_n…¹
-#>    <chr> <chr> <dttm>              <dttm>              <dbl> <dbl> <chr> <chr>  
-#>  1 5c46… fish… 2020-01-20 17:13:14 2020-01-20 18:30:39  54.9 -165. 8463  United…
-#>  2 2a3e… fish… 2020-01-21 02:23:48 2020-01-21 04:24:07  55.1 -165. 8463  United…
-#>  3 bbf8… fish… 2020-01-21 08:49:06 2020-01-21 10:14:13  54.9 -165. 8463  United…
-#>  4 2ba5… fish… 2020-01-21 11:47:03 2020-01-21 21:58:03  54.8 -165. 8463  United…
-#>  5 c821… fish… 2020-01-22 01:44:38 2020-01-22 04:24:17  55.1 -165. 8463  United…
-#>  6 1dbe… fish… 2020-01-22 05:58:49 2020-01-22 14:57:17  54.9 -165. 8463  United…
-#>  7 3b80… fish… 2020-01-22 16:51:57 2020-01-22 20:56:09  54.8 -165. 8463  United…
-#>  8 7adb… fish… 2020-01-24 18:50:49 2020-01-24 20:07:03  55.3 -165. 8463  United…
-#>  9 e5b9… fish… 2020-01-24 22:41:16 2020-01-24 23:24:35  55.5 -165. 8463  United…
-#> 10 d60e… fish… 2020-01-25 01:36:28 2020-01-25 02:09:00  55.5 -165. 8463  United…
-#> 11 5453… fish… 2020-01-25 03:08:25 2020-01-25 04:10:28  55.5 -165. 8463  United…
-#> 12 2447… fish… 2020-01-25 22:16:21 2020-01-26 01:29:08  55.4 -164. 8463  United…
-#> 13 5051… fish… 2020-01-26 01:58:48 2020-01-26 06:09:33  55.4 -164. 8463  United…
-#> 14 9a20… fish… 2020-01-26 09:25:52 2020-01-26 19:13:39  55.2 -164. 8463  United…
-#> 15 4a75… fish… 2020-01-26 20:44:01 2020-01-26 22:40:06  55.3 -164. 8463  United…
-#> # … with abbreviated variable name ¹​eez_name
+#>    id            type  start               end                   lat   lon eez  
+#>    <chr>         <chr> <dttm>              <dttm>              <dbl> <dbl> <chr>
+#>  1 5c468b6c6e2c… fish… 2020-01-20 17:13:14 2020-01-20 18:30:39  54.9 -165. 8463 
+#>  2 2a3e3ff1afda… fish… 2020-01-21 02:23:48 2020-01-21 04:24:07  55.1 -165. 8463 
+#>  3 bbf8edd3f514… fish… 2020-01-21 08:49:06 2020-01-21 10:14:13  54.9 -165. 8463 
+#>  4 2ba573356a51… fish… 2020-01-21 11:47:03 2020-01-21 21:58:03  54.8 -165. 8463 
+#>  5 c821056d62e9… fish… 2020-01-22 01:44:38 2020-01-22 04:24:17  55.1 -165. 8463 
+#>  6 1dbec6346493… fish… 2020-01-22 05:58:49 2020-01-22 14:57:17  54.9 -165. 8463 
+#>  7 3b80cb45e530… fish… 2020-01-22 16:51:57 2020-01-22 20:56:09  54.8 -165. 8463 
+#>  8 7adb26b0b0e5… fish… 2020-01-24 18:50:49 2020-01-24 20:07:03  55.3 -165. 8463 
+#>  9 e5b9bb88d956… fish… 2020-01-24 22:41:16 2020-01-24 23:24:35  55.5 -165. 8463 
+#> 10 d60ea178a45d… fish… 2020-01-25 01:36:28 2020-01-25 02:09:00  55.5 -165. 8463 
+#> 11 54534316651a… fish… 2020-01-25 03:08:25 2020-01-25 04:10:28  55.5 -165. 8463 
+#> 12 2447c8bd75ae… fish… 2020-01-25 22:16:21 2020-01-26 01:29:08  55.4 -164. 8463 
+#> 13 5051a55b77c1… fish… 2020-01-26 01:58:48 2020-01-26 06:09:33  55.4 -164. 8463 
+#> 14 9a2081cdaf9d… fish… 2020-01-26 09:25:52 2020-01-26 19:13:39  55.2 -164. 8463 
+#> 15 4a7574a16def… fish… 2020-01-26 20:44:01 2020-01-26 22:40:06  55.3 -164. 8463 
+#> # … with 1 more variable: eez_name <chr>
 ```
 
 ## Contributing
