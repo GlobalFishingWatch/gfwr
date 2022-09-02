@@ -67,8 +67,11 @@ So you can do:
 
 ``` r
 key <- gfw_auth()
+```
 
-# or this
+or this
+
+``` r
 key <- Sys.getenv("GFW_TOKEN")
 ```
 
@@ -107,12 +110,13 @@ To get information of a vessel with MMSI = 224224000 using all datasets:
 get_vessel_info(query = 224224000, search_type = "basic", 
                 dataset = "all", key = key)
 #> # A tibble: 1 × 17
-#>    name callsign firstTransmissionD… flag  geartype id    imo   lastTransmissio…
-#>   <int> <chr>    <chr>               <chr> <lgl>    <chr> <chr> <chr>           
-#> 1     1 EBSJ     2015-10-13T15:47:1… ESP   NA       3c99… 8733… 2019-10-15T12:1…
-#> # … with 9 more variables: mmsi <chr>, msgCount <int>, posCount <int>,
-#> #   shipname <chr>, source <chr>, vesselType <chr>, years <list>,
-#> #   dataset <chr>, score <dbl>
+#>    name callsign first…¹ flag  geart…² id    imo   lastT…³ mmsi  msgCo…⁴ posCo…⁵
+#>   <int> <chr>    <chr>   <chr> <lgl>   <chr> <chr> <chr>   <chr>   <int>   <int>
+#> 1     1 EBSJ     2015-1… ESP   NA      3c99… 8733… 2019-1… 2242… 1887249   73677
+#> # … with 6 more variables: shipname <chr>, source <chr>, vesselType <chr>,
+#> #   years <list>, dataset <chr>, score <dbl>, and abbreviated variable names
+#> #   ¹​firstTransmissionDate, ²​geartype, ³​lastTransmissionDate, ⁴​msgCount,
+#> #   ⁵​posCount
 ```
 
 To combine different fields and do fuzzy matching to search the
@@ -233,14 +237,25 @@ get_event(event_type='fishing',
           end_date = "2020-02-01",
           key = key
           )
-#> [1] "Downloading 4 events from GFW"
-#> # A tibble: 4 × 11
-#>   id      type  start               end                   lat   lon regions     
-#>   <chr>   <chr> <dttm>              <dttm>              <dbl> <dbl> <list>      
-#> 1 ed92fa… fish… 2020-01-04 20:52:15 2020-01-05 03:35:32  33.9 -78.3 <named list>
-#> 2 51a7eb… fish… 2020-01-05 07:34:29 2020-01-05 18:46:05  33.9 -78.3 <named list>
-#> 3 30e0aa… fish… 2020-01-06 23:03:11 2020-01-07 09:09:33  35.0 -76.0 <named list>
-#> 4 15eff4… fish… 2020-01-07 11:39:32 2020-01-07 14:03:56  35.0 -76.0 <named list>
+#> [1] "Downloading 15 events from GFW"
+#> # A tibble: 15 × 11
+#>    id     type  start               end                   lat   lon regions     
+#>    <chr>  <chr> <dttm>              <dttm>              <dbl> <dbl> <list>      
+#>  1 5c468… fish… 2020-01-20 17:13:14 2020-01-20 18:30:39  54.9 -165. <named list>
+#>  2 2a3e3… fish… 2020-01-21 02:23:48 2020-01-21 04:24:07  55.1 -165. <named list>
+#>  3 bbf8e… fish… 2020-01-21 08:49:06 2020-01-21 10:14:13  54.9 -165. <named list>
+#>  4 2ba57… fish… 2020-01-21 11:47:03 2020-01-21 21:58:03  54.8 -165. <named list>
+#>  5 c8210… fish… 2020-01-22 01:44:38 2020-01-22 04:24:17  55.1 -165. <named list>
+#>  6 1dbec… fish… 2020-01-22 05:58:49 2020-01-22 14:57:17  54.9 -165. <named list>
+#>  7 3b80c… fish… 2020-01-22 16:51:57 2020-01-22 20:56:09  54.8 -165. <named list>
+#>  8 7adb2… fish… 2020-01-24 18:50:49 2020-01-24 20:07:03  55.3 -165. <named list>
+#>  9 e5b9b… fish… 2020-01-24 22:41:16 2020-01-24 23:24:35  55.5 -165. <named list>
+#> 10 d60ea… fish… 2020-01-25 01:36:28 2020-01-25 02:09:00  55.5 -165. <named list>
+#> 11 54534… fish… 2020-01-25 03:08:25 2020-01-25 04:10:28  55.5 -165. <named list>
+#> 12 2447c… fish… 2020-01-25 22:16:21 2020-01-26 01:29:08  55.4 -164. <named list>
+#> 13 5051a… fish… 2020-01-26 01:58:48 2020-01-26 06:09:33  55.4 -164. <named list>
+#> 14 9a208… fish… 2020-01-26 09:25:52 2020-01-26 19:13:39  55.2 -164. <named list>
+#> 15 4a757… fish… 2020-01-26 20:44:01 2020-01-26 22:40:06  55.3 -164. <named list>
 #> # … with 4 more variables: boundingBox <list>, distances <list>, vessel <list>,
 #> #   event_info <list>
 ```
@@ -335,16 +350,16 @@ get_raster(spatial_resolution = 'low',
 #> # A tibble: 5,421 × 5
 #>      Lat   Lon `Time Range` flag  `Apparent Fishing hours`
 #>    <dbl> <dbl>        <dbl> <chr>                    <dbl>
-#>  1  48.5  -8.1         2021 FRA                       153.
-#>  2  46.4  -4.1         2021 FRA                       132.
-#>  3  46.5  -2.9         2021 FRA                      1418.
-#>  4  46.9  -5.4         2021 ESP                       245.
-#>  5  47.9  -4.5         2021 FRA                       549.
-#>  6  48.5  -6.2         2021 FRA                       395.
-#>  7  47.3  -5.6         2021 FRA                       554.
-#>  8  46.9  -4.6         2021 FRA                       113.
-#>  9  45.5  -2.2         2021 FRA                       387.
-#> 10  44    -2.1         2021 ESP                       500.
+#>  1  48.2  -7.2         2021 FRA                       136.
+#>  2  47.9  -6.2         2021 FRA                       117.
+#>  3  46.3  -3.5         2021 FRA                       141.
+#>  4  47.4  -4.5         2021 FRA                       428.
+#>  5  47    -5.4         2021 ESP                       336.
+#>  6  49.3  -4.9         2021 FRA                       237.
+#>  7  47.5  -5.1         2021 FRA                       656.
+#>  8  46.3  -4.3         2021 FRA                       468.
+#>  9  45.7  -2           2021 FRA                       120.
+#> 10  48.2  -4.5         2021 FRA                       381.
 #> # … with 5,411 more rows
 ```
 
@@ -380,7 +395,7 @@ get_raster(spatial_resolution = 'low',
            key = key)
 ```
 
-The `get_region_id` function also works in reverse. If a region id as
+The `get_region_id` function also works in reverse. If a region id is
 passed as a `numeric` to the function as the `region_name`, the
 corresponding region label or iso3 can be returned. This is especially
 useful when events are returned with regions.
@@ -402,13 +417,32 @@ get_event(event_type = 'fishing',
   dplyr::mutate(eez_name = get_region_id(region_name = as.numeric(eez),
                                          region_source = 'eez',
                                          key = key)$label)
-#> [1] "Downloading 4 events from GFW"
-#> # A tibble: 4 × 8
+#> [1] "Downloading 15 events from GFW"
+#> # A tibble: 15 × 8
 #> # Rowwise: 
-#>   id    type  start               end                   lat   lon eez   eez_name
-#>   <chr> <chr> <dttm>              <dttm>              <dbl> <dbl> <chr> <chr>   
-#> 1 ed92… fish… 2020-01-04 20:52:15 2020-01-05 03:35:32  33.9 -78.3 8456  United …
-#> 2 51a7… fish… 2020-01-05 07:34:29 2020-01-05 18:46:05  33.9 -78.3 8456  United …
-#> 3 30e0… fish… 2020-01-06 23:03:11 2020-01-07 09:09:33  35.0 -76.0 8456  United …
-#> 4 15ef… fish… 2020-01-07 11:39:32 2020-01-07 14:03:56  35.0 -76.0 8456  United …
+#>    id    type  start               end                   lat   lon eez   eez_n…¹
+#>    <chr> <chr> <dttm>              <dttm>              <dbl> <dbl> <chr> <chr>  
+#>  1 5c46… fish… 2020-01-20 17:13:14 2020-01-20 18:30:39  54.9 -165. 8463  United…
+#>  2 2a3e… fish… 2020-01-21 02:23:48 2020-01-21 04:24:07  55.1 -165. 8463  United…
+#>  3 bbf8… fish… 2020-01-21 08:49:06 2020-01-21 10:14:13  54.9 -165. 8463  United…
+#>  4 2ba5… fish… 2020-01-21 11:47:03 2020-01-21 21:58:03  54.8 -165. 8463  United…
+#>  5 c821… fish… 2020-01-22 01:44:38 2020-01-22 04:24:17  55.1 -165. 8463  United…
+#>  6 1dbe… fish… 2020-01-22 05:58:49 2020-01-22 14:57:17  54.9 -165. 8463  United…
+#>  7 3b80… fish… 2020-01-22 16:51:57 2020-01-22 20:56:09  54.8 -165. 8463  United…
+#>  8 7adb… fish… 2020-01-24 18:50:49 2020-01-24 20:07:03  55.3 -165. 8463  United…
+#>  9 e5b9… fish… 2020-01-24 22:41:16 2020-01-24 23:24:35  55.5 -165. 8463  United…
+#> 10 d60e… fish… 2020-01-25 01:36:28 2020-01-25 02:09:00  55.5 -165. 8463  United…
+#> 11 5453… fish… 2020-01-25 03:08:25 2020-01-25 04:10:28  55.5 -165. 8463  United…
+#> 12 2447… fish… 2020-01-25 22:16:21 2020-01-26 01:29:08  55.4 -164. 8463  United…
+#> 13 5051… fish… 2020-01-26 01:58:48 2020-01-26 06:09:33  55.4 -164. 8463  United…
+#> 14 9a20… fish… 2020-01-26 09:25:52 2020-01-26 19:13:39  55.2 -164. 8463  United…
+#> 15 4a75… fish… 2020-01-26 20:44:01 2020-01-26 22:40:06  55.3 -164. 8463  United…
+#> # … with abbreviated variable name ¹​eez_name
 ```
+
+## Contributing
+
+We welcome all contributions to improve the package! Please read our
+[Contribution
+Guide](https://github.com/GlobalFishingWatch/gfwr/blob/main/Contributing.md)
+and reach out!

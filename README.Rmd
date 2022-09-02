@@ -36,7 +36,7 @@ The package currently works with the following APIs:
 
 You can install the development version of `gfwr` like so:
 
-``` r
+``` {r, eval = FALSE}
 devtools::install_github("GlobalFishingWatch/gfwr")
 ```
 
@@ -67,8 +67,10 @@ So you can do:
 
 ```{r, eval = T}
 key <- gfw_auth()
+```
 
-# or this
+or this
+```{r, eval = F}
 key <- Sys.getenv("GFW_TOKEN")
 ```
 
@@ -329,3 +331,7 @@ get_event(event_type = 'fishing',
                                          key = key)$label)
 ```
 
+## Contributing
+
+We welcome all contributions to improve the package! Please read our 
+[Contribution Guide](https://github.com/GlobalFishingWatch/gfwr/blob/main/Contributing.md) and reach out!
