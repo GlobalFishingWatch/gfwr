@@ -306,7 +306,7 @@ get_raster(spatial_resolution = 'low',
            key = key)
 ```
 
-The `get_region_id` function also works in reverse. If a region id as passed as
+The `get_region_id` function also works in reverse. If a region id is passed as
 a `numeric` to the function as the `region_name`, the corresponding region label or iso3 can be returned. 
 This is especially useful when events are returned with regions.
 
