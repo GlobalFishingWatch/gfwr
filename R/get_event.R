@@ -1,15 +1,14 @@
 #'
 #' Base function to get event from API and convert response to data frame
 #'
-#' @param event_type Type of event to get data of. It can be "port_visit" or "fishing"
+#' @param event_type Type of event to get data of. One of "port_visit", "encounter", "loitering, or "fishing"
 #' @param vessel VesselID. How to get this?
 #' @param include_regions Whether to include regions? Ask engineering if this can always be false
 #' @param start_date Start of date range to search events
 #' @param end_date End of date range to search events
 #' @param confidences Confidence levels (1-4) of events (port visits only).
-#' @param limit Limit of response size for each GFW API call.
-#' @param offset Internal parameter to GFW pagination
 #' @param key Authorization token. Can be obtained with gfw_auth function
+#' @param quiet Boolean. Whether to print the number of events returned by the request.
 #' @importFrom dplyr across
 #' @importFrom dplyr mutate
 #' @importFrom purrr map_chr
@@ -20,6 +19,13 @@
 #' @importFrom rlang .data
 #' @importFrom tibble tibble
 #'
+#' @details
+#' There are currently four possible event types to request for a vessel. However, only likely vessels
+#' can have fishing events (`event_type = 'fishing'`). An encounter event, which involves multiple vessels, will
+#' be returned for each vessel involved in the encounter. For example, an encounter between a carrier vessel
+#' and fishing vessel will be represented as two events, one for each vessel. These events will have identical `id`
+#' values that are suffixed by a `.` and a number.
+#'
 #' @export
 
 get_event <- function(event_type='port_visit',
@@ -28,9 +34,8 @@ get_event <- function(event_type='port_visit',
                       start_date = NULL,
                       end_date = NULL,
                       confidences = NULL,
-                      limit = 99999,
-                      offset = 0,
-                      key = gfw_auth()
+                      key = gfw_auth(),
+                      quiet = FALSE
                       ){
 
 
@@ -41,8 +46,8 @@ get_event <- function(event_type='port_visit',
                            `start-date` = start_date,
                            `end-date` = end_date,
                            confidences = confidences,
-                           limit = limit,
-                           offset = offset
+                           limit = 99999,
+                           offset = 0
                            )
 
   # API call; will paginate if neccessary, otherwise return list with one response
@@ -73,21 +78,20 @@ get_event <- function(event_type='port_visit',
     event_df <- df_out %>%
       dplyr::mutate(dplyr::across(c(.data$start, .data$end), make_datetime))
 
+    # Print out total events
+    total <- nrow(event_df)
+
+    if(quiet == FALSE){
+      print(paste("Downloading",total,"events from GFW"))
+    }
+
     } else {
-    # Create empty dataframe to return when zero entries.
-    event_df <- tibble::tibble(
-      id = NA_character_,
-      type = NA_character_,
-      start = NA,
-      end = NA,
-      lat = NA_real_,
-      lon = NA_real_,
-      regions = NA,
-      boundingBox = NA,
-      distances = NA,
-      vessel = NA,
-      event_info = NA
-    )
+
+      if(quiet == FALSE){
+        print("Your request returned zero results")
+      }
+
+      return()
   }
 
   # Return results

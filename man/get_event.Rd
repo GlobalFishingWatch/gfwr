@@ -11,13 +11,12 @@ get_event(
   start_date = NULL,
   end_date = NULL,
   confidences = NULL,
-  limit = 99999,
-  offset = 0,
-  key = gfw_auth()
+  key = gfw_auth(),
+  quiet = FALSE
 )
 }
 \arguments{
-\item{event_type}{Type of event to get data of. It can be "port_visit" or "fishing"}
+\item{event_type}{Type of event to get data of. One of "port_visit", "encounter", "loitering, or "fishing"}
 
 \item{vessel}{VesselID. How to get this?}
 
@@ -29,12 +28,17 @@ get_event(
 
 \item{confidences}{Confidence levels (1-4) of events (port visits only).}
 
-\item{limit}{Limit of response size for each GFW API call.}
-
-\item{offset}{Internal parameter to GFW pagination}
-
 \item{key}{Authorization token. Can be obtained with gfw_auth function}
+
+\item{quiet}{Boolean. Whether to print the number of events returned by the request.}
 }
 \description{
 Base function to get event from API and convert response to data frame
+}
+\details{
+There are currently four possible event types to request for a vessel. However, only likely vessels
+can have fishing events (\code{event_type = 'fishing'}). An encounter event, which involves multiple vessels, will
+be returned for each vessel involved in the encounter. For example, an encounter between a carrier vessel
+and fishing vessel will be represented as two events, one for each vessel. These events will have identical \code{id}
+values that are suffixed by a \code{.} and a number.
 }
