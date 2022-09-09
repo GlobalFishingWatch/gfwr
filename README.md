@@ -68,8 +68,11 @@ So you can do:
 
 ``` r
 key <- gfw_auth()
+```
 
-# or this
+or this
+
+``` r
 key <- Sys.getenv("GFW_TOKEN")
 ```
 
@@ -286,7 +289,7 @@ should specify:
     (0.01 degree)
 -   The temporal resolution, which can be `daily`, `monthly`, or
     `yearly`.
--   The variable to group by: `vessel_id`, `flag`, `geartype`, or
+-   The variable to group by: `vessel_id`, `flag`, `gearType`, or
     `flagAndGearType`
 -   The date range
 -   The `geojson` region or region code (such as an EEZ code) to filter
@@ -406,3 +409,57 @@ get_raster(spatial_resolution = 'low',
            region_source = 'trfmo',
            key = key)
 ```
+
+The `get_region_id` function also works in reverse. If a region id is
+passed as a `numeric` to the function as the `region_name`, the
+corresponding region label or iso3 can be returned. This is especially
+useful when events are returned with regions.
+
+``` r
+# using same example as above
+get_event(event_type = 'fishing',
+          vessel = usa_trawler_ids,
+          start_date = "2020-01-01",
+          end_date = "2020-02-01",
+          include_regions = TRUE,
+          key = key
+          ) %>%
+  # extract EEZ id code
+  dplyr::mutate(eez = as.character(purrr::map(purrr::map(regions, pluck, 'eez'), 
+                                              paste0, collapse = ','))) %>%
+  dplyr::select(id, type, start, end, lat, lon, eez) %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(eez_name = get_region_id(region_name = as.numeric(eez),
+                                         region_source = 'eez',
+                                         key = key)$label)
+#> [1] "Downloading 17 events from GFW"
+#> # A tibble: 17 × 8
+#> # Rowwise: 
+#>    id           type  start               end                   lat    lon eez  
+#>    <chr>        <chr> <dttm>              <dttm>              <dbl>  <dbl> <chr>
+#>  1 b7f0e1e9a5e… fish… 2020-01-02 18:16:53 2020-01-02 19:06:52  44.6 -124.  8456 
+#>  2 466f42d8ffd… fish… 2020-01-05 00:15:23 2020-01-05 02:00:53  26.3  -96.8 8456 
+#>  3 b2781be8028… fish… 2020-01-05 02:00:04 2020-01-05 03:06:30  44.5 -124.  8456 
+#>  4 917245e7361… fish… 2020-01-05 03:57:26 2020-01-05 04:31:55  44.4 -124.  8456 
+#>  5 f46ac6f9f23… fish… 2020-01-05 11:35:49 2020-01-05 14:35:14  26.3  -96.8 8456 
+#>  6 c20f37b0381… fish… 2020-01-05 23:54:07 2020-01-06 01:02:35  26.2  -96.8 8456 
+#>  7 7749235a84b… fish… 2020-01-06 05:04:07 2020-01-06 06:19:03  26.3  -96.8 8456 
+#>  8 3e1e3181134… fish… 2020-01-16 17:43:11 2020-01-16 18:37:02  44.6 -124.  8456 
+#>  9 70beeba723a… fish… 2020-01-19 23:02:51 2020-01-20 01:14:22  27.6  -97.1 8456 
+#> 10 852e13cf11b… fish… 2020-01-20 14:05:53 2020-01-20 14:47:52  27.6  -97.0 8456 
+#> 11 df4c364cc72… fish… 2020-01-23 10:51:40 2020-01-23 11:55:41  26.2  -96.8 8456 
+#> 12 2e9fe27318b… fish… 2020-01-23 22:12:16 2020-01-24 03:46:48  26.4  -96.8 8456 
+#> 13 170990893a9… fish… 2020-01-26 11:00:19 2020-01-26 13:31:50  26.3  -96.8 8456 
+#> 14 8ff4e5df81b… fish… 2020-01-27 04:38:31 2020-01-27 11:04:05  26.3  -96.8 8456 
+#> 15 f90721709fe… fish… 2020-01-27 13:57:34 2020-01-27 15:04:28  26.3  -96.8 8456 
+#> 16 f86b7aff336… fish… 2020-01-28 00:15:41 2020-01-28 09:00:41  26.3  -96.8 8456 
+#> 17 b847ad3ef72… fish… 2020-01-28 22:27:08 2020-01-29 04:15:08  26.3  -96.8 8456 
+#> # … with 1 more variable: eez_name <chr>
+```
+
+## Contributing
+
+We welcome all contributions to improve the package! Please read our
+[Contribution
+Guide](https://github.com/GlobalFishingWatch/gfwr/blob/main/Contributing.md)
+and reach out!
