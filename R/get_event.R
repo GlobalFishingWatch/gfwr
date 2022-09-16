@@ -20,11 +20,19 @@
 #' @importFrom tibble tibble
 #'
 #' @details
-#' There are currently four possible event types to request for a vessel. However, only likely vessels
-#' can have fishing events (`event_type = 'fishing'`). An encounter event, which involves multiple vessels, will
-#' be returned for each vessel involved in the encounter. For example, an encounter between a carrier vessel
-#' and fishing vessel will be represented as two events, one for each vessel. These events will have identical `id`
-#' values that are suffixed by a `.` and a number.
+#' There are currently four available event types and these events are provide for three
+#' vessel types - fishing, carrier, and support vessels.
+#' Fishing events (`event_type = 'fishing'`) are specific to fishing vessels and loitering
+#' events (`event_type = 'loitering'`) are specific to carrier vessels. Port visits
+#' (`event_type = 'port_visit'`) and encounters (`event_type = 'encounter'`) are available
+#' for all vessel types. For more details about the various event types, see the [GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#data-caveat).
+#'
+#' Encounter events involve multiple vessels and one row is returned for each vessel involved in an encounter.
+#' For example, an encounter between a carrier and fishing vessel (`carrier-fishing`) will have one
+#' row for the fishing vessel and one for the carrier vessel. The `id` field for encounter events has
+#' two components separated by a `.`. The first component is the unique id for the encounter event and will be
+#' the same for all vessels involved in the encounter. The second component is an integer used to distinguish between
+#' different vessels in the encounter.
 #'
 #' @export
 

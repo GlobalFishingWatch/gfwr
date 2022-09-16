@@ -36,9 +36,17 @@ get_event(
 Base function to get event from API and convert response to data frame
 }
 \details{
-There are currently four possible event types to request for a vessel. However, only likely vessels
-can have fishing events (\code{event_type = 'fishing'}). An encounter event, which involves multiple vessels, will
-be returned for each vessel involved in the encounter. For example, an encounter between a carrier vessel
-and fishing vessel will be represented as two events, one for each vessel. These events will have identical \code{id}
-values that are suffixed by a \code{.} and a number.
+There are currently four available event types and these events are provide for three
+vessel types - fishing, carrier, and support vessels.
+Fishing events (\code{event_type = 'fishing'}) are specific to fishing vessels and loitering
+events (\code{event_type = 'loitering'}) are specific to carrier vessels. Port visits
+(\code{event_type = 'port_visit'}) and encounters (\code{event_type = 'encounter'}) are available
+for all vessel types. For more details about the various event types, see the \href{https://globalfishingwatch.org/our-apis/documentation#data-caveat}{GFW API documentation}.
+
+Encounter events involve multiple vessels and one row is returned for each vessel involved in an encounter.
+For example, an encounter between a carrier and fishing vessel (\code{carrier-fishing}) will have one
+row for the fishing vessel and one for the carrier vessel. The \code{id} field for encounter events has
+two components separated by a \code{.}. The first component is the unique id for the encounter event and will be
+the same for all vessels involved in the encounter. The second component is an integer used to distinguish between
+different vessels in the encounter.
 }
