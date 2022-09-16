@@ -136,7 +136,7 @@ get_vessel_info(query =
 ## Events API
 
 The `get_event` function allows you to get data on specific vessel activities from the [GFW Events API](https://globalfishingwatch.org/our-apis/documentation#events-api). Event types include: 
-apparent fishing events, potential transshipment events (two vessel encounters and loitering by refrigerated carrier vessels), and port visits. Find more information in our [caveat documentation](https://globalfishingwatch.org/our-apis/documentation#data-caveat).
+apparent fishing events, potential transshipment events (two-vessel encounters and loitering by refrigerated carrier vessels), and port visits. Find more information in our [caveat documentation](https://globalfishingwatch.org/our-apis/documentation#data-caveat).
 
 ### Examples
 

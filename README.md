@@ -151,7 +151,7 @@ The `get_event` function allows you to get data on specific vessel
 activities from the [GFW Events
 API](https://globalfishingwatch.org/our-apis/documentation#events-api).
 Event types include: apparent fishing events, potential transshipment
-events (two vessel encounters and loitering by refrigerated carrier
+events (two-vessel encounters and loitering by refrigerated carrier
 vessels), and port visits. Find more information in our [caveat
 documentation](https://globalfishingwatch.org/our-apis/documentation#data-caveat).
 
@@ -239,27 +239,11 @@ get_event(event_type='fishing',
           end_date = "2020-02-01",
           key = key
           )
-#> [1] "Downloading 17 events from GFW"
-#> # A tibble: 17 × 11
-#>    id    type  start               end                   lat    lon regions     
-#>    <chr> <chr> <dttm>              <dttm>              <dbl>  <dbl> <list>      
-#>  1 b7f0… fish… 2020-01-02 18:16:53 2020-01-02 19:06:52  44.6 -124.  <named list>
-#>  2 466f… fish… 2020-01-05 00:15:23 2020-01-05 02:00:53  26.3  -96.8 <named list>
-#>  3 b278… fish… 2020-01-05 02:00:04 2020-01-05 03:06:30  44.5 -124.  <named list>
-#>  4 9172… fish… 2020-01-05 03:57:26 2020-01-05 04:31:55  44.4 -124.  <named list>
-#>  5 f46a… fish… 2020-01-05 11:35:49 2020-01-05 14:35:14  26.3  -96.8 <named list>
-#>  6 c20f… fish… 2020-01-05 23:54:07 2020-01-06 01:02:35  26.2  -96.8 <named list>
-#>  7 7749… fish… 2020-01-06 05:04:07 2020-01-06 06:19:03  26.3  -96.8 <named list>
-#>  8 3e1e… fish… 2020-01-16 17:43:11 2020-01-16 18:37:02  44.6 -124.  <named list>
-#>  9 70be… fish… 2020-01-19 23:02:51 2020-01-20 01:14:22  27.6  -97.1 <named list>
-#> 10 852e… fish… 2020-01-20 14:05:53 2020-01-20 14:47:52  27.6  -97.0 <named list>
-#> 11 df4c… fish… 2020-01-23 10:51:40 2020-01-23 11:55:41  26.2  -96.8 <named list>
-#> 12 2e9f… fish… 2020-01-23 22:12:16 2020-01-24 03:46:48  26.4  -96.8 <named list>
-#> 13 1709… fish… 2020-01-26 11:00:19 2020-01-26 13:31:50  26.3  -96.8 <named list>
-#> 14 8ff4… fish… 2020-01-27 04:38:31 2020-01-27 11:04:05  26.3  -96.8 <named list>
-#> 15 f907… fish… 2020-01-27 13:57:34 2020-01-27 15:04:28  26.3  -96.8 <named list>
-#> 16 f86b… fish… 2020-01-28 00:15:41 2020-01-28 09:00:41  26.3  -96.8 <named list>
-#> 17 b847… fish… 2020-01-28 22:27:08 2020-01-29 04:15:08  26.3  -96.8 <named list>
+#> [1] "Downloading 1 events from GFW"
+#> # A tibble: 1 × 11
+#>   id      type  start               end                   lat   lon regions     
+#>   <chr>   <chr> <dttm>              <dttm>              <dbl> <dbl> <list>      
+#> 1 009dfd… fish… 2020-01-24 01:00:19 2020-01-24 01:29:19  29.6 -93.8 <named list>
 #> # … with 4 more variables: boundingBox <list>, distances <list>, vessel <list>,
 #> #   event_info <list>
 ```
@@ -365,16 +349,16 @@ get_raster(spatial_resolution = 'low',
 #> # A tibble: 5,421 × 5
 #>      Lat   Lon `Time Range` flag  `Apparent Fishing hours`
 #>    <dbl> <dbl>        <dbl> <chr>                    <dbl>
-#>  1  47.4  -4.2         2021 FRA                      555. 
-#>  2  44.7  -1.4         2021 FRA                     1877. 
-#>  3  49.7  -0.9         2021 FRA                      906. 
-#>  4  44.6  -1.5         2021 FRA                     1152. 
-#>  5  49.9  -0.4         2021 FRA                      537. 
-#>  6  45.1  -1.4         2021 FRA                      555. 
-#>  7  46.7  -3.8         2021 FRA                       94.1
-#>  8  49.2  -3           2021 FRA                       84.3
-#>  9  47.8  -6.4         2021 FRA                      156. 
-#> 10  45.9  -1.4         2021 FRA                      704. 
+#>  1  49.6  -1.1         2021 FRA                      868. 
+#>  2  49.8  -0.4         2021 BEL                       89.9
+#>  3  49.4  -0.5         2021 FRA                      118. 
+#>  4  49.3  -0.5         2021 FRA                       15.6
+#>  5  47.3  -4.6         2021 FRA                      167. 
+#>  6  47.3  -3.7         2021 FRA                      995. 
+#>  7  45.6  -1.7         2021 FRA                     1300. 
+#>  8  45.2  -1.8         2021 FRA                      365. 
+#>  9  47.6  -3.3         2021 GBR                       41.0
+#> 10  48.8  -2.3         2021 FRA                      560. 
 #> # … with 5,411 more rows
 ```
 
@@ -432,29 +416,12 @@ get_event(event_type = 'fishing',
   dplyr::mutate(eez_name = get_region_id(region_name = as.numeric(eez),
                                          region_source = 'eez',
                                          key = key)$label)
-#> [1] "Downloading 17 events from GFW"
-#> # A tibble: 17 × 8
+#> [1] "Downloading 1 events from GFW"
+#> # A tibble: 1 × 8
 #> # Rowwise: 
-#>    id           type  start               end                   lat    lon eez  
-#>    <chr>        <chr> <dttm>              <dttm>              <dbl>  <dbl> <chr>
-#>  1 b7f0e1e9a5e… fish… 2020-01-02 18:16:53 2020-01-02 19:06:52  44.6 -124.  8456 
-#>  2 466f42d8ffd… fish… 2020-01-05 00:15:23 2020-01-05 02:00:53  26.3  -96.8 8456 
-#>  3 b2781be8028… fish… 2020-01-05 02:00:04 2020-01-05 03:06:30  44.5 -124.  8456 
-#>  4 917245e7361… fish… 2020-01-05 03:57:26 2020-01-05 04:31:55  44.4 -124.  8456 
-#>  5 f46ac6f9f23… fish… 2020-01-05 11:35:49 2020-01-05 14:35:14  26.3  -96.8 8456 
-#>  6 c20f37b0381… fish… 2020-01-05 23:54:07 2020-01-06 01:02:35  26.2  -96.8 8456 
-#>  7 7749235a84b… fish… 2020-01-06 05:04:07 2020-01-06 06:19:03  26.3  -96.8 8456 
-#>  8 3e1e3181134… fish… 2020-01-16 17:43:11 2020-01-16 18:37:02  44.6 -124.  8456 
-#>  9 70beeba723a… fish… 2020-01-19 23:02:51 2020-01-20 01:14:22  27.6  -97.1 8456 
-#> 10 852e13cf11b… fish… 2020-01-20 14:05:53 2020-01-20 14:47:52  27.6  -97.0 8456 
-#> 11 df4c364cc72… fish… 2020-01-23 10:51:40 2020-01-23 11:55:41  26.2  -96.8 8456 
-#> 12 2e9fe27318b… fish… 2020-01-23 22:12:16 2020-01-24 03:46:48  26.4  -96.8 8456 
-#> 13 170990893a9… fish… 2020-01-26 11:00:19 2020-01-26 13:31:50  26.3  -96.8 8456 
-#> 14 8ff4e5df81b… fish… 2020-01-27 04:38:31 2020-01-27 11:04:05  26.3  -96.8 8456 
-#> 15 f90721709fe… fish… 2020-01-27 13:57:34 2020-01-27 15:04:28  26.3  -96.8 8456 
-#> 16 f86b7aff336… fish… 2020-01-28 00:15:41 2020-01-28 09:00:41  26.3  -96.8 8456 
-#> 17 b847ad3ef72… fish… 2020-01-28 22:27:08 2020-01-29 04:15:08  26.3  -96.8 8456 
-#> # … with 1 more variable: eez_name <chr>
+#>   id    type  start               end                   lat   lon eez   eez_name
+#>   <chr> <chr> <dttm>              <dttm>              <dbl> <dbl> <chr> <chr>   
+#> 1 009d… fish… 2020-01-24 01:00:19 2020-01-24 01:29:19  29.6 -93.8 8456  United …
 ```
 
 ## Contributing
