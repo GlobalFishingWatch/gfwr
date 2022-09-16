@@ -3,9 +3,6 @@
 #' @param query search terms to identify vessel
 #' @param search_type type of search, may be 'basic','advanced', or 'id'
 #' @param dataset identity datasets to search against, default = 'all'
-#' @param limit max number of entries to return in each API response. All results will
-#' be returned regardless of limit
-#' @param offset Internal parameter to GFW pagination
 #' @param key Authorization token. Can be obtained with gfw_auth function
 
 #' @importFrom httr2 req_headers
@@ -31,8 +28,6 @@
 get_vessel_info <- function(query = NULL,
                             search_type = NULL,
                             dataset = "all",
-                            limit = 99999,
-                            offset = 0,
                             key = gfw_auth()) {
 
   if (!search_type %in% c("basic", "advanced", "id")) {
@@ -43,8 +38,8 @@ get_vessel_info <- function(query = NULL,
     dataset_type = dataset,
     search_type = search_type,
     query = query,
-    limit = limit,
-    offset = offset
+    limit = 99999,
+    offset = 0
   )
 
   response <- endpoint %>%

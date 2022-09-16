@@ -8,8 +8,6 @@ get_vessel_info(
   query = NULL,
   search_type = NULL,
   dataset = "all",
-  limit = 99999,
-  offset = 0,
   key = gfw_auth()
 )
 }
@@ -19,11 +17,6 @@ get_vessel_info(
 \item{search_type}{type of search, may be 'basic','advanced', or 'id'}
 
 \item{dataset}{identity datasets to search against, default = 'all'}
-
-\item{limit}{max number of entries to return in each API response. All results will
-be returned regardless of limit}
-
-\item{offset}{Internal parameter to GFW pagination}
 
 \item{key}{Authorization token. Can be obtained with gfw_auth function}
 }

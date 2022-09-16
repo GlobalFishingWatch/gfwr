@@ -11,13 +11,12 @@ get_event(
   start_date = NULL,
   end_date = NULL,
   confidences = NULL,
-  limit = 99999,
-  offset = 0,
-  key = gfw_auth()
+  key = gfw_auth(),
+  quiet = FALSE
 )
 }
 \arguments{
-\item{event_type}{Type of event to get data of. It can be "port_visit" or "fishing"}
+\item{event_type}{Type of event to get data of. One of "port_visit", "encounter", "loitering, or "fishing"}
 
 \item{vessel}{VesselID. How to get this?}
 
@@ -29,12 +28,25 @@ get_event(
 
 \item{confidences}{Confidence levels (1-4) of events (port visits only).}
 
-\item{limit}{Limit of response size for each GFW API call.}
-
-\item{offset}{Internal parameter to GFW pagination}
-
 \item{key}{Authorization token. Can be obtained with gfw_auth function}
+
+\item{quiet}{Boolean. Whether to print the number of events returned by the request.}
 }
 \description{
 Base function to get event from API and convert response to data frame
+}
+\details{
+There are currently four available event types and these events are provide for three
+vessel types - fishing, carrier, and support vessels.
+Fishing events (\code{event_type = 'fishing'}) are specific to fishing vessels and loitering
+events (\code{event_type = 'loitering'}) are specific to carrier vessels. Port visits
+(\code{event_type = 'port_visit'}) and encounters (\code{event_type = 'encounter'}) are available
+for all vessel types. For more details about the various event types, see the \href{https://globalfishingwatch.org/our-apis/documentation#data-caveat}{GFW API documentation}.
+
+Encounter events involve multiple vessels and one row is returned for each vessel involved in an encounter.
+For example, an encounter between a carrier and fishing vessel (\code{carrier-fishing}) will have one
+row for the fishing vessel and one for the carrier vessel. The \code{id} field for encounter events has
+two components separated by a \code{.}. The first component is the unique id for the encounter event and will be
+the same for all vessels involved in the encounter. The second component is an integer used to distinguish between
+different vessels in the encounter.
 }

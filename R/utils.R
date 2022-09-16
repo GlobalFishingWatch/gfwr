@@ -86,7 +86,7 @@ paginate <- function(endpoint, key){
 
   # Current page values
   total <- response$total
-  print(paste("Downloading",total,"events from GFW"))
+  # print(paste("Downloading",total,"events from GFW"))
 
   next_off <- response$nextOffset
 
