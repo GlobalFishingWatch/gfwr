@@ -101,8 +101,10 @@ This is generally recommended and is the option set by default.
 To get information of a vessel with MMSI = 224224000 using all datasets:
 
 ```{r example_vessel_info_1, eval=T}
-get_vessel_info(query = 224224000, search_type = "basic", 
-                dataset = "all", key = key)
+get_vessel_info(query = 224224000, 
+                search_type = "basic", 
+                dataset = "all", 
+                key = key)
 ```
 
 To combine different fields and do fuzzy matching to search the `carrier vessel`
