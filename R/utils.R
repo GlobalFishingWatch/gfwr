@@ -86,7 +86,7 @@ paginate <- function(endpoint, key){
 
   # Current page values
   total <- response$total
-  print(paste("Downloading",total,"events from GFW"))
+  # print(paste("Downloading",total,"events from GFW"))
 
   next_off <- response$nextOffset
 
@@ -120,7 +120,7 @@ paginate <- function(endpoint, key){
 
 #' Function to pull numeric EEZ code using EEZ name
 #' @name get_region_id
-#' @param region_name string, EEZ/MPA name
+#' @param region_name string or numeric, EEZ/MPA name or EEZ/MPA id
 #' @param region_source string, source of region data ('eez' or 'mpa')
 #' @param key string, API token
 #' @export
@@ -145,14 +145,27 @@ get_region_id <- function(region_name, region_source = 'eez', key) {
     httr2::resp_body_json(.) %>%
     dplyr::bind_rows()
 
-  if (region_source == 'eez') {
+  # EEZ names
+  if (region_source == "eez" & is.character(region_name)) {
     result %>%
       dplyr::filter(agrepl(region_name, .$label) | agrepl(paste0('^',region_name), .$iso3)) %>%
       dplyr::mutate(id = as.numeric(id))
-  } else if (region_source == 'mpa') {
+  }
+  # EEZ ids
+  else if (region_source == "eez" & is.numeric(region_name)) {
+    result %>%
+      dplyr::filter(id == {{ region_name }})
+  }
+  # MPA names
+  else if (region_source == "mpa" & is.character(region_name)) {
     result %>%
       dplyr::filter(agrepl(region_name, .$label)) %>%
       dplyr::mutate(id = as.numeric(id))
+  }
+  # MPA ids
+  else if (region_source == "mpa" & is.numeric(region_name)) {
+    result %>%
+      dplyr::filter(id == {{ region_name }})
   } else {
     stop('Enter a valid region source')
   }
