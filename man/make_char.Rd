@@ -6,6 +6,9 @@
 \usage{
 make_char(col)
 }
+\value{
+
+}
 \description{
 Basic function to make length 1 lists into characters
 }

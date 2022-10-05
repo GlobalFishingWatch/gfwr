@@ -3,7 +3,7 @@
 #' @param spatial_resolution raster spatial resolution. Can be "low" = 0.1 degree or "high" = 0.01 degree
 #' @param temporal_resolution raster temporal resolution. Can be 'daily','monthly','yearly'.
 #' @param group_by parameter to group by. Can be 'vessel_id', 'flag', 'gearType', 'flagAndGearType'
-#' @param date_range Start and end of date range for raster
+#' @param date_range Start and end of date range for raster (must be one year or less)
 #' @param region geojson or GFW region code, shape to filter raster
 #' @param region_source source of the region ('eez','mpa', 'trfmo' or 'user_json')
 #' @param key Authorization token. Can be obtained with gfw_auth function

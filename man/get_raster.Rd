@@ -21,7 +21,7 @@ get_raster(
 
 \item{group_by}{parameter to group by. Can be 'vessel_id', 'flag', 'gearType', 'flagAndGearType'}
 
-\item{date_range}{Start and end of date range for raster}
+\item{date_range}{Start and end of date range for raster (must be one year or less)}
 
 \item{region}{geojson or GFW region code, shape to filter raster}
 
