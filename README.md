@@ -109,14 +109,18 @@ recommended and is the option set by default.
 To get information of a vessel with MMSI = 224224000 using all datasets:
 
 ``` r
-get_vessel_info(query = 224224000, search_type = "basic", 
-                dataset = "all", key = key)
-#> # A tibble: 1 × 16
-#>    name callsign firstTransmissionDate flag  id     imo   lastTransmissio… mmsi 
-#>   <int> <chr>    <chr>                 <chr> <chr>  <chr> <chr>            <chr>
-#> 1     1 EBSJ     2015-10-13T15:47:16Z  ESP   3c99c… 8733… 2019-10-15T12:1… 2242…
-#> # … with 8 more variables: msgCount <int>, posCount <int>, shipname <chr>,
-#> #   source <chr>, vesselType <chr>, years <list>, dataset <chr>, score <dbl>
+get_vessel_info(query = 224224000, 
+                search_type = "basic", 
+                dataset = "all", 
+                key = key)
+#> # A tibble: 1 × 17
+#>    name callsign first…¹ flag  geart…² id    imo   lastT…³ mmsi  msgCo…⁴ posCo…⁵
+#>   <int> <chr>    <chr>   <chr> <lgl>   <chr> <chr> <chr>   <chr>   <int>   <int>
+#> 1     1 EBSJ     2015-1… ESP   NA      3c99… 8733… 2019-1… 2242… 1887249   73677
+#> # … with 6 more variables: shipname <chr>, source <chr>, vesselType <chr>,
+#> #   years <list>, dataset <chr>, score <dbl>, and abbreviated variable names
+#> #   ¹​firstTransmissionDate, ²​geartype, ³​lastTransmissionDate, ⁴​msgCount,
+#> #   ⁵​posCount
 ```
 
 To combine different fields and do fuzzy matching to search the
@@ -239,11 +243,26 @@ get_event(event_type='fishing',
           end_date = "2020-02-01",
           key = key
           )
-#> [1] "Downloading 1 events from GFW"
-#> # A tibble: 1 × 11
-#>   id      type  start               end                   lat   lon regions     
-#>   <chr>   <chr> <dttm>              <dttm>              <dbl> <dbl> <list>      
-#> 1 009dfd… fish… 2020-01-24 01:00:19 2020-01-24 01:29:19  29.6 -93.8 <named list>
+#> [1] "Downloading 16 events from GFW"
+#> # A tibble: 16 × 11
+#>    id    type  start               end                   lat    lon regions     
+#>    <chr> <chr> <dttm>              <dttm>              <dbl>  <dbl> <list>      
+#>  1 f85e… fish… 2020-01-06 12:35:55 2020-01-06 15:05:39  41.1  -66.4 <named list>
+#>  2 ccbe… fish… 2020-01-08 20:44:15 2020-01-09 09:16:14  34.6  -76.6 <named list>
+#>  3 d20b… fish… 2020-01-09 10:10:14 2020-01-09 13:23:45  34.6  -76.6 <named list>
+#>  4 cda2… fish… 2020-01-09 17:17:15 2020-01-09 22:47:20  34.6  -76.6 <named list>
+#>  5 2f98… fish… 2020-01-14 14:52:08 2020-01-14 15:45:00  54.2 -165.  <named list>
+#>  6 642a… fish… 2020-01-20 20:27:13 2020-01-20 23:48:13  34.6  -76.6 <named list>
+#>  7 4fdb… fish… 2020-01-21 12:42:01 2020-01-21 13:18:00  34.7  -76.8 <named list>
+#>  8 5101… fish… 2020-01-21 16:09:45 2020-01-22 07:50:52  34.6  -76.6 <named list>
+#>  9 0404… fish… 2020-01-22 09:19:52 2020-01-22 10:14:21  34.6  -76.6 <named list>
+#> 10 aacb… fish… 2020-01-23 10:55:05 2020-01-23 13:34:49  33.8  -78.0 <named list>
+#> 11 4b83… fish… 2020-01-30 19:41:58 2020-01-30 23:08:30  35.1  -75.9 <named list>
+#> 12 3f33… fish… 2020-01-31 01:09:15 2020-01-31 02:56:23  54.2 -165.  <named list>
+#> 13 d35f… fish… 2020-01-31 03:46:20 2020-01-31 05:37:04  54.2 -165.  <named list>
+#> 14 113b… fish… 2020-01-31 16:40:38 2020-01-31 18:04:28  54.2 -165.  <named list>
+#> 15 0ef5… fish… 2020-01-31 19:14:29 2020-01-31 20:28:14  54.2 -165.  <named list>
+#> 16 5812… fish… 2020-01-31 21:14:15 2020-01-31 21:56:05  54.2 -165.  <named list>
 #> # … with 4 more variables: boundingBox <list>, distances <list>, vessel <list>,
 #> #   event_info <list>
 ```
@@ -275,7 +294,7 @@ should specify:
     `yearly`.
 -   The variable to group by: `vessel_id`, `flag`, `gearType`, or
     `flagAndGearType`
--   The date range
+-   The date range `note: this must be one (1) year or less`
 -   The `geojson` region or region code (such as an EEZ code) to filter
     the raster
 -   The source for the specified region (currently, `eez`, `mpa`, or
@@ -292,7 +311,7 @@ region_json = '{"geojson":{"type":"Polygon","coordinates":[[[-76.11328125,-26.27
 get_raster(spatial_resolution = 'low',
            temporal_resolution = 'yearly',
            group_by = 'flag',
-           date_range = '2020-01-01,2021-10-01',
+           date_range = '2021-01-01,2021-12-31',
            region = region_json,
            region_source = 'user_json',
            key = key)
@@ -349,16 +368,16 @@ get_raster(spatial_resolution = 'low',
 #> # A tibble: 5,421 × 5
 #>      Lat   Lon `Time Range` flag  `Apparent Fishing hours`
 #>    <dbl> <dbl>        <dbl> <chr>                    <dbl>
-#>  1  49.6  -1.1         2021 FRA                      868. 
-#>  2  49.8  -0.4         2021 BEL                       89.9
-#>  3  49.4  -0.5         2021 FRA                      118. 
-#>  4  49.3  -0.5         2021 FRA                       15.6
-#>  5  47.3  -4.6         2021 FRA                      167. 
-#>  6  47.3  -3.7         2021 FRA                      995. 
-#>  7  45.6  -1.7         2021 FRA                     1300. 
-#>  8  45.2  -1.8         2021 FRA                      365. 
-#>  9  47.6  -3.3         2021 GBR                       41.0
-#> 10  48.8  -2.3         2021 FRA                      560. 
+#>  1  50    -0.5         2021 BEL                      111. 
+#>  2  49.9  -0.4         2021 FRA                      537. 
+#>  3  47.8  -6.4         2021 FRA                      156. 
+#>  4  48.7  -5.6         2021 FRA                      301. 
+#>  5  48.3  -5.4         2021 FRA                      436. 
+#>  6  47.4  -4.2         2021 FRA                      555. 
+#>  7  45.9  -1.4         2021 FRA                      704. 
+#>  8  50    -0.6         2021 NLD                       40.4
+#>  9  50.2   0           2021 GBR                      433. 
+#> 10  46.6  -2.8         2021 FRA                      272. 
 #> # … with 5,411 more rows
 ```
 
@@ -373,7 +392,7 @@ code_mpa <- get_region_id(region_name = 'Phoenix', region_source = 'mpa', key = 
 get_raster(spatial_resolution = 'low',
            temporal_resolution = 'yearly',
            group_by = 'flag',
-           date_range = '2015-01-01,2018-01-01',
+           date_range = '2015-01-01,2015-06-01',
            region = code_mpa$id[1],
            region_source = 'mpa',
            key = key)
@@ -416,12 +435,28 @@ get_event(event_type = 'fishing',
   dplyr::mutate(eez_name = get_region_id(region_name = as.numeric(eez),
                                          region_source = 'eez',
                                          key = key)$label)
-#> [1] "Downloading 1 events from GFW"
-#> # A tibble: 1 × 8
+#> [1] "Downloading 16 events from GFW"
+#> # A tibble: 16 × 8
 #> # Rowwise: 
-#>   id    type  start               end                   lat   lon eez   eez_name
-#>   <chr> <chr> <dttm>              <dttm>              <dbl> <dbl> <chr> <chr>   
-#> 1 009d… fish… 2020-01-24 01:00:19 2020-01-24 01:29:19  29.6 -93.8 8456  United …
+#>    id           type  start               end                   lat    lon eez  
+#>    <chr>        <chr> <dttm>              <dttm>              <dbl>  <dbl> <chr>
+#>  1 f85ee7c4580… fish… 2020-01-06 12:35:55 2020-01-06 15:05:39  41.1  -66.4 8456 
+#>  2 ccbeb333747… fish… 2020-01-08 20:44:15 2020-01-09 09:16:14  34.6  -76.6 8456 
+#>  3 d20bb5e341f… fish… 2020-01-09 10:10:14 2020-01-09 13:23:45  34.6  -76.6 8456 
+#>  4 cda29eab7cb… fish… 2020-01-09 17:17:15 2020-01-09 22:47:20  34.6  -76.6 8456 
+#>  5 2f9864dddbc… fish… 2020-01-14 14:52:08 2020-01-14 15:45:00  54.2 -165.  8463 
+#>  6 642ab87eb37… fish… 2020-01-20 20:27:13 2020-01-20 23:48:13  34.6  -76.6 8456 
+#>  7 4fdb707c504… fish… 2020-01-21 12:42:01 2020-01-21 13:18:00  34.7  -76.8 8456 
+#>  8 510194551b5… fish… 2020-01-21 16:09:45 2020-01-22 07:50:52  34.6  -76.6 8456 
+#>  9 0404166ac0b… fish… 2020-01-22 09:19:52 2020-01-22 10:14:21  34.6  -76.6 8456 
+#> 10 aacb2c24ac0… fish… 2020-01-23 10:55:05 2020-01-23 13:34:49  33.8  -78.0 8456 
+#> 11 4b83e209e72… fish… 2020-01-30 19:41:58 2020-01-30 23:08:30  35.1  -75.9 8456 
+#> 12 3f339c72f5b… fish… 2020-01-31 01:09:15 2020-01-31 02:56:23  54.2 -165.  8463 
+#> 13 d35f8d0f773… fish… 2020-01-31 03:46:20 2020-01-31 05:37:04  54.2 -165.  8463 
+#> 14 113b42339a5… fish… 2020-01-31 16:40:38 2020-01-31 18:04:28  54.2 -165.  8463 
+#> 15 0ef57dde9c9… fish… 2020-01-31 19:14:29 2020-01-31 20:28:14  54.2 -165.  8463 
+#> 16 5812e018011… fish… 2020-01-31 21:14:15 2020-01-31 21:56:05  54.2 -165.  8463 
+#> # … with 1 more variable: eez_name <chr>
 ```
 
 ## Contributing

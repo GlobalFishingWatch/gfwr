@@ -228,7 +228,7 @@ response to a data frame. In order to use it, you should specify:
 * The spatial resolution, which can be `low` (0.1 degree) or `high` (0.01 degree)
 * The temporal resolution, which can be `daily`, `monthly`, or `yearly`.
 * The variable to group by: `vessel_id`, `flag`, `gearType`, or `flagAndGearType`
-* The date range 
+* The date range `note: this must be one (1) year or less`
 * The `geojson` region or region code (such as an EEZ code) to filter the raster
 * The source for the specified region (currently, `eez`, `mpa`, or `user_json`)
 
@@ -245,7 +245,7 @@ region_json = '{"geojson":{"type":"Polygon","coordinates":[[[-76.11328125,-26.27
 get_raster(spatial_resolution = 'low',
            temporal_resolution = 'yearly',
            group_by = 'flag',
-           date_range = '2020-01-01,2021-10-01',
+           date_range = '2021-01-01,2021-12-31',
            region = region_json,
            region_source = 'user_json',
            key = key)
@@ -299,7 +299,7 @@ code_mpa <- get_region_id(region_name = 'Phoenix', region_source = 'mpa', key = 
 get_raster(spatial_resolution = 'low',
            temporal_resolution = 'yearly',
            group_by = 'flag',
-           date_range = '2015-01-01,2018-01-01',
+           date_range = '2015-01-01,2015-06-01',
            region = code_mpa$id[1],
            region_source = 'mpa',
            key = key)
