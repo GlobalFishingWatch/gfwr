@@ -8,9 +8,6 @@ Taken from httr2 docs: https://httr2.r-lib.org/articles/wrapping-apis.html#sendi
 \usage{
 gist_error_body(resp)
 }
-\value{
-
-}
 \description{
 Helper function to parse error message data
 and display appropriately to user

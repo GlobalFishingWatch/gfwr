@@ -50,11 +50,11 @@ make_datetime <- function(x) {
 #' @return
 gist_error_body <- function(resp) {
   body <- httr2::resp_body_json(resp)
-  message <- body$message
-  if(length(message) > 1){
-    message <- purrr::map_chr(message, purrr::pluck, 'detail')
+  messages <- body$messages
+  if(length(messages[[1]]) > 1){
+    messages <- purrr::map_chr(messages, purrr::pluck, 'detail')
   }
-  message
+  messages
 }
 
 #' Pagination function for GFW API calls
@@ -75,7 +75,7 @@ paginate <- function(endpoint, key){
                                              key,
                                              sep = " "),
                        `Content-Type` = 'application/json') %>%
-    httr2::req_user_agent("gfwr/1.0.0 (https://github.com/GlobalFishingWatch/gfwr)") %>%
+    httr2::req_user_agent("gfwr/1.1.1 (https://github.com/GlobalFishingWatch/gfwr)") %>%
     httr2::req_error(body = gist_error_body) %>%
     httr2::req_perform() %>%
     httr2::resp_body_json()
@@ -101,7 +101,7 @@ paginate <- function(endpoint, key){
                                                  key,
                                                  sep = " "),
                            `Content-Type` = 'application/json') %>%
-        httr2::req_user_agent("gfwr/1.0.0 (https://github.com/GlobalFishingWatch/gfwr)") %>%
+        httr2::req_user_agent("gfwr/1.1.1 (https://github.com/GlobalFishingWatch/gfwr)") %>%
         httr2::req_error(body = gist_error_body) %>%
         httr2::req_perform() %>%
         httr2::resp_body_json()
@@ -139,7 +139,7 @@ get_region_id <- function(region_name, region_source = 'eez', key) {
 
   result <- get_endpoint(dataset_type = region_source) %>%
     httr2::req_headers(Authorization = paste("Bearer", key, sep = " ")) %>%
-    httr2::req_user_agent("gfwr/1.0.0 (https://github.com/GlobalFishingWatch/gfwr)") %>%
+    httr2::req_user_agent("gfwr/1.1.1 (https://github.com/GlobalFishingWatch/gfwr)") %>%
     httr2::req_error(body = gist_error_body) %>%
     httr2::req_perform(.) %>%
     httr2::resp_body_json(.) %>%
