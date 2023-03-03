@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# `gfwr`: Access data from Global Fishing Watch APIs  <img src="man/figures/gfwr_hex_rgb.png" align="right" width="200px"/>
+# gfwr <img src="man/figures/gfwr_hex_rgb.png" align="right" width="200px"/>
 
 <!-- badges: start -->
 [![DOI](https://zenodo.org/badge/450635054.svg)](https://zenodo.org/badge/latestdoi/450635054)
@@ -292,7 +292,6 @@ A similar approach can be used to search for a specific Marine Protected Area,
 in this case the Phoenix Island Protected Area (PIPA)
 
 ```{r example_map_4, eval=F}
-
 # use region id function to get MPA code of Phoenix Island Protected Area
 code_mpa <- get_region_id(region_name = 'Phoenix', region_source = 'mpa', key = key)
 
@@ -337,6 +336,7 @@ get_event(event_type = 'fishing',
                                               paste0, collapse = ','))) %>%
   dplyr::select(id, type, start, end, lat, lon, eez) %>%
   dplyr::rowwise() %>%
+  filter(!is.na(eez)) %>% 
   dplyr::mutate(eez_name = get_region_id(region_name = as.numeric(eez),
                                          region_source = 'eez',
                                          key = key)$label)

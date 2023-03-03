@@ -1,0 +1,8 @@
+url: ~
+template:
+  bootstrap: 5
+home:
+  title: An R package for accessing data from Global Fishing Watch APIs
+  description: >
+    This package is a wrapper for the Global Fishing Watch (GFW) APIs, making
+    it easy for users to download and work with GFW data directly in R.
