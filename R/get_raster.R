@@ -25,6 +25,7 @@
 get_raster <- function(spatial_resolution = NULL,
                        temporal_resolution = NULL,
                        group_by = NULL,
+                       filter_by = NULL,
                        date_range = NULL,
                        region = NULL,
                        region_source = NULL,
@@ -35,12 +36,11 @@ get_raster <- function(spatial_resolution = NULL,
     dataset_type = "raster",
     `spatial-resolution` = spatial_resolution,
     `temporal-resolution` = temporal_resolution,
+    `filters[0]` = filter_by,
     `group-by` = group_by,
     `date-range` = date_range,
     format = 'csv'
   )
-
-
 
   if (region_source == 'mpa' & is.numeric(region)) {
     region = rjson::toJSON(list(region = list(dataset = 'public-mpa-all',
