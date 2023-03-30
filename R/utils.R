@@ -57,8 +57,8 @@ gist_error_body <- function(resp) {
   messages
 }
 
-#' Pagination function for GFW API calls
-#' @name paginate
+#' General function for GFW API requests, including handling of pagination.
+#' @name gfw_api_request
 #' @keywords internal
 #' @importFrom httr2 req_headers
 #' @importFrom httr2 req_error
@@ -66,8 +66,8 @@ gist_error_body <- function(resp) {
 #' @importFrom httr2 resp_body_json
 #' @importFrom httr2 req_user_agent
 #' @return
-# pagination function
-paginate <- function(endpoint, key){
+# API request function
+gfw_api_request <- function(endpoint, key){
 
   # Make initial API request
   response <- endpoint %>%

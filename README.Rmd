@@ -178,12 +178,16 @@ Or get encounters for all vessels in a given date range:
 ```{r example_event_type_3, eval=F}
 get_event(event_type='encounter',
           start_date = "2020-01-01",
-          end_date = "2020-02-01",
+          end_date = "2020-01-03",
           key = key
           )
 ```
 
-As another example, let's combine the Vessels and Events APIs to get fishing events for a list of 10 USA-flagged trawlers:
+When a date range is provided to `get_event()` using both `start_date` and `end_date`, any event overlapping that range will be returned, including events that start prior to `start_date` or end after `end_date`. If just `start_date` or `end_date` are provided, results will include all events that end after `start_date` or begin prior to `end_date`, respectively.
+
+> *Note*: Because encounter events are events between two vessels, a single event will be represented twice in the data, once for each vessel. To capture this information and link the related data rows, the `id` field for encounter events includes an additional suffix (1 or 2) separated by a period. The `vessel` field will also contain different information specific to each vessel.
+
+As another example, let's combine the Vessels and Events APIs to get fishing events for a list of 100 USA-flagged trawlers:
 
 ```{r example_event_type_4a, eval=T}
 # Download the list of USA trawlers
@@ -195,7 +199,7 @@ usa_trawlers <- get_vessel_info(
   )
 
 # Collapse vessel ids into a commas separated list to pass to Events API
-usa_trawler_ids <- paste0(usa_trawlers$id[1:10], collapse = ',')
+usa_trawler_ids <- paste0(usa_trawlers$id[1:100], collapse = ',')
 ```
 
 Now get the list of fishing events for these trawlers in January, 2020:
@@ -213,7 +217,7 @@ When no events are available, the `get_event()` function returns nothing.
 
 ```{r example_event_type_4c, eval=T}
 get_event(event_type='fishing',
-          vessel = usa_trawler_ids,
+          vessel = usa_trawler_ids[2],
           start_date = "2020-01-01",
           end_date = "2020-01-01",
           key = key
@@ -258,7 +262,6 @@ of `get_raster` instead of the geojson data (ensuring you specify the `region_so
 as `'eez'`:
 
 ```{r example_map_2, eval=F}
-
 # use EEZ function to get EEZ code of Cote d'Ivoire
 code_eez <- get_region_id(region_name = 'CIV', region_source = 'eez', key = key)
 
@@ -292,7 +295,6 @@ A similar approach can be used to search for a specific Marine Protected Area,
 in this case the Phoenix Island Protected Area (PIPA)
 
 ```{r example_map_4, eval=F}
-
 # use region id function to get MPA code of Phoenix Island Protected Area
 code_mpa <- get_region_id(region_name = 'Phoenix', region_source = 'mpa', key = key)
 
