@@ -1,0 +1,175 @@
+---
+title: "Making maps with `gfwr`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{making-maps}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 6
+)
+```
+
+A powerful feature of `gfwr` is the ability to get data for making custom maps of apparent fishing effort and vessel activities. This vignette demonstrates how to combine multiple `gfwr` functions with `ggplot2` and `sf` to make a variety of maps of fishing vessel activity.
+
+Specifically, this vignette will show how to make maps of:
+
+-   Global apparent fishing effort
+-   Apparent fishing effort by a specific flag state
+-   Apparent fishing effort within a specific Exclusive Economic Zone (EEZ)
+-   Encounter events within a regional fisheries management organization (RFMO)
+-   Activity within a custom GeoJSON
+
+First, load `gfwr`.
+
+```{r setup}
+library(gfwr)
+```
+
+### Other packages
+
+For this vignette, we'll also use some additional packages for plotting (`ggplot2`,`sf`) and reference data (`rnaturalearth`)
+
+```{r other_packages}
+library(tidyverse)
+library(sf)
+library(rnaturalearth)
+```
+
+### Plot theme, palletes, and reference layers
+
+```{r}
+# Map theme with dark background
+map_theme <- ggplot2::theme_minimal() + 
+  ggplot2::theme(
+    panel.border = element_blank(), 
+    panel.background = element_rect(fill = "#0a1738", color = NA), 
+    legend.position = "bottom", legend.box = "vertical", 
+    legend.key.height = unit(3, "mm"), 
+    legend.key.width = unit(20, "mm"), 
+    legend.title.align = 0.5, 
+    legend.text = element_text(color = "#848b9b", size = 8), 
+    legend.title = element_text(face = "bold", color = "#363c4c", size = 8), 
+    plot.title = element_text(face = "bold", color = "#363c4c", size = 10), 
+    plot.subtitle = element_text(color = "#363c4c", size = 10), 
+    axis.title = element_blank(), 
+    axis.text = element_text(color = "#848b9b", size = 6), 
+    panel.grid.major = element_line(color = "#0a1738"), 
+    panel.grid.minor = element_line(color = "#0a1738"))
+
+# Palette for fishing activity
+map_effort_dark <- c("#0c276c", "#3b9088", "#eeff00", "#ffffff")
+```
+
+## Global apparent fishing effort
+
+## Activity by EEZ
+
+To get activity for a specific EEZ, we first use the `get_region_id()` function to find the `id` of our EEZ of interest using the EEZ ISO3 code. Note that, for some countries, the ISO3 code will return multiple regions
+
+```{r}
+# use EEZ function to get EEZ code of Cote d'Ivoire
+code_eez <- get_region_id(region_name = 'ITA', region_source = 'eez', key = gfw_auth())
+
+eez_fish_df <- get_raster(spatial_resolution = 'low',
+           temporal_resolution = 'yearly',
+           group_by = 'flag',
+           date_range = '2021-01-01,2021-10-01',
+           region = code_eez$id,
+           region_source = 'eez')
+```
+
+The data includes fishing by all flag states, so to make a map of all activity, we first need to summarize activity by grid cell.
+
+```{r}
+eez_fish_all_df <- eez_fish_df %>% 
+  group_by(Lat, Lon) %>% 
+  summarize(fishing_hours = sum(`Apparent Fishing hours`, na.rm = T))
+```
+
+Now we can use `ggplot2` to plot the data:
+
+```{r}
+eez_fish_all_df %>% 
+  ggplot() +
+  geom_raster(aes(x = Lon,
+                  y = Lat,
+                  fill = fishing_hours)) +
+  geom_sf(data = ne_countries(returnclass = 'sf', scale = 'medium')) +
+  coord_sf(xlim = c(min(eez_fish_all_df$Lon),max(eez_fish_all_df$Lon)),
+           ylim = c(min(eez_fish_all_df$Lat),max(eez_fish_all_df$Lat))) +
+  scale_fill_gradientn(colors = map_effort_dark, na.value = NA) +
+  map_theme
+```
+
+The `get_region_id` function also works in reverse. If a region id is passed as a `numeric` to the function as the `region_name`, the corresponding region label or iso3 can be returned. This is especially useful when events are returned with regions.
+
+```{r example_region_id, eval=T}
+# using same example as above
+encounters_df <- get_event(event_type = 'encounter',
+          start_date = "2021-01-01",
+          end_date = "2021-10-01",
+          include_regions = TRUE) 
+
+encounters_hs_df <- encounters_df %>%
+  # extract EEZ id code
+  dplyr::mutate(eez = as.character(purrr::map(purrr::map(regions, pluck, 'eez'), 
+                                              paste0, collapse = ','))) %>%
+  dplyr::select(id, type, start, end, lat, lon, eez) %>%
+  dplyr::filter(eez == '') 
+```
+
+Encounters have two rows per event to represent both vessels. Extract the event ID and select one row per event.
+
+```{r}
+encounters_hs_sf_df <- encounters_hs_df %>% 
+  separate(id, c('event_id','vessel_number')) %>% 
+  filter(vessel_number == 1) %>% 
+  st_as_sf(coords = c('lon','lat'), crs = 4326)
+```
+
+```{r}
+ggplot() +
+  geom_sf(data = ne_countries(returnclass = 'sf', scale = 'small')) +
+  geom_sf(data = encounters_hs_sf_df, color = 'red', alpha = 0.4, size = 1) +
+  map_theme
+```
+
+## Activity within a custom region
+
+The `get_raster` function allows users to download fishing effort data within a custom region by providing a GeoJSON string object.
+
+```{r}
+region_json = '{"geojson":{"type":"Polygon","coordinates":[[[-15.1296846569,46.500565613],[13.2586868107,46.500565613],[13.2586868107,61.6189445123],[-15.1296846569,61.6189445123],[-15.1296846569,46.500565613]]]}}'
+
+geojson_df <- get_raster(spatial_resolution = 'low',
+           temporal_resolution = 'yearly',
+           group_by = 'flag',
+           date_range = '2021-01-01,2021-12-31',
+           region = region_json,
+           region_source = 'user_json')
+```
+
+```{r}
+geojson_all_df <- geojson_df %>% 
+  group_by(Lat, Lon) %>% 
+  summarize(fishing_hours = sum(`Apparent Fishing hours`, na.rm = T))
+```
+
+```{r}
+geojson_all_df %>% 
+  ggplot() +
+  geom_raster(aes(x = Lon,
+                  y = Lat,
+                  fill = fishing_hours)) +
+  geom_sf(data = ne_countries(returnclass = 'sf', scale = 'medium')) +
+  coord_sf(xlim = c(min(geojson_all_df$Lon),max(geojson_all_df$Lon)),
+           ylim = c(min(geojson_all_df$Lat),max(geojson_all_df$Lat))) +
+  scale_fill_gradientn(colors = map_effort_dark, na.value = NA) +
+  map_theme
+```

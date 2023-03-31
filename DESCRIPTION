@@ -27,6 +27,9 @@ Imports:
     tidyr,
     rjson
 Suggests:
-    glue
+    glue,
+    knitr,
+    rmarkdown
 URL: https://github.com/GlobalFishingWatch/gfwr
 BugReports: https://github.com/GlobalFishingWatch/gfwr/issues
+VignetteBuilder: knitr
