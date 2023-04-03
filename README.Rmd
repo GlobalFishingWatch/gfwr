@@ -274,7 +274,7 @@ You could search for just one word in the name of the EEZ and then decide which
 one you want:
 
 ```{r example_map_3, eval=T}
-(get_region_id(region_name = 'French', region_source = 'eez', key = key))
+(get_region_id(region_name = 'France', region_source = 'eez', key = key))
 
 # Let's say we're interested in the French Exclusive Economic Zone, 5677
 get_raster(spatial_resolution = 'low',

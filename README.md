@@ -327,12 +327,13 @@ You could search for just one word in the name of the EEZ and then
 decide which one you want:
 
 ``` r
-(get_region_id(region_name = 'French', region_source = 'eez', key = key))
-#> # A tibble: 2 × 3
-#>      id iso3  label           
-#>   <dbl> <chr> <chr>           
-#> 1  8462 FRA   French Guiana   
-#> 2  8440 FRA   French Polynesia
+(get_region_id(region_name = 'France', region_source = 'eez', key = key))
+#> # A tibble: 3 × 3
+#>      id iso3  label                           
+#>   <dbl> <chr> <chr>                           
+#> 1  5677 FRA   France                          
+#> 2 48976 FRA   Joint regime area Italy / France
+#> 3 48966 FRA   Joint regime area Spain / France
 
 # Let's say we're interested in the French Exclusive Economic Zone, 5677
 get_raster(spatial_resolution = 'low',
