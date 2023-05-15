@@ -5,7 +5,7 @@
 #' @param group_by parameter to group by. Can be 'vessel_id', 'flag', 'gearType', 'flagAndGearType'
 #' @param date_range Start and end of date range for raster (must be one year or less)
 #' @param region geojson or GFW region code, shape to filter raster
-#' @param region_source source of the region ('eez','mpa', 'trfmo' or 'user_json')
+#' @param region_source source of the region ('eez','mpa', 'rfmo' or 'user_json')
 #' @param key Authorization token. Can be obtained with gfw_auth function
 #' @importFrom magrittr `%>%`
 #' @importFrom readr read_csv
@@ -25,6 +25,7 @@
 get_raster <- function(spatial_resolution = NULL,
                        temporal_resolution = NULL,
                        group_by = NULL,
+                       filter_by = NULL,
                        date_range = NULL,
                        region = NULL,
                        region_source = NULL,
@@ -35,12 +36,11 @@ get_raster <- function(spatial_resolution = NULL,
     dataset_type = "raster",
     `spatial-resolution` = spatial_resolution,
     `temporal-resolution` = temporal_resolution,
+    `filters[0]` = filter_by,
     `group-by` = group_by,
     `date-range` = date_range,
     format = 'csv'
   )
-
-
 
   if (region_source == 'mpa' & is.numeric(region)) {
     region = rjson::toJSON(list(region = list(dataset = 'public-mpa-all',
@@ -49,8 +49,8 @@ get_raster <- function(spatial_resolution = NULL,
   } else if (region_source == 'eez' & is.numeric(region)) {
     region = rjson::toJSON(list(region = list(dataset = 'public-eez-areas',
                                              id = region)))
-  } else if (region_source == 'trfmo' & is.character(region)) {
-    region = rjson::toJSON(list(region = list(dataset = 'public-tuna-rfmo',
+  } else if (region_source == 'rfmo' & is.character(region)) {
+    region = rjson::toJSON(list(region = list(dataset = 'public-rfmo',
                                               id = region)))
   } else if (region_source == 'user_json' & is.character(region)) {
     region
