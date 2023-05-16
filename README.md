@@ -243,26 +243,12 @@ get_event(event_type='fishing',
           end_date = "2020-02-01",
           key = key
           )
-#> [1] "Downloading 16 events from GFW"
-#> # A tibble: 16 × 11
-#>    id    type  start               end                   lat    lon regions     
-#>    <chr> <chr> <dttm>              <dttm>              <dbl>  <dbl> <list>      
-#>  1 f85e… fish… 2020-01-06 12:35:55 2020-01-06 15:05:39  41.1  -66.4 <named list>
-#>  2 ccbe… fish… 2020-01-08 20:44:15 2020-01-09 09:16:14  34.6  -76.6 <named list>
-#>  3 d20b… fish… 2020-01-09 10:10:14 2020-01-09 13:23:45  34.6  -76.6 <named list>
-#>  4 cda2… fish… 2020-01-09 17:17:15 2020-01-09 22:47:20  34.6  -76.6 <named list>
-#>  5 2f98… fish… 2020-01-14 14:52:08 2020-01-14 15:45:00  54.2 -165.  <named list>
-#>  6 642a… fish… 2020-01-20 20:27:13 2020-01-20 23:48:13  34.6  -76.6 <named list>
-#>  7 4fdb… fish… 2020-01-21 12:42:01 2020-01-21 13:18:00  34.7  -76.8 <named list>
-#>  8 5101… fish… 2020-01-21 16:09:45 2020-01-22 07:50:52  34.6  -76.6 <named list>
-#>  9 0404… fish… 2020-01-22 09:19:52 2020-01-22 10:14:21  34.6  -76.6 <named list>
-#> 10 aacb… fish… 2020-01-23 10:55:05 2020-01-23 13:34:49  33.8  -78.0 <named list>
-#> 11 4b83… fish… 2020-01-30 19:41:58 2020-01-30 23:08:30  35.1  -75.9 <named list>
-#> 12 3f33… fish… 2020-01-31 01:09:15 2020-01-31 02:56:23  54.2 -165.  <named list>
-#> 13 d35f… fish… 2020-01-31 03:46:20 2020-01-31 05:37:04  54.2 -165.  <named list>
-#> 14 113b… fish… 2020-01-31 16:40:38 2020-01-31 18:04:28  54.2 -165.  <named list>
-#> 15 0ef5… fish… 2020-01-31 19:14:29 2020-01-31 20:28:14  54.2 -165.  <named list>
-#> 16 5812… fish… 2020-01-31 21:14:15 2020-01-31 21:56:05  54.2 -165.  <named list>
+#> [1] "Downloading 2 events from GFW"
+#> # A tibble: 2 × 11
+#>   id      type  start               end                   lat   lon regions     
+#>   <chr>   <chr> <dttm>              <dttm>              <dbl> <dbl> <list>      
+#> 1 777fb1… fish… 2020-01-09 23:15:22 2020-01-09 23:52:24  28.1 -94.0 <named list>
+#> 2 f19d61… fish… 2020-01-10 12:59:23 2020-01-10 16:55:15  28.1 -93.9 <named list>
 #> # … with 4 more variables: boundingBox <list>, distances <list>, vessel <list>,
 #> #   event_info <list>
 ```
@@ -308,13 +294,15 @@ Here’s an example where we enter the geojson data manually:
 
 region_json = '{"geojson":{"type":"Polygon","coordinates":[[[-76.11328125,-26.273714024406416],[-76.201171875,-26.980828590472093],[-76.376953125,-27.527758206861883],[-76.81640625,-28.30438068296276],[-77.255859375,-28.767659105691244],[-77.87109375,-29.152161283318918],[-78.486328125,-29.45873118535532],[-79.189453125,-29.61167011519739],[-79.892578125,-29.6880527498568],[-80.595703125,-29.61167011519739],[-81.5625,-29.382175075145277],[-82.177734375,-29.07537517955835],[-82.705078125,-28.6905876542507],[-83.232421875,-28.071980301779845],[-83.49609375,-27.683528083787756],[-83.759765625,-26.980828590472093],[-83.84765625,-26.35249785815401],[-83.759765625,-25.64152637306576],[-83.583984375,-25.16517336866393],[-83.232421875,-24.447149589730827],[-82.705078125,-23.966175871265037],[-82.177734375,-23.483400654325635],[-81.5625,-23.241346102386117],[-80.859375,-22.998851594142906],[-80.15625,-22.917922936146027],[-79.453125,-22.998851594142906],[-78.662109375,-23.1605633090483],[-78.134765625,-23.40276490540795],[-77.431640625,-23.885837699861995],[-76.9921875,-24.28702686537642],[-76.552734375,-24.846565348219727],[-76.2890625,-25.48295117535531],[-76.11328125,-26.273714024406416]]]}}'
 
-get_raster(spatial_resolution = 'low',
-           temporal_resolution = 'yearly',
-           group_by = 'flag',
-           date_range = '2021-01-01,2021-12-31',
-           region = region_json,
-           region_source = 'user_json',
-           key = key)
+get_raster(
+  spatial_resolution = 'low',
+  temporal_resolution = 'yearly',
+  group_by = 'flag',
+  date_range = '2021-01-01,2021-12-31',
+  region = region_json,
+  region_source = 'user_json',
+  key = key
+  )
 ```
 
 If you want raster data from a particular EEZ, you can use the
@@ -323,7 +311,6 @@ If you want raster data from a particular EEZ, you can use the
 you specify the `region_source` as `'eez'`:
 
 ``` r
-
 # use EEZ function to get EEZ code of Cote d'Ivoire
 code_eez <- get_region_id(region_name = 'CIV', region_source = 'eez', key = key)
 
@@ -340,14 +327,13 @@ You could search for just one word in the name of the EEZ and then
 decide which one you want:
 
 ``` r
-
-(get_region_id(region_name = 'French', region_source = 'eez', key = key))
+(get_region_id(region_name = 'France', region_source = 'eez', key = key))
 #> # A tibble: 3 × 3
-#>      id iso3  label                                    
-#>   <dbl> <chr> <chr>                                    
-#> 1  5677 FRA   French Exclusive Economic Zone           
-#> 2  8462 FRA   French Guiana Exclusive Economic Zone    
-#> 3  8440 FRA   French Polynesian Exclusive Economic Zone
+#>      id iso3  label                           
+#>   <dbl> <chr> <chr>                           
+#> 1  5677 FRA   France                          
+#> 2 48976 FRA   Joint regime area Italy / France
+#> 3 48966 FRA   Joint regime area Spain / France
 
 # Let's say we're interested in the French Exclusive Economic Zone, 5677
 get_raster(spatial_resolution = 'low',
@@ -357,35 +343,34 @@ get_raster(spatial_resolution = 'low',
            region = 5677,
            region_source = 'eez',
            key = key)
-#> Rows: 5421 Columns: 5
+#> Rows: 5444 Columns: 6
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (1): flag
-#> dbl (4): Lat, Lon, Time Range, Apparent Fishing hours
+#> dbl (5): Lat, Lon, Time Range, Vessel IDs, Apparent Fishing hours
 #> 
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-#> # A tibble: 5,421 × 5
-#>      Lat   Lon `Time Range` flag  `Apparent Fishing hours`
-#>    <dbl> <dbl>        <dbl> <chr>                    <dbl>
-#>  1  50    -0.5         2021 BEL                      111. 
-#>  2  49.9  -0.4         2021 FRA                      537. 
-#>  3  47.8  -6.4         2021 FRA                      156. 
-#>  4  48.7  -5.6         2021 FRA                      301. 
-#>  5  48.3  -5.4         2021 FRA                      436. 
-#>  6  47.4  -4.2         2021 FRA                      555. 
-#>  7  45.9  -1.4         2021 FRA                      704. 
-#>  8  50    -0.6         2021 NLD                       40.4
-#>  9  50.2   0           2021 GBR                      433. 
-#> 10  46.6  -2.8         2021 FRA                      272. 
-#> # … with 5,411 more rows
+#> # A tibble: 5,444 × 6
+#>      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing hours`
+#>    <dbl> <dbl>        <dbl> <chr>        <dbl>                    <dbl>
+#>  1  48.9  -5.8         2021 FRA             15                    209. 
+#>  2  49    -5.6         2021 FRA             18                    280. 
+#>  3  42.7   3.6         2021 FRA             11                    382. 
+#>  4  42.7   3.7         2021 FRA              7                    102. 
+#>  5  43.5   4.1         2021 FRA             23                    557. 
+#>  6  43.3   4.5         2021 FRA             19                    413. 
+#>  7  43     4.8         2021 FRA             11                     63.9
+#>  8  43.3   4.2         2021 FRA             32                    952. 
+#>  9  43.4   4           2021 FRA             36                   2099. 
+#> 10  43.1   4.5         2021 FRA             20                    154. 
+#> # … with 5,434 more rows
 ```
 
 A similar approach can be used to search for a specific Marine Protected
 Area, in this case the Phoenix Island Protected Area (PIPA)
 
 ``` r
-
 # use region id function to get MPA code of Phoenix Island Protected Area
 code_mpa <- get_region_id(region_name = 'Phoenix', region_source = 'mpa', key = key)
 
@@ -409,8 +394,31 @@ get_raster(spatial_resolution = 'low',
            group_by = 'flag',
            date_range = '2021-01-01,2021-01-15',
            region = 'ICCAT',
-           region_source = 'trfmo',
+           region_source = 'rfmo',
            key = key)
+#> Rows: 112699 Columns: 6
+#> ── Column specification ────────────────────────────────────────────────────────
+#> Delimiter: ","
+#> chr  (1): flag
+#> dbl  (4): Lat, Lon, Vessel IDs, Apparent Fishing hours
+#> date (1): Time Range
+#> 
+#> ℹ Use `spec()` to retrieve the full column specification for this data.
+#> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+#> # A tibble: 112,699 × 6
+#>      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing hours`
+#>    <dbl> <dbl> <date>       <chr>        <dbl>                    <dbl>
+#>  1  68.7 -51.4 2021-01-08   GRL              1                    0.250
+#>  2  68.8 -51.2 2021-01-05   GRL              1                    4.78 
+#>  3  68.8 -51.2 2021-01-04   GRL              2                    0.728
+#>  4  66.9 -24.7 2021-01-03   ISL             11                   14.7  
+#>  5  66.9 -24.6 2021-01-03   ISL             12                   34.5  
+#>  6  66.9 -24.5 2021-01-03   ISL             13                   40.2  
+#>  7  66.8 -24.3 2021-01-04   ISL             15                   42.2  
+#>  8  67   -24   2021-01-04   ISL              3                    6.13 
+#>  9  66.9 -23.9 2021-01-04   ISL              2                    1.43 
+#> 10  66.9 -24.1 2021-01-03   ISL              3                    3.40 
+#> # … with 112,689 more rows
 ```
 
 The `get_region_id` function also works in reverse. If a region id is
@@ -435,28 +443,14 @@ get_event(event_type = 'fishing',
   dplyr::mutate(eez_name = get_region_id(region_name = as.numeric(eez),
                                          region_source = 'eez',
                                          key = key)$label)
-#> [1] "Downloading 16 events from GFW"
-#> # A tibble: 16 × 8
+#> [1] "Downloading 2 events from GFW"
+#> # A tibble: 2 × 8
 #> # Rowwise: 
-#>    id           type  start               end                   lat    lon eez  
-#>    <chr>        <chr> <dttm>              <dttm>              <dbl>  <dbl> <chr>
-#>  1 f85ee7c4580… fish… 2020-01-06 12:35:55 2020-01-06 15:05:39  41.1  -66.4 8456 
-#>  2 ccbeb333747… fish… 2020-01-08 20:44:15 2020-01-09 09:16:14  34.6  -76.6 8456 
-#>  3 d20bb5e341f… fish… 2020-01-09 10:10:14 2020-01-09 13:23:45  34.6  -76.6 8456 
-#>  4 cda29eab7cb… fish… 2020-01-09 17:17:15 2020-01-09 22:47:20  34.6  -76.6 8456 
-#>  5 2f9864dddbc… fish… 2020-01-14 14:52:08 2020-01-14 15:45:00  54.2 -165.  8463 
-#>  6 642ab87eb37… fish… 2020-01-20 20:27:13 2020-01-20 23:48:13  34.6  -76.6 8456 
-#>  7 4fdb707c504… fish… 2020-01-21 12:42:01 2020-01-21 13:18:00  34.7  -76.8 8456 
-#>  8 510194551b5… fish… 2020-01-21 16:09:45 2020-01-22 07:50:52  34.6  -76.6 8456 
-#>  9 0404166ac0b… fish… 2020-01-22 09:19:52 2020-01-22 10:14:21  34.6  -76.6 8456 
-#> 10 aacb2c24ac0… fish… 2020-01-23 10:55:05 2020-01-23 13:34:49  33.8  -78.0 8456 
-#> 11 4b83e209e72… fish… 2020-01-30 19:41:58 2020-01-30 23:08:30  35.1  -75.9 8456 
-#> 12 3f339c72f5b… fish… 2020-01-31 01:09:15 2020-01-31 02:56:23  54.2 -165.  8463 
-#> 13 d35f8d0f773… fish… 2020-01-31 03:46:20 2020-01-31 05:37:04  54.2 -165.  8463 
-#> 14 113b42339a5… fish… 2020-01-31 16:40:38 2020-01-31 18:04:28  54.2 -165.  8463 
-#> 15 0ef57dde9c9… fish… 2020-01-31 19:14:29 2020-01-31 20:28:14  54.2 -165.  8463 
-#> 16 5812e018011… fish… 2020-01-31 21:14:15 2020-01-31 21:56:05  54.2 -165.  8463 
-#> # … with 1 more variable: eez_name <chr>
+#>   id     type  start               end                   lat   lon eez   eez_n…¹
+#>   <chr>  <chr> <dttm>              <dttm>              <dbl> <dbl> <chr> <chr>  
+#> 1 777fb… fish… 2020-01-09 23:15:22 2020-01-09 23:52:24  28.1 -94.0 8456  United…
+#> 2 f19d6… fish… 2020-01-10 12:59:23 2020-01-10 16:55:15  28.1 -93.9 8456  United…
+#> # … with abbreviated variable name ¹​eez_name
 ```
 
 ## Contributing

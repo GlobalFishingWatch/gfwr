@@ -166,6 +166,17 @@ get_region_id <- function(region_name, region_source = 'eez', key) {
   else if (region_source == "mpa" & is.numeric(region_name)) {
     result %>%
       dplyr::filter(id == {{ region_name }})
+  }
+  # RFMO names
+  else if (region_source == "rfmo" & is.character(region_name)) {
+    result %>%
+      dplyr::filter(agrepl(region_name, .$label)) %>%
+      dplyr::mutate(id = as.numeric(id))
+  }
+  # RFMO ids
+  else if (region_source == "rfmo" & is.numeric(region_name)) {
+    result %>%
+      dplyr::filter(id == {{ region_name }})
   } else {
     stop('Enter a valid region source')
   }

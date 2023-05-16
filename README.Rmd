@@ -70,6 +70,7 @@ key <- gfw_auth()
 ```
 
 or this
+
 ```{r, eval = F}
 key <- Sys.getenv("GFW_TOKEN")
 ```
@@ -92,9 +93,7 @@ identifies all vessels in the specified dataset that match
 and involves a combination of vessel and tracking data information
 
 The user can also specify which identity databases to use: `carrier_vessel`, 
-`support_vessel`, `fishing_vessel`, or `all`. With the latter, all databases are used for the search. 
-This is generally recommended and is the option set by default. 
-
+`support_vessel`, `fishing_vessel`, or `all`. With the latter, all databases are used for the search. This is generally recommended and is the option set by default. 
 
 ### Examples
 
@@ -246,14 +245,15 @@ Here's an example where we enter the geojson data manually:
 
 region_json = '{"geojson":{"type":"Polygon","coordinates":[[[-76.11328125,-26.273714024406416],[-76.201171875,-26.980828590472093],[-76.376953125,-27.527758206861883],[-76.81640625,-28.30438068296276],[-77.255859375,-28.767659105691244],[-77.87109375,-29.152161283318918],[-78.486328125,-29.45873118535532],[-79.189453125,-29.61167011519739],[-79.892578125,-29.6880527498568],[-80.595703125,-29.61167011519739],[-81.5625,-29.382175075145277],[-82.177734375,-29.07537517955835],[-82.705078125,-28.6905876542507],[-83.232421875,-28.071980301779845],[-83.49609375,-27.683528083787756],[-83.759765625,-26.980828590472093],[-83.84765625,-26.35249785815401],[-83.759765625,-25.64152637306576],[-83.583984375,-25.16517336866393],[-83.232421875,-24.447149589730827],[-82.705078125,-23.966175871265037],[-82.177734375,-23.483400654325635],[-81.5625,-23.241346102386117],[-80.859375,-22.998851594142906],[-80.15625,-22.917922936146027],[-79.453125,-22.998851594142906],[-78.662109375,-23.1605633090483],[-78.134765625,-23.40276490540795],[-77.431640625,-23.885837699861995],[-76.9921875,-24.28702686537642],[-76.552734375,-24.846565348219727],[-76.2890625,-25.48295117535531],[-76.11328125,-26.273714024406416]]]}}'
 
-get_raster(spatial_resolution = 'low',
-           temporal_resolution = 'yearly',
-           group_by = 'flag',
-           date_range = '2021-01-01,2021-12-31',
-           region = region_json,
-           region_source = 'user_json',
-           key = key)
-
+get_raster(
+  spatial_resolution = 'low',
+  temporal_resolution = 'yearly',
+  group_by = 'flag',
+  date_range = '2021-01-01,2021-12-31',
+  region = region_json,
+  region_source = 'user_json',
+  key = key
+  )
 ```
 
 If you want raster data from a particular EEZ, you can use the `get_region_id` 
@@ -278,8 +278,7 @@ You could search for just one word in the name of the EEZ and then decide which
 one you want:
 
 ```{r example_map_3, eval=T}
-
-(get_region_id(region_name = 'French', region_source = 'eez', key = key))
+(get_region_id(region_name = 'France', region_source = 'eez', key = key))
 
 # Let's say we're interested in the French Exclusive Economic Zone, 5677
 get_raster(spatial_resolution = 'low',
@@ -290,6 +289,7 @@ get_raster(spatial_resolution = 'low',
            region_source = 'eez',
            key = key)
 ```
+
 
 A similar approach can be used to search for a specific Marine Protected Area, 
 in this case the Phoenix Island Protected Area (PIPA)
@@ -311,13 +311,13 @@ It is also possible to filter rasters to one of the five regional fisheries mana
 organizations (RFMO) that manage tuna and tuna-like species. These include `"ICCAT"`,
 `"IATTC"`,`"IOTC"`, `"CCSBT"` and `"WCPFC"`.
 
-```{r example_map_5, eval=F}
+```{r example_map_5, eval=T}
 get_raster(spatial_resolution = 'low',
            temporal_resolution = 'daily',
            group_by = 'flag',
            date_range = '2021-01-01,2021-01-15',
            region = 'ICCAT',
-           region_source = 'trfmo',
+           region_source = 'rfmo',
            key = key)
 ```
 
