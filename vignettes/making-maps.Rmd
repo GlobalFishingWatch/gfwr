@@ -73,9 +73,17 @@ map_effort_dark <- c("#0c276c", "#3b9088", "#eeff00", "#ffffff")
 To get activity for a specific EEZ, we first use the `get_region_id()` function to find the `id` of our EEZ of interest using the EEZ ISO3 code. Note that, for some countries, the ISO3 code will return multiple regions
 
 ```{r}
-# use EEZ function to get EEZ code of Cote d'Ivoire
+# Use get_region_id function to get EEZ code for Italy
 code_eez <- get_region_id(region_name = 'ITA', region_source = 'eez', key = gfw_auth())
+```
 
+```{r, echo=FALSE}
+code_eez
+```
+
+
+```{r}
+# Download data for the Italian EEZ
 eez_fish_df <- get_raster(spatial_resolution = 'low',
            temporal_resolution = 'yearly',
            group_by = 'flag',
@@ -84,7 +92,34 @@ eez_fish_df <- get_raster(spatial_resolution = 'low',
            region_source = 'eez')
 ```
 
-The data includes fishing by all flag states, so to make a map of all activity, we first need to summarize activity by grid cell.
+```{r, echo=FALSE}
+eez_fish_df
+```
+
+If we summarize the data by the `flag` variable, we can see how much activity occurred in the Italian EEZ by vessels from different flag states.
+
+```{r}
+eez_fish_df %>% 
+  group_by(flag) %>% 
+  summarize(fishing_hours = sum(`Apparent Fishing hours`, na.rm = T)) %>% 
+  arrange(desc(fishing_hours))
+```
+
+```{r}
+eez_fish_df %>% 
+  filter(flag != 'ITA') %>% 
+  group_by(flag) %>% 
+  summarize(fishing_hours = sum(`Apparent Fishing hours`, na.rm = T)) %>% 
+  ggplot() +
+  geom_col(aes(x = forcats::fct_reorder(flag, desc(fishing_hours)),
+               y = fishing_hours)) +
+  labs(title = 'Apparent fishing hours by other countries in the Italian EEZ',
+       y = 'Fishing hours',
+       x = 'Country (ISO3)') +
+  theme_minimal()
+```
+
+Because the data includes fishing by all flag states, to make a map of all activity, we first need to summarize activity by grid cell.
 
 ```{r}
 eez_fish_all_df <- eez_fish_df %>% 
@@ -94,7 +129,7 @@ eez_fish_all_df <- eez_fish_df %>%
 
 Now we can use `ggplot2` to plot the data:
 
-```{r}
+```{r, fig.width=4}
 eez_fish_all_df %>% 
   ggplot() +
   geom_raster(aes(x = Lon,
@@ -104,6 +139,28 @@ eez_fish_all_df %>%
   coord_sf(xlim = c(min(eez_fish_all_df$Lon),max(eez_fish_all_df$Lon)),
            ylim = c(min(eez_fish_all_df$Lat),max(eez_fish_all_df$Lat))) +
   scale_fill_gradientn(colors = map_effort_dark, na.value = NA) +
+  labs(title = 'Apparent fishing hours in the Italian EEZ',
+       subtitle = '2021-01-01 to 2021-10-01',
+       fill = 'Fishing hours') +
+  map_theme
+```
+
+If we're instead interested in just the fishing activity of a single flag state, we can simply filter the original dataframe to that flag and plot:
+
+```{r, fig.width=4}
+eez_fish_df %>% 
+  filter(flag == 'MLT') %>% 
+  ggplot() +
+  geom_raster(aes(x = Lon,
+                  y = Lat,
+                  fill = `Apparent Fishing hours`)) +
+  geom_sf(data = ne_countries(returnclass = 'sf', scale = 'medium')) +
+  coord_sf(xlim = c(min(eez_fish_all_df$Lon),max(eez_fish_all_df$Lon)),
+           ylim = c(min(eez_fish_all_df$Lat),max(eez_fish_all_df$Lat))) +
+  scale_fill_gradientn(colors = map_effort_dark, na.value = NA) +
+  labs(title = 'Apparent fishing hours in the Italian EEZ by vessels flagged to Malta',
+       subtitle = '2021-01-01 to 2021-10-01',
+       fill = 'Fishing hours') +
   map_theme
 ```
 
@@ -149,11 +206,35 @@ region_json = '{"geojson":{"type":"Polygon","coordinates":[[[-15.1296846569,46.5
 
 geojson_df <- get_raster(spatial_resolution = 'low',
            temporal_resolution = 'yearly',
-           group_by = 'flag',
+           group_by = 'gearType',
            date_range = '2021-01-01,2021-12-31',
            region = region_json,
            region_source = 'user_json')
 ```
+
+
+```{r, fig.width=5}
+geojson_df %>% 
+  filter(geartype == 'trawlers') %>% 
+  filter(`Apparent Fishing hours` > 24) %>% 
+  ggplot() +
+  geom_raster(aes(x = Lon,
+                  y = Lat,
+                  fill = `Apparent Fishing hours`)) +
+  geom_sf(data = ne_countries(returnclass = 'sf', scale = 'medium')) +
+  coord_sf(xlim = c(min(geojson_df$Lon),max(geojson_df$Lon)),
+           ylim = c(min(geojson_df$Lat),max(geojson_df$Lat))) +
+  scale_fill_gradientn(colors = map_effort_dark, na.value = NA,
+                       limits = c(24, 5000),
+                       oob = scales::squish,
+                       breaks = c(24, 500, 1000, 3000, 5000),
+                       labels = c('24', '500', '1000', '3000', '5000+')) +
+  labs(title = 'Apparent fishing hours (2021)',
+     subtitle = 'Trawlers',
+     fill = 'Fishing hours') +
+  map_theme
+```
+
 
 ```{r}
 geojson_all_df <- geojson_df %>% 
