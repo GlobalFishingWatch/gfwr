@@ -8,6 +8,7 @@ get_raster(
   spatial_resolution = NULL,
   temporal_resolution = NULL,
   group_by = NULL,
+  filter_by = NULL,
   date_range = NULL,
   region = NULL,
   region_source = NULL,
@@ -21,11 +22,13 @@ get_raster(
 
 \item{group_by}{parameter to group by. Can be 'vessel_id', 'flag', 'gearType', 'flagAndGearType'}
 
+\item{filter_by}{parameter to filter by.}
+
 \item{date_range}{Start and end of date range for raster (must be one year or less)}
 
 \item{region}{geojson or GFW region code, shape to filter raster}
 
-\item{region_source}{source of the region ('eez','mpa', 'trfmo' or 'user_json')}
+\item{region_source}{source of the region ('eez','mpa', 'rfmo' or 'user_json')}
 
 \item{key}{Authorization token. Can be obtained with gfw_auth function}
 }
