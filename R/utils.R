@@ -26,7 +26,6 @@ gfw_auth <- function(){
 #' Basic function to make length 1 lists into characters
 #' @name make_char
 #' @keywords internal
-#' @return
 make_char <- function(col) {
   ifelse(is.list(col) & lengths(col) == 1, as.character(col), col)
 }
@@ -34,7 +33,6 @@ make_char <- function(col) {
 #' Helper function to convert datetime responses
 #' @name make_datetime
 #' @keywords internal
-#' @return
 make_datetime <- function(x) {
   as.POSIXct(as.character(x), format = '%Y-%m-%dT%H:%M:%S', tz = 'UTC')
 }
@@ -47,7 +45,6 @@ make_datetime <- function(x) {
 #' @importFrom httr2 resp_body_json
 #' @importFrom purrr map_chr
 #' @importFrom purrr pluck
-#' @return
 gist_error_body <- function(resp) {
   body <- httr2::resp_body_json(resp)
   messages <- body$messages
@@ -65,7 +62,6 @@ gist_error_body <- function(resp) {
 #' @importFrom httr2 req_perform
 #' @importFrom httr2 resp_body_json
 #' @importFrom httr2 req_user_agent
-#' @return
 # pagination function
 paginate <- function(endpoint, key){
 
@@ -181,3 +177,8 @@ get_region_id <- function(region_name, region_source = 'eez', key) {
     stop('Enter a valid region source')
   }
 }
+
+
+globalVariables(c("."))
+globalVariables(c("id"))
+globalVariables(c("value"))
