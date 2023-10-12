@@ -59,7 +59,7 @@ get_event <- function(event_type='port_visit',
                            )
 
   # API call; will paginate if neccessary, otherwise return list with one response
-  all_results <- paginate(endpoint, key)
+  all_results <- gfw_api_request(endpoint, key)
 
   # Extract all entries from list of responses
   all_entries <- purrr::map(all_results, purrr::pluck, 'entries') %>% purrr::flatten(.)
