@@ -130,7 +130,7 @@ gfw_api_request <- function(endpoint, key) {
 #' @importFrom httr2 resp_body_json
 #'
 
-get_region_id <- function(region_name, region_source = 'eez', key) {
+get_region_id <- function(region_name, region_source = 'EEZ', key) {
 
   result <- get_endpoint(dataset_type = region_source) %>%
     httr2::req_headers(Authorization = paste("Bearer", key, sep = " ")) %>%
@@ -141,35 +141,35 @@ get_region_id <- function(region_name, region_source = 'eez', key) {
     dplyr::bind_rows()
 
   # EEZ names
-  if (region_source == "eez" & is.character(region_name)) {
+  if (region_source == "EEZ" & is.character(region_name)) {
     result %>%
       dplyr::filter(agrepl(region_name, .$label) | agrepl(paste0('^',region_name), .$iso3)) %>%
       dplyr::mutate(id = as.numeric(id))
   }
   # EEZ ids
-  else if (region_source == "eez" & is.numeric(region_name)) {
+  else if (region_source == "EEZ" & is.numeric(region_name)) {
     result %>%
       dplyr::filter(id == {{ region_name }})
   }
   # MPA names
-  else if (region_source == "mpa" & is.character(region_name)) {
+  else if (region_source == "MPA" & is.character(region_name)) {
     result %>%
       dplyr::filter(agrepl(region_name, .$label)) %>%
       dplyr::mutate(id = as.numeric(id))
   }
   # MPA ids
-  else if (region_source == "mpa" & is.numeric(region_name)) {
+  else if (region_source == "MPA" & is.numeric(region_name)) {
     result %>%
       dplyr::filter(id == {{ region_name }})
   }
   # RFMO names
-  else if (region_source == "rfmo" & is.character(region_name)) {
+  else if (region_source == "RFMO" & is.character(region_name)) {
     result %>%
       dplyr::filter(agrepl(region_name, .$label)) %>%
       dplyr::mutate(id = as.numeric(id))
   }
   # RFMO ids
-  else if (region_source == "rfmo" & is.numeric(region_name)) {
+  else if (region_source == "RFMO" & is.numeric(region_name)) {
     result %>%
       dplyr::filter(id == {{ region_name }})
   } else {
