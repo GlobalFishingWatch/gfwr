@@ -40,7 +40,7 @@ get_raster <- function(spatial_resolution = NULL,
     `filters[0]` = filter_by,
     `group-by` = group_by,
     `date-range` = date_range,
-    format = 'csv'
+    format = 'CSV'
   )
 
   if (region_source == 'mpa' & is.numeric(region)) {
