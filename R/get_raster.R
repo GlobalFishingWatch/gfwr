@@ -43,17 +43,17 @@ get_raster <- function(spatial_resolution = NULL,
     format = 'CSV'
   )
 
-  if (region_source == 'mpa' & is.numeric(region)) {
+  if (region_source == 'MPA' & is.numeric(region)) {
     region = rjson::toJSON(list(region = list(dataset = 'public-mpa-all',
                                              id = region)))
 
-  } else if (region_source == 'eez' & is.numeric(region)) {
+  } else if (region_source == 'EEZ' & is.numeric(region)) {
     region = rjson::toJSON(list(region = list(dataset = 'public-eez-areas',
                                              id = region)))
-  } else if (region_source == 'rfmo' & is.character(region)) {
+  } else if (region_source == 'RFMO' & is.character(region)) {
     region = rjson::toJSON(list(region = list(dataset = 'public-rfmo',
                                               id = region)))
-  } else if (region_source == 'user_json' & is.character(region)) {
+  } else if (region_source == 'USER_JSON' & is.character(region)) {
     region
   } else {
     stop('region source and region format do not match')
