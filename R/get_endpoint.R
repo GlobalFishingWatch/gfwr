@@ -50,17 +50,17 @@ get_endpoint <- function(dataset_type,...){
   } else if (dataset_type == "eez") {
 
     endpoint <- base %>%
-      httr2::req_url_path_append("datasets/public-eez-areas/user-context-layers")
+      httr2::req_url_path_append("datasets/public-eez-areas/context-layers")
 
   } else if (dataset_type == "mpa") {
 
     endpoint <- base %>%
-      httr2::req_url_path_append("datasets/public-mpa-all/user-context-layers")
+      httr2::req_url_path_append("datasets/public-mpa-all/context-layers")
 
   } else if (dataset_type == "rfmo") {
 
     endpoint <- base %>%
-      httr2::req_url_path_append("datasets/public-rfmo/user-context-layers")
+      httr2::req_url_path_append("datasets/public-rfmo/context-layers")
 
   } else {
     stop("Select valid dataset type")
