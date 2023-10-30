@@ -28,7 +28,7 @@ get_endpoint <- function(dataset_type,...){
   base <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/")
 
   # Get dataset ID for selected API
-  if (!dataset_type %in% c('eez', 'mpa', 'rfmo')) {
+  if (!dataset_type %in% c('EEZ', 'MPA', 'RFMO')) {
     dataset <- api_datasets[[dataset_type]]
   }
 
@@ -47,20 +47,20 @@ get_endpoint <- function(dataset_type,...){
       httr2::req_url_path_append('4wings/report') %>%
       httr2::req_url_query(!!!args)
 
-  } else if (dataset_type == "eez") {
+  } else if (dataset_type == "EEZ") {
 
     endpoint <- base %>%
-      httr2::req_url_path_append("datasets/public-eez-areas/user-context-layers")
+      httr2::req_url_path_append("datasets/public-eez-areas/context-layers")
 
-  } else if (dataset_type == "mpa") {
-
-    endpoint <- base %>%
-      httr2::req_url_path_append("datasets/public-mpa-all/user-context-layers")
-
-  } else if (dataset_type == "rfmo") {
+  } else if (dataset_type == "MPA") {
 
     endpoint <- base %>%
-      httr2::req_url_path_append("datasets/public-rfmo/user-context-layers")
+      httr2::req_url_path_append("datasets/public-mpa-all/context-layers")
+
+  } else if (dataset_type == "RFMO") {
+
+    endpoint <- base %>%
+      httr2::req_url_path_append("datasets/public-rfmo/context-layers")
 
   } else {
     stop("Select valid dataset type")
