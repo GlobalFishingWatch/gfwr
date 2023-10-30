@@ -50,10 +50,10 @@ get_event <- function(event_type='port_visit',
   # Event datasets to pass to param list
   endpoint <- get_endpoint(event_type,
                            `include-regions` = include_regions,
-                           vessels = vessel,
+                           `vessels[0]` = vessel,
                            `start-date` = start_date,
                            `end-date` = end_date,
-                           confidences = confidences,
+                           `confidences[0]` = confidences,
                            limit = 99999,
                            offset = 0
                            )
