@@ -188,6 +188,31 @@ get_region_id <- function(region_name, region_source = 'EEZ', key) {
   }
 }
 
+#' Transforms a vector to a named vector for httr2
+#'
+#' @param x The vector to transform
+#' @param type The type of data to paste, will be "events", "datasets", or "vessel" depending on the context
+#'
+#' @return A named vector in the format required by the API, with names followed by an index that starts in 0 (ex. "datasets[0]")
+#'
+#'
+#' @export
+#'
+#' @examples
+#' vector_to_array(x = 1, type = "vessel")
+#' vector_to_array(x = "a", type = "vessel")
+#' vector_to_array(x = c(1, 2), type = "dataset")
+#' vector_to_array(x = c(1, 2, 3), type = "dataset")
+#' vector_to_array(x = "fishing", type = "dataset")
+#' vector_to_array(x = c("fishing", "port-visits"), type = "event")
+
+vector_to_array <- function(x, type = "vessel") {
+  index <- seq_along(1:length(x)) - 1
+  array_name <- paste0(type, "[", index, "]")
+  names(x) <- array_name
+  return(x)
+}
+
 
 globalVariables(c("."))
 globalVariables(c("id"))
