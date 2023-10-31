@@ -92,11 +92,12 @@ gfw_api_request <- function(endpoint, key) {
   total <- response$total
   # print(paste("Downloading",total,"events from GFW"))
 
+  # next_off <- ifelse(is.null(response$nextOffset), 0, response$nextOffset)
   next_off <- response$nextOffset
 
   # While nextOffset is less than total, pull additional response pages
-  if(next_off < total){
-    while(next_off < total){
+  # if(next_off < total){
+    while(!is.null(next_off)){
 
       # # API call for next page
       next_response <- endpoint %>%
@@ -114,8 +115,9 @@ gfw_api_request <- function(endpoint, key) {
       responses[[length(responses)+1]] <- next_response
 
       # Pull out nextOffset of latest API response
-      next_off <- next_response$nextOffset
-    }
+      next_off <- response$nextOffset
+      # next_off <- ifelse(is.null(response$nextOffset), total, response$nextOffset)
+    # }
   }
   # Return list of response pages
   return(responses)

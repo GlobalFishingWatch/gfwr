@@ -35,7 +35,7 @@ get_endpoint <- function(dataset_type,...){
   # Modify base URL with query parameters
   if (dataset_type %in% c('port_visit','fishing','encounter','loitering')) {
 
-    args <- c(datasets = dataset,  args)
+    args <- c(`datasets[0]` = dataset,  args)
     endpoint <- base %>%
       httr2::req_url_path_append('events') %>%
       httr2::req_url_query(!!!args)
