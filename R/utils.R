@@ -191,7 +191,7 @@ get_region_id <- function(region_name, region_source = 'EEZ', key) {
 #' @param x The vector to transform
 #' @param type The type of data to paste, will be "events", "datasets", or "vessel" depending on the context
 #'
-#' @return A named vector in the format required by the API, with names followed by an index that starts in 0 (ex. "datasets[0]")
+#' @return A named vector in the format required by the API, with names followed by an index that starts in 0 (ex. "datasets\\[0\\]")
 #'
 #'
 #' @export
