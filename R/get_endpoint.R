@@ -74,15 +74,11 @@ get_endpoint <- function(dataset_type,...){
 #'
 #' @param dataset_type Type of identity dataset to get API dataset name for. It can be a vector with any combination of "support_vessel", "carrier_vessel" or "fishing_vessel"
 #' @param search_type Type of vessel search to perform. Can be "search" or "id". "advanced" is no longer in use as of gfwr 2.0.0 and basic and advanced options can be accessed with parameters query and where
-#' @param query search terms to identify vessel
-#' @param where optional. SQL syntax to perform advanced search
 #' @param ids optional, a vector with vessel ids
 #' @param ... Other arguments that would depend on the dataset type.
 
 get_identity_endpoint <- function(dataset_type,
                                   search_type,
-                                  query,
-                                  #where,
                                   ids,
                                   ...) {
 
