@@ -44,21 +44,19 @@ endpoint <- "https://gateway.api.globalfishingwatch.org/v3/insights/vessels"
   # Get dataset ID for selected API
   dataset <- "public-global-vessel-identity:latest"
 
-body <- jsonlite::toJSON(list(includes = includes,
-           startDate = jsonlite::unbox(startDate),
-           endDate = jsonlite::unbox(endDate),
-           vessels = data.frame(datasetId = dataset,
-                       vesselId = vessels)), pretty = TRUE)
+
 request <- base %>%
     httr2::req_headers(Authorization = paste("Bearer", key, sep = " ")) %>%
-    httr2::req_headers(`Content-Type` = "application/json") %>%
+    #httr2::req_headers(`Content-Type` = "application/json") %>%
     httr2::req_headers(Origin = "https://globalfishingwatch.org",
                        Referer = "https://globalfishingwatch.org") %>%
     #httr2::req_error(., body = gist_error_body) %>%
     httr2::req_user_agent(gfw_user_agent()) %>%
-    httr2::req_body_json(body)
-print(request)
-print(body)
+    httr2::req_body_json(list(includes = includes,
+                              startDate = jsonlite::unbox(startDate),
+                              endDate = jsonlite::unbox(endDate),
+                              vessels = data.frame(datasetId = dataset,
+                                                   vesselId = vessels)))
 
 response <- httr2::req_perform(request)
     #httr2::resp_body_json()
