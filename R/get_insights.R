@@ -6,6 +6,7 @@
 #' @param vessels Vector of vessel ids
 #' @param confidences description
 #' @param key Authorization token. Can be obtained with `gfw_auth()` function
+#' @param ... Other arguments
 
 #' @importFrom httr2 req_headers
 #' @importFrom httr2 req_perform
@@ -13,6 +14,7 @@
 #' @importFrom httr2 req_error
 #' @importFrom httr2 req_body_json
 #' @importFrom httr2 resp_body_json
+#' @importFrom jsonlite unbox
 #' @importFrom tidyr unnest_wider
 #' @importFrom tibble enframe
 #'
