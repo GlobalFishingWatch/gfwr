@@ -3,18 +3,23 @@
 #' @param search_type Type of vessel search to perform. Can be `"search"` or
 #' `"id"`. (Note:`"advanced"` and `"basic"` are no longer in use as of gfwr 2.0.0.)
 #' @param match_fields Optional. Allows to filter by `matchFields` levels.
-#' Possible values: SEVERAL_FIELDS, NO_MATCH, ALL. Incompatible with `where`
+#' Possible values: `"SEVERAL_FIELDS"`, `"NO_MATCH"`, `"ALL"`. Incompatible with `where`
 #' @param includes Enhances the response with new information.
 #' \describe{
-#' \item{`"MATCH_CRITERIA"`}{adds information about the reason why a vessel is returned}
 #' \item{`"OWNERSHIP"`}{returns ownership information}
 #' \item{`"AUTHORIZATIONS"`}{lists public authorizations for that vessel}
+#' \item{`"MATCH_CRITERIA"`}{adds information about the reason why a vessel is returned}
 #' }
 #' @param ids When `search_type = "id"`, a vector with identifiers of interest,
 #' can be MMSIs, IMO, CALL SIGN, Ship name
 #' @param registries_info_data when `search_type == "id"`, gets all the registry
-#' objects, only the delta or the latest. Possible values: `"NONE"`, `"DELTA"`,
-#' `"ALL"`
+#' objects, only the delta or the latest.
+#' \describe{
+#'  \item{`"NONE"`}{The API will return the most recent object only}
+#'  \item{`"DELTA"`}{The API will return only the objects when the vessel
+#'  changed one or more identity properties}
+#'  \item{`"ALL"`}{The registryInfo array will return the same number of objects that rows we have in the vessel database}
+#'  }
 #' @param key Authorization token. Can be obtained with `gfw_auth()` function
 #' @param ... Other parameters
 
@@ -70,7 +75,7 @@ get_vessel_info <- function(search_type = "search",
     search_type <- "search"
   }
 
-  #endpoint <<- get_identity_endpoint(
+  #endpoint <- get_identity_endpoint(
     #search_type = search_type,
     #includes = includes,
     #limit = 99999,
@@ -87,14 +92,15 @@ for (i in seq_len(length(args))) {
 
 base <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/")
 
-# Get dataset ID for selected API
+# Only one dataset ID for selected API
 dataset <- "public-global-vessel-identity:latest"
 dataset <- vector_to_array(dataset, type = "datasets")
 args <- c(args, dataset)
 
-# swap name is searching by vessel id
+# ID search now receives a vector
 if (search_type == "id") {
   ids <- vector_to_array(ids, type = "ids")
+
   path_append <- "vessels"
   if (!is.null(registries_info_data)) {
     reg_info <- c(`registries-info-data` = registries_info_data)
@@ -102,16 +108,15 @@ if (search_type == "id") {
   }
   args <- c(args,
             ids)
-    args <- args[!names(args) %in% c('limit','offset')]
-} else if (search_type == "search") {
-  path_append <- "vessels/search"
-  #format includes
-  if (!is.null(includes)) {
-    incl <- vector_to_array(includes, type = "includes")
-    args <- c(args, incl)
-  }
-
-}
+  args <- args[!names(args) %in% c('limit','offset')]
+  } else if (search_type == "search") {
+    path_append <- "vessels/search"
+    #format includes
+    if (!is.null(includes)) {
+      incl <- vector_to_array(includes, type = "includes")
+      args <- c(args, incl)
+      }
+    }
 endpoint <- base %>%
   httr2::req_url_path_append(path_append) %>%
   httr2::req_url_query(!!!args)
@@ -126,7 +131,7 @@ endpoint <- base %>%
   output <- list(
     dataset = purrr::pluck(response$entries, "dataset"),
     registryInfoTotalRecords = purrr::pluck(response$entries, "registryInfoTotalRecords"),
-    registryInfo = purrr::map(response$entries$registryInfo, tibble::tibble),
+    registryInfo = bind_rows(purrr::map(response$entries$registryInfo, tibble::tibble)),
     registryOwners = purrr::map(response$entries$registryOwners, tibble::tibble),
     registryPublicAuthorizations = purrr::map(response$entries$registryPublicAuthorizations, tibble::tibble),
     selfReportedInfo = purrr::map(response$entries$registryselfReportedInfo, tibble::tibble)

@@ -82,48 +82,39 @@ get_identity_endpoint <- function(dataset_type,
                                   ids,
                                   ...) {
 
- #this is unnecessary if the function is called from within get vessel info
-   if (search_type %in% c("advanced", "basic")) {
-    # Signal the deprecation to the user
-    warning("basic or advanced search are no longer in use as of gfwr 2.0.0. Options are 'search' or 'id'. Use `query` for simple queries and `where` for advanced SQL expressions")
-    search_type <- "search"
-  }
   # API endpoint specific parameters from ...
   args <- list(...)
   for (i in seq_len(length(args))) {
     assign(names(args[i]), args[[i]])
   }
 
-if (dataset_type == "all") dataset_type <- c("support_vessel", "carrier_vessel", "fishing_vessel")
-
   base <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/")
 
-  # API datasets to pass to param list
-  api_datasets <- c(
-    "support_vessel" = "public-global-support-vessels:latest",
-    "carrier_vessel" = "public-global-carrier-vessels:latest",
-    "fishing_vessel" = "public-global-fishing-vessels:latest"
-    )
+  # Only one dataset ID for selected API
+  dataset <- "public-global-vessel-identity:latest"
+  dataset <- vector_to_array(dataset, type = "datasets")
+  args <- c(args, dataset)
 
-  # Get dataset ID for selected API
-  dataset <- api_datasets[names(api_datasets) %in% dataset_type]
-  dataset <- vector_to_array(dataset, type = "dataset")
-
-  # swap name is searching by vessel id
+  # ID search now receives a vector
   if (search_type == "id") {
-    #names(args)[names(args) == "query"] <- "ids"
-    args <- vector_to_array(ids, type = "ids")
-    args <- args[!names(args) %in% c('limit','offset')]
+    ids <- vector_to_array(ids, type = "ids")
+
     path_append <- "vessels"
+    if (!is.null(registries_info_data)) {
+      reg_info <- c(`registries-info-data` = registries_info_data)
+      args <- c(args, reg_info)
+    }
+    args <- c(args,
+              ids)
+    args <- args[!names(args) %in% c('limit','offset')]
   } else if (search_type == "search") {
     path_append <- "vessels/search"
+    #format includes
+    if (!is.null(includes)) {
+      incl <- vector_to_array(includes, type = "includes")
+      args <- c(args, incl)
+    }
   }
-  #where <- vector_to_array(query, type = "where")
-    args <- c(dataset,
-              #query,
-              #where,
-              args)
-
   endpoint <- base %>%
     httr2::req_url_path_append(path_append) %>%
     httr2::req_url_query(!!!args)
