@@ -11,8 +11,8 @@
 #' "CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL",
 #' "BUNKER_OR_TANKER", "CARGO"
 #' @param include_regions Boolean. Whether to include regions.
-#' @param start_date Start of date range to search events
-#' @param end_date End of date range to search events
+#' @param start_date Start of date range to search events, in YYYY-MM-DD format and including this date
+#' @param end_date End of date range to search events, in YYYY-MM-DD format and excluding this date
 #' @param confidences Confidence levels (1-4) of events (port visits only).
 #' @param key Authorization token. Can be obtained with gfw_auth() function
 #' @param quiet Boolean. Whether to print the number of events returned by the
