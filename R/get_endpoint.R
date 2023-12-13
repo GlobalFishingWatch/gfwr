@@ -1,14 +1,16 @@
 #'
 #' Function to get API dataset name for given event type
 #'
-#' @param dataset_type Type of dataset to get API dataset name for. It can be "port_visit", "fishing", "encounter", "loitering", "eez" or "mpa""
+#' @param dataset_type Type of dataset to get API dataset name for. It can be
+#'   "ENCOUNTER", "LOITERING", "FISHING", "PORT_VISIT", "GAP", "EEZ", "RFMO" or "MPA"
 #' @param ... Other arguments that would depend on the dataset type.
 #' @importFrom httr2 request
 #' @importFrom httr2 req_url_path_append
 #' @importFrom httr2 req_url_query
-#'
+#' @export
 
-get_endpoint <- function(dataset_type,...){
+get_endpoint <- function(dataset_type,
+                         ...) {
 
   # API endpoint specific parameters from ...
   args <- list(...)
@@ -16,12 +18,24 @@ get_endpoint <- function(dataset_type,...){
     assign(names(args[i]), args[[i]])
   }
 
+
+  #vessels array
+  vessels <- vector_to_array(vessels, type = "vessels")
+  args <- c(args, vessels)
+  if (!is.null(confidences)) {
+    confidences <- vector_to_array(confidences, type = "confidences")
+    args <- c(args, confidences)
+  }
+
+
+
   # API datasets to pass to param list
   api_datasets <- c(
-    'port_visit' = "public-global-port-visits-c2-events:latest",
-    'encounter' = "public-global-encounters-events:latest",
-    'loitering' = "public-global-loitering-events-carriers:latest",
-    'fishing' = "public-global-fishing-events:latest",
+    'PORT_VISIT' = "public-global-port-visits-c2-events:latest",
+    'ENCOUNTER' = "public-global-encounters-events:latest",
+    'LOITERING' = "public-global-loitering-events:latest",
+    'FISHING' = "public-global-fishing-events:latest",
+    'GAP' = "public-global-gaps-events:latest",
     'raster' = "public-global-fishing-effort:latest"
   )
 
@@ -33,9 +47,10 @@ get_endpoint <- function(dataset_type,...){
   }
 
   # Modify base URL with query parameters
-  if (dataset_type %in% c('port_visit','fishing','encounter','loitering')) {
-
-    args <- c(`datasets[0]` = dataset,  args)
+  if (dataset_type %in% c("PORT_VISIT", 'FISHING', 'ENCOUNTER','LOITERING', "GAP")) {
+    #datasets array
+    dataset <- vector_to_array(dataset, type = "datasets")
+    args <- c(dataset,  args)
     endpoint <- base %>%
       httr2::req_url_path_append('events') %>%
       httr2::req_url_query(!!!args)
