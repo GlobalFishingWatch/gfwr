@@ -59,13 +59,13 @@
 #'  ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
 #'  registries_info_data = c("ALL"), key = gfw_auth())
 #' @export
-get_vessel_info <- function(search_type = "search",
+get_vessel_info <- function(ids = NULL,
                             #query = NULL,
                             #where = NULL,
                             includes = NULL,
                             match_fields = NULL,
-                            ids = NULL,
                             registries_info_data = NULL,
+                            search_type = "search",
                             key = gfw_auth(),
                             ...) {
 
