@@ -10,13 +10,18 @@
 #' @param vessel_types A vector of vessel types, any combination of: "FISHING",
 #' "CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL",
 #' "BUNKER_OR_TANKER", "CARGO"
-#' @param include_regions Boolean. Whether to include regions.
+#' @param include_regions Boolean. Whether to include regions
 #' @param start_date Start of date range to search events, in YYYY-MM-DD format and including this date
 #' @param end_date End of date range to search events, in YYYY-MM-DD format and excluding this date
-#' @param confidences Confidence levels (1-4) of events (port visits only).
+#' @param confidences Confidence levels (1-4) of events (port visits only)
 #' @param key Authorization token. Can be obtained with gfw_auth() function
 #' @param quiet Boolean. Whether to print the number of events returned by the
 #' request
+#' @param print_request Boolean. Whether to print the request, for debugging
+#' purposes. When contacting the GFW team it will be useful to send this string
+#' @param limit Limit
+#' @param offset Offset
+#' @param ... Other arguments
 #'
 #' @importFrom dplyr across
 #' @importFrom dplyr mutate
@@ -31,10 +36,12 @@
 #' @details
 #' There are currently four available event types and these events are provided
 #' for three vessel types - fishing, carrier, and support vessels.
-#' Fishing events (`event_type = "FISHING"`) are specific to fishing vessels and loitering events (`event_type = "LOITERING"`) are specific to carrier vessels.
+#' Fishing events (`event_type = "FISHING"`) are specific to fishing vessels and
+#' loitering events (`event_type = "LOITERING"`) are specific to carrier vessels.
 #' Port visits (`event_type = "PORT_VISIT"`) and encounters
 #' (`event_type = "ENCOUNTER"`) are available for all vessel types. For more
-#' details about the various event types, see the [GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#data-caveat).
+#' details about the various event types, see the
+#' [GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#data-caveat).
 #'
 #' Encounter events involve multiple vessels and one row is returned for each
 #' vessel involved in an encounter.
@@ -84,8 +91,10 @@
 #'   key = gfw_auth())
 #' @export
 
-get_event <- function(event_type = 'PORT_VISIT',
+get_event <- function(event_type,
                       vessels = NULL,
+                      encounter_types = NULL,
+                      vessel_types = NULL,
                       include_regions = FALSE,
                       start_date = NULL,
                       end_date = NULL,
@@ -94,9 +103,8 @@ get_event <- function(event_type = 'PORT_VISIT',
                       offset = 0,
                       key = gfw_auth(),
                       quiet = FALSE,
+                      print_request = FALSE,
                       ...) {
-
-
 
 
   # Event datasets to pass to param list
@@ -114,11 +122,17 @@ get_event <- function(event_type = 'PORT_VISIT',
   for (i in seq_len(length(args))) {
     assign(names(args[i]), args[[i]])
   }
-args <- c(args, limit = limit, offset = offset)
+args <- c(args,
+          limit = limit,
+          offset = offset,
+          `start-date` = start_date,
+          `end-date` = end_date)
 
   #vessels array
+if (!is.null(vessels)) {
   vessels <- vector_to_array(vessels, type = "vessels")
   args <- c(args, vessels)
+}
   if (event_type != "PORT_VISIT") confidences <- NULL
   if (!is.null(confidences)) {
     confidences <- vector_to_array(confidences, type = "confidences")
@@ -151,6 +165,7 @@ args <- c(args, limit = limit, offset = offset)
       httr2::req_url_query(!!!args)
 
   }
+  if (print_request) message(print(endpoint))
 
   # API call; will paginate if necessary, otherwise return list with one response
 all_results <- gfw_api_request(endpoint, key)
