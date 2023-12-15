@@ -5,48 +5,115 @@
 \title{Base function to get event from API and convert response to data frame}
 \usage{
 get_event(
-  event_type = "port_visit",
-  vessel = NULL,
-  include_regions = NULL,
+  event_type,
+  vessels = NULL,
+  encounter_types = NULL,
+  vessel_types = NULL,
+  include_regions = FALSE,
   start_date = NULL,
   end_date = NULL,
-  confidences = NULL,
+  confidences = c(2, 3, 4),
+  limit = 99999,
+  offset = 0,
   key = gfw_auth(),
-  quiet = FALSE
+  quiet = FALSE,
+  print_request = FALSE,
+  ...
 )
 }
 \arguments{
-\item{event_type}{Type of event to get data of. One of "port_visit", "encounter", "loitering, or "fishing"}
+\item{event_type}{Type of event to get data of. A vector with any combination
+of "ENCOUNTER", "FISHING", "LOITERING", "GAP", "PORT_VISIT"}
 
-\item{vessel}{VesselID. How to get this?}
+\item{vessels}{A vector of VesselIDs, obtained via the get_vessel_info() function}
 
-\item{include_regions}{Whether to include regions? Ask engineering if this can always be false}
+\item{encounter_types}{Filters for types of vessels during the encounter. A
+vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
+"FISHING-SUPPORT", "SUPPORT-FISHING"}
 
-\item{start_date}{Start of date range to search events}
+\item{vessel_types}{A vector of vessel types, any combination of: "FISHING",
+"CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL",
+"BUNKER_OR_TANKER", "CARGO"}
 
-\item{end_date}{End of date range to search events}
+\item{include_regions}{Boolean. Whether to include regions}
 
-\item{confidences}{Confidence levels (1-4) of events (port visits only).}
+\item{start_date}{Start of date range to search events, in YYYY-MM-DD format and including this date}
 
-\item{key}{Authorization token. Can be obtained with gfw_auth function}
+\item{end_date}{End of date range to search events, in YYYY-MM-DD format and excluding this date}
 
-\item{quiet}{Boolean. Whether to print the number of events returned by the request.}
+\item{confidences}{Confidence levels (1-4) of events (port visits only)}
+
+\item{limit}{Limit}
+
+\item{offset}{Offset}
+
+\item{key}{Authorization token. Can be obtained with gfw_auth() function}
+
+\item{quiet}{Boolean. Whether to print the number of events returned by the
+request}
+
+\item{print_request}{Boolean. Whether to print the request, for debugging
+purposes. When contacting the GFW team it will be useful to send this string}
+
+\item{...}{Other arguments}
 }
 \description{
 Base function to get event from API and convert response to data frame
 }
 \details{
-There are currently four available event types and these events are provide for three
-vessel types - fishing, carrier, and support vessels.
-Fishing events (\code{event_type = 'fishing'}) are specific to fishing vessels and loitering
-events (\code{event_type = 'loitering'}) are specific to carrier vessels. Port visits
-(\code{event_type = 'port_visit'}) and encounters (\code{event_type = 'encounter'}) are available
-for all vessel types. For more details about the various event types, see the \href{https://globalfishingwatch.org/our-apis/documentation#data-caveat}{GFW API documentation}.
+There are currently four available event types and these events are provided
+for three vessel types - fishing, carrier, and support vessels.
+Fishing events (\code{event_type = "FISHING"}) are specific to fishing vessels and
+loitering events (\code{event_type = "LOITERING"}) are specific to carrier vessels.
+Port visits (\code{event_type = "PORT_VISIT"}) and encounters
+(\code{event_type = "ENCOUNTER"}) are available for all vessel types. For more
+details about the various event types, see the
+\href{https://globalfishingwatch.org/our-apis/documentation#data-caveat}{GFW API documentation}.
 
-Encounter events involve multiple vessels and one row is returned for each vessel involved in an encounter.
-For example, an encounter between a carrier and fishing vessel (\code{carrier-fishing}) will have one
-row for the fishing vessel and one for the carrier vessel. The \code{id} field for encounter events has
-two components separated by a \code{.}. The first component is the unique id for the encounter event and will be
-the same for all vessels involved in the encounter. The second component is an integer used to distinguish between
-different vessels in the encounter.
+Encounter events involve multiple vessels and one row is returned for each
+vessel involved in an encounter.
+For example, an encounter between a carrier and fishing vessel
+(\code{CARRIER-FISHING}) will have one row for the fishing vessel and one for the
+carrier vessel. The \code{id} field for encounter events has two components
+separated by a \code{.}. The first component is the unique id for the encounter
+event and will be the same for all vessels involved in the encounter. The
+second component is an integer used to distinguish between different vessels
+in the encounter.
+}
+\examples{
+library(gfwr)
+# port visits
+get_event(event_type = "PORT_VISIT",
+          vessels = c("e0c9823749264a129d6b47a7aabce377", "8c7304226-6c71-edbe-0b63-c246734b3c01"),
+          start_date = "2017-01-26",
+          end_date = "2023-02-04",
+          key = gfw_auth())
+ #encounters
+ get_event(event_type = "ENCOUNTER",
+ vessels = c("e0c9823749264a129d6b47a7aabce377",
+  "8c7304226-6c71-edbe-0b63-c246734b3c01"),
+  start_date = "2017-01-26",
+  end_date = "2023-02-04",
+  key = gfw_auth())
+ # fishing
+ get_event(event_type = "FISHING",
+ vessels = c("e0c9823749264a129d6b47a7aabce377",
+  "8c7304226-6c71-edbe-0b63-c246734b3c01"),
+  start_date = "2017-01-26",
+  end_date = "2023-02-04",
+  key = gfw_auth())
+ # GAPS
+ get_event(event_type = "GAP",
+ vessels = c("e0c9823749264a129d6b47a7aabce377",
+  "8c7304226-6c71-edbe-0b63-c246734b3c01"),
+  start_date = "2017-01-26",
+  end_date = "2023-02-04",
+  key = gfw_auth())
+ # loitering
+ get_event(event_type = "LOITERING",
+ vessels = c("e0c9823749264a129d6b47a7aabce377",
+  "8c7304226-6c71-edbe-0b63-c246734b3c01"),
+  start_date = "2017-01-26",
+  end_date = "2023-02-04",
+  key = gfw_auth())
 }

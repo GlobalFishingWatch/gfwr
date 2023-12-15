@@ -16,21 +16,25 @@ get_raster(
 )
 }
 \arguments{
-\item{spatial_resolution}{raster spatial resolution. Can be "low" = 0.1 degree or "high" = 0.01 degree}
+\item{spatial_resolution}{raster spatial resolution. Can be "LOW" = 0.1 degree
+or "HIGH" = 0.01 degree}
 
-\item{temporal_resolution}{raster temporal resolution. Can be 'daily','monthly','yearly'.}
+\item{temporal_resolution}{raster temporal resolution. Can be 'HOURLY',
+'DAILY', 'MONTHLY', 'YEARLY'}
 
-\item{group_by}{parameter to group by. Can be 'vessel_id', 'flag', 'gearType', 'flagAndGearType'}
+\item{group_by}{parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
+'FLAGANDGEARTYPE' or 'MMSI'}
 
 \item{filter_by}{parameter to filter by.}
 
-\item{date_range}{Start and end of date range for raster (must be one year or less)}
+\item{date_range}{Start and end of date range for raster (must be 366 days or less)}
 
-\item{region}{geojson or GFW region code, shape to filter raster}
+\item{region}{geojson shape to filter raster or GFW region code (such as an
+EEZ code). See details about formatting the geojson}
 
-\item{region_source}{source of the region ('eez','mpa', 'rfmo' or 'user_json')}
+\item{region_source}{source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')}
 
-\item{key}{Authorization token. Can be obtained with gfw_auth function}
+\item{key}{Authorization token. Can be obtained with gfw_auth() function}
 }
 \description{
 Base function to get raster from API and convert response to data frame

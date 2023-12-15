@@ -57,7 +57,7 @@ make_datetime <- function(x) {
 gist_error_body <- function(resp) {
   body <- httr2::resp_body_json(resp)
   messages <- body$messages
-  if(length(messages[[1]]) > 1){
+  if (length(messages[[1]]) > 1){
     messages <- purrr::map_chr(messages, purrr::pluck, 'detail')
   }
   messages
@@ -65,7 +65,8 @@ gist_error_body <- function(resp) {
 
 #' General function for GFW API requests, including handling of pagination.
 #' @name gfw_api_request
-#' @keywords internal
+#' @param endpoint the endpoint to make the request
+#' @param key Authentication key
 #' @importFrom httr2 req_headers
 #' @importFrom httr2 req_error
 #' @importFrom httr2 req_perform
@@ -97,7 +98,7 @@ gfw_api_request <- function(endpoint, key) {
 
   # While nextOffset is less than total, pull additional response pages
   # if(next_off < total){
-    while(!is.null(next_off)){
+    while (!is.null(next_off)) {
 
       # # API call for next page
       next_response <- endpoint %>%
@@ -112,7 +113,7 @@ gfw_api_request <- function(endpoint, key) {
         httr2::resp_body_json()
 
       # Append response to list
-      responses[[length(responses)+1]] <- next_response
+      responses[[length(responses) + 1]] <- next_response
 
       # Pull out nextOffset of latest API response
       next_off <- response$nextOffset
@@ -193,11 +194,10 @@ get_region_id <- function(region_name, region_source = 'EEZ', key) {
 #' @param x The vector to transform
 #' @param type The type of data to paste, will be "events", "datasets", or "vessel" depending on the context
 #'
-#' @return A named vector in the format required by the API, with names followed by an index that starts in 0 (ex. "datasets\\[0\\]")
-#'
-#'
+#' @return A named vector in the format required by the API, with names followed
+#' by a zero-indexed suffix (ex. datasets\\[0\\])
 #' @export
-#'
+
 #' @examples
 #' vector_to_array(x = 1, type = "vessel")
 #' vector_to_array(x = "a", type = "vessel")
@@ -215,5 +215,9 @@ vector_to_array <- function(x, type = "vessel") {
 
 
 globalVariables(c("."))
+globalVariables(c("end"))
 globalVariables(c("id"))
+globalVariables(c("includes"))
+globalVariables(c("registries_info_data"))
+globalVariables(c("start"))
 globalVariables(c("value"))

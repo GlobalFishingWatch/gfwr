@@ -5,42 +5,48 @@
 \title{Base function to get vessel information from API and convert response to data frame}
 \usage{
 get_vessel_info(
-  search_type = "search",
-  includes = NULL,
   ids = NULL,
-  registries_info_data = NULL,
+  includes = c("AUTHORIZATIONS", "OWNERSHIP", "MATCH_CRITERIA"),
+  match_fields = NULL,
+  registries_info_data = c("ALL"),
+  search_type = "search",
   key = gfw_auth(),
+  print_request = FALSE,
   ...
 )
 }
 \arguments{
-\item{search_type}{Type of vessel search to perform. Can be \code{"search"} or
-\code{"id"}. (Note:\code{"advanced"} and \code{"basic"} are no longer in use as of gfwr 2.0.0.)}
-
-\item{includes}{Enhances the response with new information.
-\describe{
-\item{\code{"MATCH_CRITERIA"}}{adds information about the reason why a vessel is returned}
-\item{\code{"OWNERSHIP"}}{returns ownership information}
-\item{\code{"AUTHORIZATIONS"}}{lists public authorizations for that vessel}
-}}
-
 \item{ids}{When \code{search_type = "id"}, a vector with identifiers of interest,
 can be MMSIs, IMO, CALL SIGN, Ship name}
 
+\item{includes}{Enhances the response with new information, defaults to include all.
+\describe{
+\item{\code{"OWNERSHIP"}}{returns ownership information}
+\item{\code{"AUTHORIZATIONS"}}{lists public authorizations for that vessel}
+\item{\code{"MATCH_CRITERIA"}}{adds information about the reason why a vessel is returned}
+}}
+
+\item{match_fields}{Optional. Allows to filter by \code{matchFields} levels.
+Possible values: \code{"SEVERAL_FIELDS"}, \code{"NO_MATCH"}, \code{"ALL"}. Incompatible with \code{where}}
+
 \item{registries_info_data}{when \code{search_type == "id"}, gets all the registry
-objects, only the delta or the latest. Possible values: \code{"NONE"}, \code{"DELTA"},
-\code{"ALL"}}
+objects, only the delta or the latest.
+\describe{
+\item{\code{"NONE"}}{The API will return the most recent object only}
+\item{\code{"DELTA"}}{The API will return only the objects when the vessel
+changed one or more identity properties}
+\item{\code{"ALL"}}{The registryInfo array will return the same number of objects that rows we have in the vessel database}
+}}
+
+\item{search_type}{Type of vessel search to perform. Can be \code{"search"} or
+\code{"id"}. (Note:\code{"advanced"} and \code{"basic"} are no longer in use as of gfwr 2.0.0.)}
 
 \item{key}{Authorization token. Can be obtained with \code{gfw_auth()} function}
 
-\item{query}{Basic search terms to identify vessel. Has to be a length-1
-numeric or character vector with MMSI, IMO, CALL SIGN or Ship name}
+\item{print_request}{Boolean. Whether to print the request, for debugging
+purposes. When contacting the GFW team it will be useful to send this string}
 
-\item{where}{Optional. SQL syntax to perform advanced search. Incompatible
-with \code{query}}
-
-\item{match_fields}{Optional. Allows to filter by \code{matchFields} levels.
-Possible values: SEVERAL_FIELDS, NO_MATCH, ALL. Incompatible with \code{where}}
+\item{...}{Other parameters, such as limit and offset}
 }
 \description{
 Base function to get vessel information from API and convert response to data frame
@@ -54,20 +60,22 @@ vessel id.
 \examples{
 library(gfwr)
 # Simple searches, using includes
-get_vessel_info(query = c(224224000, 224224001), search_type = "search", dataset =
- "fishing_vessel", key = gfw_auth())
-get_vessel_info(query = 224224000, search_type = "search", dataset =
- "fishing_vessel", includes = "OWNERSHIP", key = gfw_auth())
-get_vessel_info(query = 224224000, search_type = "search", dataset =
- "fishing_vessel", includes = c("OWNERSHIP", "AUTHORIZATIONS"), key = gfw_auth())
+get_vessel_info(query = 224224000, search_type = "search",
+key = gfw_auth())
 # Advanced search with where instead of query:
 get_vessel_info(where = "ssvid = '441618000' OR imo = '9047271'",
- search_type = "search", dataset = "fishing_vessel",
-  includes = c("OWNERSHIP", "AUTHORIZATIONS"), key = gfw_auth())
+search_type = "search", key = gfw_auth())
  # Vessel id search
  get_vessel_info(search_type = "id",
  ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01",
  "6583c51e3-3626-5638-866a-f47c3bc7ef7c"), key = gfw_auth())
- get_vessel_info(search_type = "id",
- ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01"), registries_info_data = c("ALL"), key = gfw_auth())
+ all <- get_vessel_info(search_type = "id",
+ ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
+ registries_info_data = c("ALL"), key = gfw_auth())
+ none <- get_vessel_info(search_type = "id",
+ ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
+ registries_info_data = c("NONE"), key = gfw_auth())
+ delta <- get_vessel_info(search_type = "id",
+ ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
+ registries_info_data = c("DELTA"), key = gfw_auth())
 }
