@@ -4,7 +4,7 @@
 #' `"id"`. (Note:`"advanced"` and `"basic"` are no longer in use as of gfwr 2.0.0.)
 #' @param match_fields Optional. Allows to filter by `matchFields` levels.
 #' Possible values: `"SEVERAL_FIELDS"`, `"NO_MATCH"`, `"ALL"`. Incompatible with `where`
-#' @param includes Enhances the response with new information.
+#' @param includes Enhances the response with new information, defaults to include all.
 #' \describe{
 #' \item{`"OWNERSHIP"`}{returns ownership information}
 #' \item{`"AUTHORIZATIONS"`}{lists public authorizations for that vessel}
@@ -21,7 +21,9 @@
 #'  \item{`"ALL"`}{The registryInfo array will return the same number of objects that rows we have in the vessel database}
 #'  }
 #' @param key Authorization token. Can be obtained with `gfw_auth()` function
-#' @param ... Other parameters
+#' @param print_request Boolean. Whether to print the request, for debugging
+#' purposes. When contacting the GFW team it will be useful to send this string
+#' @param ... Other parameters, such as limit and offset
 
 #' @importFrom httr2 req_headers
 #' @importFrom httr2 req_perform
@@ -42,31 +44,32 @@
 #' # Simple searches, using includes
 #' get_vessel_info(query = 224224000, search_type = "search",
 #' key = gfw_auth())
-#' get_vessel_info(query = 224224000, search_type = "search",
-#'includes = "OWNERSHIP", key = gfw_auth())
-#' get_vessel_info(query = 224224000, search_type = "search",
-#'includes = c("OWNERSHIP", "AUTHORIZATIONS"), key = gfw_auth())
 #' # Advanced search with where instead of query:
 #' get_vessel_info(where = "ssvid = '441618000' OR imo = '9047271'",
-#' search_type = "search",
-#' includes = c("OWNERSHIP", "AUTHORIZATIONS"),
-#' key = gfw_auth())
+#' search_type = "search", key = gfw_auth())
 #'  # Vessel id search
 #'  get_vessel_info(search_type = "id",
 #'  ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01",
 #'  "6583c51e3-3626-5638-866a-f47c3bc7ef7c"), key = gfw_auth())
-#'  get_vessel_info(search_type = "id",
+#'  all <- get_vessel_info(search_type = "id",
 #'  ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
 #'  registries_info_data = c("ALL"), key = gfw_auth())
+#'  none <- get_vessel_info(search_type = "id",
+#'  ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
+#'  registries_info_data = c("NONE"), key = gfw_auth())
+#'  delta <- get_vessel_info(search_type = "id",
+#'  ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
+#'  registries_info_data = c("DELTA"), key = gfw_auth())
 #' @export
 get_vessel_info <- function(ids = NULL,
                             #query = NULL,
                             #where = NULL,
-                            includes = NULL,
+                            includes = c("AUTHORIZATIONS", "OWNERSHIP", "MATCH_CRITERIA"),
                             match_fields = NULL,
-                            registries_info_data = NULL,
+                            registries_info_data = c("ALL"),
                             search_type = "search",
                             key = gfw_auth(),
+                            print_request = FALSE,
                             ...) {
 
   if (search_type %in% c("advanced", "basic")) {
@@ -108,7 +111,7 @@ if (search_type == "id") {
   }
   args <- c(args,
             ids)
-  args <- args[!names(args) %in% c('limit','offset')]
+  #args <- args[!names(args) %in% c('limit','offset')]
   } else if (search_type == "search") {
     path_append <- "vessels/search"
     #format includes
@@ -116,25 +119,35 @@ if (search_type == "id") {
       incl <- vector_to_array(includes, type = "includes")
       args <- c(args, incl)
       }
-    }
+  }
+
 endpoint <- base %>%
   httr2::req_url_path_append(path_append) %>%
   httr2::req_url_query(!!!args)
 
-  response <- endpoint %>%
+if (print_request) message(endpoint)
+
+   response <- endpoint %>%
     httr2::req_headers(Authorization = paste("Bearer", key, sep = " ")) %>%
     #httr2::req_error(., body = gist_error_body) %>%
     httr2::req_user_agent(gfw_user_agent()) %>%
     httr2::req_perform() %>%
     httr2::resp_body_json(simplifyVector = TRUE)
 
+  # format tibbles
+  combinedSourcesInfo <- dplyr::bind_rows(purrr::map(response$entries$combinedSourcesInfo, tibble::tibble)) %>%
+    tidyr::unnest(.data$geartypes, names_sep = "_geartype_") %>%
+    tidyr::unnest(.data$shiptypes, names_sep = "_shiptype_")
+
+  # build output list
   output <- list(
-    dataset = purrr::pluck(response$entries, "dataset"),
-    registryInfoTotalRecords = purrr::pluck(response$entries, "registryInfoTotalRecords"),
-    registryInfo = bind_rows(purrr::map(response$entries$registryInfo, tibble::tibble)),
-    registryOwners = purrr::map(response$entries$registryOwners, tibble::tibble),
-    registryPublicAuthorizations = purrr::map(response$entries$registryPublicAuthorizations, tibble::tibble),
-    selfReportedInfo = purrr::map(response$entries$registryselfReportedInfo, tibble::tibble)
+    dataset = tibble::tibble(dataset = response$entries$dataset),
+    registryInfoTotalRecords = tibble::tibble(registryInfoTotalRecords = response$entries$registryInfoTotalRecords),
+    registryInfo = dplyr::bind_rows(purrr::map(response$entries$registryInfo, tibble::tibble)),
+    registryOwners = dplyr::bind_rows(purrr::map(response$entries$registryOwners, tibble::tibble)),
+    registryPublicAuthorizations = dplyr::bind_rows(purrr::map(response$entries$registryPublicAuthorizations, tibble::tibble)),
+    combinedSourcesInfo = combinedSourcesInfo,
+    selfReportedInfo = dplyr::bind_rows(purrr::map(response$entries$registryselfReportedInfo, tibble::tibble))
     )
 
   return(output)
