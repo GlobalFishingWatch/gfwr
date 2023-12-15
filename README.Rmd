@@ -242,14 +242,12 @@ get_event(event_type = 'FISHING',
           )
 ```
 
-```{r}
-knitr::knit_exit()
-```
+
 
 ## Map Visualization API
 
-The `get_raster` function gets a raster from the [4Wings API](https://globalfishingwatch.org/our-apis/documentation#map-visualization-4wings-api) and converts the
-response to a data frame. In order to use it, you should specify:
+The `get_raster()` function gets a raster from the [4Wings API](https://globalfishingwatch.org/our-apis/documentation#map-visualization-4wings-api)
+and converts the response to a data frame. In order to use it, you should specify:
 
 * The spatial resolution, which can be `LOW` (0.1 degree) or `HIGH` (0.01 degree)
 * The temporal resolution, which can be `HOURLY`, `DAILY`, `MONTHLY`, `YEARLY` or `ENTIRE`.
@@ -279,12 +277,12 @@ get_raster(
   )
 ```
 
-If you want raster data from a particular EEZ, you can use the `get_region_id`
+If you want raster data from a particular EEZ, you can use the `get_region_id()`
 function to get the EEZ id, enter that code in the `region` argument
-of `get_raster` instead of the geojson data (ensuring you specify the `region_source`
+of `get_raster()` instead of the geojson data (ensuring you specify the `region_source`
 as `'EEZ'`:
 
-```{r example_map_2, eval=F}
+```{r example_map_2, eval= TRUE}
 # use EEZ function to get EEZ code of Cote d'Ivoire
 code_eez <- get_region_id(region_name = 'CIV', region_source = 'EEZ', key = key)
 
@@ -300,7 +298,7 @@ get_raster(spatial_resolution = 'LOW',
 You could search for just one word in the name of the EEZ and then decide which
 one you want:
 
-```{r example_map_3, eval=T}
+```{r example_map_3, eval = TRUE}
 (get_region_id(region_name = 'France', region_source = 'EEZ', key = key))
 
 # Let's say we're interested in the French Exclusive Economic Zone, 5677
@@ -317,7 +315,7 @@ get_raster(spatial_resolution = 'LOW',
 A similar approach can be used to search for a specific Marine Protected Area,
 in this case the Phoenix Island Protected Area (PIPA)
 
-```{r example_map_4, eval=F}
+```{r example_map_4, eval= TRUE}
 # use region id function to get MPA code of Phoenix Island Protected Area
 code_mpa <- get_region_id(region_name = 'Phoenix', region_source = 'MPA', key = key)
 
@@ -344,14 +342,15 @@ get_raster(spatial_resolution = 'LOW',
            key = key)
 ```
 
-The `get_region_id` function also works in reverse. If a region id is passed as
-a `numeric` to the function as the `region_name`, the corresponding region label or iso3 can be returned.
-This is especially useful when events are returned with regions.
+The `get_region_id()` function also works in reverse. If a region id is passed as
+a `numeric` to the function as the `region_name`, the corresponding region label
+or iso3 can be returned. This is especially useful when events are returned with
+regions.
 
 ```{r example_region_id, eval=T}
 # using same example as above
-get_event(event_type = 'fishing',
-          vessel = usa_trawler_ids,
+get_event(event_type = 'FISHING',
+          vessels = usa_trawler_ids,
           start_date = "2020-01-01",
           end_date = "2020-02-01",
           include_regions = TRUE,
@@ -363,11 +362,12 @@ get_event(event_type = 'fishing',
   dplyr::select(id, type, start, end, lat, lon, eez) %>%
   dplyr::rowwise() %>%
   dplyr::mutate(eez_name = get_region_id(region_name = as.numeric(eez),
-                                         region_source = 'eez',
+                                         region_source = 'EEZ',
                                          key = key)$label)
 ```
 
 ## Contributing
 
 We welcome all contributions to improve the package! Please read our
-[Contribution Guide](https://github.com/GlobalFishingWatch/gfwr/blob/main/Contributing.md) and reach out!
+[Contribution Guide](https://github.com/GlobalFishingWatch/gfwr/blob/main/Contributing.md)
+and reach out!

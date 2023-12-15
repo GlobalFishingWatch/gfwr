@@ -489,14 +489,8 @@ get_event(event_type = 'FISHING',
           vessels = usa_trawler_ids,
           start_date = "2020-01-01",
           end_date = "2020-02-01",
-          key = key, 
-          print_request = TRUE
+          key = key
           )
-#> <httr2_request>
-#> GET
-#> https://gateway.api.globalfishingwatch.org/v3/events?datasets%5B0%5D=public-global-fishing-events%3Alatest&limit=99999&offset=0&start-date=2020-01-01&end-date=2020-02-01&vessels%5B0%5D=c698dfcc5-5c85-9329-b1ac-8b3656ea9233&vessels%5B1%5D=64907178b-b02a-f401-afa1-b3a099d7a142&vessels%5B2%5D=64907178b-b02a-f401-afa1-b3a099d7a142&vessels%5B3%5D=64907178b-b02a-f401-afa1-b3a099d7a142&vessels%5B4%5D=64907178b-b02a-f401-afa1-b3a099d7a142&vessels%5B5%5D=242fa3fbf-fa03-eb47-5855-f0880b8e7acf&vessels%5B6%5D=15cea26f5-57ad-acac-4cbf-b45cefb7ab04&vessels%5B7%5D=9f5552145-50ed-92f4-4514-5177b1a6511d&vessels%5B8%5D=bc29946f2-2b0b-9613-054a-cd59327226d9&vessels%5B9%5D=8d68317d6-6610-59c4-c99a-ef4cd41acd1a&vessels%5B10%5D=0dddd2a83-3626-24f1-0fe6-3c4d45bbb409&vessels%5B11%5D=0dddd2a83-3626-24f1-0fe6-3c4d45bbb409&vessels%5B12%5D=0dddd2a83-3626-24f1-0fe6-3c4d45bbb409&vessels%5B13%5D=0dddd2a83-3626-24f1-0fe6-3c4d45bbb409&vessels%5B14%5D=695b254f7-7e6c-ff50-dc63-55139d9e0101&vessels%5B15%5D=0108b3937-772f-d55b-aeb7-1c6113ac1722&vessels%5B16%5D=d481fe954-496a-f7fb-704a-6813d3f80a33&vessels%5B17%5D=558f4982d-dabe-e259-28fc-ea981c35ba03&vessels%5B18%5D=9417d951e-eb3e-3420-fd0a-6af9744d2797&vessels%5B19%5D=1cabdf828-80d6-1456-b8ec-bef9e3144ace
-#> Body: empty
-#> https://gateway.api.globalfishingwatch.org/v3/events?datasets%5B0%5D=public-global-fishing-events%3Alatest&limit=99999&offset=0&start-date=2020-01-01&end-date=2020-02-01&vessels%5B0%5D=c698dfcc5-5c85-9329-b1ac-8b3656ea9233&vessels%5B1%5D=64907178b-b02a-f401-afa1-b3a099d7a142&vessels%5B2%5D=64907178b-b02a-f401-afa1-b3a099d7a142&vessels%5B3%5D=64907178b-b02a-f401-afa1-b3a099d7a142&vessels%5B4%5D=64907178b-b02a-f401-afa1-b3a099d7a142&vessels%5B5%5D=242fa3fbf-fa03-eb47-5855-f0880b8e7acf&vessels%5B6%5D=15cea26f5-57ad-acac-4cbf-b45cefb7ab04&vessels%5B7%5D=9f5552145-50ed-92f4-4514-5177b1a6511d&vessels%5B8%5D=bc29946f2-2b0b-9613-054a-cd59327226d9&vessels%5B9%5D=8d68317d6-6610-59c4-c99a-ef4cd41acd1a&vessels%5B10%5D=0dddd2a83-3626-24f1-0fe6-3c4d45bbb409&vessels%5B11%5D=0dddd2a83-3626-24f1-0fe6-3c4d45bbb409&vessels%5B12%5D=0dddd2a83-3626-24f1-0fe6-3c4d45bbb409&vessels%5B13%5D=0dddd2a83-3626-24f1-0fe6-3c4d45bbb409&vessels%5B14%5D=695b254f7-7e6c-ff50-dc63-55139d9e0101&vessels%5B15%5D=0108b3937-772f-d55b-aeb7-1c6113ac1722&vessels%5B16%5D=d481fe954-496a-f7fb-704a-6813d3f80a33&vessels%5B17%5D=558f4982d-dabe-e259-28fc-ea981c35ba03&vessels%5B18%5D=9417d951e-eb3e-3420-fd0a-6af9744d2797&vessels%5B19%5D=1cabdf828-80d6-1456-b8ec-bef9e3144aceNULLlist()NULLlist()list()list()
 #> [1] "Downloading 33 events from GFW"
 #> # A tibble: 33 × 14
 #>    start               end                 id    type    lat    lon regions     
@@ -530,6 +524,248 @@ get_event(event_type = 'FISHING',
 #> NULL
 ```
 
+## Map Visualization API
+
+The `get_raster()` function gets a raster from the [4Wings
+API](https://globalfishingwatch.org/our-apis/documentation#map-visualization-4wings-api)
+and converts the response to a data frame. In order to use it, you
+should specify:
+
+- The spatial resolution, which can be `LOW` (0.1 degree) or `HIGH`
+  (0.01 degree)
+- The temporal resolution, which can be `HOURLY`, `DAILY`, `MONTHLY`,
+  `YEARLY` or `ENTIRE`.
+- The variable to group by: `FLAG`, `GEARTYPE`, `FLAGANDGEARTYPE`,
+  `MMSI` or `VESSEL_ID`
+- The date range `note: this must be 366 days or less`
+- The `geojson` region or region code (such as an EEZ code) to filter
+  the raster
+- The source for the specified region (currently, `EEZ`, `MPA`, `RFMO`
+  or `USER_JSON`)
+
+### Examples
+
+Here’s an example where we enter the geojson data manually:
+
 ``` r
-knitr::knit_exit()
+
+region_json = '{"geojson":{"type":"Polygon","coordinates":[[[-76.11328125,-26.273714024406416],[-76.201171875,-26.980828590472093],[-76.376953125,-27.527758206861883],[-76.81640625,-28.30438068296276],[-77.255859375,-28.767659105691244],[-77.87109375,-29.152161283318918],[-78.486328125,-29.45873118535532],[-79.189453125,-29.61167011519739],[-79.892578125,-29.6880527498568],[-80.595703125,-29.61167011519739],[-81.5625,-29.382175075145277],[-82.177734375,-29.07537517955835],[-82.705078125,-28.6905876542507],[-83.232421875,-28.071980301779845],[-83.49609375,-27.683528083787756],[-83.759765625,-26.980828590472093],[-83.84765625,-26.35249785815401],[-83.759765625,-25.64152637306576],[-83.583984375,-25.16517336866393],[-83.232421875,-24.447149589730827],[-82.705078125,-23.966175871265037],[-82.177734375,-23.483400654325635],[-81.5625,-23.241346102386117],[-80.859375,-22.998851594142906],[-80.15625,-22.917922936146027],[-79.453125,-22.998851594142906],[-78.662109375,-23.1605633090483],[-78.134765625,-23.40276490540795],[-77.431640625,-23.885837699861995],[-76.9921875,-24.28702686537642],[-76.552734375,-24.846565348219727],[-76.2890625,-25.48295117535531],[-76.11328125,-26.273714024406416]]]}}'
+
+get_raster(
+  spatial_resolution = 'LOW',
+  temporal_resolution = 'YEARLY',
+  group_by = 'FLAG',
+  date_range = '2021-01-01,2021-12-31',
+  region = region_json,
+  region_source = 'USER_JSON',
+  key = key
+  )
 ```
+
+If you want raster data from a particular EEZ, you can use the
+`get_region_id()` function to get the EEZ id, enter that code in the
+`region` argument of `get_raster()` instead of the geojson data
+(ensuring you specify the `region_source` as `'EEZ'`:
+
+``` r
+# use EEZ function to get EEZ code of Cote d'Ivoire
+code_eez <- get_region_id(region_name = 'CIV', region_source = 'EEZ', key = key)
+
+get_raster(spatial_resolution = 'LOW',
+           temporal_resolution = 'YEARLY',
+           group_by = 'FLAG',
+           date_range = '2021-01-01,2021-10-01',
+           region = code_eez$id,
+           region_source = 'EEZ',
+           key = key)
+#> Rows: 573 Columns: 6
+#> ── Column specification ────────────────────────────────────────────────────────
+#> Delimiter: ","
+#> chr (1): flag
+#> dbl (5): Lat, Lon, Time Range, Vessel IDs, Apparent Fishing Hours
+#> 
+#> ℹ Use `spec()` to retrieve the full column specification for this data.
+#> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+#> # A tibble: 573 × 6
+#>      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`
+#>    <dbl> <dbl>        <dbl> <chr>        <dbl>                    <dbl>
+#>  1   5.1  -4           2021 GHA              6                     4.82
+#>  2   4.4  -6.9         2021 CHN              1                     5.21
+#>  3   4.4  -6.8         2021 CHN              1                     7.33
+#>  4   4.6  -6.6         2021 CHN              1                    37.4 
+#>  5   4.7  -6.3         2021 CHN              1                    32.0 
+#>  6   4.7  -6.1         2021 CHN              1                     9.94
+#>  7   5.1  -4           2021 ESP              1                     1.16
+#>  8   5    -5.2         2021 CHN              3                    53.2 
+#>  9   4.4  -5.2         2021 SLV              1                     7.74
+#> 10   2.4  -6.6         2021 BLZ              1                     1.75
+#> # ℹ 563 more rows
+```
+
+You could search for just one word in the name of the EEZ and then
+decide which one you want:
+
+``` r
+(get_region_id(region_name = 'France', region_source = 'EEZ', key = key))
+#> # A tibble: 3 × 3
+#>      id label                            iso3 
+#>   <dbl> <chr>                            <chr>
+#> 1  5677 France                           FRA  
+#> 2 48966 Joint regime area Spain / France FRA  
+#> 3 48976 Joint regime area Italy / France FRA
+
+# Let's say we're interested in the French Exclusive Economic Zone, 5677
+get_raster(spatial_resolution = 'LOW',
+           temporal_resolution = 'YEARLY',
+           group_by = 'FLAG',
+           date_range = '2021-01-01,2021-10-01',
+           region = 5677,
+           region_source = 'EEZ',
+           key = key)
+#> Rows: 5611 Columns: 6
+#> ── Column specification ────────────────────────────────────────────────────────
+#> Delimiter: ","
+#> chr (1): flag
+#> dbl (5): Lat, Lon, Time Range, Vessel IDs, Apparent Fishing Hours
+#> 
+#> ℹ Use `spec()` to retrieve the full column specification for this data.
+#> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+#> # A tibble: 5,611 × 6
+#>      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`
+#>    <dbl> <dbl>        <dbl> <chr>        <dbl>                    <dbl>
+#>  1  51.1   1.7         2021 FRA             21                    291. 
+#>  2  51.5   2.2         2021 FRA             14                    176. 
+#>  3  42.7   3.2         2021 ESP              6                     29.0
+#>  4  50.1   0.4         2021 GBR             11                    435. 
+#>  5  42.8   3.5         2021 FRA             16                    470. 
+#>  6  51.3   2.2         2021 BEL              4                     12.8
+#>  7  50.8   1.4         2021 FRA             27                   1686. 
+#>  8  43.3   4.2         2021 FRA             32                    952. 
+#>  9  50.2   0.2         2021 GBR             14                    188. 
+#> 10  50.4   0.7         2021 GBR              6                     35.3
+#> # ℹ 5,601 more rows
+```
+
+A similar approach can be used to search for a specific Marine Protected
+Area, in this case the Phoenix Island Protected Area (PIPA)
+
+``` r
+# use region id function to get MPA code of Phoenix Island Protected Area
+code_mpa <- get_region_id(region_name = 'Phoenix', region_source = 'MPA', key = key)
+
+get_raster(spatial_resolution = 'LOW',
+           temporal_resolution = 'YEARLY',
+           group_by = 'FLAG',
+           date_range = '2015-01-01,2015-06-01',
+           region = code_mpa$id[1],
+           region_source = 'MPA',
+           key = key)
+#> Rows: 40 Columns: 6
+#> ── Column specification ────────────────────────────────────────────────────────
+#> Delimiter: ","
+#> chr (1): flag
+#> dbl (5): Lat, Lon, Time Range, Vessel IDs, Apparent Fishing Hours
+#> 
+#> ℹ Use `spec()` to retrieve the full column specification for this data.
+#> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+#> # A tibble: 40 × 6
+#>      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`
+#>    <dbl> <dbl>        <dbl> <chr>        <dbl>                    <dbl>
+#>  1  -4.7 -176.         2015 KIR              1                     1.75
+#>  2  -4.7 -176.         2015 KIR              1                     0.36
+#>  3  -1.7 -172.         2015 KOR              1                     0.78
+#>  4  -1.3 -171.         2015 KOR              1                     0.08
+#>  5  -4   -176.         2015 KOR              1                     4.26
+#>  6  -4   -176.         2015 KOR              1                     1.37
+#>  7  -2.3 -176.         2015 TWN              1                    10.8 
+#>  8  -2.6 -176.         2015 KOR              1                    14.0 
+#>  9  -2.6 -176.         2015 KOR              1                     5.58
+#> 10  -2.9 -176.         2015 KOR              2                     9.74
+#> # ℹ 30 more rows
+```
+
+It is also possible to filter rasters to one of the five regional
+fisheries management organizations (RFMO) that manage tuna and tuna-like
+species. These include `"ICCAT"`, `"IATTC"`,`"IOTC"`, `"CCSBT"` and
+`"WCPFC"`.
+
+``` r
+get_raster(spatial_resolution = 'LOW',
+           temporal_resolution = 'DAILY',
+           group_by = 'FLAG',
+           date_range = '2021-01-01,2021-01-15',
+           region = 'ICCAT',
+           region_source = 'RFMO',
+           key = key)
+#> Rows: 114979 Columns: 6
+#> ── Column specification ────────────────────────────────────────────────────────
+#> Delimiter: ","
+#> chr  (1): flag
+#> dbl  (4): Lat, Lon, Vessel IDs, Apparent Fishing Hours
+#> date (1): Time Range
+#> 
+#> ℹ Use `spec()` to retrieve the full column specification for this data.
+#> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+#> # A tibble: 114,979 × 6
+#>      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`
+#>    <dbl> <dbl> <date>       <chr>        <dbl>                    <dbl>
+#>  1  68.7 -51.4 2021-01-08   GRL              1                     0.25
+#>  2  68.8 -51.2 2021-01-05   GRL              1                     4.78
+#>  3  68.8 -51.2 2021-01-04   GRL              2                     0.73
+#>  4  66.9 -24.7 2021-01-03   ISL             11                    14.7 
+#>  5  66.9 -24.6 2021-01-03   ISL             12                    34.5 
+#>  6  66.9 -24.5 2021-01-03   ISL             13                    40.2 
+#>  7  66.8 -24.3 2021-01-04   ISL             15                    42.2 
+#>  8  67   -24   2021-01-04   ISL              3                     6.13
+#>  9  66.9 -23.9 2021-01-04   ISL              2                     1.43
+#> 10  66.9 -24.1 2021-01-03   ISL              3                     3.4 
+#> # ℹ 114,969 more rows
+```
+
+The `get_region_id()` function also works in reverse. If a region id is
+passed as a `numeric` to the function as the `region_name`, the
+corresponding region label or iso3 can be returned. This is especially
+useful when events are returned with regions.
+
+``` r
+# using same example as above
+get_event(event_type = 'FISHING',
+          vessels = usa_trawler_ids,
+          start_date = "2020-01-01",
+          end_date = "2020-02-01",
+          include_regions = TRUE,
+          key = key
+          ) %>%
+  # extract EEZ id code
+  dplyr::mutate(eez = as.character(purrr::map(purrr::map(regions, pluck, 'eez'),
+                                              paste0, collapse = ','))) %>%
+  dplyr::select(id, type, start, end, lat, lon, eez) %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(eez_name = get_region_id(region_name = as.numeric(eez),
+                                         region_source = 'EEZ',
+                                         key = key)$label)
+#> [1] "Downloading 33 events from GFW"
+#> # A tibble: 33 × 8
+#> # Rowwise: 
+#>    id           type  start               end                   lat    lon eez  
+#>    <chr>        <chr> <dttm>              <dttm>              <dbl>  <dbl> <chr>
+#>  1 379d452b49e… fish… 2020-01-05 04:58:45 2020-01-05 06:31:45  43.7 -124.  8456 
+#>  2 94fdf957151… fish… 2020-01-08 19:39:55 2020-01-08 22:43:54  43.8 -124.  8456 
+#>  3 51c5140b261… fish… 2020-01-09 12:30:54 2020-01-09 17:44:54  38.4  -73.5 8456 
+#>  4 2068a73ed9b… fish… 2020-01-09 18:32:34 2020-01-09 19:20:15  38.3  -73.6 8456 
+#>  5 c60e52370d4… fish… 2020-01-09 21:14:43 2020-01-10 10:16:36  38.1  -73.8 8456 
+#>  6 4f20b44a59b… fish… 2020-01-10 12:35:22 2020-01-10 16:22:01  38.0  -73.9 8456 
+#>  7 6739137b68e… fish… 2020-01-10 18:21:53 2020-01-12 03:13:04  38.0  -73.9 8456 
+#>  8 46f8debd1e5… fish… 2020-01-13 12:45:32 2020-01-13 15:38:38  38.0  -73.9 8456 
+#>  9 23330ffa0e1… fish… 2020-01-13 13:20:55 2020-01-13 15:07:53  43.7 -124.  8456 
+#> 10 ca7ea60b731… fish… 2020-01-13 17:38:55 2020-01-13 21:52:25  38.0  -73.9 8456 
+#> # ℹ 23 more rows
+#> # ℹ 1 more variable: eez_name <chr>
+```
+
+## Contributing
+
+We welcome all contributions to improve the package! Please read our
+[Contribution
+Guide](https://github.com/GlobalFishingWatch/gfwr/blob/main/Contributing.md)
+and reach out!

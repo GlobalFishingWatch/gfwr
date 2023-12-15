@@ -20,9 +20,11 @@ get_endpoint <- function(dataset_type,
 
 
   #vessels array
+  if (exists("vessels") && !is.null(vessels)) {
   vessels <- vector_to_array(vessels, type = "vessels")
   args <- c(args, vessels)
-  if (!is.null(confidences)) {
+  }
+  if (exists("confidences") && !is.null(confidences)) {
     confidences <- vector_to_array(confidences, type = "confidences")
     args <- c(args, confidences)
   }
