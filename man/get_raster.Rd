@@ -39,8 +39,10 @@ Base function to get raster from API and convert response to data frame
 \details{
 The user-defined geojson has to be surrounded by a geojson tag,
 that can be created using a simple paste:
-geojson_tagged <- paste0('{"geojson":', your_geojson,'}').
-If you have an \link[sf:sf]{sf::sf} shapefile, you can also use function \code{\link[=sf_to_geojson]{sf_to_geojson()}}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{geojson_tagged <- paste0('\{"geojson":', your_geojson,'\}').
+}\if{html}{\out{</div>}}
+
+If you have an \strong{sf} shapefile, you can also use function \code{\link[=sf_to_geojson]{sf_to_geojson()}}
 to obtain the correctly-formatted geojson.
-See examples at https://github.com/GlobalFishingWatch/gfwr
 }
