@@ -37,7 +37,11 @@ The package currently works with the following APIs:
 You can install the development version of `gfwr` like so:
 
 ``` {r, eval = FALSE}
-devtools::install_github("GlobalFishingWatch/gfwr")
+# Check/install remotes
+if (!require("remotes"))
+  install.packages("remotes")
+
+remotes::install_github("GlobalFishingWatch/gfwr")
 ```
 
 Once everything is installed, you can load and use `gfwr` 
@@ -55,9 +59,8 @@ devtools::load_all()
 
 The use of `gfwr` requires a GFW API token, which users can request from
 the [GFW API Portal](https://globalfishingwatch.org/our-apis/tokens). Save
-this token to your `.Renviron` file (using `usethis::edit_r_environ()`) by adding a string
-named `"GFW_TOKEN"` to the file (`"GFW_TOKEN" = "PASTE_YOUR_TOKEN_HERE"`). Save 
-the `.Renviron` file and restart the R session to make the edit effective.  
+this token to your `.Renviron` file (using `usethis::edit_r_environ()`) by adding a variable named `GFW_TOKEN` to
+the file (`GFW_TOKEN = "PASTE_YOUR_TOKEN_HERE"`). Save the `.Renviron` file and restart the R session to make the edit effective.  
 
 Then use the `gfw_auth` helper function to save the information to an object
 in your R workspace every time you need to extract the token and pass it
@@ -177,12 +180,16 @@ Or get encounters for all vessels in a given date range:
 ```{r example_event_type_3, eval=F}
 get_event(event_type='encounter',
           start_date = "2020-01-01",
-          end_date = "2020-02-01",
+          end_date = "2020-01-03",
           key = key
           )
 ```
 
-As another example, let's combine the Vessels and Events APIs to get fishing events for a list of 10 USA-flagged trawlers:
+When a date range is provided to `get_event()` using both `start_date` and `end_date`, any event overlapping that range will be returned, including events that start prior to `start_date` or end after `end_date`. If just `start_date` or `end_date` are provided, results will include all events that end after `start_date` or begin prior to `end_date`, respectively.
+
+> *Note*: Because encounter events are events between two vessels, a single event will be represented twice in the data, once for each vessel. To capture this information and link the related data rows, the `id` field for encounter events includes an additional suffix (1 or 2) separated by a period. The `vessel` field will also contain different information specific to each vessel.
+
+As another example, let's combine the Vessels and Events APIs to get fishing events for a list of 100 USA-flagged trawlers:
 
 ```{r example_event_type_4a, eval=T}
 # Download the list of USA trawlers
@@ -194,7 +201,7 @@ usa_trawlers <- get_vessel_info(
   )
 
 # Collapse vessel ids into a commas separated list to pass to Events API
-usa_trawler_ids <- paste0(usa_trawlers$id[1:10], collapse = ',')
+usa_trawler_ids <- paste0(usa_trawlers$id[1:100], collapse = ',')
 ```
 
 Now get the list of fishing events for these trawlers in January, 2020:
@@ -212,7 +219,7 @@ When no events are available, the `get_event()` function returns nothing.
 
 ```{r example_event_type_4c, eval=T}
 get_event(event_type='fishing',
-          vessel = usa_trawler_ids,
+          vessel = usa_trawler_ids[2],
           start_date = "2020-01-01",
           end_date = "2020-01-01",
           key = key

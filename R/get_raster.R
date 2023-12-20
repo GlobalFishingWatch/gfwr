@@ -60,7 +60,6 @@ get_raster <- function(spatial_resolution = NULL,
   }
 
   # API call
-  # TODO: Add exception handling
   # TODO: Handle paginated responses
   response <- endpoint %>%
     httr2::req_headers(Authorization = paste("Bearer",
