@@ -10,8 +10,8 @@
 #' \item{`"AUTHORIZATIONS"`}{lists public authorizations for that vessel}
 #' \item{`"MATCH_CRITERIA"`}{adds information about the reason why a vessel is returned}
 #' }
-#' @param ids When `search_type = "id"`, a vector with identifiers of interest,
-#' can be MMSIs, IMO, CALL SIGN, Ship name
+#' @param ids When `search_type = "id"`, a vector with the vessel id of interest,
+#' obtained after performing a search_type = "search".
 #' @param registries_info_data when `search_type == "id"`, gets all the registry
 #' objects, only the delta or the latest.
 #' \describe{
