@@ -26,7 +26,8 @@ get_raster(
 
 \item{date_range}{Start and end of date range for raster (must be one year or less)}
 
-\item{region}{geojson or GFW region code, shape to filter raster}
+\item{region}{geojson shape to filter raster or GFW region code (such as an
+EEZ code). See details about geojson formatting.}
 
 \item{region_source}{source of the region ('eez','mpa', 'rfmo' or 'user_json')}
 
@@ -36,5 +37,12 @@ get_raster(
 Base function to get raster from API and convert response to data frame
 }
 \details{
-See examples at https://github.com/GlobalFishingWatch/gfwr
+The user-defined geojson has to be surrounded by a geojson tag,
+that can be created using a simple paste:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{geojson_tagged <- paste0('\{"geojson":', your_geojson,'\}').
+}\if{html}{\out{</div>}}
+
+If you have an \strong{sf} shapefile, you can also use function \code{\link[=sf_to_geojson]{sf_to_geojson()}}
+to obtain the correctly-formatted geojson.
 }
