@@ -181,7 +181,7 @@ get_region_id <- function(region_name, region_source = 'eez', key) {
 #' Formats an sf shapefile to a formatted geojson
 #'
 #' @param sf_shape The sf shapefile to transform
-#' @returns A correctly-formatted geojason to be used in `get_raster()`
+#' @returns A correctly-formatted geojson to be used in `get_raster()`
 #' @importFrom geojsonsf sf_geojson
 #' @export
 

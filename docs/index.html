@@ -4,63 +4,68 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="This package is a wrapper for the Global Fishing Watch (GFW) APIs, making it easy for users to download and work with GFW data directly in R.">
-<title>An R package for accessing data from Global Fishing Watch APIs • gfwr</title>
-<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactions with GFW APIs providing data tibbles • gfwr</title>
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
+<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="An R package for accessing data from Global Fishing Watch APIs">
-<meta property="og:description" content="This package is a wrapper for the Global Fishing Watch (GFW) APIs, making it easy for users to download and work with GFW data directly in R.">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="pkgdown.js"></script><meta property="og:title" content="Interactions with GFW APIs providing data tibbles">
+<meta property="og:description" content="This package connects to several Global Fishing Watch APIs to get vessel and events information in an R-friendly format.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
-    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+<body data-spy="scroll" data-target="#toc">
     
 
-    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
-    
-    <a class="navbar-brand me-2" href="index.html">gfwr</a>
+    <div class="container template-home">
+      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="index.html">gfwr</a>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.1</span>
+      </span>
+    </div>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
-
-    
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto">
-<li class="nav-item">
-  <a class="nav-link" href="reference/index.html">Reference</a>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+<li>
+  <a href="reference/index.html">Reference</a>
 </li>
-<li class="nav-item">
-  <a class="nav-link" href="news/index.html">Changelog</a>
+<li>
+  <a href="news/index.html">Changelog</a>
 </li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav">
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/GlobalFishingWatch/gfwr/" aria-label="github">
-    <span class="fab fa fab fa-github fa-lg"></span>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/GlobalFishingWatch/gfwr/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
 </div>
-
-    
+<!--/.nav-collapse -->
   </div>
-</nav><div class="container template-home">
-<div class="row">
-  <main id="main" class="col-md-9"><div class="section level1">
+<!--/.container -->
+</div>
+<!--/.navbar -->
+
+      
+
+      </header><div class="row">
+  <div class="contents col-md-9">
+<div class="section level1">
 <div class="page-header"><h1 id="gfwr-access-data-from-global-fishing-watch-apis-">
 <code>gfwr</code>: Access data from Global Fishing Watch APIs <img src="reference/figures/gfwr_hex_rgb.png" align="right" width="200px"><a class="anchor" aria-label="anchor" href="#gfwr-access-data-from-global-fishing-watch-apis-"></a>
 </h1></div>
@@ -85,7 +90,11 @@ See the <a href="https://globalfishingwatch.org/our-apis/documentation#reference
 </h2>
 <p>You can install the development version of <code>gfwr</code> like so:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"GlobalFishingWatch/gfwr"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Check/install remotes</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://remotes.r-lib.org" class="external-link">"remotes"</a></span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"GlobalFishingWatch/gfwr"</span><span class="op">)</span></span></code></pre></div>
 <p>Once everything is installed, you can load and use <code>gfwr</code> in your scripts with <code><a href="https://github.com/GlobalFishingWatch/gfwr" class="external-link">library(gfwr)</a></code></p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/GlobalFishingWatch/gfwr" class="external-link">gfwr</a></span><span class="op">)</span></span></code></pre></div>
@@ -131,13 +140,12 @@ See the <a href="https://globalfishingwatch.org/our-apis/documentation#reference
 <span>                dataset <span class="op">=</span> <span class="st">"all"</span>, </span>
 <span>                key <span class="op">=</span> <span class="va">key</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 1 × 17</span></span>
-<span><span class="co">#&gt;    name callsign first…¹ flag  geart…² id    imo   lastT…³ mmsi  msgCo…⁴ posCo…⁵</span></span>
-<span><span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt; &lt;lgl&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;int&gt;   &lt;int&gt;</span></span>
-<span><span class="co">#&gt; 1     1 EBSJ     2015-1… ESP   NA      3c99… 8733… 2019-1… 2242… 1887249   73677</span></span>
-<span><span class="co">#&gt; # … with 6 more variables: shipname &lt;chr&gt;, source &lt;chr&gt;, vesselType &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   years &lt;list&gt;, dataset &lt;chr&gt;, score &lt;dbl&gt;, and abbreviated variable names</span></span>
-<span><span class="co">#&gt; #   ¹​firstTransmissionDate, ²​geartype, ³​lastTransmissionDate, ⁴​msgCount,</span></span>
-<span><span class="co">#&gt; #   ⁵​posCount</span></span></code></pre></div>
+<span><span class="co">#&gt;    name callsign firstTransmissionDate flag  geartype id                   imo  </span></span>
+<span><span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;                 &lt;chr&gt; &lt;lgl&gt;    &lt;chr&gt;                &lt;chr&gt;</span></span>
+<span><span class="co">#&gt; 1     1 EBSJ     2015-10-13T15:47:16Z  ESP   NA       3c99c326d-dd2e-175d… 8733…</span></span>
+<span><span class="co">#&gt; # ℹ 10 more variables: lastTransmissionDate &lt;chr&gt;, mmsi &lt;chr&gt;, msgCount &lt;int&gt;,</span></span>
+<span><span class="co">#&gt; #   posCount &lt;int&gt;, shipname &lt;chr&gt;, source &lt;chr&gt;, vesselType &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   years &lt;list&gt;, dataset &lt;chr&gt;, score &lt;dbl&gt;</span></span></code></pre></div>
 <p>To combine different fields and do fuzzy matching to search the <code>carrier vessel</code> dataset:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/get_vessel_info.html">get_vessel_info</a></span><span class="op">(</span>query <span class="op">=</span> <span class="st">"shipname LIKE '%GABU REEFE%' OR imo = '8300949'"</span>, </span>
@@ -187,8 +195,9 @@ See the <a href="https://globalfishingwatch.org/our-apis/documentation#reference
 <span><span class="co">#&gt;  8 104e… port… 2016-04-24 07:14:33 2016-04-24 11:54:59 14.7  -17.4  &lt;named list&gt;</span></span>
 <span><span class="co">#&gt;  9 8f19… port… 2016-05-18 19:31:04 2016-05-22 14:20:05  5.20  -4.01 &lt;named list&gt;</span></span>
 <span><span class="co">#&gt; 10 bf64… port… 2016-06-26 15:08:16 2016-06-30 10:39:03  5.20  -4.07 &lt;named list&gt;</span></span>
-<span><span class="co">#&gt; # … with 25 more rows, and 4 more variables: boundingBox &lt;list&gt;,</span></span>
-<span><span class="co">#&gt; #   distances &lt;list&gt;, vessel &lt;list&gt;, event_info &lt;list&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; # ℹ 25 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 4 more variables: boundingBox &lt;list&gt;, distances &lt;list&gt;, vessel &lt;list&gt;,</span></span>
+<span><span class="co">#&gt; #   event_info &lt;list&gt;</span></span></code></pre></div>
 <p>We can also use more than one <code>vessel id</code>:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/get_event.html">get_event</a></span><span class="op">(</span>event_type<span class="op">=</span><span class="st">'port_visit'</span>,</span>
@@ -202,10 +211,14 @@ See the <a href="https://globalfishingwatch.org/our-apis/documentation#reference
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/get_event.html">get_event</a></span><span class="op">(</span>event_type<span class="op">=</span><span class="st">'encounter'</span>,</span>
 <span>          start_date <span class="op">=</span> <span class="st">"2020-01-01"</span>,</span>
-<span>          end_date <span class="op">=</span> <span class="st">"2020-02-01"</span>,</span>
+<span>          end_date <span class="op">=</span> <span class="st">"2020-01-03"</span>,</span>
 <span>          key <span class="op">=</span> <span class="va">key</span></span>
 <span>          <span class="op">)</span></span></code></pre></div>
-<p>As another example, let’s combine the Vessels and Events APIs to get fishing events for a list of 10 USA-flagged trawlers:</p>
+<p>When a date range is provided to <code><a href="reference/get_event.html">get_event()</a></code> using both <code>start_date</code> and <code>end_date</code>, any event overlapping that range will be returned, including events that start prior to <code>start_date</code> or end after <code>end_date</code>. If just <code>start_date</code> or <code>end_date</code> are provided, results will include all events that end after <code>start_date</code> or begin prior to <code>end_date</code>, respectively.</p>
+<blockquote>
+<p><em>Note</em>: Because encounter events are events between two vessels, a single event will be represented twice in the data, once for each vessel. To capture this information and link the related data rows, the <code>id</code> field for encounter events includes an additional suffix (1 or 2) separated by a period. The <code>vessel</code> field will also contain different information specific to each vessel.</p>
+</blockquote>
+<p>As another example, let’s combine the Vessels and Events APIs to get fishing events for a list of 100 USA-flagged trawlers:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Download the list of USA trawlers</span></span>
 <span><span class="va">usa_trawlers</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_vessel_info.html">get_vessel_info</a></span><span class="op">(</span></span>
@@ -216,7 +229,7 @@ See the <a href="https://globalfishingwatch.org/our-apis/documentation#reference
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Collapse vessel ids into a commas separated list to pass to Events API</span></span>
-<span><span class="va">usa_trawler_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">usa_trawlers</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span>, collapse <span class="op">=</span> <span class="st">','</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">usa_trawler_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">usa_trawlers</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span>, collapse <span class="op">=</span> <span class="st">','</span><span class="op">)</span></span></code></pre></div>
 <p>Now get the list of fishing events for these trawlers in January, 2020:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/get_event.html">get_event</a></span><span class="op">(</span>event_type<span class="op">=</span><span class="st">'fishing'</span>,</span>
@@ -225,32 +238,27 @@ See the <a href="https://globalfishingwatch.org/our-apis/documentation#reference
 <span>          end_date <span class="op">=</span> <span class="st">"2020-02-01"</span>,</span>
 <span>          key <span class="op">=</span> <span class="va">key</span></span>
 <span>          <span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Downloading 16 events from GFW"</span></span>
-<span><span class="co">#&gt; # A tibble: 16 × 11</span></span>
+<span><span class="co">#&gt; [1] "Downloading 102 events from GFW"</span></span>
+<span><span class="co">#&gt; # A tibble: 102 × 11</span></span>
 <span><span class="co">#&gt;    id    type  start               end                   lat    lon regions     </span></span>
 <span><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;dttm&gt;              &lt;dttm&gt;              &lt;dbl&gt;  &lt;dbl&gt; &lt;list&gt;      </span></span>
-<span><span class="co">#&gt;  1 f85e… fish… 2020-01-06 12:35:55 2020-01-06 15:05:39  41.1  -66.4 &lt;named list&gt;</span></span>
-<span><span class="co">#&gt;  2 ccbe… fish… 2020-01-08 20:44:15 2020-01-09 09:16:14  34.6  -76.6 &lt;named list&gt;</span></span>
-<span><span class="co">#&gt;  3 d20b… fish… 2020-01-09 10:10:14 2020-01-09 13:23:45  34.6  -76.6 &lt;named list&gt;</span></span>
-<span><span class="co">#&gt;  4 cda2… fish… 2020-01-09 17:17:15 2020-01-09 22:47:20  34.6  -76.6 &lt;named list&gt;</span></span>
-<span><span class="co">#&gt;  5 2f98… fish… 2020-01-14 14:52:08 2020-01-14 15:45:00  54.2 -165.  &lt;named list&gt;</span></span>
-<span><span class="co">#&gt;  6 642a… fish… 2020-01-20 20:27:13 2020-01-20 23:48:13  34.6  -76.6 &lt;named list&gt;</span></span>
-<span><span class="co">#&gt;  7 4fdb… fish… 2020-01-21 12:42:01 2020-01-21 13:18:00  34.7  -76.8 &lt;named list&gt;</span></span>
-<span><span class="co">#&gt;  8 5101… fish… 2020-01-21 16:09:45 2020-01-22 07:50:52  34.6  -76.6 &lt;named list&gt;</span></span>
-<span><span class="co">#&gt;  9 0404… fish… 2020-01-22 09:19:52 2020-01-22 10:14:21  34.6  -76.6 &lt;named list&gt;</span></span>
-<span><span class="co">#&gt; 10 aacb… fish… 2020-01-23 10:55:05 2020-01-23 13:34:49  33.8  -78.0 &lt;named list&gt;</span></span>
-<span><span class="co">#&gt; 11 4b83… fish… 2020-01-30 19:41:58 2020-01-30 23:08:30  35.1  -75.9 &lt;named list&gt;</span></span>
-<span><span class="co">#&gt; 12 3f33… fish… 2020-01-31 01:09:15 2020-01-31 02:56:23  54.2 -165.  &lt;named list&gt;</span></span>
-<span><span class="co">#&gt; 13 d35f… fish… 2020-01-31 03:46:20 2020-01-31 05:37:04  54.2 -165.  &lt;named list&gt;</span></span>
-<span><span class="co">#&gt; 14 113b… fish… 2020-01-31 16:40:38 2020-01-31 18:04:28  54.2 -165.  &lt;named list&gt;</span></span>
-<span><span class="co">#&gt; 15 0ef5… fish… 2020-01-31 19:14:29 2020-01-31 20:28:14  54.2 -165.  &lt;named list&gt;</span></span>
-<span><span class="co">#&gt; 16 5812… fish… 2020-01-31 21:14:15 2020-01-31 21:56:05  54.2 -165.  &lt;named list&gt;</span></span>
-<span><span class="co">#&gt; # … with 4 more variables: boundingBox &lt;list&gt;, distances &lt;list&gt;, vessel &lt;list&gt;,</span></span>
+<span><span class="co">#&gt;  1 10b0… fish… 2019-12-31 14:51:06 2020-01-01 02:20:02  29.1  -90.0 &lt;named list&gt;</span></span>
+<span><span class="co">#&gt;  2 e210… fish… 2019-12-31 20:19:35 2020-01-01 03:15:25  28.9  -89.8 &lt;named list&gt;</span></span>
+<span><span class="co">#&gt;  3 5db6… fish… 2020-01-06 08:00:05 2020-01-06 10:20:02  45.9 -124.  &lt;named list&gt;</span></span>
+<span><span class="co">#&gt;  4 60c8… fish… 2020-01-07 02:35:53 2020-01-07 20:25:18  41.1  -69.3 &lt;named list&gt;</span></span>
+<span><span class="co">#&gt;  5 ccbe… fish… 2020-01-08 20:44:15 2020-01-09 09:16:14  34.6  -76.6 &lt;named list&gt;</span></span>
+<span><span class="co">#&gt;  6 d20b… fish… 2020-01-09 10:10:14 2020-01-09 13:23:45  34.6  -76.6 &lt;named list&gt;</span></span>
+<span><span class="co">#&gt;  7 cda2… fish… 2020-01-09 17:17:15 2020-01-09 22:47:20  34.6  -76.6 &lt;named list&gt;</span></span>
+<span><span class="co">#&gt;  8 f103… fish… 2020-01-11 03:28:38 2020-01-13 18:25:36  41.1  -69.3 &lt;named list&gt;</span></span>
+<span><span class="co">#&gt;  9 81c8… fish… 2020-01-11 14:10:04 2020-01-11 15:43:09  47.7 -122.  &lt;named list&gt;</span></span>
+<span><span class="co">#&gt; 10 0286… fish… 2020-01-11 18:40:04 2020-01-11 20:50:06  47.7 -122.  &lt;named list&gt;</span></span>
+<span><span class="co">#&gt; # ℹ 92 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 4 more variables: boundingBox &lt;list&gt;, distances &lt;list&gt;, vessel &lt;list&gt;,</span></span>
 <span><span class="co">#&gt; #   event_info &lt;list&gt;</span></span></code></pre></div>
 <p>When no events are available, the <code><a href="reference/get_event.html">get_event()</a></code> function returns nothing.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/get_event.html">get_event</a></span><span class="op">(</span>event_type<span class="op">=</span><span class="st">'fishing'</span>,</span>
-<span>          vessel <span class="op">=</span> <span class="va">usa_trawler_ids</span>,</span>
+<span>          vessel <span class="op">=</span> <span class="va">usa_trawler_ids</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span>
 <span>          start_date <span class="op">=</span> <span class="st">"2020-01-01"</span>,</span>
 <span>          end_date <span class="op">=</span> <span class="st">"2020-01-01"</span>,</span>
 <span>          key <span class="op">=</span> <span class="va">key</span></span>
@@ -281,17 +289,18 @@ See the <a href="https://globalfishingwatch.org/our-apis/documentation#reference
 <code class="sourceCode R"><span></span>
 <span><span class="va">region_json</span> <span class="op">=</span> <span class="st">'{"geojson":{"type":"Polygon","coordinates":[[[-76.11328125,-26.273714024406416],[-76.201171875,-26.980828590472093],[-76.376953125,-27.527758206861883],[-76.81640625,-28.30438068296276],[-77.255859375,-28.767659105691244],[-77.87109375,-29.152161283318918],[-78.486328125,-29.45873118535532],[-79.189453125,-29.61167011519739],[-79.892578125,-29.6880527498568],[-80.595703125,-29.61167011519739],[-81.5625,-29.382175075145277],[-82.177734375,-29.07537517955835],[-82.705078125,-28.6905876542507],[-83.232421875,-28.071980301779845],[-83.49609375,-27.683528083787756],[-83.759765625,-26.980828590472093],[-83.84765625,-26.35249785815401],[-83.759765625,-25.64152637306576],[-83.583984375,-25.16517336866393],[-83.232421875,-24.447149589730827],[-82.705078125,-23.966175871265037],[-82.177734375,-23.483400654325635],[-81.5625,-23.241346102386117],[-80.859375,-22.998851594142906],[-80.15625,-22.917922936146027],[-79.453125,-22.998851594142906],[-78.662109375,-23.1605633090483],[-78.134765625,-23.40276490540795],[-77.431640625,-23.885837699861995],[-76.9921875,-24.28702686537642],[-76.552734375,-24.846565348219727],[-76.2890625,-25.48295117535531],[-76.11328125,-26.273714024406416]]]}}'</span></span>
 <span></span>
-<span><span class="fu"><a href="reference/get_raster.html">get_raster</a></span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="st">'low'</span>,</span>
-<span>           temporal_resolution <span class="op">=</span> <span class="st">'yearly'</span>,</span>
-<span>           group_by <span class="op">=</span> <span class="st">'flag'</span>,</span>
-<span>           date_range <span class="op">=</span> <span class="st">'2021-01-01,2021-12-31'</span>,</span>
-<span>           region <span class="op">=</span> <span class="va">region_json</span>,</span>
-<span>           region_source <span class="op">=</span> <span class="st">'user_json'</span>,</span>
-<span>           key <span class="op">=</span> <span class="va">key</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/get_raster.html">get_raster</a></span><span class="op">(</span></span>
+<span>  spatial_resolution <span class="op">=</span> <span class="st">'low'</span>,</span>
+<span>  temporal_resolution <span class="op">=</span> <span class="st">'yearly'</span>,</span>
+<span>  group_by <span class="op">=</span> <span class="st">'flag'</span>,</span>
+<span>  date_range <span class="op">=</span> <span class="st">'2021-01-01,2021-12-31'</span>,</span>
+<span>  region <span class="op">=</span> <span class="va">region_json</span>,</span>
+<span>  region_source <span class="op">=</span> <span class="st">'user_json'</span>,</span>
+<span>  key <span class="op">=</span> <span class="va">key</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p>If you want raster data from a particular EEZ, you can use the <code>get_region_id</code> function to get the EEZ id, enter that code in the <code>region</code> argument of <code>get_raster</code> instead of the geojson data (ensuring you specify the <code>region_source</code> as <code>'eez'</code>:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># use EEZ function to get EEZ code of Cote d'Ivoire</span></span>
+<code class="sourceCode R"><span><span class="co"># use EEZ function to get EEZ code of Cote d'Ivoire</span></span>
 <span><span class="va">code_eez</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_region_id.html">get_region_id</a></span><span class="op">(</span>region_name <span class="op">=</span> <span class="st">'CIV'</span>, region_source <span class="op">=</span> <span class="st">'eez'</span>, key <span class="op">=</span> <span class="va">key</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/get_raster.html">get_raster</a></span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="st">'low'</span>,</span>
@@ -303,14 +312,13 @@ See the <a href="https://globalfishingwatch.org/our-apis/documentation#reference
 <span>           key <span class="op">=</span> <span class="va">key</span><span class="op">)</span></span></code></pre></div>
 <p>You could search for just one word in the name of the EEZ and then decide which one you want:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="op">(</span><span class="fu"><a href="reference/get_region_id.html">get_region_id</a></span><span class="op">(</span>region_name <span class="op">=</span> <span class="st">'French'</span>, region_source <span class="op">=</span> <span class="st">'eez'</span>, key <span class="op">=</span> <span class="va">key</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="op">(</span><span class="fu"><a href="reference/get_region_id.html">get_region_id</a></span><span class="op">(</span>region_name <span class="op">=</span> <span class="st">'France'</span>, region_source <span class="op">=</span> <span class="st">'eez'</span>, key <span class="op">=</span> <span class="va">key</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 3 × 3</span></span>
-<span><span class="co">#&gt;      id iso3  label                                    </span></span>
-<span><span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;                                    </span></span>
-<span><span class="co">#&gt; 1  5677 FRA   French Exclusive Economic Zone           </span></span>
-<span><span class="co">#&gt; 2  8462 FRA   French Guiana Exclusive Economic Zone    </span></span>
-<span><span class="co">#&gt; 3  8440 FRA   French Polynesian Exclusive Economic Zone</span></span>
+<span><span class="co">#&gt;      id iso3  label                           </span></span>
+<span><span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;                           </span></span>
+<span><span class="co">#&gt; 1  5677 FRA   France                          </span></span>
+<span><span class="co">#&gt; 2 48976 FRA   Joint regime area Italy / France</span></span>
+<span><span class="co">#&gt; 3 48966 FRA   Joint regime area Spain / France</span></span>
 <span></span>
 <span><span class="co"># Let's say we're interested in the French Exclusive Economic Zone, 5677</span></span>
 <span><span class="fu"><a href="reference/get_raster.html">get_raster</a></span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="st">'low'</span>,</span>
@@ -320,32 +328,31 @@ See the <a href="https://globalfishingwatch.org/our-apis/documentation#reference
 <span>           region <span class="op">=</span> <span class="fl">5677</span>,</span>
 <span>           region_source <span class="op">=</span> <span class="st">'eez'</span>,</span>
 <span>           key <span class="op">=</span> <span class="va">key</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 5421 Columns: 5</span></span>
+<span><span class="co">#&gt; Rows: 5443 Columns: 6</span></span>
 <span><span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; Delimiter: ","</span></span>
 <span><span class="co">#&gt; chr (1): flag</span></span>
-<span><span class="co">#&gt; dbl (4): Lat, Lon, Time Range, Apparent Fishing hours</span></span>
+<span><span class="co">#&gt; dbl (5): Lat, Lon, Time Range, Vessel IDs, Apparent Fishing Hours</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span></span>
 <span><span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
-<span><span class="co">#&gt; # A tibble: 5,421 × 5</span></span>
-<span><span class="co">#&gt;      Lat   Lon `Time Range` flag  `Apparent Fishing hours`</span></span>
-<span><span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;                    &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1  50    -0.5         2021 BEL                      111. </span></span>
-<span><span class="co">#&gt;  2  49.9  -0.4         2021 FRA                      537. </span></span>
-<span><span class="co">#&gt;  3  47.8  -6.4         2021 FRA                      156. </span></span>
-<span><span class="co">#&gt;  4  48.7  -5.6         2021 FRA                      301. </span></span>
-<span><span class="co">#&gt;  5  48.3  -5.4         2021 FRA                      436. </span></span>
-<span><span class="co">#&gt;  6  47.4  -4.2         2021 FRA                      555. </span></span>
-<span><span class="co">#&gt;  7  45.9  -1.4         2021 FRA                      704. </span></span>
-<span><span class="co">#&gt;  8  50    -0.6         2021 NLD                       40.4</span></span>
-<span><span class="co">#&gt;  9  50.2   0           2021 GBR                      433. </span></span>
-<span><span class="co">#&gt; 10  46.6  -2.8         2021 FRA                      272. </span></span>
-<span><span class="co">#&gt; # … with 5,411 more rows</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 5,443 × 6</span></span>
+<span><span class="co">#&gt;      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`</span></span>
+<span><span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;        &lt;dbl&gt;                    &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1  47    -2.9         2021 FRA             61                   2692. </span></span>
+<span><span class="co">#&gt;  2  49.5  -0.2         2021 FRA             59                   1029. </span></span>
+<span><span class="co">#&gt;  3  47.4  -4.2         2021 FRA             40                    555. </span></span>
+<span><span class="co">#&gt;  4  49.2  -4.6         2021 FRA             19                    378. </span></span>
+<span><span class="co">#&gt;  5  45    -1.2         2021 FRA             17                    277. </span></span>
+<span><span class="co">#&gt;  6  49.1  -6           2021 GBR              3                     22.2</span></span>
+<span><span class="co">#&gt;  7  48.9  -5.9         2021 FRA             20                    243. </span></span>
+<span><span class="co">#&gt;  8  49.1  -5.8         2021 FRA             26                    295. </span></span>
+<span><span class="co">#&gt;  9  49.1  -6.1         2021 FRA             14                     66.6</span></span>
+<span><span class="co">#&gt; 10  51.2   2           2021 FRA             22                    465. </span></span>
+<span><span class="co">#&gt; # ℹ 5,433 more rows</span></span></code></pre></div>
 <p>A similar approach can be used to search for a specific Marine Protected Area, in this case the Phoenix Island Protected Area (PIPA)</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="co"># use region id function to get MPA code of Phoenix Island Protected Area</span></span>
+<code class="sourceCode R"><span><span class="co"># use region id function to get MPA code of Phoenix Island Protected Area</span></span>
 <span><span class="va">code_mpa</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_region_id.html">get_region_id</a></span><span class="op">(</span>region_name <span class="op">=</span> <span class="st">'Phoenix'</span>, region_source <span class="op">=</span> <span class="st">'mpa'</span>, key <span class="op">=</span> <span class="va">key</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/get_raster.html">get_raster</a></span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="st">'low'</span>,</span>
@@ -362,8 +369,31 @@ See the <a href="https://globalfishingwatch.org/our-apis/documentation#reference
 <span>           group_by <span class="op">=</span> <span class="st">'flag'</span>,</span>
 <span>           date_range <span class="op">=</span> <span class="st">'2021-01-01,2021-01-15'</span>,</span>
 <span>           region <span class="op">=</span> <span class="st">'ICCAT'</span>,</span>
-<span>           region_source <span class="op">=</span> <span class="st">'trfmo'</span>,</span>
-<span>           key <span class="op">=</span> <span class="va">key</span><span class="op">)</span></span></code></pre></div>
+<span>           region_source <span class="op">=</span> <span class="st">'rfmo'</span>,</span>
+<span>           key <span class="op">=</span> <span class="va">key</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Rows: 112699 Columns: 6</span></span>
+<span><span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span></span>
+<span><span class="co">#&gt; Delimiter: ","</span></span>
+<span><span class="co">#&gt; chr  (1): flag</span></span>
+<span><span class="co">#&gt; dbl  (4): Lat, Lon, Vessel IDs, Apparent Fishing Hours</span></span>
+<span><span class="co">#&gt; date (1): Time Range</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span></span>
+<span><span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
+<span><span class="co">#&gt; # A tibble: 112,699 × 6</span></span>
+<span><span class="co">#&gt;      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`</span></span>
+<span><span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;date&gt;       &lt;chr&gt;        &lt;dbl&gt;                    &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1  68.7 -51.4 2021-01-08   GRL              1                     0.25</span></span>
+<span><span class="co">#&gt;  2  68.8 -51.2 2021-01-05   GRL              1                     4.78</span></span>
+<span><span class="co">#&gt;  3  68.8 -51.2 2021-01-04   GRL              2                     0.73</span></span>
+<span><span class="co">#&gt;  4  66.9 -24.7 2021-01-03   ISL             11                    14.7 </span></span>
+<span><span class="co">#&gt;  5  66.9 -24.6 2021-01-03   ISL             12                    34.5 </span></span>
+<span><span class="co">#&gt;  6  66.9 -24.5 2021-01-03   ISL             13                    40.2 </span></span>
+<span><span class="co">#&gt;  7  66.8 -24.3 2021-01-04   ISL             15                    42.2 </span></span>
+<span><span class="co">#&gt;  8  67   -24   2021-01-04   ISL              3                     6.13</span></span>
+<span><span class="co">#&gt;  9  66.9 -23.9 2021-01-04   ISL              2                     1.43</span></span>
+<span><span class="co">#&gt; 10  66.9 -24.1 2021-01-03   ISL              3                     3.4 </span></span>
+<span><span class="co">#&gt; # ℹ 112,689 more rows</span></span></code></pre></div>
 <p>The <code>get_region_id</code> function also works in reverse. If a region id is passed as a <code>numeric</code> to the function as the <code>region_name</code>, the corresponding region label or iso3 can be returned. This is especially useful when events are returned with regions.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># using same example as above</span></span>
@@ -382,28 +412,23 @@ See the <a href="https://globalfishingwatch.org/our-apis/documentation#reference
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>eez_name <span class="op">=</span> <span class="fu"><a href="reference/get_region_id.html">get_region_id</a></span><span class="op">(</span>region_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">eez</span><span class="op">)</span>,</span>
 <span>                                         region_source <span class="op">=</span> <span class="st">'eez'</span>,</span>
 <span>                                         key <span class="op">=</span> <span class="va">key</span><span class="op">)</span><span class="op">$</span><span class="va">label</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Downloading 16 events from GFW"</span></span>
-<span><span class="co">#&gt; # A tibble: 16 × 8</span></span>
+<span><span class="co">#&gt; [1] "Downloading 102 events from GFW"</span></span>
+<span><span class="co">#&gt; # A tibble: 102 × 8</span></span>
 <span><span class="co">#&gt; # Rowwise: </span></span>
 <span><span class="co">#&gt;    id           type  start               end                   lat    lon eez  </span></span>
 <span><span class="co">#&gt;    &lt;chr&gt;        &lt;chr&gt; &lt;dttm&gt;              &lt;dttm&gt;              &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;</span></span>
-<span><span class="co">#&gt;  1 f85ee7c4580… fish… 2020-01-06 12:35:55 2020-01-06 15:05:39  41.1  -66.4 8456 </span></span>
-<span><span class="co">#&gt;  2 ccbeb333747… fish… 2020-01-08 20:44:15 2020-01-09 09:16:14  34.6  -76.6 8456 </span></span>
-<span><span class="co">#&gt;  3 d20bb5e341f… fish… 2020-01-09 10:10:14 2020-01-09 13:23:45  34.6  -76.6 8456 </span></span>
-<span><span class="co">#&gt;  4 cda29eab7cb… fish… 2020-01-09 17:17:15 2020-01-09 22:47:20  34.6  -76.6 8456 </span></span>
-<span><span class="co">#&gt;  5 2f9864dddbc… fish… 2020-01-14 14:52:08 2020-01-14 15:45:00  54.2 -165.  8463 </span></span>
-<span><span class="co">#&gt;  6 642ab87eb37… fish… 2020-01-20 20:27:13 2020-01-20 23:48:13  34.6  -76.6 8456 </span></span>
-<span><span class="co">#&gt;  7 4fdb707c504… fish… 2020-01-21 12:42:01 2020-01-21 13:18:00  34.7  -76.8 8456 </span></span>
-<span><span class="co">#&gt;  8 510194551b5… fish… 2020-01-21 16:09:45 2020-01-22 07:50:52  34.6  -76.6 8456 </span></span>
-<span><span class="co">#&gt;  9 0404166ac0b… fish… 2020-01-22 09:19:52 2020-01-22 10:14:21  34.6  -76.6 8456 </span></span>
-<span><span class="co">#&gt; 10 aacb2c24ac0… fish… 2020-01-23 10:55:05 2020-01-23 13:34:49  33.8  -78.0 8456 </span></span>
-<span><span class="co">#&gt; 11 4b83e209e72… fish… 2020-01-30 19:41:58 2020-01-30 23:08:30  35.1  -75.9 8456 </span></span>
-<span><span class="co">#&gt; 12 3f339c72f5b… fish… 2020-01-31 01:09:15 2020-01-31 02:56:23  54.2 -165.  8463 </span></span>
-<span><span class="co">#&gt; 13 d35f8d0f773… fish… 2020-01-31 03:46:20 2020-01-31 05:37:04  54.2 -165.  8463 </span></span>
-<span><span class="co">#&gt; 14 113b42339a5… fish… 2020-01-31 16:40:38 2020-01-31 18:04:28  54.2 -165.  8463 </span></span>
-<span><span class="co">#&gt; 15 0ef57dde9c9… fish… 2020-01-31 19:14:29 2020-01-31 20:28:14  54.2 -165.  8463 </span></span>
-<span><span class="co">#&gt; 16 5812e018011… fish… 2020-01-31 21:14:15 2020-01-31 21:56:05  54.2 -165.  8463 </span></span>
-<span><span class="co">#&gt; # … with 1 more variable: eez_name &lt;chr&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt;  1 10b0ca6f4dc… fish… 2019-12-31 14:51:06 2020-01-01 02:20:02  29.1  -90.0 8456 </span></span>
+<span><span class="co">#&gt;  2 e2104338c1c… fish… 2019-12-31 20:19:35 2020-01-01 03:15:25  28.9  -89.8 8456 </span></span>
+<span><span class="co">#&gt;  3 5db68123ed1… fish… 2020-01-06 08:00:05 2020-01-06 10:20:02  45.9 -124.  8456 </span></span>
+<span><span class="co">#&gt;  4 60c811f3e7e… fish… 2020-01-07 02:35:53 2020-01-07 20:25:18  41.1  -69.3 8456 </span></span>
+<span><span class="co">#&gt;  5 ccbeb333747… fish… 2020-01-08 20:44:15 2020-01-09 09:16:14  34.6  -76.6 8456 </span></span>
+<span><span class="co">#&gt;  6 d20bb5e341f… fish… 2020-01-09 10:10:14 2020-01-09 13:23:45  34.6  -76.6 8456 </span></span>
+<span><span class="co">#&gt;  7 cda29eab7cb… fish… 2020-01-09 17:17:15 2020-01-09 22:47:20  34.6  -76.6 8456 </span></span>
+<span><span class="co">#&gt;  8 f103e5f79b6… fish… 2020-01-11 03:28:38 2020-01-13 18:25:36  41.1  -69.3 8456 </span></span>
+<span><span class="co">#&gt;  9 81c8475054e… fish… 2020-01-11 14:10:04 2020-01-11 15:43:09  47.7 -122.  8456 </span></span>
+<span><span class="co">#&gt; 10 0286436fbd5… fish… 2020-01-11 18:40:04 2020-01-11 20:50:06  47.7 -122.  8456 </span></span>
+<span><span class="co">#&gt; # ℹ 92 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 1 more variable: eez_name &lt;chr&gt;</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -412,7 +437,10 @@ See the <a href="https://globalfishingwatch.org/our-apis/documentation#reference
 <p>We welcome all contributions to improve the package! Please read our <a href="https://github.com/GlobalFishingWatch/gfwr/blob/main/Contributing.md" class="external-link">Contribution Guide</a> and reach out!</p>
 </div>
 </div>
-  </main><aside class="col-md-3"><div class="links">
+  </div>
+
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/GlobalFishingWatch/gfwr/" class="external-link">Browse source code</a></li>
@@ -428,12 +456,6 @@ See the <a href="https://globalfishingwatch.org/our-apis/documentation#reference
 </ul>
 </div>
 
-<div class="community">
-<h2 data-toc-skip>Community</h2>
-<ul class="list-unstyled">
-<li><a href="CONTRIBUTING.html">Contributing guide</a></li>
-</ul>
-</div>
 
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
@@ -447,7 +469,8 @@ See the <a href="https://globalfishingwatch.org/our-apis/documentation#reference
 <ul class="list-unstyled">
 <li>Tyler Clavelle <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-2155-2459" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Rocío Joo <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-0319-4210" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Nate Miller <br><small class="roles"> Author </small> <a href="https://orcid.org/YOUR-ORCID-ID" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Nate Miller <br><small class="roles"> Author </small>  </li>
+<li>Andrea Sánchez-Tapia <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-3521-4338" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 
@@ -460,24 +483,25 @@ See the <a href="https://globalfishingwatch.org/our-apis/documentation#reference
 </ul>
 </div>
 
-  </aside>
+  </div>
 </div>
 
 
-    <footer><div class="pkgdown-footer-left">
+      <footer><div class="copyright">
   <p></p>
-<p>Developed by Tyler Clavelle, Rocío Joo, Nate Miller.</p>
+<p>Developed by Tyler Clavelle, Rocío Joo, Nate Miller, Andrea Sánchez-Tapia.</p>
 </div>
 
-<div class="pkgdown-footer-right">
+<div class="pkgdown">
   <p></p>
 <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
-    </footer>
+      </footer>
 </div>
 
   
+
 
   
 
