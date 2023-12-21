@@ -17,15 +17,16 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Imports: 
-    magrittr,
     dplyr,
+    geojsonsf,
     httr2,
-    readr,
+    magrittr,
     purrr,
+    readr,
+    rjson,
     rlang,
     tibble,
-    tidyr,
-    rjson
+    tidyr
 Suggests:
     glue
 URL: https://github.com/GlobalFishingWatch/gfwr
