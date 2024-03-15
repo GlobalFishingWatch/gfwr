@@ -16,8 +16,8 @@ get_vessel_info(
 )
 }
 \arguments{
-\item{ids}{When \code{search_type = "id"}, a vector with identifiers of interest,
-can be MMSIs, IMO, CALL SIGN, Ship name}
+\item{ids}{When \code{search_type = "id"}, a vector with the vessel id of interest,
+obtained after performing a search_type = "search".}
 
 \item{includes}{Enhances the response with new information, defaults to include all.
 \describe{
