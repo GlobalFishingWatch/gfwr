@@ -6,8 +6,8 @@
 \usage{
 get_event(
   event_type,
-  vessels = NULL,
   encounter_types = NULL,
+  vessels = NULL,
   vessel_types = NULL,
   include_regions = FALSE,
   start_date = NULL,
@@ -23,13 +23,13 @@ get_event(
 }
 \arguments{
 \item{event_type}{Type of event to get data of. A vector with any combination
-of "ENCOUNTER", "FISHING", "LOITERING", "GAP", "PORT_VISIT"}
-
-\item{vessels}{A vector of VesselIDs, obtained via the get_vessel_info() function}
+of "ENCOUNTER", "FISHING", "GAP", "LOITERING", "PORT_VISIT"}
 
 \item{encounter_types}{Filters for types of vessels during the encounter. A
 vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
 "FISHING-SUPPORT", "SUPPORT-FISHING"}
+
+\item{vessels}{A vector of VesselIDs, obtained via the \code{get_vessel_info()} function}
 
 \item{vessel_types}{A vector of vessel types, any combination of: "FISHING",
 "CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL",
@@ -84,21 +84,22 @@ in the encounter.
 library(gfwr)
 # port visits
 get_event(event_type = "PORT_VISIT",
-          vessels = c("e0c9823749264a129d6b47a7aabce377", "8c7304226-6c71-edbe-0b63-c246734b3c01"),
+          vessels = c("e0c9823749264a129d6b47a7aabce377",
+          "8c7304226-6c71-edbe-0b63-c246734b3c01"),
           start_date = "2017-01-26",
-          end_date = "2023-02-04",
+          end_date = "2017-12-31",
+          confidence = c(3, 4), # only for port visits
           key = gfw_auth())
  #encounters
  get_event(event_type = "ENCOUNTER",
  vessels = c("e0c9823749264a129d6b47a7aabce377",
   "8c7304226-6c71-edbe-0b63-c246734b3c01"),
-  start_date = "2017-01-26",
+  start_date = "2018-01-30",
   end_date = "2023-02-04",
   key = gfw_auth())
  # fishing
  get_event(event_type = "FISHING",
- vessels = c("e0c9823749264a129d6b47a7aabce377",
-  "8c7304226-6c71-edbe-0b63-c246734b3c01"),
+ vessels = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
   start_date = "2017-01-26",
   end_date = "2023-02-04",
   key = gfw_auth())
@@ -116,4 +117,16 @@ get_event(event_type = "PORT_VISIT",
   start_date = "2017-01-26",
   end_date = "2023-02-04",
   key = gfw_auth())
+ # encounter type
+ get_event(event_type = "ENCOUNTER",
+ encounter_types = "CARRIER-FISHING",
+ start_date = "2020-01-01",
+ end_date = "2020-01-31",
+ key = gfw_auth())
+ # vessel types
+ get_event(event_type = "ENCOUNTER",
+ vessel_types = c("CARRIER", "FISHING"),
+ start_date = "2020-01-01",
+ end_date = "2020-01-31",
+ key = gfw_auth())
 }
