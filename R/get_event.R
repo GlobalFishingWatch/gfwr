@@ -1,9 +1,9 @@
 #'
 #' Base function to get event from API and convert response to data frame
 #'
-#' @param vessels A vector of VesselIDs, obtained via the get_vessel_info() function
+#' @param vessels A vector of VesselIDs, obtained via the `get_vessel_info()` function
 #' @param event_type Type of event to get data of. A vector with any combination
-#' of "ENCOUNTER", "FISHING", "LOITERING", "GAP", "PORT_VISIT"
+#' of "ENCOUNTER", "FISHING", "GAP", "LOITERING", "PORT_VISIT"
 #' @param encounter_types Filters for types of vessels during the encounter. A
 #' vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
 #' "FISHING-SUPPORT", "SUPPORT-FISHING"
@@ -57,21 +57,22 @@
 #' library(gfwr)
 #' # port visits
 #' get_event(event_type = "PORT_VISIT",
-#'           vessels = c("e0c9823749264a129d6b47a7aabce377", "8c7304226-6c71-edbe-0b63-c246734b3c01"),
+#'           vessels = c("e0c9823749264a129d6b47a7aabce377",
+#'           "8c7304226-6c71-edbe-0b63-c246734b3c01"),
 #'           start_date = "2017-01-26",
-#'           end_date = "2023-02-04",
+#'           end_date = "2017-12-31",
+#'           confidence = c(3, 4), # only for port visits
 #'           key = gfw_auth())
 #'  #encounters
 #'  get_event(event_type = "ENCOUNTER",
 #'  vessels = c("e0c9823749264a129d6b47a7aabce377",
 #'   "8c7304226-6c71-edbe-0b63-c246734b3c01"),
-#'   start_date = "2017-01-26",
+#'   start_date = "2018-01-30",
 #'   end_date = "2023-02-04",
 #'   key = gfw_auth())
 #'  # fishing
 #'  get_event(event_type = "FISHING",
-#'  vessels = c("e0c9823749264a129d6b47a7aabce377",
-#'   "8c7304226-6c71-edbe-0b63-c246734b3c01"),
+#'  vessels = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
 #'   start_date = "2017-01-26",
 #'   end_date = "2023-02-04",
 #'   key = gfw_auth())
@@ -89,11 +90,23 @@
 #'   start_date = "2017-01-26",
 #'   end_date = "2023-02-04",
 #'   key = gfw_auth())
+#'  # encounter type
+#'  get_event(event_type = "ENCOUNTER",
+#'  encounter_types = "CARRIER-FISHING",
+#'  start_date = "2020-01-01",
+#'  end_date = "2020-01-31",
+#'  key = gfw_auth())
+#'  # vessel types
+#'  get_event(event_type = "ENCOUNTER",
+#'  vessel_types = c("CARRIER", "FISHING"),
+#'  start_date = "2020-01-01",
+#'  end_date = "2020-01-31",
+#'  key = gfw_auth())
 #' @export
 
 get_event <- function(event_type,
-                      vessels = NULL,
                       encounter_types = NULL,
+                      vessels = NULL,
                       vessel_types = NULL,
                       include_regions = FALSE,
                       start_date = NULL,
@@ -105,18 +118,6 @@ get_event <- function(event_type,
                       quiet = FALSE,
                       print_request = FALSE,
                       ...) {
-
-
-  # Event datasets to pass to param list
-  #endpoint <- get_endpoint(dataset_type = event_type,
-   #                        `include-regions` = include_regions,
-    #                       vessels = vessels,
-     #                      `start-date` = start_date,
-      #                     `end-date` = end_date,
-       #                    confidences = confidences,
-        #                   limit = 99999,
-         #                  offset = 0
-          #                 )
   # API endpoint specific parameters from ...
   args <- list(...)
   for (i in seq_len(length(args))) {
@@ -126,50 +127,55 @@ args <- c(args,
           limit = limit,
           offset = offset,
           `start-date` = start_date,
-          `end-date` = end_date)
-
-  #vessels array
-if (!is.null(vessels)) {
-  vessels <- vector_to_array(vessels, type = "vessels")
-  args <- c(args, vessels)
+          `end-date` = end_date,
+          `include-regions` = include_regions)
+    #vessels array
+    if (!is.null(vessels)) {
+      vessels <- vector_to_array(vessels, type = "vessels")
+      args <- c(args, vessels)
+    }
+    # confidences
+    if (event_type != "PORT_VISIT") confidences <- NULL
+    if (!is.null(confidences)) {
+      confidences <- vector_to_array(confidences, type = "confidences")
+      args <- c(args, confidences)
+    }
+    # encounter_types
+if (!is.null(encounter_types)) {
+  encounter_types <- vector_to_array(encounter_types, type = "encounter-types")
+  args <- c(args, encounter_types)
 }
-  if (event_type != "PORT_VISIT") confidences <- NULL
-  if (!is.null(confidences)) {
-    confidences <- vector_to_array(confidences, type = "confidences")
-    args <- c(args, confidences)
-  }
+# vessel_types
+if (!is.null(vessel_types)) {
+  vessel_types <- vector_to_array(vessel_types, type = "vessel-types")
+  args <- c(args, vessel_types)
+}
+
 
   base <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/")
 
   api_datasets <- c(
-    'PORT_VISIT' = "public-global-port-visits-c2-events:latest",
     'ENCOUNTER' = "public-global-encounters-events:latest",
-    'LOITERING' = "public-global-loitering-events:latest",
     'FISHING' = "public-global-fishing-events:latest",
     'GAP' = "public-global-gaps-events:latest",
-    'raster' = "public-global-fishing-effort:latest"
+    'LOITERING' = "public-global-loitering-events:latest",
+    'PORT_VISIT' = "public-global-port-visits-c2-events:latest"
   )
-  dataset_type <- event_type
-  # Get dataset ID for selected API
-  if (!dataset_type %in% c('EEZ', 'MPA', 'RFMO')) {
-    dataset <- api_datasets[[dataset_type]]
-  }
+
 
   # Modify base URL with query parameters
-  if (dataset_type %in% c('PORT_VISIT', 'FISHING', 'ENCOUNTER','LOITERING', "GAP")) {
     #datasets array
+    dataset <- api_datasets[[event_type]]
     datasets <- vector_to_array(dataset, type = "datasets")
     args <- c(datasets,  args)
     endpoint <- base %>%
       httr2::req_url_path_append('events') %>%
       httr2::req_url_query(!!!args)
-
-  }
   if (print_request) message(print(endpoint))
 
   # API call; will paginate if necessary, otherwise return list with one response
-all_results <- gfw_api_request(endpoint, key)
-#   # Extract all entries from list of responses
+    all_results <- gfw_api_request(endpoint, key)
+  #   # Extract all entries from list of responses
    all_entries <- purrr::map(all_results, purrr::pluck, 'entries') %>%
      purrr::flatten(.)
 #
