@@ -225,7 +225,7 @@ if (!is.null(vessel_types)) {
 
 
 #'
-#' Base function to get event from API and convert response to data frame
+#' Base function to get events using a POST API endpoint and convert response to data frame
 #'
 #' @param vessels A vector of VesselIDs, obtained via the `get_vessel_info()` function
 #' @param event_type Type of event to get data of. A vector with any combination
@@ -236,10 +236,13 @@ if (!is.null(vessel_types)) {
 #' @param vessel_types A vector of vessel types, any combination of: "FISHING",
 #' "CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL",
 #' "BUNKER_OR_TANKER", "CARGO"
-#' @param include_regions Boolean. Whether to include regions
+#' @param duration duration, in minutes, of the event, ex. 30
 #' @param start_date Start of date range to search events, in YYYY-MM-DD format and including this date
 #' @param end_date End of date range to search events, in YYYY-MM-DD format and excluding this date
 #' @param confidences Confidence levels (1-4) of events (port visits only)
+#' @param region geojson shape to filter raster or GFW region code (such as an
+#' EEZ code). See details about formatting the geojson
+#' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')
 #' @param key Authorization token. Can be obtained with gfw_auth() function
 #' @param quiet Boolean. Whether to print the number of events returned by the
 #' request
@@ -258,6 +261,10 @@ if (!is.null(vessel_types)) {
 #' @importFrom purrr flatten
 #' @importFrom rlang .data
 #' @importFrom tibble tibble
+#' @importFrom jsonlite toJSON
+#' @importFrom jsonlite fromJSON
+#' @importFrom jsonlite unbox
+#' @importFrom rjson toJSON
 #'
 #' @details
 #' There are currently four available event types and these events are provided
@@ -281,55 +288,24 @@ if (!is.null(vessel_types)) {
 #'
 #' @examples
 #' library(gfwr)
-#' # port visits
-#' get_event(event_type = "PORT_VISIT",
-#'           vessels = c("e0c9823749264a129d6b47a7aabce377",
-#'           "8c7304226-6c71-edbe-0b63-c246734b3c01"),
-#'           start_date = "2017-01-26",
-#'           end_date = "2017-12-31",
-#'           confidence = c(3, 4), # only for port visits
-#'           key = gfw_auth())
-#'  #encounters
-#'  get_event(event_type = "ENCOUNTER",
-#'  vessels = c("e0c9823749264a129d6b47a7aabce377",
-#'   "8c7304226-6c71-edbe-0b63-c246734b3c01"),
-#'   start_date = "2018-01-30",
-#'   end_date = "2023-02-04",
-#'   key = gfw_auth())
-#'  # fishing
-#'  get_event(event_type = "FISHING",
-#'  vessels = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
-#'   start_date = "2017-01-26",
-#'   end_date = "2023-02-04",
-#'   key = gfw_auth())
-#'  # GAPS
-#'  get_event(event_type = "GAP",
-#'  vessels = c("e0c9823749264a129d6b47a7aabce377",
-#'   "8c7304226-6c71-edbe-0b63-c246734b3c01"),
-#'   start_date = "2017-01-26",
-#'   end_date = "2023-02-04",
-#'   key = gfw_auth())
-#'  # loitering
-#'  get_event(event_type = "LOITERING",
-#'  vessels = c("e0c9823749264a129d6b47a7aabce377",
-#'   "8c7304226-6c71-edbe-0b63-c246734b3c01"),
-#'   start_date = "2017-01-26",
-#'   end_date = "2023-02-04",
-#'   key = gfw_auth())
-#'  # encounter type
-#'  get_event(event_type = "ENCOUNTER",
-#'  encounter_types = "CARRIER-FISHING",
-#'  start_date = "2020-01-01",
-#'  end_date = "2020-01-31",
-#'  key = gfw_auth())
-#'  # vessel types
-#'  get_event(event_type = "ENCOUNTER",
-#'  vessel_types = c("CARRIER", "FISHING"),
-#'  start_date = "2020-01-01",
-#'  end_date = "2020-01-31",
-#'  key = gfw_auth())
+#' # fishing events in user geojson
+#' region <- '"geometry": {"type": "Polygon","coordinates": [[[120.36621093749999,26.725986812271756],[122.36572265625,26.725986812271756],[122.36572265625,28.323724553546015],[120.36621093749999,28.323724553546015],[120.36621093749999,26.725986812271756]]]}'
+#' get_event_POST(event_type = 'FISHING',
+#'               start_date = "2017-01-01",
+#'               end_date = "2017-01-31",
+#'               region = region,
+#'               region_source = 'USER_JSON',
+#'               flags = 'CHN',
+#'               print_request = TRUE)
+#' # fishing events in Senegal EEZ
+#'get_event_POST(event_type = 'FISHING',
+#'               start_date = "2020-10-01",
+#'               end_date = "2020-12-31",
+#'               region = 8371,
+#'               region_source = 'EEZ',
+#'               flags = 'CHN',
+#'               print_request = TRUE)
 #' @export
-
 
 get_event_POST <- function(event_type,
                       encounter_types = NULL,
@@ -396,8 +372,6 @@ get_event_POST <- function(event_type,
     body_args <- c(body_args, duration)
   }
 
-
-
   base <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/")
 
   api_datasets <- c(
@@ -431,7 +405,7 @@ get_event_POST <- function(event_type,
   datasets <- list('datasets' = dataset)
   body_args <- c(datasets,  body_args)
 
-  if(region_source == 'USER_JSON') {
+  if (region_source == 'USER_JSON') {
 
     body_args <- jsonlite::toJSON(c(body_args,
                                   list(startDate = jsonlite::unbox(start)), # removes from array
