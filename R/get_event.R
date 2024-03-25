@@ -414,7 +414,7 @@ get_event_POST <- function(event_type,
 
     body_args <- gsub('}$', '', body_args)
     body_args <- paste0(body_args,',', region,'}')
-    print(body_args)
+
   } else {
 
     body_args <- jsonlite::toJSON(c(body_args,
