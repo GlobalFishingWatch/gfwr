@@ -419,9 +419,7 @@ get_event_POST <- function(event_type,
     region = rjson::toJSON(list(region = list(dataset = 'public-rfmo',
                                               id = region)))
   } else if (region_source == 'USER_JSON' & is.character(region)) {
-    # removing 'geometry' so it can be added back using JSON
-    region <- gsub('"geometry":', '', region)
-    region <- c('geometry' = region)
+     region
   } else {
     stop('region source and region format do not match')
   }
@@ -437,16 +435,18 @@ get_event_POST <- function(event_type,
 
     body_args <- jsonlite::toJSON(c(body_args,
                                   list(startDate = jsonlite::unbox(start)), # removes from array
-                                  list(endDate = jsonlite::unbox(end)),
-                                  #list(duration = jsonlite::unbox(duration)),
-                                  list(geometry = jsonlite::unbox(region))))
+                                  list(endDate = jsonlite::unbox(end))
+                                  ))
+
+    body_args <- gsub('}$', '', body_args)
+    body_args <- paste0(body_args,',', region,'}')
+    print(body_args)
   } else {
 
     body_args <- jsonlite::toJSON(c(body_args,
                                     jsonlite::fromJSON(region),
                                     list(startDate = jsonlite::unbox(start)),
                                     list(endDate = jsonlite::unbox(end))
-                                    #list(duration = jsonlite::unbox(duration))
                                     ))
   }
 
