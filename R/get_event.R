@@ -367,7 +367,7 @@ get_event_POST <- function(event_type,
     body_args <- c(body_args, flags)
   }
   # duration
-  if (!is.null(flags)) {
+  if (!is.null(duration)) {
     duration <- list(duration = jsonlite::unbox(duration))
     body_args <- c(body_args, duration)
   }
