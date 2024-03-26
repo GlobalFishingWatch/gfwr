@@ -261,7 +261,7 @@ if (!is.null(vessel_types)) {
 #' @importFrom purrr flatten
 #' @importFrom rlang .data
 #' @importFrom tibble tibble
-#' @importFrom jsonlite read_json
+#' @importFrom jsonlite toJSON
 #' @importFrom jsonlite fromJSON
 #' @importFrom jsonlite unbox
 #' @importFrom rjson toJSON
