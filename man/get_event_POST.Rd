@@ -14,7 +14,7 @@ get_event_POST(
   end_date = NULL,
   region = NULL,
   region_source = NULL,
-  duration = 60,
+  duration = 1,
   confidences = c(2, 3, 4),
   limit = 99999,
   offset = 0,
