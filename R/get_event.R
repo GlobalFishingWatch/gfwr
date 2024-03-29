@@ -410,7 +410,7 @@ get_event_POST <- function(event_type,
                                   list(startDate = jsonlite::unbox(start)), # removes from array
                                   list(endDate = jsonlite::unbox(end))
                                   ))
-
+    # user json is just concatenated onto other body arguments
     body_args <- gsub('}$', '', body_args)
     body_args <- paste0(body_args,',', region,'}')
 
