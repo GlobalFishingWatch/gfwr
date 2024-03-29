@@ -347,7 +347,7 @@ get_event_POST <- function(event_type,
   # confidences
   if (event_type != "PORT_VISIT") confidences <- NULL
   if (!is.null(confidences)) {
-    confidences <- list("confidences" = confidences)
+    confidences <- list("confidences" = as.character(confidences))
     body_args <- c(body_args, confidences)
   }
   # encounter_types
