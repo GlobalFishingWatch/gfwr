@@ -381,46 +381,53 @@ get_event_POST <- function(event_type,
     'PORT_VISIT' = "public-global-port-visits-c2-events:latest"
   )
 
-  if (region_source == 'MPA' & is.numeric(region)) {
-    region = rjson::toJSON(list(region = list(dataset = 'public-mpa-all',
-                                              id = region)))
-
-  } else if (region_source == 'EEZ' & is.numeric(region)) {
-    region = rjson::toJSON(list(region = list(dataset = 'public-eez-areas',
-                                              id = region)))
-  } else if (region_source == 'RFMO' & is.character(region)) {
-    region = rjson::toJSON(list(region = list(dataset = 'public-rfmo',
-                                              id = region)))
-  } else if (region_source == 'USER_JSON' & is.character(region)) {
-     region
-  } else {
-    stop('region source and region format do not match')
-  }
-
-
   # Modify base URL with query parameters
   #datasets array
   dataset <- api_datasets[[event_type]]
   datasets <- list('datasets' = dataset)
   body_args <- c(datasets,  body_args)
 
-  if (region_source == 'USER_JSON') {
+  if (!is.null(region)) {
+    if (region_source == 'MPA' & is.numeric(region)) {
+      region = rjson::toJSON(list(region = list(dataset = 'public-mpa-all',
+                                                id = region)))
 
-    body_args <- jsonlite::toJSON(c(body_args,
-                                  list(startDate = jsonlite::unbox(start)), # removes from array
-                                  list(endDate = jsonlite::unbox(end))
-                                  ))
-    # user json is just concatenated onto other body arguments
-    body_args <- gsub('}$', '', body_args)
-    body_args <- paste0(body_args,',', region,'}')
+    } else if (region_source == 'EEZ' & is.numeric(region)) {
+      region = rjson::toJSON(list(region = list(dataset = 'public-eez-areas',
+                                                id = region)))
+    } else if (region_source == 'RFMO' & is.character(region)) {
+      region = rjson::toJSON(list(region = list(dataset = 'public-rfmo',
+                                                id = region)))
+    } else if (region_source == 'USER_JSON' & is.character(region)) {
+       region
+    } else {
+      stop('region source and region format do not match')
+    }
+  }
+
+  if (is.null(region_source)) {
+
+      body_args <- jsonlite::toJSON(c(body_args,
+                                      list(startDate = jsonlite::unbox(start)),
+                                      list(endDate = jsonlite::unbox(end))
+      ))
+  } else if (region_source == 'USER_JSON') {
+
+      body_args <- jsonlite::toJSON(c(body_args,
+                                    list(startDate = jsonlite::unbox(start)), # removes from array
+                                    list(endDate = jsonlite::unbox(end))
+                                    ))
+      # user json is just concatenated onto other body arguments
+      body_args <- gsub('}$', '', body_args)
+      body_args <- paste0(body_args,',', region,'}')
 
   } else {
 
-    body_args <- jsonlite::toJSON(c(body_args,
-                                    jsonlite::fromJSON(region),
-                                    list(startDate = jsonlite::unbox(start)),
-                                    list(endDate = jsonlite::unbox(end))
-                                    ))
+      body_args <- jsonlite::toJSON(c(body_args,
+                                      jsonlite::fromJSON(region),
+                                      list(startDate = jsonlite::unbox(start)),
+                                      list(endDate = jsonlite::unbox(end))
+                                      ))
   }
 
   endpoint <- base %>%
@@ -431,11 +438,11 @@ get_event_POST <- function(event_type,
 
   # API call; will paginate if necessary, otherwise return list with one response
   all_results <- gfw_api_request(endpoint, key)
-  #   # Extract all entries from list of responses
+  # Extract all entries from list of responses
   all_entries <- purrr::map(all_results, purrr::pluck, 'entries') %>%
     purrr::flatten(.)
   #
-  #   # Process results if they exist
+  # Process results if they exist
   if (length(all_entries) > 0) {
     #
     #     # Convert list to dataframe
