@@ -137,7 +137,7 @@
 #'          duration = 60)
 #' # loitering events in user region by KOR vessels
 #'region = '"geometry": {"type": "Polygon","coordinates": [[[43.835981972515576,-6.785011952437713],[43.83602857589722,-6.785011952437713],[43.83602857589722,-6.784984652340707],[43.835981972515576,-6.784984652340707],[43.835981972515576,-6.785011952437713]]]}'
-#'get_event_POST(event_type = 'LOITERING',
+#'get_event(event_type = 'LOITERING',
 #'                           vessels = "82be6f228-8ce4-26d1-bf81-3b7979d0c72f",
 #'                           start_date = "2017-01-01",
 #'                           end_date = "2017-01-31",
