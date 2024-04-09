@@ -287,23 +287,100 @@ if (!is.null(vessel_types)) {
 #'
 #' @examples
 #' library(gfwr)
+#' # port visits
+#' get_event(event_type = "PORT_VISIT",
+#'           vessels = c("e0c9823749264a129d6b47a7aabce377",
+#'           "8c7304226-6c71-edbe-0b63-c246734b3c01"),
+#'           start_date = "2017-01-26",
+#'           end_date = "2017-12-31",
+#'           confidence = c(3, 4), # only for port visits
+#'           key = gfw_auth())
+#'  #encounters
+#'  get_event(event_type = "ENCOUNTER",
+#'  vessels = c("e0c9823749264a129d6b47a7aabce377",
+#'   "8c7304226-6c71-edbe-0b63-c246734b3c01"),
+#'   start_date = "2018-01-30",
+#'   end_date = "2023-02-04",
+#'   key = gfw_auth())
+#'  # fishing
+#'  get_event(event_type = "FISHING",
+#'  vessels = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
+#'   start_date = "2017-01-26",
+#'   end_date = "2023-02-04",
+#'   key = gfw_auth())
+#'  # GAPS
+#'  get_event(event_type = "GAP",
+#'  vessels = c("e0c9823749264a129d6b47a7aabce377",
+#'   "8c7304226-6c71-edbe-0b63-c246734b3c01"),
+#'   start_date = "2017-01-26",
+#'   end_date = "2023-02-04",
+#'   key = gfw_auth())
+#'  # loitering
+#'  get_event(event_type = "LOITERING",
+#'  vessels = c("e0c9823749264a129d6b47a7aabce377",
+#'   "8c7304226-6c71-edbe-0b63-c246734b3c01"),
+#'   start_date = "2017-01-26",
+#'   end_date = "2023-02-04",
+#'   key = gfw_auth())
+#'  # encounter type
+#'  get_event(event_type = "ENCOUNTER",
+#'  encounter_types = "CARRIER-FISHING",
+#'  start_date = "2020-01-01",
+#'  end_date = "2020-01-31",
+#'  key = gfw_auth())
+#'  # vessel types
+#'  get_event(event_type = "ENCOUNTER",
+#'  vessel_types = c("CARRIER", "FISHING"),
+#'  start_date = "2020-01-01",
+#'  end_date = "2020-01-31",
+#'  key = gfw_auth())
 #' # fishing events in user geojson
 #' region <- '"geometry": {"type": "Polygon","coordinates": [[[120.36621093749999,26.725986812271756],[122.36572265625,26.725986812271756],[122.36572265625,28.323724553546015],[120.36621093749999,28.323724553546015],[120.36621093749999,26.725986812271756]]]}'
-#' get_event_POST(event_type = 'FISHING',
+#' get_event(event_type = 'FISHING',
 #'               start_date = "2017-01-01",
 #'               end_date = "2017-01-31",
 #'               region = region,
 #'               region_source = 'USER_JSON',
 #'               flags = 'CHN',
-#'               print_request = TRUE)
+#'               key = gfw_auth())
 #' # fishing events in Senegal EEZ
-#'get_event_POST(event_type = 'FISHING',
+#'get_event(event_type = 'FISHING',
 #'               start_date = "2020-10-01",
 #'               end_date = "2020-12-31",
 #'               region = 8371,
 #'               region_source = 'EEZ',
 #'               flags = 'CHN',
-#'               print_request = TRUE)
+#'               key = gfw_auth())
+#' # port visits in user region by ATG vessels
+#'region = '"geometry":{"type": "Polygon","coordinates": [[[30.552978515625,46.255846818480315],[31.22314453125,46.255846818480315],[31.22314453125,46.59661864884465],[30.552978515625,46.59661864884465],[30.552978515625,46.255846818480315]]]}'
+#'get_event(event_type = 'PORT_VISIT',
+#'          vessels = "e0248aed9-99b4-bae7-6b87-ff0a3c464676",
+#'          start_date = "2017-01-01",
+#'          end_date = "2017-01-31",
+#'          region = region,
+#'          region_source = 'USER_JSON',
+#'          flags = 'ATG',
+#'          duration = 60)
+#' # loitering events in user region by KOR vessels
+#'region = '"geometry": {"type": "Polygon","coordinates": [[[43.835981972515576,-6.785011952437713],[43.83602857589722,-6.785011952437713],[43.83602857589722,-6.784984652340707],[43.835981972515576,-6.784984652340707],[43.835981972515576,-6.785011952437713]]]}'
+#'get_event_POST(event_type = 'LOITERING',
+#'                           vessels = "82be6f228-8ce4-26d1-bf81-3b7979d0c72f",
+#'                           start_date = "2017-01-01",
+#'                           end_date = "2017-01-31",
+#'                           region = region,
+#'                           region_source = 'USER_JSON',
+#'                           flags = 'KOR',
+#'                           duration = 60)
+#' # encounter events in user region by TWN vessels
+#'region = '"geometry": {"type": "Polygon","coordinates": [[[-130.9735107421875,-17.691128657307427],[-130.4901123046875,-17.691128657307427],[-130.4901123046875,-17.209017141391765],[-130.9735107421875,-17.209017141391765],[-130.9735107421875,-17.691128657307427]]]}'
+#'get_event(event_type = 'ENCOUNTER',
+#'          vessels = "55d38c0ee-e0d7-cb32-ac9c-8b3680d213b3",
+#'          start_date = "2017-01-01",
+#'          end_date = "2017-01-31",
+#'          region = region,
+#'          region_source = 'USER_JSON',
+#'          flags = 'TWN',
+#'          duration = 60)
 #' @export
 
 get_event_POST <- function(event_type,
