@@ -357,7 +357,7 @@ get_event_POST <- function(event_type,
   }
   # vessel_types
   if (!is.null(vessel_types)) {
-    vessel_types <- list('vessel-types' = vessel_types)
+    vessel_types <- list('vesselTypes' = vessel_types)
     body_args <- c(body_args, vessel_types)
   }
   # flags
