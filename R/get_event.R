@@ -248,13 +248,11 @@ if (!is.null(vessel_types)) {
 #' purposes. When contacting the GFW team it will be useful to send this string
 #' @param ... Other arguments
 #'
-#' @importFrom dplyr across
 #' @importFrom dplyr mutate
 #' @importFrom purrr map_chr
 #' @importFrom purrr map_dbl
 #' @importFrom purrr map
 #' @importFrom purrr pluck
-#' @importFrom purrr flatten
 #' @importFrom rlang .data
 #' @importFrom tibble tibble
 #' @importFrom jsonlite fromJSON
@@ -271,19 +269,26 @@ if (!is.null(vessel_types)) {
 #' details about the various event types, see the
 #' [GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#data-caveat).
 #'
-#' Encounter events involve multiple vessels and one row is returned for each
-#' vessel involved in an encounter.
-#' For example, an encounter between a carrier and fishing vessel
-#' (`CARRIER-FISHING`) will have one row for the fishing vessel and one for the
-#' carrier vessel. The `id` field for encounter events has two components
-#' separated by a `.`. The first component is the unique id for the encounter
-#' event and will be the same for all vessels involved in the encounter. The
-#' second component is an integer used to distinguish between different vessels
-#' in the encounter.
-#'
 #' @examples
 #' library(gfwr)
-
+#'  # stats for encounters involving Russian carriers in given time range
+#' get_event_stats(event_type = 'ENCOUNTER',
+#' encounter_types = c("CARRIER-FISHING","FISHING-CARRIER"),
+#' vessel_types = 'CARRIER',
+#' start_date = "2018-01-01",
+#' end_date = "2023-01-31",
+#' flags = 'RUS',
+#' duration = 60,
+#' interval = "YEAR",
+#' key = gfw_auth())
+#'  # port visits stats in a region (Senegal)
+#'  get_event_stats(event_type = 'PORT_VISIT',
+#' start_date = "2018-01-01",
+#' end_date = "2019-01-31",
+#' confidences = c('3','4'),
+#' region = 8371,
+#' region_source = 'EEZ',
+#' interval = "YEAR")
 #' @export
 
 get_event_stats <- function(event_type,
@@ -297,9 +302,6 @@ get_event_stats <- function(event_type,
                       interval = NULL,
                       duration = 1,
                       confidences = c(2, 3, 4),
-                      limit = 99999,
-                      offset = 0,
-                      sort = "+start",
                       key = gfw_auth(),
                       quiet = FALSE,
                       print_request = FALSE,
@@ -377,8 +379,6 @@ get_event_stats <- function(event_type,
     }
   }
 
-  print(region)
-
   if (is.null(region_source)) {
 
     body_args <- jsonlite::toJSON(c(body_args,
@@ -404,51 +404,37 @@ get_event_stats <- function(event_type,
                                  list(startDate = jsonlite::unbox(start)),
                                  list(endDate = jsonlite::unbox(end)),
                                  list(timeseriesInterval = jsonlite::unbox(interval))
+#
+#     body_args <- c(body_args,
+#                                     jsonlite::fromJSON(region),
+#                                     list(startDate = jsonlite::unbox(start)),
+#                                     list(endDate = jsonlite::unbox(end)),
+#                                     list(timeseriesInterval = jsonlite::unbox(interval))
     ))
   }
 
-
   endpoint <- base %>%
     httr2::req_url_path_append('events/stats') %>%
-    httr2::req_url_query() %>%
-    httr2::req_body_raw(., body = body_args)
+    httr2::req_body_raw(body = body_args)
   if (print_request) message(print(endpoint))
 
   # API call; will paginate if necessary, otherwise return list with one response
   all_results <- gfw_api_request(endpoint, key)
-  # Extract all entries from list of responses
-  all_entries <- purrr::map(all_results, purrr::pluck, 'entries') %>%
-    purrr::flatten(.)
-  #
+
   # Process results if they exist
-  if (length(all_entries) > 0) {
+  if (length(all_results) > 0) {
     #
     #     # Convert list to dataframe
     df_out <- tibble::tibble(
-      start = purrr::map_chr(all_entries, 'start'),
-      end = purrr::map_chr(all_entries, 'end'),
-      id = purrr::map_chr(all_entries, 'id'),
-      type = purrr::map_chr(all_entries, 'type'),
-      lat = purrr::map_dbl(all_entries, purrr::pluck, 'position','lat'),
-      lon = purrr::map_dbl(all_entries, purrr::pluck, 'position','lon'),
-      regions = purrr::map(all_entries, purrr::pluck, 'regions'),
-      eez = purrr::map(all_entries, 'eez'),
-      rfmo = purrr::map(all_entries, 'rfmo'),
-      fao = purrr::map(all_entries, 'fao'),
-      boundingBox = purrr::map(all_entries, 'boundingBox'),
-      distances = purrr::map(all_entries, 'distances'),
-      vessel = purrr::map(all_entries, 'vessel'),
-      event_info = purrr::map(all_entries, length(all_entries[[1]])) # the event_info is always the last element
-    )
+      numEvents = purrr::map_dbl(all_results, purrr::pluck, 'numEvents'),
+      numFlags = purrr::map_dbl(all_results, purrr::pluck, 'numFlags'),
+      numVessels = purrr::map_dbl(all_results, purrr::pluck, 'numVessels'),
+      flags = purrr::map(all_results, purrr::pluck, 'flags'),
+      timeseries = purrr::map(all_results, purrr::pluck, 'timeseries'))
 
-    # Map function to each event to convert to data frame
-    event_df <- df_out %>%
-      dplyr::mutate(dplyr::across(c(start, end), make_datetime))
     #
-    #     # Print out total events
-    total <- nrow(event_df)
     if (quiet == FALSE) {
-      print(paste("Downloading", total, "events from GFW"))
+      print(paste("Downloading", df_out$numEvents, "events for ", df_out$numVessels, " vessels from ", df_out$numFlags, "flag(s) from GFW"))
     }
   } else {
     if (quiet == FALSE) {
@@ -458,5 +444,5 @@ get_event_stats <- function(event_type,
   }
 
   # Return results
-  return(event_df)
+  return(df_out)
 }
