@@ -404,13 +404,7 @@ get_event_stats <- function(event_type,
                                  list(startDate = jsonlite::unbox(start)),
                                  list(endDate = jsonlite::unbox(end)),
                                  list(timeseriesInterval = jsonlite::unbox(interval))
-#
-#     body_args <- c(body_args,
-#                                     jsonlite::fromJSON(region),
-#                                     list(startDate = jsonlite::unbox(start)),
-#                                     list(endDate = jsonlite::unbox(end)),
-#                                     list(timeseriesInterval = jsonlite::unbox(interval))
-    ))
+                                 ))
   }
 
   endpoint <- base %>%
