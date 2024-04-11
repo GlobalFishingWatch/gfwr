@@ -240,7 +240,7 @@ if (!is.null(vessel_types)) {
 #' @param region geojson shape to filter raster or GFW region code (such as an
 #' EEZ code). See details about formatting the geojson
 #' @param duration duration, in minutes, of the event, ex. 30
-#' @param interval Time series granularity. Must be a string. Possible values: HOUR, DAY, MONTH, YEAR.
+#' @param interval Time series granularity. Must be a string. Possible values: 'HOUR', 'DAY', 'MONTH', 'YEAR'.
 #' @param key Authorization token. Can be obtained with gfw_auth() function
 #' @param quiet Boolean. Whether to print the number of events returned by the
 #' request
