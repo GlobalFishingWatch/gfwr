@@ -11,8 +11,8 @@ get_event_stats(
   vessel_types = NULL,
   start_date = NULL,
   end_date = NULL,
-  region = NULL,
   region_source = NULL,
+  region = NULL,
   interval = NULL,
   duration = 1,
   confidences = c(2, 3, 4),
@@ -32,12 +32,22 @@ vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
 
 \item{vessels}{A vector of VesselIDs, obtained via the \code{get_vessel_info()} function}
 
+\item{vessel_types}{Optional. A vector of vessel types, any combination of:
+"FISHING", "CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL",
+"BUNKER_OR_TANKER", "CARGO"}
+
 \item{start_date}{Start of date range to search events, in YYYY-MM-DD format and including this date}
 
 \item{end_date}{End of date range to search events, in YYYY-MM-DD format and excluding this date}
 
-\item{region}{geojson shape to filter raster or GFW region code (such as an
-EEZ code). See details about formatting the geojson}
+\item{region_source}{Optional but mandatory if using the argument region.
+Source of the region. If 'EEZ','MPA', 'RFMO',
+then the value for the argument region must be the code for that region.
+If 'USER_JSON', then region has to point to a formatted geojson shapefile.
+See Details about formatting the geojson.}
+
+\item{region}{GFW region code (such as an EEZ, MPA or RFMO code) or a
+formatted geojson shape. See Details about formatting the geojson.}
 
 \item{interval}{Time series granularity. Must be a string. Possible values: 'HOUR', 'DAY', 'MONTH', 'YEAR'.}
 
@@ -67,6 +77,15 @@ Port visits (\code{event_type = "PORT_VISIT"}) and encounters
 (\code{event_type = "ENCOUNTER"}) are available for all vessel types. For more
 details about the various event types, see the
 \href{https://globalfishingwatch.org/our-apis/documentation#data-caveat}{GFW API documentation}.
+
+The user-defined geojson has to be surrounded by a geojson tag,
+that can be created using a simple paste:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{geojson_tagged <- paste0('\{"geojson":', your_geojson,'\}').
+}\if{html}{\out{</div>}}
+
+If you have an \strong{sf} shapefile, you can also use function \code{\link[=sf_to_geojson]{sf_to_geojson()}}
+to obtain the correctly-formatted geojson.
 }
 \examples{
 library(gfwr)

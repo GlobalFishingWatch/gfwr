@@ -25,7 +25,15 @@
 #' @export
 #'
 #' @details
-#' See examples at https://github.com/GlobalFishingWatch/gfwr
+#' The user-defined geojson has to be surrounded by a geojson tag,
+#' that can be created using a simple paste:
+#'
+#' ```
+#' geojson_tagged <- paste0('{"geojson":', your_geojson,'}').
+#' ```
+#'
+#' If you have an __sf__ shapefile, you can also use function [sf_to_geojson()]
+#' to obtain the correctly-formatted geojson.
 #'
 #'
 get_raster <- function(spatial_resolution = NULL,

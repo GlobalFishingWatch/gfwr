@@ -24,6 +24,10 @@
 #' purposes. When contacting the GFW team it will be useful to send this string
 #' @param limit Limit
 #' @param offset Offset
+#' @param flags ISO3 code for the flag of the vessels. Null by default.
+#' @param sort How to sort the events. By default, +start, which sorts the events
+#' in ascending order (+) of the start dates of the events. Other possible values
+#' are -start, +end, -end.
 #' @param ... Other arguments
 #'
 #' @importFrom dplyr across
@@ -109,7 +113,10 @@
 #'  end_date = "2020-01-31",
 #'  key = gfw_auth())
 #' # fishing events in user geojson
-#' region <- '"geometry": {"type": "Polygon","coordinates": [[[120.36621093749999,26.725986812271756],[122.36572265625,26.725986812271756],[122.36572265625,28.323724553546015],[120.36621093749999,28.323724553546015],[120.36621093749999,26.725986812271756]]]}'
+#' region <- '"geometry": {"type": "Polygon","coordinates":
+#' [[[120.36621093749999,26.725986812271756],[122.36572265625,26.725986812271756],
+#' [122.36572265625,28.323724553546015],[120.36621093749999,28.323724553546015],
+#' [120.36621093749999,26.725986812271756]]]}'
 #' get_event(event_type = 'FISHING',
 #'               start_date = "2017-01-01",
 #'               end_date = "2017-01-31",
@@ -126,7 +133,10 @@
 #'               flags = 'CHN',
 #'               key = gfw_auth())
 #' # port visits in user region by ATG vessels
-#'region = '"geometry":{"type": "Polygon","coordinates": [[[30.552978515625,46.255846818480315],[31.22314453125,46.255846818480315],[31.22314453125,46.59661864884465],[30.552978515625,46.59661864884465],[30.552978515625,46.255846818480315]]]}'
+#'region = '"geometry":{"type": "Polygon","coordinates":
+#'[[[30.552978515625,46.255846818480315],[31.22314453125,46.255846818480315],
+#'[31.22314453125,46.59661864884465],[30.552978515625,46.59661864884465],
+#'[30.552978515625,46.255846818480315]]]}'
 #'get_event(event_type = 'PORT_VISIT',
 #'          vessels = "e0248aed9-99b4-bae7-6b87-ff0a3c464676",
 #'          start_date = "2017-01-01",
@@ -136,7 +146,10 @@
 #'          flags = 'ATG',
 #'          duration = 60)
 #' # loitering events in user region by KOR vessels
-#'region = '"geometry": {"type": "Polygon","coordinates": [[[43.835981972515576,-6.785011952437713],[43.83602857589722,-6.785011952437713],[43.83602857589722,-6.784984652340707],[43.835981972515576,-6.784984652340707],[43.835981972515576,-6.785011952437713]]]}'
+#'region = '"geometry": {"type": "Polygon","coordinates":
+#'[[[43.835981972515576,-6.785011952437713],[43.83602857589722,-6.785011952437713],
+#'[43.83602857589722,-6.784984652340707],[43.835981972515576,-6.784984652340707],
+#'[43.835981972515576,-6.785011952437713]]]}'
 #'get_event(event_type = 'LOITERING',
 #'                           vessels = "82be6f228-8ce4-26d1-bf81-3b7979d0c72f",
 #'                           start_date = "2017-01-01",
@@ -146,7 +159,10 @@
 #'                           flags = 'KOR',
 #'                           duration = 60)
 #' # encounter events in user region by TWN vessels
-#'region = '"geometry": {"type": "Polygon","coordinates": [[[-130.9735107421875,-17.691128657307427],[-130.4901123046875,-17.691128657307427],[-130.4901123046875,-17.209017141391765],[-130.9735107421875,-17.209017141391765],[-130.9735107421875,-17.691128657307427]]]}'
+#'region = '"geometry": {"type": "Polygon","coordinates":
+#'[[[-130.9735107421875,-17.691128657307427],[-130.4901123046875,-17.691128657307427],
+#'[-130.4901123046875,-17.209017141391765],[-130.9735107421875,-17.209017141391765],
+#'[-130.9735107421875,-17.691128657307427]]]}'
 #'get_event(event_type = 'ENCOUNTER',
 #'          vessels = "55d38c0ee-e0d7-cb32-ac9c-8b3680d213b3",
 #'          start_date = "2017-01-01",
@@ -352,8 +368,13 @@ get_event <- function(event_type,
 #' @param start_date Start of date range to search events, in YYYY-MM-DD format and including this date
 #' @param end_date End of date range to search events, in YYYY-MM-DD format and excluding this date
 #' @param confidences Confidence levels (1-4) of events (port visits only)
-#' @param region geojson shape to filter raster or GFW region code (such as an
-#' EEZ code). See details about formatting the geojson
+#' @param region_source Optional but mandatory if using the argument region.
+#' Source of the region. If 'EEZ','MPA', 'RFMO',
+#' then the value for the argument region must be the code for that region.
+#' If 'USER_JSON', then region has to point to a formatted geojson shapefile.
+#' See Details about formatting the geojson.
+#' @param region GFW region code (such as an EEZ, MPA or RFMO code) or a
+#' formatted geojson shape. See Details about formatting the geojson.
 #' @param duration duration, in minutes, of the event, ex. 30
 #' @param interval Time series granularity. Must be a string. Possible values: 'HOUR', 'DAY', 'MONTH', 'YEAR'.
 #' @param key Authorization token. Can be obtained with gfw_auth() function
@@ -361,6 +382,9 @@ get_event <- function(event_type,
 #' request
 #' @param print_request Boolean. Whether to print the request, for debugging
 #' purposes. When contacting the GFW team it will be useful to send this string
+#' @param vessel_types Optional. A vector of vessel types, any combination of:
+#' "FISHING", "CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL",
+#' "BUNKER_OR_TANKER", "CARGO"
 #' @param ... Other arguments
 #'
 #' @importFrom dplyr mutate
@@ -383,6 +407,16 @@ get_event <- function(event_type,
 #' (`event_type = "ENCOUNTER"`) are available for all vessel types. For more
 #' details about the various event types, see the
 #' [GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#data-caveat).
+#'
+#' The user-defined geojson has to be surrounded by a geojson tag,
+#' that can be created using a simple paste:
+#'
+#' ```
+#' geojson_tagged <- paste0('{"geojson":', your_geojson,'}').
+#' ```
+#'
+#' If you have an __sf__ shapefile, you can also use function [sf_to_geojson()]
+#' to obtain the correctly-formatted geojson.
 #'
 #' @examples
 #' library(gfwr)
@@ -412,8 +446,8 @@ get_event_stats <- function(event_type,
                       vessel_types = NULL,
                       start_date = NULL,
                       end_date = NULL,
-                      region = NULL,
                       region_source = NULL,
+                      region = NULL,
                       interval = NULL,
                       duration = 1,
                       confidences = c(2, 3, 4),
