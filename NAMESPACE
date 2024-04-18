@@ -3,6 +3,7 @@
 export("%>%")
 export(get_endpoint)
 export(get_event)
+export(get_event_stats)
 export(get_raster)
 export(get_region_id)
 export(get_vessel_info)
