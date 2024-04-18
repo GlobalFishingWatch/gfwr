@@ -2,19 +2,23 @@
 % Please edit documentation in R/get_event.R
 \name{get_event}
 \alias{get_event}
-\title{Base function to get event from API and convert response to data frame}
+\title{Base function to get events from API and convert response to data frame}
 \usage{
 get_event(
   event_type,
   encounter_types = NULL,
   vessels = NULL,
+  flags = NULL,
   vessel_types = NULL,
-  include_regions = FALSE,
   start_date = NULL,
   end_date = NULL,
+  region = NULL,
+  region_source = NULL,
+  duration = 1,
   confidences = c(2, 3, 4),
   limit = 99999,
   offset = 0,
+  sort = "+start",
   key = gfw_auth(),
   quiet = FALSE,
   print_request = FALSE,
@@ -35,11 +39,16 @@ vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
 "CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL",
 "BUNKER_OR_TANKER", "CARGO"}
 
-\item{include_regions}{Boolean. Whether to include regions}
-
 \item{start_date}{Start of date range to search events, in YYYY-MM-DD format and including this date}
 
 \item{end_date}{End of date range to search events, in YYYY-MM-DD format and excluding this date}
+
+\item{region}{geojson shape to filter raster or GFW region code (such as an
+EEZ code). See details about formatting the geojson}
+
+\item{region_source}{source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')}
+
+\item{duration}{duration, in minutes, of the event, ex. 30}
 
 \item{confidences}{Confidence levels (1-4) of events (port visits only)}
 
@@ -58,7 +67,7 @@ purposes. When contacting the GFW team it will be useful to send this string}
 \item{...}{Other arguments}
 }
 \description{
-Base function to get event from API and convert response to data frame
+Base function to get events from API and convert response to data frame
 }
 \details{
 There are currently four available event types and these events are provided
@@ -129,4 +138,51 @@ get_event(event_type = "PORT_VISIT",
  start_date = "2020-01-01",
  end_date = "2020-01-31",
  key = gfw_auth())
+# fishing events in user geojson
+region <- '"geometry": {"type": "Polygon","coordinates": [[[120.36621093749999,26.725986812271756],[122.36572265625,26.725986812271756],[122.36572265625,28.323724553546015],[120.36621093749999,28.323724553546015],[120.36621093749999,26.725986812271756]]]}'
+get_event(event_type = 'FISHING',
+              start_date = "2017-01-01",
+              end_date = "2017-01-31",
+              region = region,
+              region_source = 'USER_JSON',
+              flags = 'CHN',
+              key = gfw_auth())
+# fishing events in Senegal EEZ
+get_event(event_type = 'FISHING',
+              start_date = "2020-10-01",
+              end_date = "2020-12-31",
+              region = 8371,
+              region_source = 'EEZ',
+              flags = 'CHN',
+              key = gfw_auth())
+# port visits in user region by ATG vessels
+region = '"geometry":{"type": "Polygon","coordinates": [[[30.552978515625,46.255846818480315],[31.22314453125,46.255846818480315],[31.22314453125,46.59661864884465],[30.552978515625,46.59661864884465],[30.552978515625,46.255846818480315]]]}'
+get_event(event_type = 'PORT_VISIT',
+         vessels = "e0248aed9-99b4-bae7-6b87-ff0a3c464676",
+         start_date = "2017-01-01",
+         end_date = "2017-01-31",
+         region = region,
+         region_source = 'USER_JSON',
+         flags = 'ATG',
+         duration = 60)
+# loitering events in user region by KOR vessels
+region = '"geometry": {"type": "Polygon","coordinates": [[[43.835981972515576,-6.785011952437713],[43.83602857589722,-6.785011952437713],[43.83602857589722,-6.784984652340707],[43.835981972515576,-6.784984652340707],[43.835981972515576,-6.785011952437713]]]}'
+get_event(event_type = 'LOITERING',
+                          vessels = "82be6f228-8ce4-26d1-bf81-3b7979d0c72f",
+                          start_date = "2017-01-01",
+                          end_date = "2017-01-31",
+                          region = region,
+                          region_source = 'USER_JSON',
+                          flags = 'KOR',
+                          duration = 60)
+# encounter events in user region by TWN vessels
+region = '"geometry": {"type": "Polygon","coordinates": [[[-130.9735107421875,-17.691128657307427],[-130.4901123046875,-17.691128657307427],[-130.4901123046875,-17.209017141391765],[-130.9735107421875,-17.209017141391765],[-130.9735107421875,-17.691128657307427]]]}'
+get_event(event_type = 'ENCOUNTER',
+         vessels = "55d38c0ee-e0d7-cb32-ac9c-8b3680d213b3",
+         start_date = "2017-01-01",
+         end_date = "2017-01-31",
+         region = region,
+         region_source = 'USER_JSON',
+         flags = 'TWN',
+         duration = 60)
 }
