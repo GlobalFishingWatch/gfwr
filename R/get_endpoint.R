@@ -1,14 +1,16 @@
 #'
 #' Function to get API dataset name for given event type
 #'
-#' @param dataset_type Type of dataset to get API dataset name for. It can be "port_visit", "fishing", "encounter", "loitering", "eez" or "mpa""
+#' @param dataset_type Type of dataset to get API dataset name for. It can be
+#'   "ENCOUNTER", "LOITERING", "FISHING", "PORT_VISIT", "GAP", "EEZ", "RFMO" or "MPA"
 #' @param ... Other arguments that would depend on the dataset type.
 #' @importFrom httr2 request
 #' @importFrom httr2 req_url_path_append
 #' @importFrom httr2 req_url_query
-#'
+#' @export
 
-get_endpoint <- function(dataset_type,...){
+get_endpoint <- function(dataset_type,
+                         ...) {
 
   # API endpoint specific parameters from ...
   args <- list(...)
@@ -16,12 +18,26 @@ get_endpoint <- function(dataset_type,...){
     assign(names(args[i]), args[[i]])
   }
 
+
+  #vessels array
+  if (exists("vessels") && !is.null(vessels)) {
+  vessels <- vector_to_array(vessels, type = "vessels")
+  args <- c(args, vessels)
+  }
+  if (exists("confidences") && !is.null(confidences)) {
+    confidences <- vector_to_array(confidences, type = "confidences")
+    args <- c(args, confidences)
+  }
+
+
+
   # API datasets to pass to param list
   api_datasets <- c(
-    'port_visit' = "public-global-port-visits-c2-events:latest",
-    'encounter' = "public-global-encounters-events:latest",
-    'loitering' = "public-global-loitering-events-carriers:latest",
-    'fishing' = "public-global-fishing-events:latest",
+    'PORT_VISIT' = "public-global-port-visits-c2-events:latest",
+    'ENCOUNTER' = "public-global-encounters-events:latest",
+    'LOITERING' = "public-global-loitering-events:latest",
+    'FISHING' = "public-global-fishing-events:latest",
+    'GAP' = "public-global-gaps-events:latest",
     'raster' = "public-global-fishing-effort:latest"
   )
 
@@ -33,9 +49,10 @@ get_endpoint <- function(dataset_type,...){
   }
 
   # Modify base URL with query parameters
-  if (dataset_type %in% c('port_visit','fishing','encounter','loitering')) {
-
-    args <- c(datasets = dataset,  args)
+  if (dataset_type %in% c("PORT_VISIT", 'FISHING', 'ENCOUNTER','LOITERING', "GAP")) {
+    #datasets array
+    dataset <- vector_to_array(dataset, type = "datasets")
+    args <- c(dataset,  args)
     endpoint <- base %>%
       httr2::req_url_path_append('events') %>%
       httr2::req_url_query(!!!args)
@@ -70,16 +87,17 @@ get_endpoint <- function(dataset_type,...){
 }
 
 
-
-#'
 #' Function to get API endpoint name for identity search
 #'
-#' @param dataset_type Type of identity dataset to get API dataset name for. It can be "support_vessel", "carrier_vessel" or "fishing_vessel"
-#' @param search_type Type of vessel search to perform. Can be "basic", "advanced", or "id"
+#' @param dataset_type Type of identity dataset to get API dataset name for. It can be a vector with any combination of "support_vessel", "carrier_vessel" or "fishing_vessel"
+#' @param search_type Type of vessel search to perform. Can be "search" or "id". "advanced" is no longer in use as of gfwr 2.0.0 and basic and advanced options can be accessed with parameters query and where
+#' @param ids optional, a vector with vessel ids
 #' @param ... Other arguments that would depend on the dataset type.
-#'
 
-get_identity_endpoint <- function(dataset_type, search_type, ...) {
+get_identity_endpoint <- function(dataset_type,
+                                  search_type,
+                                  ids,
+                                  ...) {
 
   # API endpoint specific parameters from ...
   args <- list(...)
@@ -89,42 +107,31 @@ get_identity_endpoint <- function(dataset_type, search_type, ...) {
 
   base <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/")
 
-  # API datasets to pass to param list
-  api_datasets <- c(
-    "support_vessel" = "public-global-support-vessels:latest",
-    "carrier_vessel" = "public-global-carrier-vessels:latest",
-    "fishing_vessel" = "public-global-fishing-vessels:latest",
-    "all" = "public-global-support-vessels:latest,public-global-carrier-vessels:latest,public-global-fishing-vessels:latest"
-  )
+  # Only one dataset ID for selected API
+  dataset <- "public-global-vessel-identity:latest"
+  dataset <- vector_to_array(dataset, type = "datasets")
+  args <- c(args, dataset)
 
-  # Get dataset ID for selected API
-  dataset <- api_datasets[[dataset_type]]
-
-  # swap name is searching by vessel id
+  # ID search now receives a vector
   if (search_type == "id") {
-    names(args)[names(args) == "query"] <- "ids"
-  }
+    ids <- vector_to_array(ids, type = "ids")
 
-  # TODO: Remove this once engineering fixes limit/offset for ids search type
-  if (search_type == "id") {
-    args <- args[!names(args) %in% c('limit','offset')]
-  }
-
-  # different search options
-  # basic = using MMSI, IMO, shipname, etc
-  # advanced = %LIKE%
-  # id = using vessel id
-  if (search_type == "basic") {
-    path_append <- "vessels/search"
-  } else if (search_type == "advanced") {
-    path_append <- "vessels/advanced-search"
-  } else if (search_type == "id") {
     path_append <- "vessels"
-  } else {
-    cat("Specify appropriate search format")
+    if (!is.null(registries_info_data)) {
+      reg_info <- c(`registries-info-data` = registries_info_data)
+      args <- c(args, reg_info)
+    }
+    args <- c(args,
+              ids)
+    args <- args[!names(args) %in% c('limit','offset')]
+  } else if (search_type == "search") {
+    path_append <- "vessels/search"
+    #format includes
+    if (!is.null(includes)) {
+      incl <- vector_to_array(includes, type = "includes")
+      args <- c(args, incl)
+    }
   }
-  args <- c(datasets = dataset, args)
-
   endpoint <- base %>%
     httr2::req_url_path_append(path_append) %>%
     httr2::req_url_query(!!!args)

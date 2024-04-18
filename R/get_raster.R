@@ -1,13 +1,17 @@
 #' Base function to get raster from API and convert response to data frame
 #'
-#' @param spatial_resolution raster spatial resolution. Can be "low" = 0.1 degree or "high" = 0.01 degree
-#' @param temporal_resolution raster temporal resolution. Can be 'daily','monthly','yearly'.
-#' @param group_by parameter to group by. Can be 'vessel_id', 'flag', 'gearType', 'flagAndGearType'
+#' @param spatial_resolution raster spatial resolution. Can be "LOW" = 0.1 degree
+#'  or "HIGH" = 0.01 degree
+#' @param temporal_resolution raster temporal resolution. Can be 'HOURLY',
+#' 'DAILY', 'MONTHLY', 'YEARLY'
+#' @param group_by parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
+#'  'FLAGANDGEARTYPE' or 'MMSI'
 #' @param filter_by parameter to filter by.
-#' @param date_range Start and end of date range for raster (must be one year or less)
-#' @param region geojson or GFW region code, shape to filter raster
-#' @param region_source source of the region ('eez','mpa', 'rfmo' or 'user_json')
-#' @param key Authorization token. Can be obtained with gfw_auth function
+#' @param date_range Start and end of date range for raster (must be 366 days or less)
+#' @param region geojson shape to filter raster or GFW region code (such as an
+#' EEZ code). See details about formatting the geojson
+#' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')
+#' @param key Authorization token. Can be obtained with gfw_auth() function
 #' @importFrom magrittr `%>%`
 #' @importFrom readr read_csv
 #' @importFrom httr2 resp_body_raw
@@ -21,8 +25,17 @@
 #' @export
 #'
 #' @details
-#' See examples at https://github.com/GlobalFishingWatch/gfwr
-
+#' The user-defined geojson has to be surrounded by a geojson tag,
+#' that can be created using a simple paste:
+#'
+#' ```
+#' geojson_tagged <- paste0('{"geojson":', your_geojson,'}').
+#' ```
+#'
+#' If you have an __sf__ shapefile, you can also use function [sf_to_geojson()]
+#' to obtain the correctly-formatted geojson.
+#'
+#'
 get_raster <- function(spatial_resolution = NULL,
                        temporal_resolution = NULL,
                        group_by = NULL,

@@ -29,7 +29,7 @@ gfw_auth <- function(){
 #' @export
 gfw_user_agent <- function(){
   # Define user agent version
-  return("gfwr/1.1.1 (https://github.com/GlobalFishingWatch/gfwr)")
+  return("gfwr/2.0.0 (https://github.com/GlobalFishingWatch/gfwr)")
 }
 
 #' Basic function to make length 1 lists into characters
@@ -57,7 +57,7 @@ make_datetime <- function(x) {
 gist_error_body <- function(resp) {
   body <- httr2::resp_body_json(resp)
   messages <- body$messages
-  if(length(messages[[1]]) > 1){
+  if (length(messages[[1]]) > 1){
     messages <- purrr::map_chr(messages, purrr::pluck, 'detail')
   }
   messages
@@ -65,7 +65,8 @@ gist_error_body <- function(resp) {
 
 #' General function for GFW API requests, including handling of pagination.
 #' @name gfw_api_request
-#' @keywords internal
+#' @param endpoint the endpoint to make the request
+#' @param key Authentication key
 #' @importFrom httr2 req_headers
 #' @importFrom httr2 req_error
 #' @importFrom httr2 req_perform
@@ -92,11 +93,12 @@ gfw_api_request <- function(endpoint, key) {
   total <- response$total
   # print(paste("Downloading",total,"events from GFW"))
 
+  # next_off <- ifelse(is.null(response$nextOffset), 0, response$nextOffset)
   next_off <- response$nextOffset
 
   # While nextOffset is less than total, pull additional response pages
-  if(next_off < total){
-    while(next_off < total){
+  # if(next_off < total){
+    while (!is.null(next_off)) {
 
       # # API call for next page
       next_response <- endpoint %>%
@@ -111,11 +113,12 @@ gfw_api_request <- function(endpoint, key) {
         httr2::resp_body_json()
 
       # Append response to list
-      responses[[length(responses)+1]] <- next_response
+      responses[[length(responses) + 1]] <- next_response
 
       # Pull out nextOffset of latest API response
-      next_off <- next_response$nextOffset
-    }
+      next_off <- response$nextOffset
+      # next_off <- ifelse(is.null(response$nextOffset), total, response$nextOffset)
+    # }
   }
   # Return list of response pages
   return(responses)
@@ -186,7 +189,45 @@ get_region_id <- function(region_name, region_source = 'EEZ', key) {
   }
 }
 
+#' Transforms a vector to a named vector for httr2
+#'
+#' @param x The vector to transform
+#' @param type The type of data to paste, will be "events", "datasets", or "vessel" depending on the context
+#'
+#' @return A named vector in the format required by the API, with names followed
+#' by a zero-indexed suffix (ex. datasets\\[0\\])
+#' @export
+
+#' @examples
+#' vector_to_array(x = 1, type = "vessel")
+#' vector_to_array(x = "a", type = "vessel")
+#' vector_to_array(x = c(1, 2), type = "dataset")
+#' vector_to_array(x = c(1, 2, 3), type = "dataset")
+#' vector_to_array(x = "fishing", type = "dataset")
+#' vector_to_array(x = c("fishing", "port-visits"), type = "event")
+
+vector_to_array <- function(x, type = "vessel") {
+  index <- seq_along(1:length(x)) - 1
+  array_name <- paste0(type, "[", index, "]")
+  names(x) <- array_name
+  return(x)
+}
+
+#' Formats an sf shapefile to a formatted geojson
+#'
+#' @param sf_shape The sf shapefile to transform
+#' @returns A correctly-formatted geojson to be used in `get_raster()`
+#' @importFrom geojsonsf sf_geojson
+#' @export
+
+sf_to_geojson <- function(sf_shape) {
+  geoj <- geojsonsf::sf_geojson(sf_shape)
+  geoj_tagged <- paste0('{"geojson":', geoj,'}')
+  return(geoj_tagged)
+}
 
 globalVariables(c("."))
 globalVariables(c("id"))
 globalVariables(c("value"))
+globalVariables(c("includes"))
+globalVariables(c("registries_info_data"))

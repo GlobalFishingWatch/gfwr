@@ -4,7 +4,7 @@
 \alias{get_region_id}
 \title{Function to pull numeric EEZ code using EEZ name}
 \usage{
-get_region_id(region_name, region_source = "eez", key)
+get_region_id(region_name, region_source = "EEZ", key)
 }
 \arguments{
 \item{region_name}{string or numeric, EEZ/MPA name or EEZ/MPA id}
