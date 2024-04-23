@@ -9,3 +9,4 @@ gfw_user_agent()
 \description{
 Set user agent for gfwr API requests
 }
+\keyword{internal}

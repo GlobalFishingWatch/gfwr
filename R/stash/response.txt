@@ -1,0 +1,270 @@
+$limit
+[1] 20
+
+$since
+NULL
+
+$total
+[1] 1
+
+$entries
+$entries[[1]]
+$entries[[1]]$dataset
+[1] "public-global-vessel-identity:v20231026"
+
+$entries[[1]]$registryInfoTotalRecords
+[1] 1
+
+$entries[[1]]$registryInfo
+$entries[[1]]$registryInfo[[1]]
+$entries[[1]]$registryInfo[[1]]$id
+[1] "e0c9823749264a129d6b47a7aabce377"
+
+$entries[[1]]$registryInfo[[1]]$sourceCode
+$entries[[1]]$registryInfo[[1]]$sourceCode[[1]]
+[1] "EU"
+
+$entries[[1]]$registryInfo[[1]]$sourceCode[[2]]
+[1] "GFW-REVIEW"
+
+$entries[[1]]$registryInfo[[1]]$sourceCode[[3]]
+[1] "ICCAT"
+
+$entries[[1]]$registryInfo[[1]]$sourceCode[[4]]
+[1] "IMO"
+
+$entries[[1]]$registryInfo[[1]]$sourceCode[[5]]
+[1] "IOTC"
+
+$entries[[1]]$registryInfo[[1]]$sourceCode[[6]]
+[1] "ISSF"
+
+
+$entries[[1]]$registryInfo[[1]]$ssvid
+[1] "224224000"
+
+$entries[[1]]$registryInfo[[1]]$flag
+[1] "ESP"
+
+$entries[[1]]$registryInfo[[1]]$shipname
+[1] "AGURTZABERRIA"
+
+$entries[[1]]$registryInfo[[1]]$nShipname
+[1] "AGURTZABERRIA"
+
+$entries[[1]]$registryInfo[[1]]$callsign
+[1] "EBSJ"
+
+$entries[[1]]$registryInfo[[1]]$imo
+[1] "8733445"
+
+$entries[[1]]$registryInfo[[1]]$latestVesselInfo
+[1] TRUE
+
+$entries[[1]]$registryInfo[[1]]$transmissionDateFrom
+[1] "2015-10-13T16:06:33Z"
+
+$entries[[1]]$registryInfo[[1]]$transmissionDateTo
+[1] "2019-10-15T08:41:52Z"
+
+$entries[[1]]$registryInfo[[1]]$geartypes
+$entries[[1]]$registryInfo[[1]]$geartypes[[1]]
+[1] "SUPPLY_VESSEL"
+
+
+$entries[[1]]$registryInfo[[1]]$lengthM
+[1] 28.9
+
+$entries[[1]]$registryInfo[[1]]$tonnageGt
+[1] 162
+
+$entries[[1]]$registryInfo[[1]]$vesselInfoReference
+[1] "f8e9a882-762a-464e-a467-1ac92b10c546"
+
+
+
+$entries[[1]]$registryOwners
+list()
+
+$entries[[1]]$registryPublicAuthorizations
+list()
+
+$entries[[1]]$combinedSourcesInfo
+$entries[[1]]$combinedSourcesInfo[[1]]
+$entries[[1]]$combinedSourcesInfo[[1]]$vesselId
+[1] "6632c9eb8-8009-abdb-baf9-b67d65f20510"
+
+$entries[[1]]$combinedSourcesInfo[[1]]$geartypes
+$entries[[1]]$combinedSourcesInfo[[1]]$geartypes[[1]]
+$entries[[1]]$combinedSourcesInfo[[1]]$geartypes[[1]]$name
+[1] "PURSE_SEINE_SUPPORT"
+
+$entries[[1]]$combinedSourcesInfo[[1]]$geartypes[[1]]$source
+[1] "GFW_VESSEL_LIST"
+
+$entries[[1]]$combinedSourcesInfo[[1]]$geartypes[[1]]$yearFrom
+[1] 2019
+
+$entries[[1]]$combinedSourcesInfo[[1]]$geartypes[[1]]$yearTo
+[1] 2023
+
+
+
+$entries[[1]]$combinedSourcesInfo[[1]]$shiptypes
+$entries[[1]]$combinedSourcesInfo[[1]]$shiptypes[[1]]
+$entries[[1]]$combinedSourcesInfo[[1]]$shiptypes[[1]]$name
+[1] "SUPPORT"
+
+$entries[[1]]$combinedSourcesInfo[[1]]$shiptypes[[1]]$source
+[1] "GFW_VESSEL_LIST"
+
+$entries[[1]]$combinedSourcesInfo[[1]]$shiptypes[[1]]$yearFrom
+[1] 2019
+
+$entries[[1]]$combinedSourcesInfo[[1]]$shiptypes[[1]]$yearTo
+[1] 2023
+
+
+
+
+$entries[[1]]$combinedSourcesInfo[[2]]
+$entries[[1]]$combinedSourcesInfo[[2]]$vesselId
+[1] "3c99c326d-dd2e-175d-626f-a3c488a4342b"
+
+$entries[[1]]$combinedSourcesInfo[[2]]$geartypes
+$entries[[1]]$combinedSourcesInfo[[2]]$geartypes[[1]]
+$entries[[1]]$combinedSourcesInfo[[2]]$geartypes[[1]]$name
+[1] "PURSE_SEINE_SUPPORT"
+
+$entries[[1]]$combinedSourcesInfo[[2]]$geartypes[[1]]$source
+[1] "GFW_VESSEL_LIST"
+
+$entries[[1]]$combinedSourcesInfo[[2]]$geartypes[[1]]$yearFrom
+[1] 2015
+
+$entries[[1]]$combinedSourcesInfo[[2]]$geartypes[[1]]$yearTo
+[1] 2019
+
+
+
+$entries[[1]]$combinedSourcesInfo[[2]]$shiptypes
+$entries[[1]]$combinedSourcesInfo[[2]]$shiptypes[[1]]
+$entries[[1]]$combinedSourcesInfo[[2]]$shiptypes[[1]]$name
+[1] "SUPPORT"
+
+$entries[[1]]$combinedSourcesInfo[[2]]$shiptypes[[1]]$source
+[1] "GFW_VESSEL_LIST"
+
+$entries[[1]]$combinedSourcesInfo[[2]]$shiptypes[[1]]$yearFrom
+[1] 2015
+
+$entries[[1]]$combinedSourcesInfo[[2]]$shiptypes[[1]]$yearTo
+[1] 2019
+
+
+
+
+
+$entries[[1]]$selfReportedInfo
+$entries[[1]]$selfReportedInfo[[1]]
+$entries[[1]]$selfReportedInfo[[1]]$id
+[1] "6632c9eb8-8009-abdb-baf9-b67d65f20510"
+
+$entries[[1]]$selfReportedInfo[[1]]$ssvid
+[1] "306118000"
+
+$entries[[1]]$selfReportedInfo[[1]]$shipname
+[1] "AGURTZA BERRIA"
+
+$entries[[1]]$selfReportedInfo[[1]]$nShipname
+[1] "AGURTZABERRIA"
+
+$entries[[1]]$selfReportedInfo[[1]]$flag
+[1] "BES"
+
+$entries[[1]]$selfReportedInfo[[1]]$callsign
+[1] "PJBL"
+
+$entries[[1]]$selfReportedInfo[[1]]$imo
+[1] "8733445"
+
+$entries[[1]]$selfReportedInfo[[1]]$messagesCounter
+[1] 21770886
+
+$entries[[1]]$selfReportedInfo[[1]]$positionsCounter
+[1] 302383
+
+$entries[[1]]$selfReportedInfo[[1]]$sourceCode
+$entries[[1]]$selfReportedInfo[[1]]$sourceCode[[1]]
+[1] "AIS"
+
+
+$entries[[1]]$selfReportedInfo[[1]]$matchFields
+[1] "SEVERAL_FIELDS"
+
+$entries[[1]]$selfReportedInfo[[1]]$transmissionDateFrom
+[1] "2019-10-15T12:16:54Z"
+
+$entries[[1]]$selfReportedInfo[[1]]$transmissionDateTo
+[1] "2023-10-28T08:00:19Z"
+
+
+$entries[[1]]$selfReportedInfo[[2]]
+$entries[[1]]$selfReportedInfo[[2]]$id
+[1] "3c99c326d-dd2e-175d-626f-a3c488a4342b"
+
+$entries[[1]]$selfReportedInfo[[2]]$ssvid
+[1] "224224000"
+
+$entries[[1]]$selfReportedInfo[[2]]$shipname
+[1] "AGURTZA BERRIA"
+
+$entries[[1]]$selfReportedInfo[[2]]$nShipname
+[1] "AGURTZABERRIA"
+
+$entries[[1]]$selfReportedInfo[[2]]$flag
+[1] "ESP"
+
+$entries[[1]]$selfReportedInfo[[2]]$callsign
+[1] "EBSJ"
+
+$entries[[1]]$selfReportedInfo[[2]]$imo
+[1] "8733445"
+
+$entries[[1]]$selfReportedInfo[[2]]$messagesCounter
+[1] 1887249
+
+$entries[[1]]$selfReportedInfo[[2]]$positionsCounter
+[1] 73677
+
+$entries[[1]]$selfReportedInfo[[2]]$sourceCode
+$entries[[1]]$selfReportedInfo[[2]]$sourceCode[[1]]
+[1] "AIS"
+
+
+$entries[[1]]$selfReportedInfo[[2]]$matchFields
+[1] "SEVERAL_FIELDS"
+
+$entries[[1]]$selfReportedInfo[[2]]$transmissionDateFrom
+[1] "2015-10-13T15:47:16Z"
+
+$entries[[1]]$selfReportedInfo[[2]]$transmissionDateTo
+[1] "2019-10-15T12:10:51Z"
+
+
+
+
+
+$metadata
+$metadata$query
+[1] "224224000"
+
+$metadata$normalizedQuery
+[1] "224224000"
+
+$metadata$didYouMean
+$metadata$didYouMean$shipname
+named list()
+
+
+

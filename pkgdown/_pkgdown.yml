@@ -1,0 +1,24 @@
+reference:
+- title: "Fishing effort - 4wings API"
+  contents:
+  - get_raster
+- title: "Vessel identity"
+  contents:
+  - get_vessel_info
+- title: "Events API"
+  desc: "Fishing, gap, encounter and loitering events"
+  contents:
+  - get_event
+  - get_event_stats
+- title: "Auxiliary functions"
+  contents:
+  - gfw_auth
+  - get_region_id
+template:
+  includes:
+    in_header: <!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-WXTMN69');</script><!-- End Google Tag Manager -->
+    before_body: <!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WXTMN69"height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><!-- End Google Tag Manager (noscript) -->
+    after_body: <!-- inserted at the end of the body -->
+    before_title: <!-- inserted before the package title in the header ->
+    before_navbar: <!-- inserted before the navbar links -->
+    after_navbar: <!-- inserted after the navbar links -->
