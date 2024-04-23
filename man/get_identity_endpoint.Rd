@@ -18,3 +18,4 @@ get_identity_endpoint(dataset_type, search_type, ids, ...)
 \description{
 Function to get API endpoint name for identity search
 }
+\keyword{internal}

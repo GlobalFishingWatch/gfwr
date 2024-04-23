@@ -15,3 +15,4 @@ get_endpoint(dataset_type, ...)
 \description{
 Function to get API dataset name for given event type
 }
+\keyword{internal}

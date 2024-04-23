@@ -15,3 +15,4 @@ A correctly-formatted geojson to be used in \code{get_raster()}
 \description{
 Formats an sf shapefile to a formatted geojson
 }
+\keyword{internal}

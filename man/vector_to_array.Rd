@@ -26,3 +26,4 @@ vector_to_array(x = c(1, 2, 3), type = "dataset")
 vector_to_array(x = "fishing", type = "dataset")
 vector_to_array(x = c("fishing", "port-visits"), type = "event")
 }
+\keyword{internal}

@@ -23,10 +23,10 @@ gfw_auth <- function(){
   return(key)
 }
 
-#'
 #' Set user agent for gfwr API requests
 #' @name gfw_user_agent
 #' @export
+#' @keywords internal
 gfw_user_agent <- function(){
   # Define user agent version
   return("gfwr/2.0.0 (https://github.com/GlobalFishingWatch/gfwr)")
@@ -54,6 +54,7 @@ make_datetime <- function(x) {
 #' @importFrom httr2 resp_body_json
 #' @importFrom purrr map_chr
 #' @importFrom purrr pluck
+#' @keywords internal
 gist_error_body <- function(resp) {
   body <- httr2::resp_body_json(resp)
   messages <- body$messages
@@ -72,6 +73,7 @@ gist_error_body <- function(resp) {
 #' @importFrom httr2 req_perform
 #' @importFrom httr2 resp_body_json
 #' @importFrom httr2 req_user_agent
+#' @keywords internal
 # API request function
 gfw_api_request <- function(endpoint, key) {
   # Make initial API request
@@ -193,11 +195,10 @@ get_region_id <- function(region_name, region_source = 'EEZ', key) {
 #'
 #' @param x The vector to transform
 #' @param type The type of data to paste, will be "events", "datasets", or "vessel" depending on the context
-#'
 #' @return A named vector in the format required by the API, with names followed
 #' by a zero-indexed suffix (ex. datasets\\[0\\])
+#' @keywords internal
 #' @export
-
 #' @examples
 #' vector_to_array(x = 1, type = "vessel")
 #' vector_to_array(x = "a", type = "vessel")
@@ -219,6 +220,7 @@ vector_to_array <- function(x, type = "vessel") {
 #' @returns A correctly-formatted geojson to be used in `get_raster()`
 #' @importFrom geojsonsf sf_geojson
 #' @export
+#' @keywords internal
 
 sf_to_geojson <- function(sf_shape) {
   geoj <- geojsonsf::sf_geojson(sf_shape)

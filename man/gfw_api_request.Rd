@@ -14,3 +14,4 @@ gfw_api_request(endpoint, key)
 \description{
 General function for GFW API requests, including handling of pagination.
 }
+\keyword{internal}
