@@ -31,6 +31,9 @@
     <loc>/reference/get_event.html</loc>
   </url>
   <url>
+    <loc>/reference/get_event_stats.html</loc>
+  </url>
+  <url>
     <loc>/reference/get_identity_endpoint.html</loc>
   </url>
   <url>
@@ -43,7 +46,13 @@
     <loc>/reference/get_vessel_info.html</loc>
   </url>
   <url>
+    <loc>/reference/gfw_api_request.html</loc>
+  </url>
+  <url>
     <loc>/reference/gfw_auth.html</loc>
+  </url>
+  <url>
+    <loc>/reference/gfw_user_agent.html</loc>
   </url>
   <url>
     <loc>/reference/gfwr-package.html</loc>
@@ -65,5 +74,11 @@
   </url>
   <url>
     <loc>/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sf_to_geojson.html</loc>
+  </url>
+  <url>
+    <loc>/reference/vector_to_array.html</loc>
   </url>
 </urlset>
