@@ -17,6 +17,8 @@
 #' @param region geojson shape to filter raster or GFW region code (such as an
 #' EEZ code). See details about formatting the geojson
 #' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')
+#' @param gap_intentional_disabling Logical. Whether the Gap events are intentional,
+#' according to Global Fishing Watch algorithms
 #' @param key Authorization token. Can be obtained with gfw_auth() function
 #' @param quiet Boolean. Whether to print the number of events returned by the
 #' request
@@ -171,6 +173,11 @@
 #'          region_source = 'USER_JSON',
 #'          flags = 'TWN',
 #'          duration = 60)
+#'get_event(event_type = 'GAP',
+#'          start_date = "2017-01-01",
+#'          end_date = "2017-01-31",
+#'          flags = 'TWN',
+#'          gap_intentional_disabling = TRUE)
 #' @export
 
 get_event <- function(event_type,
@@ -178,10 +185,11 @@ get_event <- function(event_type,
                       vessels = NULL,
                       flags = NULL,
                       vessel_types = NULL,
-                      start_date = NULL,
-                      end_date = NULL,
+                      start_date = "2012-01-01",
+                      end_date = "2024-12-31",
                       region = NULL,
                       region_source = NULL,
+                      gap_intentional_disabling = NULL,
                       duration = 1,
                       confidences = c(2, 3, 4),
                       limit = 99999,
@@ -202,10 +210,16 @@ get_event <- function(event_type,
             )
 
   body_args <- c(args)
-  start <- c("startDate" = start_date)
-  end <- c('endDate' = end_date)
   duration <- c('duration' = duration)
-
+  #dates
+  if (!is.null(start_date)) {
+    start <- c("startDate" = start_date)
+    #body_args <- c(body_args, start)
+  }
+  if (!is.null(end_date)) {
+    end <- c('endDate' = end_date)
+    #body_args <- c(body_args, end)
+  }
   #vessels array
   if (!is.null(vessels)) {
     vessels <- list("vessels" = vessels)
@@ -236,6 +250,12 @@ get_event <- function(event_type,
   if (!is.null(duration)) {
     duration <- list(duration = jsonlite::unbox(duration))
     body_args <- c(body_args, duration)
+  }
+  # gap_intentional_disabling
+  if (!is.null(gap_intentional_disabling)) {
+    gap_intentional_disabling <-
+      list("gapIntentionalDisabling" = gap_intentional_disabling)
+    body_args <- c(body_args, gap_intentional_disabling)
   }
 
   base <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/")
@@ -444,8 +464,8 @@ get_event_stats <- function(event_type,
                       encounter_types = NULL,
                       vessels = NULL,
                       vessel_types = NULL,
-                      start_date = NULL,
-                      end_date = NULL,
+                      start_date = "2012-01-01",
+                      end_date = "2024-12-31",
                       region_source = NULL,
                       region = NULL,
                       interval = NULL,
@@ -462,8 +482,8 @@ get_event_stats <- function(event_type,
   }
 
   body_args <- c(args)
-  start <- c("startDate" = start_date)
-  end <- c('endDate' = end_date)
+  if (!is.null(start_date)) start <- c("startDate" = start_date)
+  if (!is.null(end_date)) end <- c('endDate' = end_date)
   duration <- c('duration' = duration)
   interval <- c('timeseriesInterval' = interval)
 

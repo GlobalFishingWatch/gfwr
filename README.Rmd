@@ -353,7 +353,6 @@ get_event(event_type = 'FISHING',
           vessels = usa_trawler_ids,
           start_date = "2020-01-01",
           end_date = "2020-02-01",
-          include_regions = TRUE,
           key = key
           ) %>%
   # extract EEZ id code
@@ -363,7 +362,8 @@ get_event(event_type = 'FISHING',
   dplyr::rowwise() %>%
   dplyr::mutate(eez_name = get_region_id(region_name = as.numeric(eez),
                                          region_source = 'EEZ',
-                                         key = key)$label)
+                                         key = key)$label) %>% 
+  dplyr::select(-start, -end)
 ```
 
 ## Contributing

@@ -10,10 +10,11 @@ get_event(
   vessels = NULL,
   flags = NULL,
   vessel_types = NULL,
-  start_date = NULL,
-  end_date = NULL,
+  start_date = "2012-01-01",
+  end_date = "2024-12-31",
   region = NULL,
   region_source = NULL,
+  gap_intentional_disabling = NULL,
   duration = 1,
   confidences = c(2, 3, 4),
   limit = 99999,
@@ -49,6 +50,9 @@ vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
 EEZ code). See details about formatting the geojson}
 
 \item{region_source}{source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')}
+
+\item{gap_intentional_disabling}{Logical. Whether the Gap events are intentional,
+according to Global Fishing Watch algorithms}
 
 \item{duration}{duration, in minutes, of the event, ex. 30}
 
@@ -203,4 +207,9 @@ get_event(event_type = 'ENCOUNTER',
          region_source = 'USER_JSON',
          flags = 'TWN',
          duration = 60)
+get_event(event_type = 'GAP',
+         start_date = "2017-01-01",
+         end_date = "2017-01-31",
+         flags = 'TWN',
+         gap_intentional_disabling = TRUE)
 }
