@@ -49,13 +49,13 @@ make_datetime <- function(x) {
 #' Helper function to parse error message data
 #' and display appropriately to user
 #' Taken from httr2 docs: https://httr2.r-lib.org/articles/wrapping-apis.html#sending-data
-#' @name gist_error_body
+#' @name parse_response_error
 #' @keywords internal
 #' @importFrom httr2 resp_body_json
 #' @importFrom purrr map_chr
 #' @importFrom purrr pluck
 #' @keywords internal
-gist_error_body <- function(resp) {
+parse_response_error <- function(resp) {
   body <- httr2::resp_body_json(resp)
   messages <- body$messages
   if (length(messages[[1]]) > 1){
@@ -83,7 +83,7 @@ gfw_api_request <- function(endpoint, key) {
                                              sep = " "),
                        `Content-Type` = 'application/json') %>%
     httr2::req_user_agent(gfw_user_agent()) %>%
-    httr2::req_error(body = gist_error_body) %>%
+    httr2::req_error(body = parse_response_error) %>%
     httr2::req_perform() %>%
     httr2::resp_body_json()
 
@@ -110,7 +110,7 @@ gfw_api_request <- function(endpoint, key) {
                                                  sep = " "),
                            `Content-Type` = 'application/json') %>%
         httr2::req_user_agent(gfw_user_agent()) %>%
-        httr2::req_error(body = gist_error_body) %>%
+        httr2::req_error(body = parse_response_error) %>%
         httr2::req_perform() %>%
         httr2::resp_body_json()
 
@@ -149,7 +149,7 @@ get_region_id <- function(region_name, region_source = 'EEZ', key) {
   result <- get_endpoint(dataset_type = region_source) %>%
     httr2::req_headers(Authorization = paste("Bearer", key, sep = " ")) %>%
     httr2::req_user_agent(gfw_user_agent()) %>%
-    httr2::req_error(body = gist_error_body) %>%
+    httr2::req_error(body = parse_response_error) %>%
     httr2::req_perform(.) %>%
     httr2::resp_body_json(.) %>%
     dplyr::bind_rows()

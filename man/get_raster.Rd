@@ -27,7 +27,8 @@ or "HIGH" = 0.01 degree}
 
 \item{filter_by}{parameter to filter by.}
 
-\item{date_range}{Start and end of date range for raster (must be 366 days or less)}
+\item{date_range}{Start and end of date range for raster (must be 366 days or
+less). Formatted "YYYY-MM-DD,YYYY-MM-DD"}
 
 \item{region}{geojson shape to filter raster or GFW region code (such as an
 EEZ code). See details about formatting the geojson}
@@ -48,4 +49,15 @@ that can be created using a simple paste:
 
 If you have an \strong{sf} shapefile, you can also use function \code{\link[=sf_to_geojson]{sf_to_geojson()}}
 to obtain the correctly-formatted geojson.
+}
+\examples{
+library(gfwr)
+code_eez <- get_region_id(region_name = 'CIV', region_source = 'EEZ', key = key)
+get_raster(spatial_resolution = 'LOW',
+           temporal_resolution = 'YEARLY',
+           group_by = 'FLAG',
+           date_range = '2021-01-01,2021-10-01',
+           region = code_eez$id,
+           region_source = 'EEZ',
+           key = key)
 }

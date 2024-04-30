@@ -19,7 +19,12 @@ knitr::opts_chunk$set(
 [![DOI](https://zenodo.org/badge/450635054.svg)](https://zenodo.org/badge/latestdoi/450635054)
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Licence](https://img.shields.io/badge/license-Apache%202-blue)](https://opensource.org/licenses/Apache-2.0)
+[![:registry status badge](https://globalfishingwatch.r-universe.dev/badges/:registry)](https://github.com/r-universe/globalfishingwatch/actions/workflows/sync.yml)
 <!-- badges: end -->
+
+> **Important**  
+> This version of gfwr gives access to Global Fishing Watch API [version 3](https://globalfishingwatch.org/our-apis/documentation#version-3-api). Starting April 30th, 2024, this is the official API version. To install gfwr 1.0, the previous version that communicated with API [version 2](https://globalfishingwatch.org/our-apis/documentation#version-2-api), please refer to branch `APIv2` in this repository. 
+> `remotes::install_github("GlobalFishingWatch/gfwr", ref = "APIv2")`
 
 The `gfwr` R package is a simple wrapper for the Global Fishing Watch (GFW) [APIs](https://globalfishingwatch.org/our-apis/documentation#introduction). It provides convenient functions to freely pull GFW data directly into R in tidy formats.
 
@@ -36,12 +41,19 @@ The package currently works with the following APIs:
 
 You can install the development version of `gfwr` like so:
 
-``` {r, eval = FALSE}
+```{r, eval = FALSE}
 # Check/install remotes
 if (!require("remotes"))
   install.packages("remotes")
 
 remotes::install_github("GlobalFishingWatch/gfwr")
+```
+
+gfwr is also in rOpenSci [R-universe](https://globalfishingwatch.r-universe.dev/gfwr#), and can be installed like this: 
+
+```{r eval = FALSE}
+install.packages("gfwr", 
+                 repos = c("https://globalfishingwatch.r-universe.dev", "https://cran.r-project.org"))
 ```
 
 Once everything is installed, you can load and use `gfwr`

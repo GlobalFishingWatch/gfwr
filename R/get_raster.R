@@ -7,7 +7,8 @@
 #' @param group_by parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
 #'  'FLAGANDGEARTYPE' or 'MMSI'
 #' @param filter_by parameter to filter by.
-#' @param date_range Start and end of date range for raster (must be 366 days or less)
+#' @param date_range Start and end of date range for raster (must be 366 days or
+#'  less). Formatted "YYYY-MM-DD,YYYY-MM-DD"
 #' @param region geojson shape to filter raster or GFW region code (such as an
 #' EEZ code). See details about formatting the geojson
 #' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')
@@ -34,8 +35,16 @@
 #'
 #' If you have an __sf__ shapefile, you can also use function [sf_to_geojson()]
 #' to obtain the correctly-formatted geojson.
-#'
-#'
+#' @examples
+#' library(gfwr)
+#' code_eez <- get_region_id(region_name = 'CIV', region_source = 'EEZ', key = key)
+#' get_raster(spatial_resolution = 'LOW',
+#'            temporal_resolution = 'YEARLY',
+#'            group_by = 'FLAG',
+#'            date_range = '2021-01-01,2021-10-01',
+#'            region = code_eez$id,
+#'            region_source = 'EEZ',
+#'            key = key)
 get_raster <- function(spatial_resolution = NULL,
                        temporal_resolution = NULL,
                        group_by = NULL,
@@ -56,6 +65,7 @@ get_raster <- function(spatial_resolution = NULL,
     format = 'CSV'
   )
 
+if (is.null(region_source)) stop("region_source and region params are required")
   if (region_source == 'MPA' & is.numeric(region)) {
     region = rjson::toJSON(list(region = list(dataset = 'public-mpa-all',
                                              id = region)))
@@ -80,7 +90,7 @@ get_raster <- function(spatial_resolution = NULL,
                                              sep = " "),
                        `Content-Type` = 'application/json') %>%
     httr2::req_body_raw(., body = region) %>%
-    httr2::req_error(req = ., body = gist_error_body) %>%
+    httr2::req_error(req = ., body = parse_response_error) %>%
     httr2::req_perform(.) %>%
     httr2::resp_body_raw(.)
 
