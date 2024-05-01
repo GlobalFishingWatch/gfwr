@@ -48,13 +48,13 @@ make_datetime <- function(x) {
 
 #' Helper function to parse error message data
 #' and display appropriately to user
-#' Taken from httr2 docs: https://httr2.r-lib.org/articles/wrapping-apis.html#sending-data
 #' @name parse_response_error
 #' @keywords internal
 #' @importFrom httr2 resp_body_json
 #' @importFrom purrr map_chr
 #' @importFrom purrr pluck
 #' @keywords internal
+#' @details Taken from httr2 docs: https://httr2.r-lib.org/articles/wrapping-apis.html#sending-data
 parse_response_error <- function(resp) {
   body <- httr2::resp_body_json(resp)
   messages <- body$messages

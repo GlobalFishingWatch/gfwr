@@ -10,9 +10,6 @@
     <loc>/Contributing.html</loc>
   </url>
   <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
     <loc>/LICENSE.html</loc>
   </url>
   <url>
@@ -58,9 +55,6 @@
     <loc>/reference/gfwr-package.html</loc>
   </url>
   <url>
-    <loc>/reference/gist_error_body.html</loc>
-  </url>
-  <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
@@ -70,7 +64,7 @@
     <loc>/reference/make_datetime.html</loc>
   </url>
   <url>
-    <loc>/reference/paginate.html</loc>
+    <loc>/reference/parse_response_error.html</loc>
   </url>
   <url>
     <loc>/reference/pipe.html</loc>

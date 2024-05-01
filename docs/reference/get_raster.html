@@ -87,7 +87,8 @@ or "HIGH" = 0.01 degree</p></dd>
 
 
 <dt>date_range</dt>
-<dd><p>Start and end of date range for raster (must be 366 days or less)</p></dd>
+<dd><p>Start and end of date range for raster (must be 366 days or
+less). Formatted "YYYY-MM-DD,YYYY-MM-DD"</p></dd>
 
 
 <dt>region</dt>
@@ -107,11 +108,47 @@ EEZ code). See details about formatting the geojson</p></dd>
     <h2>Details</h2>
     <p>The user-defined geojson has to be surrounded by a geojson tag,
 that can be created using a simple paste:</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>geojson_tagged <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">'{"geojson":'</span>, your_geojson,<span class="st">'}'</span>).</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>geojson_tagged <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">'{"geojson":'</span>, your_geojson,<span class="st">'}'</span>).</span></code></pre><p></p></div>
 <p>If you have an <strong>sf</strong> shapefile, you can also use function <code><a href="sf_to_geojson.html">sf_to_geojson()</a></code>
 to obtain the correctly-formatted geojson.</p>
     </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/GlobalFishingWatch/gfwr" class="external-link">gfwr</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">code_eez</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_region_id.html">get_region_id</a></span><span class="op">(</span>region_name <span class="op">=</span> <span class="st">'CIV'</span>, region_source <span class="op">=</span> <span class="st">'EEZ'</span>,</span></span>
+<span class="r-in"><span>key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">get_raster</span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="st">'LOW'</span>,</span></span>
+<span class="r-in"><span>           temporal_resolution <span class="op">=</span> <span class="st">'YEARLY'</span>,</span></span>
+<span class="r-in"><span>           group_by <span class="op">=</span> <span class="st">'FLAG'</span>,</span></span>
+<span class="r-in"><span>           date_range <span class="op">=</span> <span class="st">'2021-01-01,2021-10-01'</span>,</span></span>
+<span class="r-in"><span>           region <span class="op">=</span> <span class="va">code_eez</span><span class="op">$</span><span class="va">id</span>,</span></span>
+<span class="r-in"><span>           region_source <span class="op">=</span> <span class="st">'EEZ'</span>,</span></span>
+<span class="r-in"><span>           key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">611</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">6</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Delimiter:</span> ","</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">chr</span> (1): flag</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">dbl</span> (5): Lat, Lon, Time Range, Vessel IDs, Apparent Fishing Hours</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Use `spec()` to retrieve the full column specification for this data.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 611 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>   4.9  -<span style="color: #BB0000;">5.7</span>         <span style="text-decoration: underline;">2</span>021 CHN              4                    37.3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>   3.2  -<span style="color: #BB0000;">5.8</span>         <span style="text-decoration: underline;">2</span>021 BLZ              1                     2.03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>   2.2  -<span style="color: #BB0000;">6.7</span>         <span style="text-decoration: underline;">2</span>021 BLZ              1                     0.96</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>   1.9  -<span style="color: #BB0000;">6.9</span>         <span style="text-decoration: underline;">2</span>021 BLZ              1                     1.19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>   1.2  -<span style="color: #BB0000;">6.8</span>         <span style="text-decoration: underline;">2</span>021 BLZ              1                     2.46</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>   5    -<span style="color: #BB0000;">5.4</span>         <span style="text-decoration: underline;">2</span>021 CHN              3                    23.8 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>   4.6  -<span style="color: #BB0000;">4.7</span>         <span style="text-decoration: underline;">2</span>021 SLV              1                     2.38</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>   5.3  -<span style="color: #BB0000;">4</span>           <span style="text-decoration: underline;">2</span>021 BES              4                    67.0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>   5.3  -<span style="color: #BB0000;">4</span>           <span style="text-decoration: underline;">2</span>021 SLV              3                    17.9 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>   5.1  -<span style="color: #BB0000;">4.2</span>         <span style="text-decoration: underline;">2</span>021 BLZ              1                     1.99</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 601 more rows</span></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

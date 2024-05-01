@@ -3,14 +3,15 @@
 \name{parse_response_error}
 \alias{parse_response_error}
 \title{Helper function to parse error message data
-and display appropriately to user
-Taken from httr2 docs: https://httr2.r-lib.org/articles/wrapping-apis.html#sending-data}
+and display appropriately to user}
 \usage{
 parse_response_error(resp)
 }
 \description{
 Helper function to parse error message data
 and display appropriately to user
+}
+\details{
 Taken from httr2 docs: https://httr2.r-lib.org/articles/wrapping-apis.html#sending-data
 }
 \keyword{internal}

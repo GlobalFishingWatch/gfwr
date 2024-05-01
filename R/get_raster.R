@@ -13,7 +13,6 @@
 #' EEZ code). See details about formatting the geojson
 #' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')
 #' @param key Authorization token. Can be obtained with gfw_auth() function
-#' @importFrom magrittr `%>%`
 #' @importFrom readr read_csv
 #' @importFrom httr2 resp_body_raw
 #' @importFrom httr2 req_body_raw
@@ -37,14 +36,15 @@
 #' to obtain the correctly-formatted geojson.
 #' @examples
 #' library(gfwr)
-#' code_eez <- get_region_id(region_name = 'CIV', region_source = 'EEZ', key = key)
+#' code_eez <- get_region_id(region_name = 'CIV', region_source = 'EEZ',
+#' key = gfw_auth())
 #' get_raster(spatial_resolution = 'LOW',
 #'            temporal_resolution = 'YEARLY',
 #'            group_by = 'FLAG',
 #'            date_range = '2021-01-01,2021-10-01',
 #'            region = code_eez$id,
 #'            region_source = 'EEZ',
-#'            key = key)
+#'            key = gfw_auth())
 get_raster <- function(spatial_resolution = NULL,
                        temporal_resolution = NULL,
                        group_by = NULL,

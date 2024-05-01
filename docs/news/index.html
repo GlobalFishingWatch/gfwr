@@ -49,34 +49,58 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="2.0.0" id="gfwr-200">gfwr 2.0.0<a class="anchor" aria-label="anchor" href="#gfwr-200"></a></h2>
+<p><strong>gfwr was updated to the version 3 of our API.</strong> This implies in various breaking changes in parameter names and output format. We aim to list here the major modifications but please check <a href="https://globalfishingwatch.org/our-apis/documentation#version-3-api" class="external-link">the API documentation</a> and the <a href="https://drive.google.com/file/d/1xPXhG6tj3132wHvCLu0OwwgKV7NtbuFI/view?usp=drive_link" class="external-link">migration guide</a> if anything is new or missing.</p>
 <div class="section level3">
-<h3 id="breaking-changes-gfwr-now-communicates-with-global-fishing-watch-api-v3-2-0-0">Breaking changes: gfwr now communicates with Global Fishing Watch API v3<a class="anchor" aria-label="anchor" href="#breaking-changes-gfwr-now-communicates-with-global-fishing-watch-api-v3-2-0-0"></a></h3>
-</div>
+<h3 id="endpoints-2-0-0">Endpoints<a class="anchor" aria-label="anchor" href="#endpoints-2-0-0"></a></h3>
+<ul><li>Same endpoints as in v 1.1.0
+<ul><li>get_raster() communicates with the 4Wings API to get fishing effort</li>
+<li>get_vessel_info() communicates with the Vessel API</li>
+<li>get_events() communicates with Event API</li>
+</ul></li>
+<li>New endpoints:</li>
+<li>get_events_stats()</li>
+<li>Future implementations:
+<ul><li>get_insights() communicates with the new Insights API</li>
+</ul></li>
+</ul></div>
 <div class="section level3">
 <h3 id="new-features-2-0-0">New features<a class="anchor" aria-label="anchor" href="#new-features-2-0-0"></a></h3>
+<ul><li>get_vessel_info()
+<ul><li>incorporated non-fishing vessels to the datasets</li>
+<li>
+<code>search_type = search</code> replaces <code>search type = "basic"</code> and <code>"advanced"</code>. Instead, use parameter <code>query</code> for basic search or parameter <code>where</code> for advanced search (SQL expressions like <code>"imo = 'xxxx'"</code>)</li>
+<li>
+</li></ul></li>
+<li>Functions have a new parameter <code>print_request</code> that will print the API request and will be useful when requesting support. Please describe the problem and copy the string of the request.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-2-0-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-2-0-0"></a></h3>
 </div>
 <div class="section level3">
-<h3 id="id_-minor-improvements-and-fixes-2-0-0">## Minor improvements and fixes<a class="anchor" aria-label="anchor" href="#id_-minor-improvements-and-fixes-2-0-0"></a></h3>
+<h3 id="other-news-2-0-0">Other news:<a class="anchor" aria-label="anchor" href="#other-news-2-0-0"></a></h3>
+<div class="section level4">
+<h4 id="updated-documentation-2-0-0">Updated documentation<a class="anchor" aria-label="anchor" href="#updated-documentation-2-0-0"></a></h4>
+</div>
 </div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.1.0" id="gfwr-110">gfwr 1.1.0<a class="anchor" aria-label="anchor" href="#gfwr-110"></a></h2>
 <div class="section level3">
 <h3 id="new-features-1-1-0">New features:<a class="anchor" aria-label="anchor" href="#new-features-1-1-0"></a></h3>
-<ul><li><p>In addition to your own JSON region, can now pass EEZ or MPA id to <code><a href="../reference/get_raster.html">get_raster()</a></code> function to query specific region</p></li>
-<li><p><code><a href="../reference/get_region_id.html">get_region_id()</a></code> now takes id and returns label. This allows you to get the label for the id values returned by certain endpoints (e.g. <code><a href="../reference/get_event.html">get_event()</a></code>)</p></li>
-<li><p>Considerable speed increases in <code><a href="../reference/get_event.html">get_event()</a></code> function</p></li>
+<ul><li><p>In addition to your own JSON region, can now pass EEZ or MPA id to <code>get_raster</code> function to query specific region</p></li>
+<li><p><code>get_region_id</code> now takes id and returns label. This allows you to get the label for the id values returned by certain endpoints (e.g. <code>get_event</code>)</p></li>
+<li><p>Considerable speed increases in <code>get_event</code> function</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-1-1-0">Bug fixes:<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-0"></a></h3>
 <ul><li>
-<code><a href="../reference/get_event.html">get_event()</a></code> prints <code>"Your request returned zero results"</code> and returns <code>NULL</code> when the API response contains no results instead of causing an error.</li>
+<code>get_event</code> prints <code>"Your request returned zero results"</code> and returns <code>NULL</code> when the API response contains no results instead of causing an error.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="other-news-1-1-0">Other news:<a class="anchor" aria-label="anchor" href="#other-news-1-1-0"></a></h3>
 <div class="section level4">
 <h4 id="updated-documentation-1-1-0">Updated documentation<a class="anchor" aria-label="anchor" href="#updated-documentation-1-1-0"></a></h4>
-<ul><li><p><code><a href="../reference/get_raster.html">get_raster()</a></code>: requires <code>group_by</code> and appropriate parameter name is <code>gearType</code></p></li>
+<ul><li><p><code>get_raster</code>: requires <code>group_by</code> and appropriate parameter name is <code>gearType</code></p></li>
 <li><p>Added a <code>NEWS.md</code> file to track changes to the package.</p></li>
 </ul></div>
 </div>
