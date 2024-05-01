@@ -68,7 +68,7 @@ get_raster <- function(spatial_resolution = NULL,
     `date-range` = date_range,
     format = 'CSV'
   )
-  if (print_request) print(endpoint)
+
 if (is.null(region_source)) stop("region_source and region params are required")
   if (region_source == 'MPA' & is.numeric(region)) {
     region = rjson::toJSON(list(region = list(dataset = 'public-mpa-all',
@@ -88,14 +88,15 @@ if (is.null(region_source)) stop("region_source and region params are required")
 
   # API call
   # TODO: Handle paginated responses
-  response <- endpoint %>%
+  request <- endpoint %>%
     httr2::req_headers(Authorization = paste("Bearer",
                                              key,
                                              sep = " "),
                        `Content-Type` = 'application/json') %>%
     httr2::req_body_raw(., body = region) %>%
-    httr2::req_error(req = ., body = parse_response_error) %>%
-    httr2::req_perform(.) %>%
+    httr2::req_error(req = ., body = parse_response_error)
+  if (print_request) print(request)
+  response <- httr2::req_perform(request) %>%
     httr2::resp_body_raw(.)
 
   # save zip and get .csv file name
