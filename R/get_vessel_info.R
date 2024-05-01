@@ -125,7 +125,7 @@ endpoint <- base %>%
   httr2::req_url_path_append(path_append) %>%
   httr2::req_url_query(!!!args)
 
-if (print_request) message(endpoint)
+if (print_request) print(endpoint)
 
    response <- endpoint %>%
     httr2::req_headers(Authorization = paste("Bearer", key, sep = " ")) %>%

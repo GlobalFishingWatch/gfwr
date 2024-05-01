@@ -170,8 +170,8 @@ get_vessel_info(query = 224224000,
 #> # A tibble: 2 × 9
 #>   vesselId  geartypes_geartype_n…¹ geartypes_geartype_s…² geartypes_geartype_y…³
 #>   <chr>     <chr>                  <chr>                                   <int>
-#> 1 6632c9eb… PURSE_SEINE_SUPPORT    GFW_VESSEL_LIST                          2019
-#> 2 3c99c326… PURSE_SEINE_SUPPORT    GFW_VESSEL_LIST                          2015
+#> 1 3c99c326… PURSE_SEINE_SUPPORT    GFW_VESSEL_LIST                          2015
+#> 2 6632c9eb… PURSE_SEINE_SUPPORT    GFW_VESSEL_LIST                          2019
 #> # ℹ abbreviated names: ¹​geartypes_geartype_name, ²​geartypes_geartype_source,
 #> #   ³​geartypes_geartype_yearFrom
 #> # ℹ 5 more variables: geartypes_geartype_yearTo <int>,
@@ -216,9 +216,9 @@ get_vessel_info(where = "shipname LIKE '%GABU REEFE%' OR imo = '8300949'",
 #> # A tibble: 3 × 9
 #>   vesselId  geartypes_geartype_n…¹ geartypes_geartype_s…² geartypes_geartype_y…³
 #>   <chr>     <chr>                  <chr>                                   <int>
-#> 1 58cf536b… CARRIER                GFW_VESSEL_LIST                          2012
-#> 2 0b7047cb… CARRIER                GFW_VESSEL_LIST                          2019
-#> 3 1da8dbc2… CARRIER                GFW_VESSEL_LIST                          2022
+#> 1 1da8dbc2… CARRIER                GFW_VESSEL_LIST                          2022
+#> 2 58cf536b… CARRIER                GFW_VESSEL_LIST                          2012
+#> 3 0b7047cb… CARRIER                GFW_VESSEL_LIST                          2019
 #> # ℹ abbreviated names: ¹​geartypes_geartype_name, ²​geartypes_geartype_source,
 #> #   ³​geartypes_geartype_yearFrom
 #> # ℹ 5 more variables: geartypes_geartype_yearTo <int>,
@@ -350,8 +350,8 @@ get_vessel_info(ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01",
 #>   <chr>     <chr>                  <chr>                                   <int>
 #> 1 8c730422… CARRIER                GFW_VESSEL_LIST                          2013
 #> 2 da1cd7e1… CARRIER                GFW_VESSEL_LIST                          2015
-#> 3 71e7da67… TUNA_PURSE_SEINES      COMBINATION_OF_REGIST…                   2017
-#> 4 55889aef… TUNA_PURSE_SEINES      COMBINATION_OF_REGIST…                   2017
+#> 3 55889aef… TUNA_PURSE_SEINES      COMBINATION_OF_REGIST…                   2017
+#> 4 71e7da67… TUNA_PURSE_SEINES      COMBINATION_OF_REGIST…                   2017
 #> 5 6583c51e… OTHER                  COMBINATION_OF_REGIST…                   2013
 #> 6 6583c51e… OTHER                  COMBINATION_OF_REGIST…                   2013
 #> 7 6583c51e… TUNA_PURSE_SEINES      COMBINATION_OF_REGIST…                   2014
@@ -586,16 +586,16 @@ get_raster(spatial_resolution = 'LOW',
 #> # A tibble: 611 × 6
 #>      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`
 #>    <dbl> <dbl>        <dbl> <chr>        <dbl>                    <dbl>
-#>  1   4.9  -5.7         2021 CHN              4                    37.3 
-#>  2   3.2  -5.8         2021 BLZ              1                     2.03
-#>  3   2.2  -6.7         2021 BLZ              1                     0.96
-#>  4   1.9  -6.9         2021 BLZ              1                     1.19
-#>  5   1.2  -6.8         2021 BLZ              1                     2.46
-#>  6   5    -5.4         2021 CHN              3                    23.8 
-#>  7   4.6  -4.7         2021 SLV              1                     2.38
-#>  8   5.3  -4           2021 BES              4                    67.0 
-#>  9   5.3  -4           2021 SLV              3                    17.9 
-#> 10   5.1  -4.2         2021 BLZ              1                     1.99
+#>  1   4.5  -5.9         2021 ESP              1                     0.18
+#>  2   3.7  -6.9         2021 FRA              1                     1.4 
+#>  3   2.9  -7           2021 BLZ              1                     0.08
+#>  4   3.3  -5.8         2021 BLZ              1                     6.39
+#>  5   2    -6.9         2021 BLZ              1                     1.28
+#>  6   1.6  -6.9         2021 ESP              1                     0.95
+#>  7   1.7  -6           2021 ESP              1                     2   
+#>  8   1.8  -5.8         2021 ESP              1                     4.2 
+#>  9   5.2  -4           2021 GHA              9                    25.8 
+#> 10   5.2  -4           2021 BLZ              6                    25.2 
 #> # ℹ 601 more rows
 ```
 
@@ -630,16 +630,16 @@ get_raster(spatial_resolution = 'LOW',
 #> # A tibble: 5,660 × 6
 #>      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`
 #>    <dbl> <dbl>        <dbl> <chr>        <dbl>                    <dbl>
-#>  1  42.6   9.5         2021 FRA              1                    26.3 
-#>  2  49    -6.2         2021 FRA             20                   216.  
-#>  3  49.1  -6.1         2021 FRA             14                    66.6 
-#>  4  48.9  -6.2         2021 FRA             14                   104.  
-#>  5  49    -6           2021 FRA             18                   264.  
-#>  6  49    -6.1         2021 BLZ              1                     1.49
-#>  7  49    -5.9         2021 FRA             19                   244.  
-#>  8  49.1  -5.7         2021 FRA             20                   313.  
-#>  9  49.1  -5.8         2021 BLZ              1                     0.17
-#> 10  49    -5.8         2021 FRA             21                   389.  
+#>  1  50.9   1.4         2021 FRA             30                   831.  
+#>  2  50.8   1.3         2021 BEL              1                     5.92
+#>  3  51.4   2.1         2021 BEL              3                     3.14
+#>  4  51.2   2.1         2021 NLD             21                   123.  
+#>  5  51.3   2           2021 NLD             16                    68.9 
+#>  6  51.2   2           2021 FRA             22                   465.  
+#>  7  51.5   2.2         2021 NLD             20                   546.  
+#>  8  51.5   2.2         2021 BEL              3                    62.6 
+#>  9  51.4   2.3         2021 BEL              6                     8.07
+#> 10  51.3   2.2         2021 NLD             13                   269.  
 #> # ℹ 5,650 more rows
 ```
 

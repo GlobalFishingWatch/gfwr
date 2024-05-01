@@ -13,6 +13,8 @@
 #' EEZ code). See details about formatting the geojson
 #' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')
 #' @param key Authorization token. Can be obtained with gfw_auth() function
+#' @param print_request Boolean. Whether to print the request, for debugging
+#' purposes. When contacting the GFW team it will be useful to send this string
 #' @importFrom readr read_csv
 #' @importFrom httr2 resp_body_raw
 #' @importFrom httr2 req_body_raw
@@ -44,7 +46,8 @@
 #'            date_range = '2021-01-01,2021-10-01',
 #'            region = code_eez$id,
 #'            region_source = 'EEZ',
-#'            key = gfw_auth())
+#'            key = gfw_auth(),
+#'            print_request = TRUE)
 get_raster <- function(spatial_resolution = NULL,
                        temporal_resolution = NULL,
                        group_by = NULL,
@@ -52,7 +55,8 @@ get_raster <- function(spatial_resolution = NULL,
                        date_range = NULL,
                        region = NULL,
                        region_source = NULL,
-                       key = gfw_auth()) {
+                       key = gfw_auth(),
+                       print_request = FALSE) {
 
   # Endpoint
   endpoint <- get_endpoint(
@@ -64,7 +68,7 @@ get_raster <- function(spatial_resolution = NULL,
     `date-range` = date_range,
     format = 'CSV'
   )
-
+  if (print_request) print(endpoint)
 if (is.null(region_source)) stop("region_source and region params are required")
   if (region_source == 'MPA' & is.numeric(region)) {
     region = rjson::toJSON(list(region = list(dataset = 'public-mpa-all',

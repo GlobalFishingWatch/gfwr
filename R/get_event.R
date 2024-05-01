@@ -321,7 +321,7 @@ get_event <- function(event_type,
     httr2::req_url_path_append('events') %>%
     httr2::req_url_query(!!!url_args) %>%
     httr2::req_body_raw(., body = body_args)
-  if (print_request) message(print(endpoint))
+  if (print_request) print(endpoint)
 
   # API call; will paginate if necessary, otherwise return list with one response
   all_results <- gfw_api_request(endpoint, key)
@@ -579,7 +579,7 @@ get_event_stats <- function(event_type,
   endpoint <- base %>%
     httr2::req_url_path_append('events/stats') %>%
     httr2::req_body_raw(body = body_args)
-  if (print_request) message(print(endpoint))
+  if (print_request) print(endpoint)
 
   # API call; will paginate if necessary, otherwise return list with one response
   all_results <- gfw_api_request(endpoint, key)

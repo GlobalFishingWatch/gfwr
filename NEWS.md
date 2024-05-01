@@ -14,9 +14,10 @@ if anything is new or missing.
   + get_events() communicates with Event API
   
 - New endpoints: 
-+ get_events_stats()
+  + get_events_stats()
+  
 - Future implementations:
-  + get_insights() communicates with the new Insights API
+  + get_insights() will communicate with the new Insights API with information about Vessel Activity and Identity
   
 ## New features
 

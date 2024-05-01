@@ -12,7 +12,8 @@ get_raster(
   date_range = NULL,
   region = NULL,
   region_source = NULL,
-  key = gfw_auth()
+  key = gfw_auth(),
+  print_request = FALSE
 )
 }
 \arguments{
@@ -36,6 +37,9 @@ EEZ code). See details about formatting the geojson}
 \item{region_source}{source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')}
 
 \item{key}{Authorization token. Can be obtained with gfw_auth() function}
+
+\item{print_request}{Boolean. Whether to print the request, for debugging
+purposes. When contacting the GFW team it will be useful to send this string}
 }
 \description{
 Base function to get raster from API and convert response to data frame
@@ -60,5 +64,6 @@ get_raster(spatial_resolution = 'LOW',
            date_range = '2021-01-01,2021-10-01',
            region = code_eez$id,
            region_source = 'EEZ',
-           key = gfw_auth())
+           key = gfw_auth(),
+           print_request = TRUE)
 }
