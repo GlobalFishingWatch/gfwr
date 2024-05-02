@@ -10,7 +10,7 @@ sf_to_geojson(sf_shape)
 \item{sf_shape}{The sf shapefile to transform}
 }
 \value{
-A correctly-formatted geojason to be used in \code{get_raster()}
+A correctly-formatted geojson to be used in \code{get_raster()}
 }
 \description{
 Formats an sf shapefile to a formatted geojson

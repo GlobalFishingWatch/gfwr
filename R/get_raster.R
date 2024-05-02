@@ -9,7 +9,7 @@
 #' EEZ code). See details about geojson formatting.
 #' @param region_source source of the region ('eez','mpa', 'rfmo' or 'user_json')
 #' @param key Authorization token. Can be obtained with gfw_auth function
-#' @importFrom magrittr `%>%`
+#' @importFrom magrittr %>%
 #' @importFrom readr read_csv
 #' @importFrom httr2 resp_body_raw
 #' @importFrom httr2 req_body_raw

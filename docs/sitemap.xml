@@ -43,6 +43,9 @@
     <loc>/reference/get_vessel_info.html</loc>
   </url>
   <url>
+    <loc>/reference/gfw_api_request.html</loc>
+  </url>
+  <url>
     <loc>/reference/gfw_auth.html</loc>
   </url>
   <url>
@@ -65,5 +68,8 @@
   </url>
   <url>
     <loc>/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>/reference/sf_to_geojson.html</loc>
   </url>
 </urlset>
