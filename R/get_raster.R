@@ -1,15 +1,20 @@
 #' Base function to get raster from API and convert response to data frame
 #'
-#' @param spatial_resolution raster spatial resolution. Can be "low" = 0.1 degree or "high" = 0.01 degree
-#' @param temporal_resolution raster temporal resolution. Can be 'daily','monthly','yearly'.
-#' @param group_by parameter to group by. Can be 'vessel_id', 'flag', 'gearType', 'flagAndGearType'
+#' @param spatial_resolution raster spatial resolution. Can be "LOW" = 0.1 degree
+#'  or "HIGH" = 0.01 degree
+#' @param temporal_resolution raster temporal resolution. Can be 'HOURLY',
+#' 'DAILY', 'MONTHLY', 'YEARLY'
+#' @param group_by parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
+#'  'FLAGANDGEARTYPE' or 'MMSI'
 #' @param filter_by parameter to filter by.
-#' @param date_range Start and end of date range for raster (must be one year or less)
+#' @param date_range Start and end of date range for raster (must be 366 days or
+#'  less). Formatted "YYYY-MM-DD,YYYY-MM-DD"
 #' @param region geojson shape to filter raster or GFW region code (such as an
-#' EEZ code). See details about geojson formatting.
-#' @param region_source source of the region ('eez','mpa', 'rfmo' or 'user_json')
-#' @param key Authorization token. Can be obtained with gfw_auth function
-#' @importFrom magrittr %>%
+#' EEZ code). See details about formatting the geojson
+#' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')
+#' @param key Authorization token. Can be obtained with gfw_auth() function
+#' @param print_request Boolean. Whether to print the request, for debugging
+#' purposes. When contacting the GFW team it will be useful to send this string
 #' @importFrom readr read_csv
 #' @importFrom httr2 resp_body_raw
 #' @importFrom httr2 req_body_raw
@@ -31,7 +36,18 @@
 #'
 #' If you have an __sf__ shapefile, you can also use function [sf_to_geojson()]
 #' to obtain the correctly-formatted geojson.
-#'
+#' @examples
+#' library(gfwr)
+#' code_eez <- get_region_id(region_name = 'CIV', region_source = 'EEZ',
+#' key = gfw_auth())
+#' get_raster(spatial_resolution = 'LOW',
+#'            temporal_resolution = 'YEARLY',
+#'            group_by = 'FLAG',
+#'            date_range = '2021-01-01,2021-10-01',
+#'            region = code_eez$id,
+#'            region_source = 'EEZ',
+#'            key = gfw_auth(),
+#'            print_request = TRUE)
 get_raster <- function(spatial_resolution = NULL,
                        temporal_resolution = NULL,
                        group_by = NULL,
@@ -39,7 +55,8 @@ get_raster <- function(spatial_resolution = NULL,
                        date_range = NULL,
                        region = NULL,
                        region_source = NULL,
-                       key = gfw_auth()) {
+                       key = gfw_auth(),
+                       print_request = FALSE) {
 
   # Endpoint
   endpoint <- get_endpoint(
@@ -49,20 +66,21 @@ get_raster <- function(spatial_resolution = NULL,
     `filters[0]` = filter_by,
     `group-by` = group_by,
     `date-range` = date_range,
-    format = 'csv'
+    format = 'CSV'
   )
 
-  if (region_source == 'mpa' & is.numeric(region)) {
+if (is.null(region_source)) stop("region_source and region params are required")
+  if (region_source == 'MPA' & is.numeric(region)) {
     region = rjson::toJSON(list(region = list(dataset = 'public-mpa-all',
                                              id = region)))
 
-  } else if (region_source == 'eez' & is.numeric(region)) {
+  } else if (region_source == 'EEZ' & is.numeric(region)) {
     region = rjson::toJSON(list(region = list(dataset = 'public-eez-areas',
                                              id = region)))
-  } else if (region_source == 'rfmo' & is.character(region)) {
+  } else if (region_source == 'RFMO' & is.character(region)) {
     region = rjson::toJSON(list(region = list(dataset = 'public-rfmo',
                                               id = region)))
-  } else if (region_source == 'user_json' & is.character(region)) {
+  } else if (region_source == 'USER_JSON' & is.character(region)) {
     region
   } else {
     stop('region source and region format do not match')
@@ -70,13 +88,15 @@ get_raster <- function(spatial_resolution = NULL,
 
   # API call
   # TODO: Handle paginated responses
-  response <- endpoint %>%
+  request <- endpoint %>%
     httr2::req_headers(Authorization = paste("Bearer",
                                              key,
                                              sep = " "),
                        `Content-Type` = 'application/json') %>%
     httr2::req_body_raw(., body = region) %>%
-    httr2::req_error(req = ., body = gist_error_body) %>%
+    httr2::req_error(req = ., body = parse_response_error)
+  if (print_request) print(request)
+  response <- request %>%
     httr2::req_perform(.) %>%
     httr2::resp_body_raw(.)
 

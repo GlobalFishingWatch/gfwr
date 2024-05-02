@@ -23,6 +23,15 @@ gfw_auth <- function(){
   return(key)
 }
 
+#' Set user agent for gfwr API requests
+#' @name gfw_user_agent
+#' @export
+#' @keywords internal
+gfw_user_agent <- function(){
+  # Define user agent version
+  return("gfwr/2.0.0 (https://github.com/GlobalFishingWatch/gfwr)")
+}
+
 #' Basic function to make length 1 lists into characters
 #' @name make_char
 #' @keywords internal
@@ -39,16 +48,17 @@ make_datetime <- function(x) {
 
 #' Helper function to parse error message data
 #' and display appropriately to user
-#' Taken from httr2 docs: https://httr2.r-lib.org/articles/wrapping-apis.html#sending-data
-#' @name gist_error_body
+#' @name parse_response_error
 #' @keywords internal
 #' @importFrom httr2 resp_body_json
 #' @importFrom purrr map_chr
 #' @importFrom purrr pluck
-gist_error_body <- function(resp) {
+#' @keywords internal
+#' @details Taken from httr2 docs: https://httr2.r-lib.org/articles/wrapping-apis.html#sending-data
+parse_response_error <- function(resp) {
   body <- httr2::resp_body_json(resp)
   messages <- body$messages
-  if(length(messages[[1]]) > 1){
+  if (length(messages[[1]]) > 1){
     messages <- purrr::map_chr(messages, purrr::pluck, 'detail')
   }
   messages
@@ -56,12 +66,14 @@ gist_error_body <- function(resp) {
 
 #' General function for GFW API requests, including handling of pagination.
 #' @name gfw_api_request
-#' @keywords internal
+#' @param endpoint the endpoint to make the request
+#' @param key Authentication key
 #' @importFrom httr2 req_headers
 #' @importFrom httr2 req_error
 #' @importFrom httr2 req_perform
 #' @importFrom httr2 resp_body_json
 #' @importFrom httr2 req_user_agent
+#' @keywords internal
 # API request function
 gfw_api_request <- function(endpoint, key) {
   # Make initial API request
@@ -70,8 +82,8 @@ gfw_api_request <- function(endpoint, key) {
                                              key,
                                              sep = " "),
                        `Content-Type` = 'application/json') %>%
-    httr2::req_user_agent("gfwr/1.1.1 (https://github.com/GlobalFishingWatch/gfwr)") %>%
-    httr2::req_error(body = gist_error_body) %>%
+    httr2::req_user_agent(gfw_user_agent()) %>%
+    httr2::req_error(body = parse_response_error) %>%
     httr2::req_perform() %>%
     httr2::resp_body_json()
 
@@ -83,11 +95,12 @@ gfw_api_request <- function(endpoint, key) {
   total <- response$total
   # print(paste("Downloading",total,"events from GFW"))
 
+  # next_off <- ifelse(is.null(response$nextOffset), 0, response$nextOffset)
   next_off <- response$nextOffset
 
   # While nextOffset is less than total, pull additional response pages
-  if(next_off < total){
-    while(next_off < total){
+  # if(next_off < total){
+    while (!is.null(next_off)) {
 
       # # API call for next page
       next_response <- endpoint %>%
@@ -96,17 +109,18 @@ gfw_api_request <- function(endpoint, key) {
                                                  key,
                                                  sep = " "),
                            `Content-Type` = 'application/json') %>%
-        httr2::req_user_agent("gfwr/1.1.1 (https://github.com/GlobalFishingWatch/gfwr)") %>%
-        httr2::req_error(body = gist_error_body) %>%
+        httr2::req_user_agent(gfw_user_agent()) %>%
+        httr2::req_error(body = parse_response_error) %>%
         httr2::req_perform() %>%
         httr2::resp_body_json()
 
       # Append response to list
-      responses[[length(responses)+1]] <- next_response
+      responses[[length(responses) + 1]] <- next_response
 
       # Pull out nextOffset of latest API response
-      next_off <- next_response$nextOffset
-    }
+      next_off <- response$nextOffset
+      # next_off <- ifelse(is.null(response$nextOffset), total, response$nextOffset)
+    # }
   }
   # Return list of response pages
   return(responses)
@@ -130,46 +144,46 @@ gfw_api_request <- function(endpoint, key) {
 #' @importFrom httr2 resp_body_json
 #'
 
-get_region_id <- function(region_name, region_source = 'eez', key) {
+get_region_id <- function(region_name, region_source = 'EEZ', key) {
 
   result <- get_endpoint(dataset_type = region_source) %>%
     httr2::req_headers(Authorization = paste("Bearer", key, sep = " ")) %>%
-    httr2::req_user_agent("gfwr/1.1.1 (https://github.com/GlobalFishingWatch/gfwr)") %>%
-    httr2::req_error(body = gist_error_body) %>%
+    httr2::req_user_agent(gfw_user_agent()) %>%
+    httr2::req_error(body = parse_response_error) %>%
     httr2::req_perform(.) %>%
     httr2::resp_body_json(.) %>%
     dplyr::bind_rows()
 
   # EEZ names
-  if (region_source == "eez" & is.character(region_name)) {
+  if (region_source == "EEZ" & is.character(region_name)) {
     result %>%
       dplyr::filter(agrepl(region_name, .$label) | agrepl(paste0('^',region_name), .$iso3)) %>%
       dplyr::mutate(id = as.numeric(id))
   }
   # EEZ ids
-  else if (region_source == "eez" & is.numeric(region_name)) {
+  else if (region_source == "EEZ" & is.numeric(region_name)) {
     result %>%
       dplyr::filter(id == {{ region_name }})
   }
   # MPA names
-  else if (region_source == "mpa" & is.character(region_name)) {
+  else if (region_source == "MPA" & is.character(region_name)) {
     result %>%
       dplyr::filter(agrepl(region_name, .$label)) %>%
       dplyr::mutate(id = as.numeric(id))
   }
   # MPA ids
-  else if (region_source == "mpa" & is.numeric(region_name)) {
+  else if (region_source == "MPA" & is.numeric(region_name)) {
     result %>%
       dplyr::filter(id == {{ region_name }})
   }
   # RFMO names
-  else if (region_source == "rfmo" & is.character(region_name)) {
+  else if (region_source == "RFMO" & is.character(region_name)) {
     result %>%
       dplyr::filter(agrepl(region_name, .$label)) %>%
       dplyr::mutate(id = as.numeric(id))
   }
   # RFMO ids
-  else if (region_source == "rfmo" & is.numeric(region_name)) {
+  else if (region_source == "RFMO" & is.numeric(region_name)) {
     result %>%
       dplyr::filter(id == {{ region_name }})
   } else {
@@ -177,6 +191,42 @@ get_region_id <- function(region_name, region_source = 'eez', key) {
   }
 }
 
+#' Transforms a vector to a named vector for httr2
+#'
+#' @param x The vector to transform
+#' @param type The type of data to paste, will be "events", "datasets", or "vessel" depending on the context
+#' @return A named vector in the format required by the API, with names followed
+#' by a zero-indexed suffix (ex. datasets\\[0\\])
+#' @keywords internal
+#' @export
+#' @examples
+#' vector_to_array(x = 1, type = "vessel")
+#' vector_to_array(x = "a", type = "vessel")
+#' vector_to_array(x = c(1, 2), type = "dataset")
+#' vector_to_array(x = c(1, 2, 3), type = "dataset")
+#' vector_to_array(x = "fishing", type = "dataset")
+#' vector_to_array(x = c("fishing", "port-visits"), type = "event")
+
+vector_to_array <- function(x, type = "vessel") {
+  index <- seq_along(1:length(x)) - 1
+  array_name <- paste0(type, "[", index, "]")
+  names(x) <- array_name
+  return(x)
+}
+
+#' Formats an sf shapefile to a formatted geojson
+#'
+#' @param sf_shape The sf shapefile to transform
+#' @returns A correctly-formatted geojson to be used in `get_raster()`
+#' @importFrom geojsonsf sf_geojson
+#' @export
+#' @keywords internal
+
+sf_to_geojson <- function(sf_shape) {
+  geoj <- geojsonsf::sf_geojson(sf_shape)
+  geoj_tagged <- paste0('{"geojson":', geoj,'}')
+  return(geoj_tagged)
+}
 
 #' Formats an sf shapefile to a formatted geojson
 #'
@@ -194,3 +244,5 @@ sf_to_geojson <- function(sf_shape) {
 globalVariables(c("."))
 globalVariables(c("id"))
 globalVariables(c("value"))
+globalVariables(c("includes"))
+globalVariables(c("registries_info_data"))

@@ -5,13 +5,20 @@
 \title{Formats an sf shapefile to a formatted geojson}
 \usage{
 sf_to_geojson(sf_shape)
+
+sf_to_geojson(sf_shape)
 }
 \arguments{
 \item{sf_shape}{The sf shapefile to transform}
 }
 \value{
 A correctly-formatted geojson to be used in \code{get_raster()}
+
+A correctly-formatted geojson to be used in \code{get_raster()}
 }
 \description{
 Formats an sf shapefile to a formatted geojson
+
+Formats an sf shapefile to a formatted geojson
 }
+\keyword{internal}

@@ -5,3 +5,9 @@
 CodeOfConduct.md
 Contributing.md
 docs/
+pkgdown
+vignettes
+data-raw
+^gfwr\.Rcheck$
+^gfwr.*\.tar\.gz$
+^gfwr.*\.tgz$

@@ -7,10 +7,12 @@
 get_endpoint(dataset_type, ...)
 }
 \arguments{
-\item{dataset_type}{Type of dataset to get API dataset name for. It can be "port_visit", "fishing", "encounter", "loitering", "eez" or "mpa""}
+\item{dataset_type}{Type of dataset to get API dataset name for. It can be
+"ENCOUNTER", "LOITERING", "FISHING", "PORT_VISIT", "GAP", "EEZ", "RFMO" or "MPA"}
 
 \item{...}{Other arguments that would depend on the dataset type.}
 }
 \description{
 Function to get API dataset name for given event type
 }
+\keyword{internal}
