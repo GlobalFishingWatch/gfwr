@@ -61,7 +61,8 @@
 <span>  date_range <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  region <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  region_source <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  print_request <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -103,6 +104,11 @@ EEZ code). See details about formatting the geojson</p></dd>
 <dt>key</dt>
 <dd><p>Authorization token. Can be obtained with gfw_auth() function</p></dd>
 
+
+<dt>print_request</dt>
+<dd><p>Boolean. Whether to print the request, for debugging
+purposes. When contacting the GFW team it will be useful to send this string</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -124,7 +130,18 @@ to obtain the correctly-formatted geojson.</p>
 <span class="r-in"><span>           date_range <span class="op">=</span> <span class="st">'2021-01-01,2021-10-01'</span>,</span></span>
 <span class="r-in"><span>           region <span class="op">=</span> <span class="va">code_eez</span><span class="op">$</span><span class="va">id</span>,</span></span>
 <span class="r-in"><span>           region_source <span class="op">=</span> <span class="st">'EEZ'</span>,</span></span>
-<span class="r-in"><span>           key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>           key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>           print_request <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">&lt;httr2_request&gt;</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">POST</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> https://gateway.api.globalfishingwatch.org/v3/4wings/report?datasets%5B0%5D=public-global-fishing-effort%3Alatest&amp;spatial-resolution=LOW&amp;temporal-resolution=YEARLY&amp;group-by=FLAG&amp;date-range=2021-01-01%2C2021-10-01&amp;format=CSV</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Headers:</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Authorization</span>: 'Bearer</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImtpZEtleSJ9.eyJkYXRhIjp7Im5hbWUiOiJwb3NpdF9jbG91ZCIsInVzZXJJZCI6MTk4ODIsImFwcGxpY2F0aW9uTmFtZSI6InBvc2l0X2Nsb3VkIiwiaWQiOjE0OTMsInR5cGUiOiJ1c2VyLWFwcGxpY2F0aW9uIn0sImlhdCI6MTcxNDUwNTg5MSwiZXhwIjoyMDI5ODY1ODkxLCJhdWQiOiJnZnciLCJpc3MiOiJnZncifQ.czb36uLGKtYiVHWNmw873biF2lqUyP8us_guggDhzS7Ox0fegb8-l7EG9-KrqUNtgsJdUwecE2-QAZWV-6sxv8nNwU57MdQgKhPZWpIV2szYdTJAmRaKe6g9MK2QlhzHlQ7PtFtEG4Lpc-Zyo2WoRUoxuTsmlapfyeH_MYJW0yhrj2fgfwajGIN3hNGmObyXAubO6_ldKYT9Qb18_OpQ4dx6Zebl9sCCefa4a33bj4g78O4qsawVZzahI5R7GTfH8biYb4udVXrluOv2YaKdIruI72L3BTqSp6RA0XFsB9nJwS_DcZAnETLMPyePbhpRb6tHT8F9yNu4NG-TzrF9QDgS9xABexqAA4SXmWzj_OCRTWBuv76hItE7fOpZ-cZ14LOa_Q7tkUwyiBk1noUGr9g81ntzbr9lkiQzgiuGEH8X7wYhzHrPzhZ1R1j9Lo2hVQGRWQuMFPqLTernZdTFVT-gCAxGl1gCK-Vo4CBE3vlmWdhMN9U-wzUIgnfLLbh4'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">Content-Type</span>: 'application/json'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Body</span>: a string</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Policies:</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> • <span style="color: #00BB00;">error_body</span>: a function</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">611</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">6</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Delimiter:</span> ","</span>
@@ -136,16 +153,16 @@ to obtain the correctly-formatted geojson.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 611 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>   4.9  -<span style="color: #BB0000;">5.7</span>         <span style="text-decoration: underline;">2</span>021 CHN              4                    37.3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>   3.2  -<span style="color: #BB0000;">5.8</span>         <span style="text-decoration: underline;">2</span>021 BLZ              1                     2.03</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>   2.2  -<span style="color: #BB0000;">6.7</span>         <span style="text-decoration: underline;">2</span>021 BLZ              1                     0.96</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>   1.9  -<span style="color: #BB0000;">6.9</span>         <span style="text-decoration: underline;">2</span>021 BLZ              1                     1.19</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>   1.2  -<span style="color: #BB0000;">6.8</span>         <span style="text-decoration: underline;">2</span>021 BLZ              1                     2.46</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>   5    -<span style="color: #BB0000;">5.4</span>         <span style="text-decoration: underline;">2</span>021 CHN              3                    23.8 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>   4.6  -<span style="color: #BB0000;">4.7</span>         <span style="text-decoration: underline;">2</span>021 SLV              1                     2.38</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>   5.3  -<span style="color: #BB0000;">4</span>           <span style="text-decoration: underline;">2</span>021 BES              4                    67.0 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>   5.3  -<span style="color: #BB0000;">4</span>           <span style="text-decoration: underline;">2</span>021 SLV              3                    17.9 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>   5.1  -<span style="color: #BB0000;">4.2</span>         <span style="text-decoration: underline;">2</span>021 BLZ              1                     1.99</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span>   4.5  -<span style="color: #BB0000;">5.9</span>         <span style="text-decoration: underline;">2</span>021 ESP              1                     0.18</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span>   3.7  -<span style="color: #BB0000;">6.9</span>         <span style="text-decoration: underline;">2</span>021 FRA              1                     1.4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span>   2.9  -<span style="color: #BB0000;">7</span>           <span style="text-decoration: underline;">2</span>021 BLZ              1                     0.08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span>   3.3  -<span style="color: #BB0000;">5.8</span>         <span style="text-decoration: underline;">2</span>021 BLZ              1                     6.39</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span>   2    -<span style="color: #BB0000;">6.9</span>         <span style="text-decoration: underline;">2</span>021 BLZ              1                     1.28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span>   1.6  -<span style="color: #BB0000;">6.9</span>         <span style="text-decoration: underline;">2</span>021 ESP              1                     0.95</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span>   1.7  -<span style="color: #BB0000;">6</span>           <span style="text-decoration: underline;">2</span>021 ESP              1                     2   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span>   1.8  -<span style="color: #BB0000;">5.8</span>         <span style="text-decoration: underline;">2</span>021 ESP              1                     4.2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span>   5.2  -<span style="color: #BB0000;">4</span>           <span style="text-decoration: underline;">2</span>021 GHA              9                    25.8 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span>   5.2  -<span style="color: #BB0000;">4</span>           <span style="text-decoration: underline;">2</span>021 BLZ              6                    25.2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 601 more rows</span></span>
 </code></pre></div>
     </div>

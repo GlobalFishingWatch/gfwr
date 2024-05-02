@@ -3,3 +3,6 @@
 .Rdata
 .httr-oauth
 .DS_Store
+gfwr.Rcheck/
+gfwr*.tar.gz
+gfwr*.tgz
