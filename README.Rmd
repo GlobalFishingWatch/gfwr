@@ -371,13 +371,6 @@ get_event(event_type = 'FISHING',
           key = key
           ) %>%
   # extract EEZ id code
-  dplyr::mutate(eez = as.character(purrr::map(purrr::map(regions, pluck, "eez"), 
-                                              paste0, collapse = ","))) %>%
-  dplyr::select(id, type, start, end, lat, lon, eez) %>%
-  dplyr::rowwise() %>%
-  dplyr::mutate(eez_name = get_region_id(region_name = as.numeric(eez),
-                                         region_source = "eez",
-                                         key = key)$label)
   dplyr::mutate(eez = as.character(purrr::map(purrr::map(regions, purrr::pluck, 'eez'),
                                               paste0, collapse = ','))) %>%
   dplyr::select(id, type, start, end, lat, lon, eez) %>%
