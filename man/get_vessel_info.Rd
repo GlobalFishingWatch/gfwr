@@ -6,6 +6,8 @@
 \usage{
 get_vessel_info(
   ids = NULL,
+  query = NULL,
+  where = NULL,
   includes = c("AUTHORIZATIONS", "OWNERSHIP", "MATCH_CRITERIA"),
   match_fields = NULL,
   registries_info_data = c("ALL"),
@@ -18,6 +20,11 @@ get_vessel_info(
 \arguments{
 \item{ids}{When \code{search_type = "id"}, a vector with the vessel id of interest,
 obtained after performing a search_type = "search".}
+
+\item{query}{When \code{search_type = "search"}, a length-1 vector with the identity
+variable of interest, MMSI, IMO, call sign or ship name.}
+
+\item{where}{When \code{search_type = "search"}, an SQL expression to find the vessel of interest}
 
 \item{includes}{Enhances the response with new information, defaults to include all.
 \describe{
@@ -52,10 +59,10 @@ purposes. When contacting the GFW team it will be useful to send this string}
 Base function to get vessel information from API and convert response to data frame
 }
 \details{
-The search takes basic features like MMSI, IMO, callsign, shipname as inputs
-and identifies all vessels in the specified
-terms such as LIKE. The \code{id} search allows the user to search using a GFW
-vessel id.
+When \code{search_type = "search"} the search takes basic identity features like
+MMSI, IMO, callsign, shipname as inputs, using parameter "query", or more advanced
+SQL searches, like fuzzy matching with terms such as LIKE, using parameter "where".
+The \code{id} search allows the user to search using a GFW vessel id.
 }
 \examples{
 library(gfwr)
