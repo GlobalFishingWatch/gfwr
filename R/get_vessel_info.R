@@ -147,7 +147,7 @@ if (print_request) print(endpoint)
     registryOwners = dplyr::bind_rows(purrr::map(response$entries$registryOwners, tibble::tibble)),
     registryPublicAuthorizations = dplyr::bind_rows(purrr::map(response$entries$registryPublicAuthorizations, tibble::tibble)),
     combinedSourcesInfo = combinedSourcesInfo,
-    selfReportedInfo = dplyr::bind_rows(purrr::map(response$entries$registryselfReportedInfo, tibble::tibble))
+    selfReportedInfo = dplyr::bind_rows(purrr::map(response$entries$selfReportedInfo, tibble::tibble))
     )
 
   return(output)
