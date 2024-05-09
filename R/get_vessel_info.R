@@ -117,7 +117,8 @@ if (search_type == "id") {
             ids)
   #args <- args[!names(args) %in% c('limit','offset')]
   } else if (search_type == "search") {
-    if (is.null(query) & is.null (where)) stop("either query or where must be specified when search_type = 'search'")
+    if (is.null(query) & is.null (where)) stop("either 'query' or 'where' must be specified when search_type = 'search'")
+    if (!is.null(query) & !is.null (where)) stop("specify either 'query' or 'where', but not both when search_type = 'search'")
     if (!is.null(query))  {
       query <- c(`query` = query)
       args <- c(args, query)
