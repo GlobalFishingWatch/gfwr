@@ -1,5 +1,10 @@
 #' Base function to get vessel information from API and convert response to data frame
 #'
+#' @param query When `search_type = "search"`, a length-1 vector with the identity
+#' variable of interest, MMSI, IMO, call sign or ship name.
+#' @param where When `search_type = "search"`, an SQL expression to find the vessel of interest
+#' @param ids When `search_type = "id"`, a vector with the vessel id of interest,
+#' obtained after performing a search_type = "search".
 #' @param search_type Type of vessel search to perform. Can be `"search"` or
 #' `"id"`. (Note:`"advanced"` and `"basic"` are no longer in use as of gfwr 2.0.0.)
 #' @param match_fields Optional. Allows to filter by `matchFields` levels.
@@ -10,8 +15,6 @@
 #' \item{`"AUTHORIZATIONS"`}{lists public authorizations for that vessel}
 #' \item{`"MATCH_CRITERIA"`}{adds information about the reason why a vessel is returned}
 #' }
-#' @param ids When `search_type = "id"`, a vector with the vessel id of interest,
-#' obtained after performing a search_type = "search".
 #' @param registries_info_data when `search_type == "id"`, gets all the registry
 #' objects, only the delta or the latest.
 #' \describe{
@@ -34,11 +37,11 @@
 #' @importFrom tibble enframe
 #'
 #' @details
-#' The search takes basic features like MMSI, IMO, callsign, shipname as inputs
-#' and identifies all vessels in the specified
-#  dataset that match, and more advanced input like fuzzy matching with
-#' terms such as LIKE. The `id` search allows the user to search using a GFW
-#' vessel id.
+#' When `search_type = "search"` the search takes basic identity features like
+#' MMSI, IMO, callsign, shipname as inputs, using parameter "query", or more advanced
+#' SQL searches, like fuzzy matching with terms such as LIKE, using parameter "where".
+#' The `id` search allows the user to search using a GFW vessel id.
+#'
 #' @examples
 #' library(gfwr)
 #' # Simple searches, using includes
@@ -62,8 +65,8 @@
 #'  registries_info_data = c("DELTA"), key = gfw_auth())
 #' @export
 get_vessel_info <- function(ids = NULL,
-                            #query = NULL,
-                            #where = NULL,
+                            query = NULL,
+                            where = NULL,
                             includes = c("AUTHORIZATIONS", "OWNERSHIP", "MATCH_CRITERIA"),
                             match_fields = NULL,
                             registries_info_data = c("ALL"),
@@ -102,6 +105,7 @@ args <- c(args, dataset)
 
 # ID search now receives a vector
 if (search_type == "id") {
+  if (is.null(ids)) stop("parameter ids must be specified when search_type = 'id'")
   ids <- vector_to_array(ids, type = "ids")
 
   path_append <- "vessels"
@@ -113,7 +117,18 @@ if (search_type == "id") {
             ids)
   #args <- args[!names(args) %in% c('limit','offset')]
   } else if (search_type == "search") {
+    if (is.null(query) & is.null (where)) stop("either 'query' or 'where' must be specified when search_type = 'search'")
+    if (!is.null(query) & !is.null (where)) stop("specify either 'query' or 'where', but not both when search_type = 'search'")
+    if (!is.null(query))  {
+      query <- c(`query` = query)
+      args <- c(args, query)
+    }
+    if (!is.null(where))  {
+      where <- c(`where` = where)
+      args <- c(args, where)
+    }
     path_append <- "vessels/search"
+
     #format includes
     if (!is.null(includes)) {
       incl <- vector_to_array(includes, type = "includes")
