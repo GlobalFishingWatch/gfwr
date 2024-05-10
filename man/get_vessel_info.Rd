@@ -60,9 +60,10 @@ Base function to get vessel information from API and convert response to data fr
 }
 \details{
 When \code{search_type = "search"} the search takes basic identity features like
-MMSI, IMO, callsign, shipname as inputs, using parameter "query", or more advanced
-SQL searches, like fuzzy matching with terms such as LIKE, using parameter "where".
-The \code{id} search allows the user to search using a GFW vessel id.
+MMSI, IMO, callsign, shipname as inputs, using parameter \code{"query"}. For more advanced
+SQL searches, use parameter \code{"where"}. You can combine logic operators like \code{AND},
+\code{OR}, \code{=}, \code{>=} , <, \code{LIKE} (for fuzzy matching). The \code{id} search allows the user
+to search using a GFW vessel id.
 }
 \examples{
 library(gfwr)

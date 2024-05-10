@@ -36,7 +36,7 @@ EEZ code). See details about formatting the geojson}
 
 \item{region_source}{source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')}
 
-\item{key}{Authorization token. Can be obtained with gfw_auth() function}
+\item{key}{Authorization token. Can be obtained with \code{gfw_auth()} function}
 
 \item{print_request}{Boolean. Whether to print the request, for debugging
 purposes. When contacting the GFW team it will be useful to send this string}

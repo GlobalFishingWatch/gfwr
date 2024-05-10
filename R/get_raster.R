@@ -12,7 +12,7 @@
 #' @param region geojson shape to filter raster or GFW region code (such as an
 #' EEZ code). See details about formatting the geojson
 #' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')
-#' @param key Authorization token. Can be obtained with gfw_auth() function
+#' @param key Authorization token. Can be obtained with `gfw_auth()` function
 #' @param print_request Boolean. Whether to print the request, for debugging
 #' purposes. When contacting the GFW team it will be useful to send this string
 #' @importFrom readr read_csv

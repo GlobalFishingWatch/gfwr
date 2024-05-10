@@ -38,9 +38,10 @@
 #'
 #' @details
 #' When `search_type = "search"` the search takes basic identity features like
-#' MMSI, IMO, callsign, shipname as inputs, using parameter "query", or more advanced
-#' SQL searches, like fuzzy matching with terms such as LIKE, using parameter "where".
-#' The `id` search allows the user to search using a GFW vessel id.
+#' MMSI, IMO, callsign, shipname as inputs, using parameter `"query"`. For more advanced
+#' SQL searches, use parameter `"where"`. You can combine logic operators like `AND`,
+#' `OR`, `=`, `>=` , <, `LIKE` (for fuzzy matching). The `id` search allows the user
+#' to search using a GFW vessel id.
 #'
 #' @examples
 #' library(gfwr)
