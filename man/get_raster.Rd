@@ -24,15 +24,16 @@ or "HIGH" = 0.01 degree}
 'DAILY', 'MONTHLY', 'YEARLY'}
 
 \item{group_by}{parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
-'FLAGANDGEARTYPE' or 'MMSI'}
+'FLAGANDGEARTYPE' or 'MMSI'. Optional.}
 
 \item{filter_by}{parameter to filter by.}
 
 \item{date_range}{Start and end of date range for raster (must be 366 days or
 less). Formatted "YYYY-MM-DD,YYYY-MM-DD"}
 
-\item{region}{geojson shape to filter raster or GFW region code (such as an
-EEZ code). See details about formatting the geojson}
+\item{region}{geojson shape to filter raster or GFW region code (such as a
+Marine Regions Geographic Identifier or EEZ code).
+See details about formatting the geojson}
 
 \item{region_source}{source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')}
 
