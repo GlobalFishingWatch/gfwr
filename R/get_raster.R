@@ -10,7 +10,7 @@
 #' @param date_range Start and end of date range for raster (must be 366 days or
 #'  less). Formatted "YYYY-MM-DD,YYYY-MM-DD"
 #' @param region geojson shape to filter raster or GFW region code (such as an
-#' EEZ code). See details about formatting the geojson
+#' EEZ code). It must be of length 1. See details about formatting the geojson
 #' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')
 #' @param key Authorization token. Can be obtained with `gfw_auth()` function
 #' @param print_request Boolean. Whether to print the request, for debugging
@@ -68,6 +68,11 @@ get_raster <- function(spatial_resolution = NULL,
     `date-range` = date_range,
     format = 'CSV'
   )
+# Check for region input
+  if (is.null(region)) stop("region_source and region params are required")
+  if (!is.null(region)) {
+    if (length(region)>1) stop("only one region must be provided")
+  }
 
 if (is.null(region_source)) stop("region_source and region params are required")
   if (region_source == 'MPA' & is.numeric(region)) {
