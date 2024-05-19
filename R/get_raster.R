@@ -68,10 +68,13 @@ get_raster <- function(spatial_resolution = NULL,
     `date-range` = date_range,
     format = 'CSV'
   )
-# Check for region input
+  # Check for region input
   if (is.null(region)) stop("region_source and region params are required")
   if (!is.null(region)) {
-    if (length(region)>1) stop("only one region must be provided")
+    if(class(region)[1]=="numeric") {
+      if (length(region)>1) stop("only 1 region must be provided")
+    } #else if (class(region)[1] == "?? ") {"Here we need to check for the class of the geoJson object"}
+
   }
 
 if (is.null(region_source)) stop("region_source and region params are required")
