@@ -68,21 +68,15 @@ get_raster <- function(spatial_resolution = NULL,
     `date-range` = date_range,
     format = 'CSV'
   )
-  # Check for region input
-  if (is.null(region)) stop("region_source and region params are required")
-  if (!is.null(region)) {
-    if(class(region)[1]=="numeric") {
-      if (length(region)>1) stop("only 1 region must be provided")
-    } #else if (class(region)[1] == "?? ") {"Here we need to check for the class of the geoJson object"}
-
-  }
 
 if (is.null(region_source)) stop("region_source and region params are required")
+  region_source <- toupper(region_source) ## Fix capital and lower case differences
   if (region_source == 'MPA' & is.numeric(region)) {
+    if (length(region)>1) stop("only 1 MPA region must be provided")
     region = rjson::toJSON(list(region = list(dataset = 'public-mpa-all',
                                              id = region)))
-
   } else if (region_source == 'EEZ' & is.numeric(region)) {
+    if (length(region)>1) stop("only 1 EEZ region must be provided")
     region = rjson::toJSON(list(region = list(dataset = 'public-eez-areas',
                                              id = region)))
   } else if (region_source == 'RFMO' & is.character(region)) {
