@@ -80,11 +80,11 @@ if (is.null(region_source)) stop("region_source and region params are required")
     region = rjson::toJSON(list(region = list(dataset = 'public-eez-areas',
                                              id = region)))
   } else if (region_source == 'RFMO' & is.character(region)) {
-    if (length(region)>1) stop("only 1 EEZ region must be provided")
+    if (length(region)>1) stop("only 1 RFMO region must be provided")
     region = rjson::toJSON(list(region = list(dataset = 'public-rfmo',
                                               id = region)))
   } else if (region_source == 'USER_JSON' & is.character(region)) {
-    if (length(region)>1) stop("only 1 EEZ region must be provided")
+    if (length(region)>1) stop("only 1 json region must be provided")
   } else {
     stop('region source and region format do not match')
   }
