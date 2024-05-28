@@ -1,5 +1,5 @@
 Package: gfwr
-Title: Interactions with GFW APIs providing data tibbles
+Title: Access data from Global Fishing Watch APIs
 Version: 2.0.0
 Authors@R: c(
     person("Tyler", "Clavelle", , "tyler@globalfishingwatch.org", role = c("aut", "cre"),

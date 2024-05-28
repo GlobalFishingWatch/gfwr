@@ -32,7 +32,7 @@ or "HIGH" = 0.01 degree}
 less). Formatted "YYYY-MM-DD,YYYY-MM-DD"}
 
 \item{region}{geojson shape to filter raster or GFW region code (such as an
-EEZ code). See details about formatting the geojson}
+EEZ code). It must be of length 1. See details about formatting the geojson}
 
 \item{region_source}{source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')}
 

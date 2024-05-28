@@ -4,7 +4,7 @@
 \name{gfwr-package}
 \alias{gfwr}
 \alias{gfwr-package}
-\title{gfwr: Interactions with GFW APIs providing data tibbles}
+\title{gfwr: Access data from Global Fishing Watch APIs}
 \description{
 This package connects to several Global Fishing Watch APIs to get vessel and events information in an R-friendly format.
 }
