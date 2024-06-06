@@ -1,20 +1,21 @@
 # gfwr 2.0.0
 
-__gfwr was updated to the version 3 of our API.__ This implies in various breaking changes in 
-parameter names and output format. We aim to list here the major modifications but please
+__gfwr was updated to work with version 3 of our APIs.__ This results in various breaking changes in 
+parameter names and output formats. We aim to list here the major modifications but please also
 check [the API documentation](https://globalfishingwatch.org/our-apis/documentation#version-3-api)
 and the [migration guide](https://drive.google.com/file/d/1xPXhG6tj3132wHvCLu0OwwgKV7NtbuFI/view?usp=drive_link)
 if anything is new or missing.
 
 ## Endpoints
 
-- Same endpoints as in v 1.1.0
+- Same endpoints as in v1.1.0
   + `get_raster()` communicates with the 4Wings API to get fishing effort
-  + `get_vessel_info()` communicates with the Vessel API
-  + `get_events()` communicates with Event API
+  + `get_vessel_info()` communicates with the Vessels API
+  + `get_events()` communicates with the Events API
   
 - New endpoints: 
-  + `get_events_stats()`
+  + `get_events_stats()` to get events statistics worldwide or for a specific
+  region
   
 
 ## Major changes and new features
@@ -23,15 +24,17 @@ if anything is new or missing.
   - Improved documentation of parameters in-package
   - Functions have a new parameter `print_request` that will print the API request and 
 will be useful when requesting support. Please describe the problem, send a simplified 
-script and copy the string of the request when [filing an issue](https://github.com/GlobalFishingWatch/gfwr/issues). 
+script and copy the string of the request when [filling an issue](https://github.com/GlobalFishingWatch/gfwr/issues). 
+  - New helper function `sf_to_geojson()` helps format sf objects to be used in `get_raster()` and` get_event()`
 - `get_vessel_info()`
   + Incorporated non-fishing vessel types to the datasets. A simple search will return 
   vessels of all vessel types ("CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL", "BUNKER_OR_TANKER", and "CARGO" in addition to "FISHING")
-  + `search_type = search` replaces `search type = "basic"` and `"advanced"`. Instead, use parameter `query` for basic search or parameter `where` for advanced search (i.e. searches that use SQL expressions)
+  + `search_type` used to allow values `basic`, `advanced`, or `id`. Now `basic` and `advanced`
+  have been replaced by `search` to be used when the vessel id is not specified in parameter `ids`. 
+  In that case, use parameter `query` for basic search or parameter `where` for advanced search 
+  (i.e. searches that use SQL expressions)
   + Parameter `includes` allows the search to include ownership information, public authorizations,
   and criteria for matching
-  + New helper function `sf_to_geojson()` helps format sf objects to be used in `get_raster()` and` get_event()`
-  
 - `get_event()`
   + Vessel types supported now include non-fishing vessels: "FISHING", "CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL", "BUNKER_OR_TANKER", and "CARGO"
   + Event types now include fishing, gaps in AIS transmission, encounters, loitering events and port visits. Fishing events are specific to fishing vessels, loitering events are specific to carrier vessels. Port visits and encounters are available for all vessel types. Parameter `confidence` (1 to 4) allows filtering for high confidence port visits. 

@@ -5,12 +5,13 @@
 #' @param temporal_resolution raster temporal resolution. Can be 'HOURLY',
 #' 'DAILY', 'MONTHLY', 'YEARLY'
 #' @param group_by parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
-#'  'FLAGANDGEARTYPE' or 'MMSI'
+#'  'FLAGANDGEARTYPE' or 'MMSI'. Optional.
 #' @param filter_by parameter to filter by.
 #' @param date_range Start and end of date range for raster (must be 366 days or
 #'  less). Formatted "YYYY-MM-DD,YYYY-MM-DD"
-#' @param region geojson shape to filter raster or GFW region code (such as an
-#' EEZ code). It must be of length 1. See details about formatting the geojson
+#' @param region geojson shape to filter raster or GFW region code (such as a
+#' Marine Regions Geographic Identifier or EEZ code).
+#' See details about formatting the geojson
 #' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')
 #' @param key Authorization token. Can be obtained with `gfw_auth()` function
 #' @param print_request Boolean. Whether to print the request, for debugging
