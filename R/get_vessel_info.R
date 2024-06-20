@@ -154,12 +154,14 @@ if (print_request) print(endpoint)
 
   # format tibbles
   combinedSourcesInfo <- dplyr::bind_rows(purrr::map(response$entries$combinedSourcesInfo, tibble::tibble))
+
   if (!is.null(combinedSourcesInfo$geartypes))
     combinedSourcesInfo <- combinedSourcesInfo %>%
-    tidyr::unnest(geartypes, names_sep = "_geartype_", keep_empty = TRUE)
-  if(!is.null(combinedSourcesInfo$shiptypes))
+    tidyr::unnest(.data$geartypes, names_sep = "_geartype_", keep_empty = TRUE)
+
+  if (!is.null(combinedSourcesInfo$shiptypes))
     combinedSourcesInfo <- combinedSourcesInfo %>%
-    tidyr::unnest(shiptypes, names_sep = "_shiptype_", keep_empty = TRUE)
+    tidyr::unnest(.data$shiptypes, names_sep = "_shiptype_", keep_empty = TRUE)
 
   # build output list
   output <- list(
