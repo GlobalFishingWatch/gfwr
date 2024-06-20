@@ -152,8 +152,8 @@ if (print_request) print(endpoint)
 
   # format tibbles
   combinedSourcesInfo <- dplyr::bind_rows(purrr::map(response$entries$combinedSourcesInfo, tibble::tibble)) %>%
-    tidyr::unnest(.data$geartypes, names_sep = "_geartype_") %>%
-    tidyr::unnest(.data$shiptypes, names_sep = "_shiptype_")
+    tidyr::unnest(.data$geartypes, names_sep = "_geartype_", keep_empty = TRUE) %>%
+    tidyr::unnest(.data$shiptypes, names_sep = "_shiptype_", keep_empty = TRUE)
 
   # build output list
   output <- list(
