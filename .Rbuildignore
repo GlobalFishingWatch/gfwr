@@ -11,3 +11,4 @@ data-raw
 ^gfwr\.Rcheck$
 ^gfwr.*\.tar\.gz$
 ^gfwr.*\.tgz$
+^data-raw$
