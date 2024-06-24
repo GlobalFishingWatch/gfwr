@@ -1,0 +1,51 @@
+---
+title: "Using gfwr: identity and vessel ID fields"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using gfwr: identity and vessel if fields}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, eval = F}
+library(gfwr)
+```
+
+`gfwr` can be used to access the vessel database Global Fishing Watch has compiled and maintained over the years.
+On our map, the vessel search is located at https://globalfishingwatch.org/map/vessel-search.
+
+Function `get_vessel_info()` provides the same functionality as the map, it can search for vessels using any of the identifiers below:
+
+- MMSI (Maritime Mobile Service Identity) are 9-digit numbers broadcasted in AIS messages. They are supposed to be unique for each vessel but can be duplicated for many reasons--including the fact that the data entry is manual.
+- IMO numbers are permanent unique identifiers that follow a vessel from construction to scrapping. Given by the International Maritime Organization
+- Callsign
+
+## Registry data 
+
+
+Due to the complexity of this identity markers, Global Fishing watch created an internal vesselID to summarize the findings about vessels identity markers. 
+While MMSI is still one of the main 
+
+
+Search by any 
+
+Search by more complex combinations 
+
+Park et al 2023 and the need for vessel id
+
+other apis use vessel id
+
+# Getting vessel id
+
+# Read more:
+
+- https://globalfishingwatch.org/datasets-and-code-vessel-identity/
+- https://globalfishingwatch.org/data/spoofing-one-identity-shared-by-multiple-vessels/ 
+

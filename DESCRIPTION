@@ -32,9 +32,11 @@ Imports:
     tidyr
 Suggests:
     glue,
+    knitr,
     rmarkdown
 URL: https://github.com/GlobalFishingWatch/gfwr
 BugReports: https://github.com/GlobalFishingWatch/gfwr/issues
 Depends: 
     R (>= 2.10)
 LazyData: true
+VignetteBuilder: knitr
