@@ -118,8 +118,8 @@ if (is.null(region_source)) stop("region_source and region params are required")
                                              key,
                                              sep = " "),
                        `Content-Type` = 'application/json') %>%
-    httr2::req_body_raw(., body = region) %>%
-    httr2::req_error(req = ., body = parse_response_error)
+    httr2::req_body_raw(., body = region) #%>%
+    #httr2::req_error(req = ., body = parse_response_error)
   if (print_request) print(request)
   response <- request %>%
     httr2::req_perform(.) %>%

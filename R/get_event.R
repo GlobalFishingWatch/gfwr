@@ -116,9 +116,9 @@
 #'  key = gfw_auth())
 #' # fishing events in user geojson
 #' region <- '"geometry": {"type": "Polygon","coordinates":
-#' [[[120.36621093749999,26.725986812271756],[122.36572265625,26.725986812271756],
-#' [122.36572265625,28.323724553546015],[120.36621093749999,28.323724553546015],
-#' [120.36621093749999,26.725986812271756]]]}'
+#' [[[120.37,26.73],[122.36,26.73],
+#' [122.36,28.32],[120.37,28.32],
+#' [120.37,26.73]]]}'
 #' get_event(event_type = 'FISHING',
 #'               start_date = "2017-01-01",
 #'               end_date = "2017-01-31",
@@ -341,9 +341,6 @@ get_event <- function(event_type,
       lat = purrr::map_dbl(all_entries, purrr::pluck, 'position','lat'),
       lon = purrr::map_dbl(all_entries, purrr::pluck, 'position','lon'),
       regions = purrr::map(all_entries, purrr::pluck, 'regions'),
-      eez = purrr::map(all_entries, 'eez'),
-      rfmo = purrr::map(all_entries, 'rfmo'),
-      fao = purrr::map(all_entries, 'fao'),
       boundingBox = purrr::map(all_entries, 'boundingBox'),
       distances = purrr::map(all_entries, 'distances'),
       vessel = purrr::map(all_entries, 'vessel'),
