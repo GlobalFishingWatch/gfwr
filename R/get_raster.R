@@ -7,8 +7,8 @@
 #' @param group_by parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
 #'  'FLAGANDGEARTYPE' or 'MMSI'. Optional.
 #' @param filter_by parameter to filter by.
-#' @param date_range Start and end of date range for raster (must be 366 days or
-#'  less). Formatted "YYYY-MM-DD,YYYY-MM-DD"
+#' @param start_date Start of date range, in YYYY-MM-DD format and including this date. The interval between `start_date` and `end_date` must be 366 days or less.
+#' @param end_date End of date range, in YYYY-MM-DD format and excluding this date. The interval between `start_date` and `end_date` must be 366 days or less.
 #' @param region geojson shape to filter raster or GFW region code (such as a
 #' Marine Regions Geographic Identifier or EEZ code).
 #' See details about formatting the geojson
@@ -45,7 +45,8 @@
 #' get_raster(spatial_resolution = 'LOW',
 #'            temporal_resolution = 'YEARLY',
 #'            group_by = 'FLAG',
-#'            date_range = '2021-01-01,2021-10-01',
+#'            start_date = "2021-01-01",
+#'            end_date = "2021-10-01",
 #'            region = code_eez$id,
 #'            region_source = 'EEZ',
 #'            key = gfw_auth(),
@@ -54,32 +55,35 @@
 #' region_json <- '{"geojson":{"type":"Polygon","coordinates":
 #' [[[-82.5,7.9],[-82.5,2.3],[-77.1,2.3],[-77.1,7.9],[-82.5, 7.9]]]}}'
 #' get_raster(spatial_resolution = 'LOW',
-#'             temporal_resolution = 'YEARLY',
-#'             date_range = '2021-01-01,2021-10-01',
-#'             region = region_json,
-#'             region_source = 'USER_JSON',
-#'             key = gfw_auth(),
-#'             print_request = TRUE)
+#'            temporal_resolution = 'YEARLY',
+#'            start_date = "2021-01-01",
+#'            end_date = "2021-10-01",
+#'            region = region_json,
+#'            region_source = 'USER_JSON',
+#'            key = gfw_auth(),
+#'            print_request = TRUE)
 #' #using a sf from disk /loading a test sf object
 #' data(test_shape)
 #' formatted_shape <- sf_to_geojson(test_shape)
 #' get_raster(spatial_resolution = 'LOW',
-#'             temporal_resolution = 'YEARLY',
-#'             date_range = '2021-01-01,2021-10-01',
-#'             region = formatted_shape,
-#'             region_source = 'USER_JSON',
-#'             key = gfw_auth(),
-#'             print_request = TRUE)
+#'            temporal_resolution = 'YEARLY',
+#'            start_date = "2021-01-01",
+#'            end_date = "2021-10-01",
+#'            region = formatted_shape,
+#'            region_source = 'USER_JSON',
+#'            key = gfw_auth(),
+#'            print_request = TRUE)
 get_raster <- function(spatial_resolution = NULL,
                        temporal_resolution = NULL,
                        group_by = NULL,
                        filter_by = NULL,
-                       date_range = NULL,
+                       start_date = NULL,
+                       end_date = NULL,
                        region = NULL,
                        region_source = NULL,
                        key = gfw_auth(),
                        print_request = FALSE) {
-
+  date_range <- paste(start_date, end_date, sep = ",")
   # Endpoint
   endpoint <- get_endpoint(
     dataset_type = "raster",
