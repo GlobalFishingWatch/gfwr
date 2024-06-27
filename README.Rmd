@@ -285,7 +285,8 @@ get_raster(
   spatial_resolution = 'LOW',
   temporal_resolution = 'YEARLY',
   group_by = 'FLAG',
-  date_range = '2021-01-01,2021-12-31',
+  start_date = "2021-01-01",
+  end_date = "2021-12-31",
   region = region_json,
   region_source = 'USER_JSON',
   key = key
@@ -304,7 +305,8 @@ code_eez <- get_region_id(region_name = 'CIV', region_source = 'EEZ', key = key)
 get_raster(spatial_resolution = 'LOW',
            temporal_resolution = 'YEARLY',
            group_by = 'FLAG',
-           date_range = '2021-01-01,2021-10-01',
+           start_date = "2021-01-01",
+           end_date = "2021-10-01",
            region = code_eez$id,
            region_source = 'EEZ',
            key = key)
@@ -325,7 +327,8 @@ Let's say we're interested in the French Exclusive Economic Zone, 5677
 get_raster(spatial_resolution = 'LOW',
            temporal_resolution = 'YEARLY',
            group_by = 'FLAG',
-           date_range = '2021-01-01,2021-10-01',
+           start_date = "2021-01-01",
+           end_date = "2021-10-01",
            region = 5677,
            region_source = 'EEZ',
            key = key)
@@ -342,7 +345,8 @@ code_mpa <- get_region_id(region_name = 'Phoenix', region_source = 'MPA', key = 
 get_raster(spatial_resolution = 'LOW',
            temporal_resolution = 'YEARLY',
            group_by = 'FLAG',
-           date_range = '2015-01-01,2015-06-01',
+           start_date = "2015-01-01",
+           end_date = "2015-06-01",
            region = code_mpa$id[1],
            region_source = 'MPA',
            key = key)
@@ -356,7 +360,8 @@ organizations (RFMO) that manage tuna and tuna-like species. These include `"ICC
 get_raster(spatial_resolution = 'LOW',
            temporal_resolution = 'DAILY',
            group_by = 'FLAG',
-           date_range = '2021-01-01,2021-01-15',
+           start_date = "2021-01-01",
+           end_date = "2021-01-15",
            region = 'ICCAT',
            region_source = 'RFMO',
            key = key)
