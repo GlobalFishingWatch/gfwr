@@ -42,6 +42,7 @@
 #' to obtain the correctly-formatted geojson.
 #' @examples
 #' library(gfwr)
+#' # using region codes
 #' code_eez <- get_region_id(region_name = 'CIV', region_source = 'EEZ',
 #' key = gfw_auth())
 #' get_raster(spatial_resolution = 'LOW',
@@ -52,6 +53,26 @@
 #'            region_source = 'EEZ',
 #'            key = gfw_auth(),
 #'            print_request = TRUE)
+#' # using a user-defined geojson polygon
+#' region_json <- '{"geojson":{"type":"Polygon","coordinates":
+#' [[[-82.5,7.9],[-82.5,2.3],[-77.1,2.3],[-77.1,7.9],[-82.5, 7.9]]]}}'
+#' get_raster(spatial_resolution = 'LOW',
+#'             temporal_resolution = 'YEARLY',
+#'             date_range = '2021-01-01,2021-10-01',
+#'             region = region_json,
+#'             region_source = 'USER_JSON',
+#'             key = gfw_auth(),
+#'             print_request = TRUE)
+#' #using a sf from disk /loading a test sf object
+#' data(test_shape)
+#' formatted_shape <- sf_to_geojson(test_shape)
+#' get_raster(spatial_resolution = 'LOW',
+#'             temporal_resolution = 'YEARLY',
+#'             date_range = '2021-01-01,2021-10-01',
+#'             region = formatted_shape,
+#'             region_source = 'USER_JSON',
+#'             key = gfw_auth(),
+#'             print_request = TRUE)
 get_raster <- function(spatial_resolution = NULL,
                        temporal_resolution = NULL,
                        group_by = NULL,
@@ -76,16 +97,16 @@ get_raster <- function(spatial_resolution = NULL,
 if (is.null(region_source)) stop("region_source and region params are required")
   region_source <- toupper(region_source) ## Fix capital and lower case differences
   if (region_source == 'MPA' & is.numeric(region)) {
-    if (length(region)>1) stop("only 1 MPA region must be provided")
-    region = rjson::toJSON(list(region = list(dataset = 'public-mpa-all',
+    if (length(region) > 1) stop("only 1 MPA region must be provided")
+    region <- rjson::toJSON(list(region = list(dataset = 'public-mpa-all',
                                              id = region)))
   } else if (region_source == 'EEZ' & is.numeric(region)) {
-    if (length(region)>1) stop("only 1 EEZ region must be provided")
-    region = rjson::toJSON(list(region = list(dataset = 'public-eez-areas',
+    if (length(region) > 1) stop("only 1 EEZ region must be provided")
+    region <- rjson::toJSON(list(region = list(dataset = 'public-eez-areas',
                                              id = region)))
   } else if (region_source == 'RFMO' & is.character(region)) {
-    if (length(region)>1) stop("only 1 RFMO region must be provided")
-    region = rjson::toJSON(list(region = list(dataset = 'public-rfmo',
+    if (length(region) > 1) stop("only 1 RFMO region must be provided")
+    region <- rjson::toJSON(list(region = list(dataset = 'public-rfmo',
                                               id = region)))
   } else if (region_source == 'USER_JSON') {
     if (length(region)>1) stop("only 1 json region must be provided")
