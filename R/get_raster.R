@@ -9,7 +9,7 @@
 #' @param filter_by parameter to filter by.
 #' @param date_range Start and end of date range for raster (must be 366 days or
 #'  less). Formatted "YYYY-MM-DD,YYYY-MM-DD"
-#' @param region geojson shape to filter raster or GFW region code (such as a
+#' @param region sf shape to filter raster or GFW region code (such as a
 #' Marine Regions Geographic Identifier or EEZ code).
 #' See details about formatting the geojson
 #' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')
@@ -84,8 +84,13 @@ if (is.null(region_source)) stop("region_source and region params are required")
     if (length(region)>1) stop("only 1 RFMO region must be provided")
     region = rjson::toJSON(list(region = list(dataset = 'public-rfmo',
                                               id = region)))
-  } else if (region_source == 'USER_JSON' & is.character(region)) {
+  } else if (region_source == 'USER_JSON') {
     if (length(region)>1) stop("only 1 json region must be provided")
+    if(is(region, 'sf') & class(region$geometry)[1] %in% c("sfc_POLYGON","sfc_MULTIPOLYGON")){
+      region = sf_to_geojson(region, endpoint = 'raster')
+    } else {
+      stop('custom region is not an sf polygon')
+    }
   } else {
     stop('region source and region format do not match')
   }

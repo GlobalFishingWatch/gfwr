@@ -14,7 +14,7 @@
 #' @param start_date Start of date range to search events, in YYYY-MM-DD format and including this date
 #' @param end_date End of date range to search events, in YYYY-MM-DD format and excluding this date
 #' @param confidences Confidence levels (1-4) of events (port visits only)
-#' @param region geojson shape to filter raster or GFW region code (such as an
+#' @param region sf shape to filter raster or GFW region code (such as an
 #' EEZ code). See details about formatting the geojson
 #' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')
 #' @param gap_intentional_disabling Logical. Whether the Gap events are intentional,
@@ -285,8 +285,12 @@ get_event <- function(event_type,
     } else if (region_source == 'RFMO' & is.character(region)) {
       region = rjson::toJSON(list(region = list(dataset = 'public-rfmo',
                                                 id = region)))
-    } else if (region_source == 'USER_JSON' & is.character(region)) {
-       region
+    } else if (region_source == 'USER_JSON') {
+      if(is(region, 'sf') & class(region$geometry)[1] %in% c("sfc_POLYGON","sfc_MULTIPOLYGON")){
+        region = sf_to_geojson(region, endpoint = 'event')
+      } else {
+        stop('custom region is not an sf polygon')
+      }
     } else {
       stop('region source and region format do not match')
     }
