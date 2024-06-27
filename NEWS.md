@@ -15,7 +15,8 @@ if anything is new or missing.
   
 - New endpoints: 
   + `get_events_stats()` to get events statistics worldwide or for a specific
-  region
+  region 
+  + `get_last_report()` to check status of last API request to `get_raster()`
   
 
 ## Major changes and new features
@@ -25,7 +26,7 @@ if anything is new or missing.
   - Functions have a new parameter `print_request` that will print the API request and 
 will be useful when requesting support. Please describe the problem, send a simplified 
 script and copy the string of the request when [filling an issue](https://github.com/GlobalFishingWatch/gfwr/issues). 
-  - New helper function `sf_to_geojson()` helps format sf objects to be used in `get_raster()` and` get_event()`
+  - The `region` argument for `get_raster()` and` get_event()` now accept `sf` polygons rather than GeoJSON strings
 - `get_vessel_info()`
   + Incorporated non-fishing vessel types to the datasets. A simple search will return 
   vessels of all vessel types ("CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL", "BUNKER_OR_TANKER", and "CARGO" in addition to "FISHING")

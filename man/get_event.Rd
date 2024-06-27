@@ -46,7 +46,7 @@ vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
 
 \item{end_date}{End of date range to search events, in YYYY-MM-DD format and excluding this date}
 
-\item{region}{geojson shape to filter raster or GFW region code (such as an
+\item{region}{sf shape to filter raster or GFW region code (such as an
 EEZ code). See details about formatting the geojson}
 
 \item{region_source}{source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')}
@@ -148,18 +148,6 @@ get_event(event_type = "PORT_VISIT",
  start_date = "2020-01-01",
  end_date = "2020-01-31",
  key = gfw_auth())
-# fishing events in user geojson
-region <- '"geometry": {"type": "Polygon","coordinates":
-[[[120.36621093749999,26.725986812271756],[122.36572265625,26.725986812271756],
-[122.36572265625,28.323724553546015],[120.36621093749999,28.323724553546015],
-[120.36621093749999,26.725986812271756]]]}'
-get_event(event_type = 'FISHING',
-              start_date = "2017-01-01",
-              end_date = "2017-01-31",
-              region = region,
-              region_source = 'USER_JSON',
-              flags = 'CHN',
-              key = gfw_auth())
 # fishing events in Senegal EEZ
 get_event(event_type = 'FISHING',
               start_date = "2020-10-01",
@@ -168,48 +156,4 @@ get_event(event_type = 'FISHING',
               region_source = 'EEZ',
               flags = 'CHN',
               key = gfw_auth())
-# port visits in user region by ATG vessels
-region = '"geometry":{"type": "Polygon","coordinates":
-[[[30.552978515625,46.255846818480315],[31.22314453125,46.255846818480315],
-[31.22314453125,46.59661864884465],[30.552978515625,46.59661864884465],
-[30.552978515625,46.255846818480315]]]}'
-get_event(event_type = 'PORT_VISIT',
-         vessels = "e0248aed9-99b4-bae7-6b87-ff0a3c464676",
-         start_date = "2017-01-01",
-         end_date = "2017-01-31",
-         region = region,
-         region_source = 'USER_JSON',
-         flags = 'ATG',
-         duration = 60)
-# loitering events in user region by KOR vessels
-region = '"geometry": {"type": "Polygon","coordinates":
-[[[43.835981972515576,-6.785011952437713],[43.83602857589722,-6.785011952437713],
-[43.83602857589722,-6.784984652340707],[43.835981972515576,-6.784984652340707],
-[43.835981972515576,-6.785011952437713]]]}'
-get_event(event_type = 'LOITERING',
-                          vessels = "82be6f228-8ce4-26d1-bf81-3b7979d0c72f",
-                          start_date = "2017-01-01",
-                          end_date = "2017-01-31",
-                          region = region,
-                          region_source = 'USER_JSON',
-                          flags = 'KOR',
-                          duration = 60)
-# encounter events in user region by TWN vessels
-region = '"geometry": {"type": "Polygon","coordinates":
-[[[-130.9735107421875,-17.691128657307427],[-130.4901123046875,-17.691128657307427],
-[-130.4901123046875,-17.209017141391765],[-130.9735107421875,-17.209017141391765],
-[-130.9735107421875,-17.691128657307427]]]}'
-get_event(event_type = 'ENCOUNTER',
-         vessels = "55d38c0ee-e0d7-cb32-ac9c-8b3680d213b3",
-         start_date = "2017-01-01",
-         end_date = "2017-01-31",
-         region = region,
-         region_source = 'USER_JSON',
-         flags = 'TWN',
-         duration = 60)
-get_event(event_type = 'GAP',
-         start_date = "2017-01-01",
-         end_date = "2017-01-31",
-         flags = 'TWN',
-         gap_intentional_disabling = TRUE)
 }
