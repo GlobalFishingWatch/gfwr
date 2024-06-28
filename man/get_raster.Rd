@@ -9,7 +9,8 @@ get_raster(
   temporal_resolution = NULL,
   group_by = NULL,
   filter_by = NULL,
-  date_range = NULL,
+  start_date = NULL,
+  end_date = NULL,
   region = NULL,
   region_source = NULL,
   key = gfw_auth(),
@@ -28,12 +29,12 @@ or "HIGH" = 0.01 degree}
 
 \item{filter_by}{parameter to filter by.}
 
-\item{date_range}{Start and end of date range for raster (must be 366 days or
-less). Formatted "YYYY-MM-DD,YYYY-MM-DD"}
+\item{start_date}{Start of date range to search events, in YYYY-MM-DD format and including this date}
+
+\item{end_date}{End of date range to search events, in YYYY-MM-DD format and excluding this date}
 
 \item{region}{sf shape to filter raster or GFW region code (such as a
-Marine Regions Geographic Identifier or EEZ code).
-See details about formatting the geojson}
+Marine Regions Geographic Identifier or EEZ code).}
 
 \item{region_source}{source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')}
 
@@ -45,26 +46,28 @@ purposes. When contacting the GFW team it will be useful to send this string}
 \description{
 Base function to get raster from API and convert response to data frame
 }
-\details{
-The user-defined geojson has to be surrounded by a geojson tag,
-that can be created using a simple paste:
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{geojson_tagged <- paste0('\{"geojson":', your_geojson,'\}').
-}\if{html}{\out{</div>}}
-
-If you have an \strong{sf} shapefile, you can also use function \code{\link[=sf_to_geojson]{sf_to_geojson()}}
-to obtain the correctly-formatted geojson.
-}
 \examples{
 library(gfwr)
+# using region codes
 code_eez <- get_region_id(region_name = 'CIV', region_source = 'EEZ',
 key = gfw_auth())
 get_raster(spatial_resolution = 'LOW',
            temporal_resolution = 'YEARLY',
            group_by = 'FLAG',
-           date_range = '2021-01-01,2021-10-01',
+           start_date = "2021-01-01",
+           end_date = "2021-10-01",
            region = code_eez$id,
            region_source = 'EEZ',
            key = gfw_auth(),
            print_request = TRUE)
+#using a sf from disk /loading a test sf object
+data(test_shape)
+get_raster(spatial_resolution = 'LOW',
+            temporal_resolution = 'YEARLY',
+            start_date = '2021-01-01',
+            end_date = '2021-10-01',
+            region = test_shape,
+            region_source = 'USER_JSON',
+            key = gfw_auth(),
+            print_request = TRUE)
 }
