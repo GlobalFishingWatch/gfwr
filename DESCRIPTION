@@ -33,10 +33,19 @@ Imports:
     methods,
     class
 Suggests:
+    devtools,
+    ggplot2,
     glue,
-    rmarkdown
+    knitr,
+    qpdf,
+    rmarkdown,
+    rnaturalearth,
+    rnaturalearthdata,
+    scales,
+    sf
 URL: https://github.com/GlobalFishingWatch/gfwr
 BugReports: https://github.com/GlobalFishingWatch/gfwr/issues
 Depends: 
     R (>= 2.10)
 LazyData: true
+VignetteBuilder: knitr

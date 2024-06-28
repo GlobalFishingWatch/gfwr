@@ -17,4 +17,10 @@ A correctly-formatted geojson to be used in \code{get_raster()} or \code{get_eve
 \description{
 Formats an sf shapefile to a formatted geojson
 }
+\examples{
+library(gfwr)
+data(test_shape)
+substr(sf_to_geojson(test_shape), 1, 20)
+substr(sf_to_geojson(test_shape, endpoint = "event"), 1, 20)
+}
 \keyword{internal}

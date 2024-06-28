@@ -7,8 +7,8 @@
 #' @param group_by parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
 #'  'FLAGANDGEARTYPE' or 'MMSI'. Optional.
 #' @param filter_by parameter to filter by.
-#' @param date_range Start and end of date range for raster (must be 366 days or
-#'  less). Formatted "YYYY-MM-DD,YYYY-MM-DD"
+#' @param start_date Start of date range to search events, in YYYY-MM-DD format and including this date
+#' @param end_date End of date range to search events, in YYYY-MM-DD format and excluding this date
 #' @param region sf shape to filter raster or GFW region code (such as a
 #' Marine Regions Geographic Identifier or EEZ code).
 #' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')
@@ -36,7 +36,8 @@
 #' get_raster(spatial_resolution = 'LOW',
 #'            temporal_resolution = 'YEARLY',
 #'            group_by = 'FLAG',
-#'            date_range = '2021-01-01,2021-10-01',
+#'            start_date = "2021-01-01",
+#'            end_date = "2021-10-01",
 #'            region = code_eez$id,
 #'            region_source = 'EEZ',
 #'            key = gfw_auth(),
@@ -45,7 +46,8 @@
 #' data(test_shape)
 #' get_raster(spatial_resolution = 'LOW',
 #'             temporal_resolution = 'YEARLY',
-#'             date_range = '2021-01-01,2021-10-01',
+#'             start_date = '2021-01-01',
+#'             end_date = '2021-10-01',
 #'             region = test_shape,
 #'             region_source = 'USER_JSON',
 #'             key = gfw_auth(),
@@ -54,12 +56,13 @@ get_raster <- function(spatial_resolution = NULL,
                        temporal_resolution = NULL,
                        group_by = NULL,
                        filter_by = NULL,
-                       date_range = NULL,
+                       start_date = NULL,
+                       end_date = NULL,
                        region = NULL,
                        region_source = NULL,
                        key = gfw_auth(),
                        print_request = FALSE) {
-
+  date_range <- paste(start_date, end_date, sep = ",")
   # Endpoint
   endpoint <- get_endpoint(
     dataset_type = "raster",
@@ -103,8 +106,8 @@ if (is.null(region_source)) stop("region_source and region params are required")
                                              key,
                                              sep = " "),
                        `Content-Type` = 'application/json') %>%
-    httr2::req_body_raw(., body = region) %>%
-    httr2::req_error(req = ., body = parse_response_error)
+    httr2::req_body_raw(., body = region) #%>%
+    #httr2::req_error(req = ., body = parse_response_error)
   if (print_request) print(request)
   response <- request %>%
     httr2::req_perform(.) %>%

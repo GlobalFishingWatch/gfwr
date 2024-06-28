@@ -49,7 +49,7 @@ The package currently works with the following APIs:
 
 ## Installation
 
-You can install the development version of `gfwr` like so:
+You can install the most recent version of `gfwr` using:
 
 ``` r
 # Check/install remotes
@@ -59,13 +59,14 @@ if (!require("remotes"))
 remotes::install_github("GlobalFishingWatch/gfwr")
 ```
 
-gfwr is also in rOpenSci
+`gfwr` is also in rOpenSci
 [R-universe](https://globalfishingwatch.r-universe.dev/gfwr#), and can
 be installed like this:
 
 ``` r
 install.packages("gfwr", 
-                 repos = c("https://globalfishingwatch.r-universe.dev", "https://cran.r-project.org"))
+                 repos = c("https://globalfishingwatch.r-universe.dev",
+                           "https://cran.r-project.org"))
 ```
 
 Once everything is installed, you can load and use `gfwr` in your
@@ -79,9 +80,9 @@ library(gfwr)
 
 The use of `gfwr` requires a GFW API token, which users can request from
 the [GFW API Portal](https://globalfishingwatch.org/our-apis/tokens).
-Save this token to your `.Renviron` file (using
-`usethis::edit_r_environ()`) by adding a variable named `GFW_TOKEN` to
-the file (`GFW_TOKEN = "PASTE_YOUR_TOKEN_HERE"`). Save the `.Renviron`
+Save this token to your `.Renviron` file using
+`usethis::edit_r_environ()` and adding a variable named `GFW_TOKEN` to
+the file (`GFW_TOKEN="PASTE_YOUR_TOKEN_HERE"`). Save the `.Renviron`
 file and restart the R session to make the edit effective.
 
 Then use the `gfw_auth()` helper function to save the information to an
@@ -112,18 +113,21 @@ API](https://globalfishingwatch.org/our-apis/documentation#introduction-vessels-
 There are two search types: `search`, and `id`.
 
 - `search` is performed by using parameters `query` for basic searches
-  and `where` for advanced searchers using SQL.
+  and `where` for advanced searchers using SQL expressions
   - `query` takes a single identifier that can be the MMSI, IMO,
     callsign, or shipname as input and identifies all vessels that
     match.
-  - `where` search allows for the use of fuzzy matching with terms such
-    as LIKE.
-  - `includes` adds new information regarding the vessels. Options are
+  - `where` search allows for the use of complex search with logical
+    clauses (AND, OR) and fuzzy matching with terms such as LIKE, using
+    SQL syntax (see examples in the function)
+  - `includes` adds information from public registries. Options are
     “MATCH_CRITERIA”, “OWNERSHIP” and “AUTHORIZATIONS”
 
 ### Examples
 
-To get information of a vessel with `MMSI = 224224000`:
+To get information of a vessel using its MMSI, IMO number, callsign or
+name, the search can be done directly using the number or the string.
+For example, to look for a vessel with `MMSI = 224224000`:
 
 ``` r
 get_vessel_info(query = 224224000,
@@ -188,7 +192,10 @@ get_vessel_info(query = 224224000,
 #> #   matchFields <chr>, transmissionDateFrom <chr>, transmissionDateTo <chr>
 ```
 
-To combine different fields and do fuzzy matching :
+To do more specific searches (`imo = '8300949'`), combine different
+fields (`imo = '8300949' AND ssvid = '214182732'`) and do fuzzy matching
+(`"shipname LIKE '%GABU REEFE%' OR imo = '8300949'"`), use parameter
+`where` instead of `query`:
 
 ``` r
 get_vessel_info(where = "shipname LIKE '%GABU REEFE%' OR imo = '8300949'",
@@ -204,15 +211,24 @@ get_vessel_info(where = "shipname LIKE '%GABU REEFE%' OR imo = '8300949'",
 #> # A tibble: 1 × 1
 #>   registryInfoTotalRecords
 #>                      <int>
-#> 1                        0
+#> 1                        1
 #> 
 #> $registryInfo
-#> # A tibble: 0 × 1
-#> # ℹ 1 variable: <list> <list>
+#> # A tibble: 1 × 15
+#>   id                    sourceCode ssvid flag  shipname nShipname callsign imo  
+#>   <chr>                 <list>     <chr> <chr> <chr>    <chr>     <chr>    <chr>
+#> 1 b16ca93ea690fc725e92… <chr [2]>  6135… CMR   GABU RE… GABUREEF… TJMC996  8300…
+#> # ℹ 7 more variables: latestVesselInfo <lgl>, transmissionDateFrom <chr>,
+#> #   transmissionDateTo <chr>, geartypes <list>, lengthM <dbl>, tonnageGt <int>,
+#> #   vesselInfoReference <chr>
 #> 
 #> $registryOwners
-#> # A tibble: 0 × 1
-#> # ℹ 1 variable: <list> <list>
+#> # A tibble: 3 × 6
+#>   name                   flag  ssvid     sourceCode dateFrom             dateTo 
+#>   <chr>                  <chr> <chr>     <list>     <chr>                <chr>  
+#> 1 FISHING CARGO SERVICES PAN   613590000 <chr [1]>  2022-01-24T09:16:50Z 2024-0…
+#> 2 FISHING CARGO SERVICES PAN   214182732 <chr [1]>  2019-02-23T11:06:32Z 2022-0…
+#> 3 FISHING CARGO SERVICES PAN   616852000 <chr [1]>  2014-01-04T11:52:41Z 2019-0…
 #> 
 #> $registryPublicAuthorizations
 #> # A tibble: 0 × 1
@@ -222,9 +238,9 @@ get_vessel_info(where = "shipname LIKE '%GABU REEFE%' OR imo = '8300949'",
 #> # A tibble: 3 × 9
 #>   vesselId  geartypes_geartype_n…¹ geartypes_geartype_s…² geartypes_geartype_y…³
 #>   <chr>     <chr>                  <chr>                                   <int>
-#> 1 58cf536b… CARRIER                GFW_VESSEL_LIST                          2012
-#> 2 0b7047cb… CARRIER                GFW_VESSEL_LIST                          2019
-#> 3 1da8dbc2… CARRIER                GFW_VESSEL_LIST                          2022
+#> 1 0b7047cb… CARRIER                GFW_VESSEL_LIST                          2019
+#> 2 1da8dbc2… CARRIER                GFW_VESSEL_LIST                          2022
+#> 3 58cf536b… CARRIER                GFW_VESSEL_LIST                          2012
 #> # ℹ abbreviated names: ¹​geartypes_geartype_name, ²​geartypes_geartype_source,
 #> #   ³​geartypes_geartype_yearFrom
 #> # ℹ 5 more variables: geartypes_geartype_yearTo <int>,
@@ -235,7 +251,7 @@ get_vessel_info(where = "shipname LIKE '%GABU REEFE%' OR imo = '8300949'",
 #> # A tibble: 3 × 13
 #>   id               ssvid shipname nShipname flag  callsign imo   messagesCounter
 #>   <chr>            <chr> <chr>    <chr>     <chr> <chr>    <chr>           <int>
-#> 1 1da8dbc23-3c48-… 6135… GABU RE… GABUREEF… CMR   TJMC996  8300…        69710449
+#> 1 1da8dbc23-3c48-… 6135… GABU RE… GABUREEF… CMR   TJMC996  8300…        71695035
 #> 2 0b7047cb5-58c8-… 2141… GABU RE… GABUREEF… MDA   ER2732   8300…        70035084
 #> 3 58cf536b1-1fca-… 6168… GABU RE… GABUREEF… COM   D6FJ2    8300…        32121624
 #> # ℹ 5 more variables: positionsCounter <int>, sourceCode <list>,
@@ -268,24 +284,28 @@ get_vessel_info(ids = "8c7304226-6c71-edbe-0b63-c246734b3c01",
 #> 1                        2
 #> 
 #> $registryInfo
-#> # A tibble: 1 × 15
+#> # A tibble: 2 × 15
 #>   id                    sourceCode ssvid flag  shipname nShipname callsign imo  
 #>   <chr>                 <list>     <chr> <chr> <chr>    <chr>     <chr>    <chr>
 #> 1 a8d00ce54b37add7f85a… <chr [6]>  2106… CYP   FRIO FO… FRIOFORW… 5BWC3    9076…
+#> 2 a8d00ce54b37add7f85a… <chr [2]>  2733… RUS   FRIO FO… FRIOFORW… UCRZ     9076…
 #> # ℹ 7 more variables: latestVesselInfo <lgl>, transmissionDateFrom <chr>,
 #> #   transmissionDateTo <chr>, geartypes <list>, lengthM <int>, tonnageGt <int>,
 #> #   vesselInfoReference <chr>
 #> 
 #> $registryOwners
-#> # A tibble: 0 × 1
-#> # ℹ 1 variable: <list> <list>
+#> # A tibble: 2 × 6
+#>   name    flag  ssvid     sourceCode dateFrom             dateTo              
+#>   <chr>   <chr> <chr>     <list>     <chr>                <chr>               
+#> 1 COLINER CYP   210631000 <chr [1]>  2014-01-01T00:16:58Z 2024-04-30T23:41:06Z
+#> 2 COLINER CYP   273379740 <chr [1]>  2015-02-27T10:59:43Z 2018-03-21T07:13:09Z
 #> 
 #> $registryPublicAuthorizations
 #> # A tibble: 2 × 4
 #>   dateFrom             dateTo               ssvid     sourceCode
 #>   <chr>                <chr>                <chr>     <list>    
-#> 1 2022-12-19T00:00:00Z 2024-04-01T00:00:00Z 210631000 <chr [1]> 
-#> 2 2020-01-01T00:00:00Z 2024-04-01T00:00:00Z 210631000 <chr [1]> 
+#> 1 2022-12-19T00:00:00Z 2024-05-01T00:00:00Z 210631000 <chr [1]> 
+#> 2 2020-01-01T00:00:00Z 2024-05-01T00:00:00Z 210631000 <chr [1]> 
 #> 
 #> $combinedSourcesInfo
 #> # A tibble: 2 × 9
@@ -303,7 +323,7 @@ get_vessel_info(ids = "8c7304226-6c71-edbe-0b63-c246734b3c01",
 #> # A tibble: 1 × 13
 #>   id               ssvid shipname nShipname flag  callsign imo   messagesCounter
 #>   <chr>            <chr> <chr>    <chr>     <chr> <chr>    <chr>           <int>
-#> 1 8c7304226-6c71-… 2106… FRIO FO… FRIOFORW… CYP   5BWC3    9076…       259492070
+#> 1 8c7304226-6c71-… 2106… FRIO FO… FRIOFORW… CYP   5BWC3    9076…       262953205
 #> # ℹ 5 more variables: positionsCounter <int>, sourceCode <list>,
 #> #   matchFields <chr>, transmissionDateFrom <chr>, transmissionDateTo <chr>
 ```
@@ -334,32 +354,35 @@ get_vessel_info(ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01",
 #> 3                        1
 #> 
 #> $registryInfo
-#> # A tibble: 3 × 15
+#> # A tibble: 4 × 15
 #>   id                    sourceCode ssvid flag  shipname nShipname callsign imo  
 #>   <chr>                 <list>     <chr> <chr> <chr>    <chr>     <chr>    <chr>
 #> 1 a8d00ce54b37add7f85a… <chr [6]>  2106… CYP   FRIO FO… FRIOFORW… 5BWC3    9076…
-#> 2 685862e0626f6234c844… <chr [5]>  5480… PHL   JOHNREY… JOHNREYN… DUQA7    8118…
-#> 3 b82d02e5c2c11e5fe536… <chr [5]>  4417… KOR   ADRIA    ADRIA     DTBY3    8919…
+#> 2 a8d00ce54b37add7f85a… <chr [2]>  2733… RUS   FRIO FO… FRIOFORW… UCRZ     9076…
+#> 3 685862e0626f6234c844… <chr [5]>  5480… PHL   JOHNREY… JOHNREYN… DUQA7    8118…
+#> 4 b82d02e5c2c11e5fe536… <chr [5]>  4417… KOR   ADRIA    ADRIA     DTBY3    8919…
 #> # ℹ 7 more variables: latestVesselInfo <lgl>, transmissionDateFrom <chr>,
 #> #   transmissionDateTo <chr>, geartypes <list>, lengthM <dbl>, tonnageGt <dbl>,
 #> #   vesselInfoReference <chr>
 #> 
 #> $registryOwners
-#> # A tibble: 2 × 6
+#> # A tibble: 4 × 6
 #>   name                          flag  ssvid     sourceCode dateFrom       dateTo
 #>   <chr>                         <chr> <chr>     <list>     <chr>          <chr> 
-#> 1 TRANS PACIFIC JOURNEY FISHING PHL   548012100 <chr [3]>  2017-02-07T00… 2019-…
-#> 2 DONGWON INDUSTRIES            KOR   441734000 <chr [2]>  2014-01-18T19… 2024-…
+#> 1 COLINER                       CYP   210631000 <chr [1]>  2014-01-01T00… 2024-…
+#> 2 COLINER                       CYP   273379740 <chr [1]>  2015-02-27T10… 2018-…
+#> 3 TRANS PACIFIC JOURNEY FISHING PHL   548012100 <chr [3]>  2017-02-07T00… 2019-…
+#> 4 DONGWON INDUSTRIES            KOR   441734000 <chr [2]>  2014-01-18T19… 2024-…
 #> 
 #> $registryPublicAuthorizations
 #> # A tibble: 6 × 4
 #>   dateFrom             dateTo               ssvid     sourceCode
 #>   <chr>                <chr>                <chr>     <list>    
-#> 1 2022-12-19T00:00:00Z 2024-04-01T00:00:00Z 210631000 <chr [1]> 
-#> 2 2020-01-01T00:00:00Z 2024-04-01T00:00:00Z 210631000 <chr [1]> 
-#> 3 2012-01-01T00:00:00Z 2024-04-01T00:00:00Z 548012100 <chr [1]> 
+#> 1 2022-12-19T00:00:00Z 2024-05-01T00:00:00Z 210631000 <chr [1]> 
+#> 2 2020-01-01T00:00:00Z 2024-05-01T00:00:00Z 210631000 <chr [1]> 
+#> 3 2012-01-01T00:00:00Z 2024-05-01T00:00:00Z 548012100 <chr [1]> 
 #> 4 2012-01-01T00:00:00Z 2017-10-25T00:00:00Z 548012100 <chr [1]> 
-#> 5 2013-09-20T00:00:00Z 2024-04-01T00:00:00Z 441734000 <chr [1]> 
+#> 5 2013-09-20T00:00:00Z 2024-05-01T00:00:00Z 441734000 <chr [1]> 
 #> 6 2015-10-08T00:00:00Z 2020-07-21T00:00:00Z 441734000 <chr [1]> 
 #> 
 #> $combinedSourcesInfo
@@ -384,7 +407,7 @@ get_vessel_info(ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01",
 #> # A tibble: 3 × 13
 #>   id               ssvid shipname nShipname flag  callsign imo   messagesCounter
 #>   <chr>            <chr> <chr>    <chr>     <chr> <chr>    <chr>           <int>
-#> 1 8c7304226-6c71-… 2106… FRIO FO… FRIOFORW… CYP   5BWC3    9076…       259492070
+#> 1 8c7304226-6c71-… 2106… FRIO FO… FRIOFORW… CYP   5BWC3    9076…       262953205
 #> 2 71e7da672-2451-… 5480… JOHN RE… JOHNREYN… PHL   DUQA-7   8118…         1967237
 #> 3 6583c51e3-3626-… 4417… ADRIA    ADRIA     KOR   DTBY3    8919…         3742574
 #> # ℹ 5 more variables: positionsCounter <int>, sourceCode <list>,
@@ -407,14 +430,14 @@ documentation](https://globalfishingwatch.org/our-apis/documentation#data-caveat
 
 ### Examples
 
-Let’s say that you don’t know the `vessel id` but you have the MMSI (or
-other identity information). You can use `get_vessel_info()` function
-first to extract `vessel id` and then use it in the `get_event()`
-function:
+The Events API uses `vesselId` as input, so you always need to use
+`get_vessel_info()` first to extract `vesselId` from the
+`$selfReportedInfo` data and then use it in the `get_event()` function.
 
 ``` r
-vessel_id <- get_vessel_info(query = 224224000, key = key)
-id <- vessel_id$registryInfo$id
+vessel_info <- get_vessel_info(query = 224224000, key = key)
+
+id <- vessel_info$selfReportedInfo$id[1]
 ```
 
 To get a list of port visits for that vessel:
@@ -425,8 +448,23 @@ get_event(event_type = 'PORT_VISIT',
           confidences = 4,
           key = key
           )
-#> [1] "Your request returned zero results"
-#> NULL
+#> [1] "Downloading 24 events from GFW"
+#> # A tibble: 24 × 11
+#>    start               end                 id    type    lat    lon regions     
+#>    <dttm>              <dttm>              <chr> <chr> <dbl>  <dbl> <list>      
+#>  1 2019-11-15 14:15:11 2019-11-19 07:49:20 bbee… port…  5.22  -4.00 <named list>
+#>  2 2019-12-06 11:02:09 2019-12-11 10:20:04 bcd9… port…  5.22  -4.01 <named list>
+#>  3 2020-01-11 11:18:49 2020-01-15 11:54:49 889b… port…  5.23  -4.01 <named list>
+#>  4 2020-01-27 08:04:38 2020-02-23 10:18:02 abed… port… 16.9  -25.0  <named list>
+#>  5 2020-02-23 12:44:03 2020-02-24 10:35:02 672b… port… 16.9  -25.0  <named list>
+#>  6 2020-03-05 13:28:59 2020-04-05 15:03:18 f539… port…  5.26  -4.03 <named list>
+#>  7 2020-04-19 06:16:46 2020-04-21 14:02:19 5ad5… port… 28.1  -15.4  <named list>
+#>  8 2020-05-05 06:52:54 2020-05-07 14:22:35 729d… port…  5.23  -4.00 <named list>
+#>  9 2020-06-10 13:51:11 2020-06-13 13:51:28 8f14… port…  5.21  -4.05 <named list>
+#> 10 2020-06-20 12:33:45 2020-06-20 19:43:10 a8f5… port… 14.7  -17.4  <named list>
+#> # ℹ 14 more rows
+#> # ℹ 4 more variables: boundingBox <list>, distances <list>, vessel <list>,
+#> #   event_info <list>
 ```
 
 We can also use more than one `vessel id`:
@@ -440,14 +478,14 @@ get_event(event_type = 'PORT_VISIT',
           key = key
           )
 #> [1] "Downloading 3 events from GFW"
-#> # A tibble: 3 × 14
+#> # A tibble: 3 × 11
 #>   start               end                 id      type    lat   lon regions     
 #>   <dttm>              <dttm>              <chr>   <chr> <dbl> <dbl> <list>      
 #> 1 2019-12-19 23:05:31 2020-01-24 19:05:18 7cd1e3… port…  28.1 -15.4 <named list>
 #> 2 2020-01-26 05:52:47 2020-01-29 14:39:33 c2f096… port…  20.8 -17.0 <named list>
 #> 3 2020-01-31 02:20:08 2020-02-03 15:56:31 7c06e4… port…  28.1 -15.4 <named list>
-#> # ℹ 7 more variables: eez <list>, rfmo <list>, fao <list>, boundingBox <list>,
-#> #   distances <list>, vessel <list>, event_info <list>
+#> # ℹ 4 more variables: boundingBox <list>, distances <list>, vessel <list>,
+#> #   event_info <list>
 ```
 
 Or get encounters for all vessels in a given date range:
@@ -458,8 +496,8 @@ get_event(event_type = 'ENCOUNTER',
           end_date = "2020-01-02",
           key = key
           )
-#> [1] "Downloading 250 events from GFW"
-#> # A tibble: 250 × 14
+#> [1] "Downloading 248 events from GFW"
+#> # A tibble: 248 × 11
 #>    start               end                 id    type    lat    lon regions     
 #>    <dttm>              <dttm>              <chr> <chr> <dbl>  <dbl> <list>      
 #>  1 2019-12-17 14:10:00 2020-01-02 04:10:00 8c07… enco… 67.5    15.5 <named list>
@@ -472,9 +510,9 @@ get_event(event_type = 'ENCOUNTER',
 #>  8 2019-12-27 09:10:00 2020-01-06 14:00:00 2159… enco…  9.50  -99.1 <named list>
 #>  9 2019-12-30 02:20:00 2020-01-13 05:40:00 87de… enco… -1.84 -111.  <named list>
 #> 10 2019-12-30 02:20:00 2020-01-13 05:40:00 87de… enco… -1.84 -111.  <named list>
-#> # ℹ 240 more rows
-#> # ℹ 7 more variables: eez <list>, rfmo <list>, fao <list>, boundingBox <list>,
-#> #   distances <list>, vessel <list>, event_info <list>
+#> # ℹ 238 more rows
+#> # ℹ 4 more variables: boundingBox <list>, distances <list>, vessel <list>,
+#> #   event_info <list>
 ```
 
 When a date range is provided to `get_event()` using both `start_date`
@@ -500,15 +538,10 @@ fishing events for a list of 20 USA-flagged trawlers:
 usa_trawlers <- get_vessel_info(
   where = "flag='USA' AND geartypes='TRAWLERS'",
   search_type = "search",
-  key = key, 
-  print_request = TRUE
+  key = key
 )
-#> <httr2_request>
-#> GET
-#> https://gateway.api.globalfishingwatch.org/v3/vessels/search?datasets%5B0%5D=public-global-vessel-identity%3Alatest&where=flag%3D%27USA%27%20AND%20geartypes%3D%27TRAWLERS%27&includes%5B0%5D=AUTHORIZATIONS&includes%5B1%5D=OWNERSHIP&includes%5B2%5D=MATCH_CRITERIA
-#> Body: empty
 # Pass the vector of vessel ids to Events API
-usa_trawler_ids <- usa_trawlers$combinedSourcesInfo$vesselId[1:20]
+usa_trawler_ids <- usa_trawlers$selfReportedInfo$id[1:20]
 ```
 
 > *Note*: `get_event()` can receive up to 20 vessel ids at a time
@@ -523,7 +556,7 @@ get_event(event_type = 'FISHING',
           key = key
           )
 #> [1] "Downloading 34 events from GFW"
-#> # A tibble: 34 × 14
+#> # A tibble: 34 × 11
 #>    start               end                 id    type    lat    lon regions     
 #>    <dttm>              <dttm>              <chr> <chr> <dbl>  <dbl> <list>      
 #>  1 2020-01-05 04:58:45 2020-01-05 06:31:45 379d… fish…  43.7 -124.  <named list>
@@ -537,8 +570,8 @@ get_event(event_type = 'FISHING',
 #>  9 2020-01-13 12:45:32 2020-01-13 15:38:38 46f8… fish…  38.0  -73.9 <named list>
 #> 10 2020-01-13 13:20:55 2020-01-13 15:07:53 2333… fish…  43.7 -124.  <named list>
 #> # ℹ 24 more rows
-#> # ℹ 7 more variables: eez <list>, rfmo <list>, fao <list>, boundingBox <list>,
-#> #   distances <list>, vessel <list>, event_info <list>
+#> # ℹ 4 more variables: boundingBox <list>, distances <list>, vessel <list>,
+#> #   event_info <list>
 ```
 
 When no events are available, the `get_event()` function returns
@@ -555,7 +588,7 @@ get_event(event_type = 'FISHING',
 #> NULL
 ```
 
-## Map Visualization API
+## Fishing effort API
 
 The `get_raster()` function gets a raster from the [4Wings
 API](https://globalfishingwatch.org/our-apis/documentation#map-visualization-4wings-api)
@@ -569,35 +602,26 @@ should specify:
 - The variable to group by: `FLAG`, `GEARTYPE`, `FLAGANDGEARTYPE`,
   `MMSI` or `VESSEL_ID`
 - The date range `note: this must be 366 days or less`
-- The `geojson` region or region code (such as an EEZ code) to filter
-  the raster
-- The source for the specified region (currently, `EEZ`, `MPA`, `RFMO`
-  or `USER_JSON`)
+- The region polygon in `sf` format or the region code (such as an EEZ
+  code) to filter the raster
+- The source for the specified region. Currently, `EEZ`, `MPA`, `RFMO`
+  or `USER_JSON` (for `sf` shapefiles).
 
 ### Examples
 
-Here’s an example where we enter the geojson data manually:
-
-> **Note**:  
-> In `gwfr`, the geojson needs to be enclosed by a `{"geojson": ...}`
-> tag. If you have a `geojsonsf::sf_geojson()` object, you can obtain
-> the geojson object with a simple concatenation:
-> `paste0('{"geojson":', your_geojson,'}')`
-
 ``` r
-
-region_json <- '{"geojson":{"type":"Polygon","coordinates":[[[-76.11328125,-26.273714024406416],[-76.201171875,-26.980828590472093],[-76.376953125,-27.527758206861883],[-76.81640625,-28.30438068296276],[-77.255859375,-28.767659105691244],[-77.87109375,-29.152161283318918],[-78.486328125,-29.45873118535532],[-79.189453125,-29.61167011519739],[-79.892578125,-29.6880527498568],[-80.595703125,-29.61167011519739],[-81.5625,-29.382175075145277],[-82.177734375,-29.07537517955835],[-82.705078125,-28.6905876542507],[-83.232421875,-28.071980301779845],[-83.49609375,-27.683528083787756],[-83.759765625,-26.980828590472093],[-83.84765625,-26.35249785815401],[-83.759765625,-25.64152637306576],[-83.583984375,-25.16517336866393],[-83.232421875,-24.447149589730827],[-82.705078125,-23.966175871265037],[-82.177734375,-23.483400654325635],[-81.5625,-23.241346102386117],[-80.859375,-22.998851594142906],[-80.15625,-22.917922936146027],[-79.453125,-22.998851594142906],[-78.662109375,-23.1605633090483],[-78.134765625,-23.40276490540795],[-77.431640625,-23.885837699861995],[-76.9921875,-24.28702686537642],[-76.552734375,-24.846565348219727],[-76.2890625,-25.48295117535531],[-76.11328125,-26.273714024406416]]]}}'
-
+data("test_shape")
 get_raster(
   spatial_resolution = 'LOW',
   temporal_resolution = 'YEARLY',
   group_by = 'FLAG',
-  date_range = '2021-01-01,2021-12-31',
-  region = region_json,
+  start_date = '2021-01-01',
+  end_date = '2021-07-01',
+  region = test_shape,
   region_source = 'USER_JSON',
   key = key
   )
-#> Rows: 5 Columns: 6
+#> Rows: 6539 Columns: 6
 #> ── Column specification ────────────────────────────────────────────────────────
 #> Delimiter: ","
 #> chr (1): flag
@@ -605,19 +629,25 @@ get_raster(
 #> 
 #> ℹ Use `spec()` to retrieve the full column specification for this data.
 #> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-#> # A tibble: 5 × 6
-#>     Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`
-#>   <dbl> <dbl>        <dbl> <chr>        <dbl>                    <dbl>
-#> 1 -24.7 -78.6         2021 ESP              2                     0.96
-#> 2 -24.6 -78.4         2021 ESP              2                     0.28
-#> 3 -24.2 -77.8         2021 ESP              1                     0.42
-#> 4 -27.3 -82           2021 ESP              1                     0.43
-#> 5 -24.7 -78.5         2021 ESP              1                     0.03
+#> # A tibble: 6,539 × 6
+#>      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`
+#>    <dbl> <dbl>        <dbl> <chr>        <dbl>                    <dbl>
+#>  1  16.7  60.7         2021 CHN              2                    10.8 
+#>  2  16.9  61           2021 CHN              4                    26.4 
+#>  3  16.8  61           2021 CHN              5                    22.6 
+#>  4  16.9  61.2         2021 CHN              2                    19.6 
+#>  5  16.8  60.8         2021 CHN              1                     4.5 
+#>  6  17.2  61.3         2021 CHN              1                     4.5 
+#>  7  16.8  61.4         2021 CHN              1                     6.94
+#>  8  16.7  61.4         2021 CHN              2                    11.2 
+#>  9  16.7  61.5         2021 CHN              2                    16.5 
+#> 10  16.8  61.7         2021 CHN              4                    31.5 
+#> # ℹ 6,529 more rows
 ```
 
 If you want raster data from a particular EEZ, you can use the
 `get_region_id()` function to get the EEZ id, enter that code in the
-`region` argument of `get_raster()` instead of the geojson data
+`region` argument of `get_raster()` instead of the region shapefile
 (ensuring you specify the `region_source` as `'EEZ'`:
 
 ``` r
@@ -627,7 +657,8 @@ code_eez <- get_region_id(region_name = 'CIV', region_source = 'EEZ', key = key)
 get_raster(spatial_resolution = 'LOW',
            temporal_resolution = 'YEARLY',
            group_by = 'FLAG',
-           date_range = '2021-01-01,2021-10-01',
+           start_date = "2021-01-01",
+           end_date = "2021-10-01",
            region = code_eez$id,
            region_source = 'EEZ',
            key = key)
@@ -642,16 +673,16 @@ get_raster(spatial_resolution = 'LOW',
 #> # A tibble: 611 × 6
 #>      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`
 #>    <dbl> <dbl>        <dbl> <chr>        <dbl>                    <dbl>
-#>  1   4.1  -6.9         2021 FRA              1                     1.94
-#>  2   5.3  -4           2021 CHN              1                     0.26
-#>  3   5.2  -4           2021 PAN              3                    10.8 
-#>  4   5.2  -4           2021 CHN              9                  6704.  
-#>  5   5.1  -4           2021 GHA              6                     4.82
-#>  6   4.2  -6.9         2021 ESP              1                     2.08
-#>  7   4.2  -6.8         2021 ESP              1                     0.98
-#>  8   4.1  -5.7         2021 BLZ              1                     0.55
-#>  9   3.3  -6.6         2021 BLZ              1                     4.58
-#> 10   5    -4.2         2021 ESP              1                     3.71
+#>  1   4.9  -5.8         2021 CHN              4                    31   
+#>  2   4.9  -5.9         2021 CHN              3                    11.7 
+#>  3   5.2  -4           2021 GTM              2                     2.58
+#>  4   2.7  -5.3         2021 FRA              1                     0.25
+#>  5   2.7  -4           2021 ESP              1                     6.06
+#>  6   1.9  -4.2         2021 FRA              1                     2.21
+#>  7   1.9  -4.1         2021 FRA              1                     0.04
+#>  8   4    -6.9         2021 FRA              1                     2.99
+#>  9   4.3  -4.1         2021 FRA              2                     3.51
+#> 10   4.7  -6.2         2021 CHN              2                    12.9 
 #> # ℹ 601 more rows
 ```
 
@@ -666,12 +697,16 @@ decide which one you want:
 #> 1  5677 France                           FRA  
 #> 2 48966 Joint regime area Spain / France FRA  
 #> 3 48976 Joint regime area Italy / France FRA
+```
 
-# Let's say we're interested in the French Exclusive Economic Zone, 5677
+Let’s say we’re interested in the French Exclusive Economic Zone, 5677
+
+``` r
 get_raster(spatial_resolution = 'LOW',
            temporal_resolution = 'YEARLY',
            group_by = 'FLAG',
-           date_range = '2021-01-01,2021-10-01',
+           start_date = "2021-01-01",
+           end_date = "2021-10-01",
            region = 5677,
            region_source = 'EEZ',
            key = key)
@@ -686,16 +721,16 @@ get_raster(spatial_resolution = 'LOW',
 #> # A tibble: 5,660 × 6
 #>      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`
 #>    <dbl> <dbl>        <dbl> <chr>        <dbl>                    <dbl>
-#>  1  50.8   1.3         2021 NLD             11                     60.7
-#>  2  50.7   1.2         2021 GBR             12                    329. 
-#>  3  50.8   1.4         2021 FRA             27                   1686. 
-#>  4  50.7   1.3         2021 FRA             63                   1626. 
-#>  5  51.3   2.1         2021 NLD             17                     82.4
-#>  6  51.3   2.1         2021 FRA             17                    150. 
-#>  7  51.2   1.9         2021 NLD             24                    427. 
-#>  8  51.2   2           2021 NLD             25                    458. 
-#>  9  51.3   2           2021 NLD             16                     68.9
-#> 10  51.2   2.1         2021 NLD             21                    123. 
+#>  1  42     9.7         2021 FRA              1                     13.6
+#>  2  43     5.6         2021 FRA              3                     13.8
+#>  3  41.3   8.6         2021 ITA              2                    115. 
+#>  4  41.6   9.4         2021 FRA              2                     44.1
+#>  5  41.6   9.5         2021 FRA              2                    300. 
+#>  6  41.5   9.4         2021 FRA              2                     40.6
+#>  7  45.6  -2.1         2021 FRA             24                    778. 
+#>  8  46    -1.9         2021 FRA             30                    556. 
+#>  9  46    -1.8         2021 FRA             29                   1044. 
+#> 10  45.9  -2           2021 FRA             16                    182. 
 #> # ℹ 5,650 more rows
 ```
 
@@ -709,7 +744,8 @@ code_mpa <- get_region_id(region_name = 'Phoenix', region_source = 'MPA', key = 
 get_raster(spatial_resolution = 'LOW',
            temporal_resolution = 'YEARLY',
            group_by = 'FLAG',
-           date_range = '2015-01-01,2015-06-01',
+           start_date = "2015-01-01",
+           end_date = "2015-06-01",
            region = code_mpa$id[1],
            region_source = 'MPA',
            key = key)
@@ -724,16 +760,16 @@ get_raster(spatial_resolution = 'LOW',
 #> # A tibble: 40 × 6
 #>      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`
 #>    <dbl> <dbl>        <dbl> <chr>        <dbl>                    <dbl>
-#>  1  -3.7 -173.         2015 KOR              1                     1.49
-#>  2  -3.7 -174.         2015 KOR              1                     1.9 
-#>  3  -2.3 -176.         2015 TWN              1                    10.8 
-#>  4  -2.9 -176.         2015 FSM              1                     2.77
-#>  5  -3.9 -176.         2015 KOR              1                     4.88
-#>  6  -4   -176.         2015 KOR              1                     4.26
-#>  7  -4.1 -176.         2015 KOR              1                     1.57
-#>  8  -4.7 -176.         2015 KIR              1                     1.75
-#>  9  -2.6 -176.         2015 TWN              1                     0.35
-#> 10  -2.2 -176.         2015 KIR              1                     0.53
+#>  1  -4.7 -176.         2015 KOR              3                    15.8 
+#>  2  -4.7 -176.         2015 KIR              1                     0.36
+#>  3  -3   -176.         2015 FSM              1                     2.16
+#>  4  -2.9 -176.         2015 FSM              1                     5.09
+#>  5  -4.1 -176.         2015 KOR              1                     2.67
+#>  6  -2.2 -176.         2015 KIR              1                     1.89
+#>  7  -3.6 -176.         2015 KIR              1                     5.99
+#>  8  -3.1 -176.         2015 KOR              1                     0.91
+#>  9  -3.5 -176.         2015 KOR              1                    10.8 
+#> 10  -3.4 -176.         2015 KOR              1                     1.37
 #> # ℹ 30 more rows
 ```
 
@@ -746,7 +782,8 @@ species. These include `"ICCAT"`, `"IATTC"`,`"IOTC"`, `"CCSBT"` and
 get_raster(spatial_resolution = 'LOW',
            temporal_resolution = 'DAILY',
            group_by = 'FLAG',
-           date_range = '2021-01-01,2021-01-15',
+           start_date = "2021-01-01",
+           end_date = "2021-01-15",
            region = 'ICCAT',
            region_source = 'RFMO',
            key = key)
@@ -814,6 +851,34 @@ get_event(event_type = 'FISHING',
 #> 10 23330ffa0e1bbab43ead8328456c45aa fishing  43.7 -124.  8456  United States
 #> # ℹ 24 more rows
 ```
+
+### When your API request times out
+
+For API performance reasons, the `get_raster()` function restricts
+individual queries to a single year of data. However, even with this
+restriction, it is possible for API request to time out before it
+completes. When this occurs, the initial `get_raster()` call will return
+an error, and subsequent API requests using any `gfwr` `get_` function
+will return an HTTP 429 error until the original request completes:
+
+> Error in `httr2::req_perform()`: ! HTTP 429 Too Many Requests. • Your
+> application token is not currently enabled to perform more than one
+> concurrent report. If you need to generate more than one report
+> concurrently, contact us at <apis@globalfishingwatch.org>
+
+Although no data was received, the request is still being processed by
+the APIs and will become available when it completes. To account for
+this, `gfwr` includes the `get_last_report()` function, which lets users
+request the results of their last API request with `get_raster()`.
+
+The `get_last_report()` function will tell you if the APIs are still
+processing your request and will download the results if the request has
+finished successfully. You will receive an error message if the request
+finished but resulted in an error or if it’s been \>30 minutes since the
+last report was generated using `get_raster()`. For more information,
+see the [Get last report generated
+endpoint](https://globalfishingwatch.org/our-apis/documentation#get-last-report-generated)
+documentation on the GFW API page.
 
 ## Contributing
 
