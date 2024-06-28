@@ -276,7 +276,8 @@ get_raster(
   spatial_resolution = 'LOW',
   temporal_resolution = 'YEARLY',
   group_by = 'FLAG',
-  date_range = '2021-01-01,2021-12-31',
+  start_date = '2021-01-01',
+  end_date = '2021-07-01',
   region = test_shape,
   region_source = 'USER_JSON',
   key = key
