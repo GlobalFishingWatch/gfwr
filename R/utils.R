@@ -127,10 +127,43 @@ gfw_api_request <- function(endpoint, key) {
 }
 
 
-#' Function to pull numeric EEZ code using EEZ name
+#' Function to pull numeric code using region name
+#' @name get_regions
+#' @param region_source string, source of region data ('eez', 'mpa', 'rfmo')
+#' @param key string, API token
+#' @export
+#' @return dataframe, all region ids and names for specified region type
+#'
+#' @importFrom dplyr filter
+#' @importFrom dplyr bind_rows
+#' @importFrom httr2 req_headers
+#' @importFrom httr2 req_perform
+#' @importFrom httr2 req_error
+#' @importFrom httr2 req_user_agent
+#' @importFrom httr2 resp_body_json
+#'
+
+get_regions <- function(region_source = 'EEZ', key) {
+
+  if(!toupper(region_source) %in% c('EEZ','MPA','RFMO')){
+    stop('Enter a valid region source ("EEZ", "MPA", or "RFMO"')
+  } else {
+    result <- get_endpoint(dataset_type = region_source) %>%
+      httr2::req_headers(Authorization = paste("Bearer", key, sep = " ")) %>%
+      httr2::req_user_agent(gfw_user_agent()) %>%
+      httr2::req_error(body = parse_response_error) %>%
+      httr2::req_perform(.) %>%
+      httr2::resp_body_json(.) %>%
+      dplyr::bind_rows()
+
+    return(result)
+  }
+}
+
+#' Function to pull numeric code using region name
 #' @name get_region_id
-#' @param region_name string or numeric, EEZ/MPA name or EEZ/MPA id
-#' @param region_source string, source of region data ('eez' or 'mpa')
+#' @param region_name string or numeric, EEZ/MPA/RFMO name or id
+#' @param region_source string, source of region data ('eez', 'mpa', 'rfmo')
 #' @param key string, API token
 #' @export
 #' @return dataframe, eez code and EEZ name for matching EEZs
@@ -217,27 +250,26 @@ vector_to_array <- function(x, type = "vessel") {
 #' Formats an sf shapefile to a formatted geojson
 #'
 #' @param sf_shape The sf shapefile to transform
-#' @returns A correctly-formatted geojson to be used in `get_raster()`
+#' @param endpoint The GFW endpoint destination for the geojson ("raster" or "event")
+#' @returns A correctly-formatted geojson to be used in `get_raster()` or `get_event()`
 #' @importFrom geojsonsf sf_geojson
+#' @example
+#' library(gfwr)
+#' data(test_shape)
+#' substr(sf_to_geojson(test_shape), 1, 20)
+#' substr(sf_to_geojson(test_shape, endpoint = "event"), 1, 20)
 #' @export
 #' @keywords internal
 
-sf_to_geojson <- function(sf_shape) {
+sf_to_geojson <- function(sf_shape, endpoint = 'raster') {
   geoj <- geojsonsf::sf_geojson(sf_shape)
-  geoj_tagged <- paste0('{"geojson":', geoj,'}')
-  return(geoj_tagged)
-}
-
-#' Formats an sf shapefile to a formatted geojson
-#'
-#' @param sf_shape The sf shapefile to transform
-#' @returns A correctly-formatted geojson to be used in `get_raster()`
-#' @importFrom geojsonsf sf_geojson
-#' @export
-
-sf_to_geojson <- function(sf_shape) {
-  geoj <- geojsonsf::sf_geojson(sf_shape)
-  geoj_tagged <- paste0('{"geojson":', geoj,'}')
+  if (endpoint == 'raster') {
+    geoj_tagged <- paste0('{"geojson":', geoj,'}')
+  } else if (endpoint == 'event') {
+    geoj_tagged <- paste0('"geometry":', geoj)
+  } else {
+    stop('Incorrect endpoint argument')
+  }
   return(geoj_tagged)
 }
 

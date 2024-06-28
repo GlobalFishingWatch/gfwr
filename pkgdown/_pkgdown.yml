@@ -2,6 +2,7 @@ reference:
 - title: "Fishing effort - 4wings API"
   contents:
   - get_raster
+  - get_last_report
 - title: "Vessel identity"
   contents:
   - get_vessel_info
@@ -10,10 +11,12 @@ reference:
   contents:
   - get_event
   - get_event_stats
-- title: "Auxiliary functions"
+- title: "Auxiliary functions and datasets"
   contents:
   - gfw_auth
   - get_region_id
+  - get_regions
+  - test_shape
 template:
   includes:
     in_header: <!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-WXTMN69');</script><!-- End Google Tag Manager -->

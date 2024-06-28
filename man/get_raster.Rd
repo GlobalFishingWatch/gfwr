@@ -31,7 +31,7 @@ or "HIGH" = 0.01 degree}
 \item{date_range}{Start and end of date range for raster (must be 366 days or
 less). Formatted "YYYY-MM-DD,YYYY-MM-DD"}
 
-\item{region}{geojson shape to filter raster or GFW region code (such as a
+\item{region}{sf shape to filter raster or GFW region code (such as a
 Marine Regions Geographic Identifier or EEZ code).
 See details about formatting the geojson}
 

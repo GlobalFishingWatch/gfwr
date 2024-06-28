@@ -14,7 +14,7 @@
 #' @param start_date Start of date range to search events, in YYYY-MM-DD format and including this date
 #' @param end_date End of date range to search events, in YYYY-MM-DD format and excluding this date
 #' @param confidences Confidence levels (1-4) of events (port visits only)
-#' @param region geojson shape to filter raster or GFW region code (such as an
+#' @param region sf shape to filter raster or GFW region code (such as an
 #' EEZ code). See details about formatting the geojson
 #' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')
 #' @param gap_intentional_disabling Logical. Whether the Gap events are intentional,
@@ -44,6 +44,8 @@
 #' @importFrom jsonlite fromJSON
 #' @importFrom jsonlite unbox
 #' @importFrom rjson toJSON
+#' @importFrom methods is
+#' @import class
 #'
 #' @details
 #' There are currently four available event types and these events are provided
@@ -114,18 +116,16 @@
 #'  start_date = "2020-01-01",
 #'  end_date = "2020-01-31",
 #'  key = gfw_auth())
-#' # fishing events in user geojson
-#' region <- '"geometry": {"type": "Polygon","coordinates":
-#' [[[120.37,26.73],[122.36,26.73],
-#' [122.36,28.32],[120.37,28.32],
-#' [120.37,26.73]]]}'
+#' # fishing events inside user-defined shapefile
+#' data(test_shape)
 #' get_event(event_type = 'FISHING',
 #'               start_date = "2017-01-01",
 #'               end_date = "2017-01-31",
-#'               region = region,
+#'               region = test_shape,
 #'               region_source = 'USER_JSON',
 #'               flags = 'CHN',
 #'               key = gfw_auth())
+#'
 #' # fishing events in Senegal EEZ
 #'get_event(event_type = 'FISHING',
 #'               start_date = "2020-10-01",
@@ -134,50 +134,6 @@
 #'               region_source = 'EEZ',
 #'               flags = 'CHN',
 #'               key = gfw_auth())
-#' # port visits in user region by ATG vessels
-#'region = '"geometry":{"type": "Polygon","coordinates":
-#'[[[30.552978515625,46.255846818480315],[31.22314453125,46.255846818480315],
-#'[31.22314453125,46.59661864884465],[30.552978515625,46.59661864884465],
-#'[30.552978515625,46.255846818480315]]]}'
-#'get_event(event_type = 'PORT_VISIT',
-#'          vessels = "e0248aed9-99b4-bae7-6b87-ff0a3c464676",
-#'          start_date = "2017-01-01",
-#'          end_date = "2017-01-31",
-#'          region = region,
-#'          region_source = 'USER_JSON',
-#'          flags = 'ATG',
-#'          duration = 60)
-#' # loitering events in user region by KOR vessels
-#'region = '"geometry": {"type": "Polygon","coordinates":
-#'[[[43.835981972515576,-6.785011952437713],[43.83602857589722,-6.785011952437713],
-#'[43.83602857589722,-6.784984652340707],[43.835981972515576,-6.784984652340707],
-#'[43.835981972515576,-6.785011952437713]]]}'
-#'get_event(event_type = 'LOITERING',
-#'                           vessels = "82be6f228-8ce4-26d1-bf81-3b7979d0c72f",
-#'                           start_date = "2017-01-01",
-#'                           end_date = "2017-01-31",
-#'                           region = region,
-#'                           region_source = 'USER_JSON',
-#'                           flags = 'KOR',
-#'                           duration = 60)
-#' # encounter events in user region by TWN vessels
-#'region = '"geometry": {"type": "Polygon","coordinates":
-#'[[[-130.9735107421875,-17.691128657307427],[-130.4901123046875,-17.691128657307427],
-#'[-130.4901123046875,-17.209017141391765],[-130.9735107421875,-17.209017141391765],
-#'[-130.9735107421875,-17.691128657307427]]]}'
-#'get_event(event_type = 'ENCOUNTER',
-#'          vessels = "55d38c0ee-e0d7-cb32-ac9c-8b3680d213b3",
-#'          start_date = "2017-01-01",
-#'          end_date = "2017-01-31",
-#'          region = region,
-#'          region_source = 'USER_JSON',
-#'          flags = 'TWN',
-#'          duration = 60)
-#'get_event(event_type = 'GAP',
-#'          start_date = "2017-01-01",
-#'          end_date = "2017-01-31",
-#'          flags = 'TWN',
-#'          gap_intentional_disabling = TRUE)
 #' @export
 
 get_event <- function(event_type,
@@ -285,8 +241,12 @@ get_event <- function(event_type,
     } else if (region_source == 'RFMO' & is.character(region)) {
       region = rjson::toJSON(list(region = list(dataset = 'public-rfmo',
                                                 id = region)))
-    } else if (region_source == 'USER_JSON' & is.character(region)) {
-       region
+    } else if (region_source == 'USER_JSON') {
+      if (methods::is(region, 'sf') & base::class(region$geometry)[1] %in% c("sfc_POLYGON","sfc_MULTIPOLYGON")) {
+        region <- sf_to_geojson(region, endpoint = 'event')
+      } else {
+        stop('custom region is not an sf polygon')
+      }
     } else {
       stop('region source and region format do not match')
     }
