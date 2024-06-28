@@ -11,7 +11,6 @@
 #'  less). Formatted "YYYY-MM-DD,YYYY-MM-DD"
 #' @param region sf shape to filter raster or GFW region code (such as a
 #' Marine Regions Geographic Identifier or EEZ code).
-#' See details about formatting the geojson
 #' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')
 #' @param key Authorization token. Can be obtained with `gfw_auth()` function
 #' @param print_request Boolean. Whether to print the request, for debugging
@@ -25,21 +24,10 @@
 #' @importFrom utils unzip
 #' @importFrom rjson toJSON
 #' @importFrom methods is
-#' @importFrom geojsonsf sf_to_geojson
 #' @import class
 #'
 #' @export
 #'
-#' @details
-#' The user-defined geojson has to be surrounded by a geojson tag,
-#' that can be created using a simple paste:
-#'
-#' ```
-#' geojson_tagged <- paste0('{"geojson":', your_geojson,'}').
-#' ```
-#'
-#' If you have an __sf__ shapefile, you can also use function [sf_to_geojson()]
-#' to obtain the correctly-formatted geojson.
 #' @examples
 #' library(gfwr)
 #' # using region codes
@@ -53,23 +41,12 @@
 #'            region_source = 'EEZ',
 #'            key = gfw_auth(),
 #'            print_request = TRUE)
-#' # using a user-defined geojson polygon
-#' region_json <- '{"geojson":{"type":"Polygon","coordinates":
-#' [[[-82.5,7.9],[-82.5,2.3],[-77.1,2.3],[-77.1,7.9],[-82.5, 7.9]]]}}'
-#' get_raster(spatial_resolution = 'LOW',
-#'             temporal_resolution = 'YEARLY',
-#'             date_range = '2021-01-01,2021-10-01',
-#'             region = region_json,
-#'             region_source = 'USER_JSON',
-#'             key = gfw_auth(),
-#'             print_request = TRUE)
 #' #using a sf from disk /loading a test sf object
 #' data(test_shape)
-#' formatted_shape <- sf_to_geojson(test_shape)
 #' get_raster(spatial_resolution = 'LOW',
 #'             temporal_resolution = 'YEARLY',
 #'             date_range = '2021-01-01,2021-10-01',
-#'             region = formatted_shape,
+#'             region = test_shape,
 #'             region_source = 'USER_JSON',
 #'             key = gfw_auth(),
 #'             print_request = TRUE)
@@ -109,9 +86,9 @@ if (is.null(region_source)) stop("region_source and region params are required")
     region <- rjson::toJSON(list(region = list(dataset = 'public-rfmo',
                                               id = region)))
   } else if (region_source == 'USER_JSON') {
-    if (length(region)>1) stop("only 1 json region must be provided")
-    if(methods::is(region, 'sf') & base::class(region$geometry)[1] %in% c("sfc_POLYGON","sfc_MULTIPOLYGON")){
-      region = geojsonsf::sf_to_geojson(region, endpoint = 'raster')
+    if (length(region) > 1) stop("only 1 json region must be provided")
+    if (methods::is(region, 'sf') & base::class(region$geometry)[1] %in% c("sfc_POLYGON","sfc_MULTIPOLYGON")) {
+      region <- sf_to_geojson(region, endpoint = 'raster')
     } else {
       stop('custom region is not an sf polygon')
     }

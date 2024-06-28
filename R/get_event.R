@@ -45,7 +45,6 @@
 #' @importFrom jsonlite unbox
 #' @importFrom rjson toJSON
 #' @importFrom methods is
-#' @importFrom geojsonsf sf_to_geojson
 #' @import class
 #'
 #' @details
@@ -233,8 +232,8 @@ get_event <- function(event_type,
       region = rjson::toJSON(list(region = list(dataset = 'public-rfmo',
                                                 id = region)))
     } else if (region_source == 'USER_JSON') {
-      if(methods::is(region, 'sf') & base::class(region$geometry)[1] %in% c("sfc_POLYGON","sfc_MULTIPOLYGON")){
-        region = geojsonsf::sf_to_geojson(region, endpoint = 'event')
+      if (methods::is(region, 'sf') & base::class(region$geometry)[1] %in% c("sfc_POLYGON","sfc_MULTIPOLYGON")) {
+        region <- sf_to_geojson(region, endpoint = 'event')
       } else {
         stop('custom region is not an sf polygon')
       }
