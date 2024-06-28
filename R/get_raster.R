@@ -36,7 +36,8 @@
 #' get_raster(spatial_resolution = 'LOW',
 #'            temporal_resolution = 'YEARLY',
 #'            group_by = 'FLAG',
-#'            date_range = '2021-01-01,2021-10-01',
+#'            start_date = "2021-01-01",
+#'            end_date = "2021-10-01",
 #'            region = code_eez$id,
 #'            region_source = 'EEZ',
 #'            key = gfw_auth(),
@@ -54,12 +55,13 @@ get_raster <- function(spatial_resolution = NULL,
                        temporal_resolution = NULL,
                        group_by = NULL,
                        filter_by = NULL,
-                       date_range = NULL,
+                       start_date = NULL,
+                       end_date = NULL,
                        region = NULL,
                        region_source = NULL,
                        key = gfw_auth(),
                        print_request = FALSE) {
-
+  date_range <- paste(start_date, end_date, sep = ",")
   # Endpoint
   endpoint <- get_endpoint(
     dataset_type = "raster",
@@ -103,8 +105,8 @@ if (is.null(region_source)) stop("region_source and region params are required")
                                              key,
                                              sep = " "),
                        `Content-Type` = 'application/json') %>%
-    httr2::req_body_raw(., body = region) %>%
-    httr2::req_error(req = ., body = parse_response_error)
+    httr2::req_body_raw(., body = region) #%>%
+    #httr2::req_error(req = ., body = parse_response_error)
   if (print_request) print(request)
   response <- request %>%
     httr2::req_perform(.) %>%

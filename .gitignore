@@ -6,3 +6,4 @@
 gfwr.Rcheck/
 gfwr*.tar.gz
 gfwr*.tgz
+inst/doc

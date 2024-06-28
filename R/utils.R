@@ -56,9 +56,9 @@ make_datetime <- function(x) {
 #' @keywords internal
 #' @details Taken from httr2 docs: https://httr2.r-lib.org/articles/wrapping-apis.html#sending-data
 parse_response_error <- function(resp) {
-  body <- httr2::resp_body_json(resp)
+  body <- httr2::resp_body_raw(resp)
   messages <- body$messages
-  if (length(messages[[1]]) > 1){
+  if (length(messages[[1]]) > 1) {
     messages <- purrr::map_chr(messages, purrr::pluck, 'detail')
   }
   messages
@@ -83,7 +83,7 @@ gfw_api_request <- function(endpoint, key) {
                                              sep = " "),
                        `Content-Type` = 'application/json') %>%
     httr2::req_user_agent(gfw_user_agent()) %>%
-    httr2::req_error(body = parse_response_error) %>%
+    #httr2::req_error(body = parse_response_error) %>%
     httr2::req_perform() %>%
     httr2::resp_body_json()
 
@@ -110,7 +110,7 @@ gfw_api_request <- function(endpoint, key) {
                                                  sep = " "),
                            `Content-Type` = 'application/json') %>%
         httr2::req_user_agent(gfw_user_agent()) %>%
-        httr2::req_error(body = parse_response_error) %>%
+        #httr2::req_error(body = parse_response_error) %>%
         httr2::req_perform() %>%
         httr2::resp_body_json()
 
@@ -182,7 +182,7 @@ get_region_id <- function(region_name, region_source = 'EEZ', key) {
   result <- get_endpoint(dataset_type = region_source) %>%
     httr2::req_headers(Authorization = paste("Bearer", key, sep = " ")) %>%
     httr2::req_user_agent(gfw_user_agent()) %>%
-    httr2::req_error(body = parse_response_error) %>%
+    #httr2::req_error(body = parse_response_error) %>%
     httr2::req_perform(.) %>%
     httr2::resp_body_json(.) %>%
     dplyr::bind_rows()

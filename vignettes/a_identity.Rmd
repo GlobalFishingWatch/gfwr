@@ -1,0 +1,66 @@
+---
+title: "Using gfwr: identity and vessel ID fields"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Using gfwr: identity and vessel if fields}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, eval = F}
+library(gfwr)
+```
+
+
+Function `get_vessel_info()` in `gfwr` provides the same functionality as our Vessel Search in our map. It can search for vessels using several identity markers, perform complex searches any of the identifiers below:
+
+- MMSI (Maritime Mobile Service Identity) are 9-digit numbers broadcasted in AIS messages. They are supposed to be unique for each vessel but can be duplicated for many reasons--including the fact that the data entry is manual.
+- Shipname and callsign are two identity fields that can be also transmitted in AIS messages, along with MMSI. They are optional so not every AIS message has them.
+- IMO numbers are permanent unique identifiers that follow a vessel from construction to scrapping. Given by the International Maritime Organization, these can be also used to identify vessels and can be transmitted along with MMSI, but it's an optional field and not every vessel is required to have one.
+
+`vesselId` is a field developed internally by Global Fishing Watch to solve the intricacy of having several vessel identifiers that can be duplicated or missing for each vessel.
+A `vesselId` is composed by a combination of the MMSI and the IMO number when available, or by MMSI, callsign and shipname. 
+A `vesselId` will be associated to a single MMSI, but a single MMSI can have many associated vessel IDs. 
+
+This is why all the other API functions (events, stats) require `vesselId` to search for the vessel of interest. 
+
+
+## Registry data 
+
+Global Fishing Watch also compiles vessel information from over 40 public vessel registries and matches this information with the AIS-transmitted identity fields. 
+
+Registry matching allows to identity if and when vessels are registered for activities in the regions they operate, it can provide ownership information and understand better the identity of a given vessel. 
+
+`get_vessel_info()` returns some dataframes related to registry information
+
+
+Due to the complexity of this identity markers, Global Fishing watch created an internal `vesselId` to summarize the findings about vessels identity markers. 
+While MMSI is still one of the main 
+
+
+Search by any 
+
+Search by more complex combinations 
+
+Park et al 2023 and the need for vessel id
+
+other apis use vessel id
+
+# Getting vessel id
+
+On our map, the vessel search is located at https://globalfishingwatch.org/map/vessel-search.
+
+
+# Read more:
+
+- https://globalfishingwatch.org/datasets-and-code-vessel-identity/
+- https://globalfishingwatch.org/data/spoofing-one-identity-shared-by-multiple-vessels/ 
+- Park et al. (2023). Tracking elusive and shifting identities of the global fishing fleet
+

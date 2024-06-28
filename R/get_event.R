@@ -116,6 +116,16 @@
 #'  start_date = "2020-01-01",
 #'  end_date = "2020-01-31",
 #'  key = gfw_auth())
+#' # fishing events inside user-defined shapefile
+#' data(test_shape)
+#' get_event(event_type = 'FISHING',
+#'               start_date = "2017-01-01",
+#'               end_date = "2017-01-31",
+#'               region = test_shape,
+#'               region_source = 'USER_JSON',
+#'               flags = 'CHN',
+#'               key = gfw_auth())
+#'
 #' # fishing events in Senegal EEZ
 #'get_event(event_type = 'FISHING',
 #'               start_date = "2020-10-01",
@@ -291,9 +301,6 @@ get_event <- function(event_type,
       lat = purrr::map_dbl(all_entries, purrr::pluck, 'position','lat'),
       lon = purrr::map_dbl(all_entries, purrr::pluck, 'position','lon'),
       regions = purrr::map(all_entries, purrr::pluck, 'regions'),
-      eez = purrr::map(all_entries, 'eez'),
-      rfmo = purrr::map(all_entries, 'rfmo'),
-      fao = purrr::map(all_entries, 'fao'),
       boundingBox = purrr::map(all_entries, 'boundingBox'),
       distances = purrr::map(all_entries, 'distances'),
       vessel = purrr::map(all_entries, 'vessel'),

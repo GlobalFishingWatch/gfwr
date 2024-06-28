@@ -41,7 +41,7 @@ The package currently works with the following APIs:
 
 ## Installation
 
-You can install the development version of `gfwr` like so:
+You can install the most recent version of `gfwr` using:
 
 ```{r, eval = FALSE}
 # Check/install remotes
@@ -51,11 +51,12 @@ if (!require("remotes"))
 remotes::install_github("GlobalFishingWatch/gfwr")
 ```
 
-gfwr is also in rOpenSci [R-universe](https://globalfishingwatch.r-universe.dev/gfwr#), and can be installed like this: 
+`gfwr` is also in rOpenSci [R-universe](https://globalfishingwatch.r-universe.dev/gfwr#), and can be installed like this: 
 
 ```{r eval = FALSE}
 install.packages("gfwr", 
-                 repos = c("https://globalfishingwatch.r-universe.dev", "https://cran.r-project.org"))
+                 repos = c("https://globalfishingwatch.r-universe.dev",
+                           "https://cran.r-project.org"))
 ```
 
 Once everything is installed, you can load and use `gfwr`
@@ -73,8 +74,8 @@ devtools::load_all()
 
 The use of `gfwr` requires a GFW API token, which users can request from
 the [GFW API Portal](https://globalfishingwatch.org/our-apis/tokens). Save
-this token to your `.Renviron` file (using `usethis::edit_r_environ()`) by adding
-a variable named `GFW_TOKEN` to the file (`GFW_TOKEN = "PASTE_YOUR_TOKEN_HERE"`).
+this token to your `.Renviron` file using `usethis::edit_r_environ()` and adding
+a variable named `GFW_TOKEN` to the file (`GFW_TOKEN="PASTE_YOUR_TOKEN_HERE"`).
 Save the `.Renviron` file and restart the R session to make the edit effective.
 
 Then use the `gfw_auth()` helper function to save the information to an object
@@ -104,16 +105,16 @@ the [GFW Vessels API](https://globalfishingwatch.org/our-apis/documentation#intr
 There are two search types: `search`, and `id`.
 
 * `search` is performed by using parameters `query` for basic searches and
-`where` for advanced searchers using SQL.
+`where` for advanced searchers using SQL expressions
   + `query` takes a single identifier that can be the MMSI, IMO, callsign, or
   shipname as input and identifies all vessels that match.
-  + `where` search allows for the use of fuzzy matching with terms such as LIKE.
-  + `includes` adds new information regarding the vessels. Options are "MATCH_CRITERIA",
+  + `where` search allows for the use of complex search with logical clauses (AND, OR) and fuzzy matching with terms such as LIKE, using SQL syntax (see examples in the function) 
+  + `includes` adds information from public registries. Options are "MATCH_CRITERIA",
   "OWNERSHIP" and "AUTHORIZATIONS"
 
 ### Examples
 
-To get information of a vessel with `MMSI = 224224000`:
+To get information of a vessel using its MMSI, IMO number, callsign or name, the search can be done directly using the number or the string. For example, to look for a vessel with `MMSI = 224224000`:
 
 ```{r example_vessel_info_1, eval = TRUE}
 get_vessel_info(query = 224224000,
@@ -121,7 +122,7 @@ get_vessel_info(query = 224224000,
                 key = key)
 ```
 
-To combine different fields and do fuzzy matching :
+To do more specific searches (`imo = '8300949'`), combine different fields (`imo = '8300949' AND ssvid = '214182732'`) and do fuzzy matching (`"shipname LIKE '%GABU REEFE%' OR imo = '8300949'"`), use parameter `where` instead of `query`:
 
 ```{r example_vessel_info_2, eval = TRUE}
 get_vessel_info(where = "shipname LIKE '%GABU REEFE%' OR imo = '8300949'",
@@ -168,13 +169,14 @@ Find more information in our [caveat documentation](https://globalfishingwatch.o
 
 ### Examples
 
-Let's say that you don't know the `vessel id` but you have the MMSI (or other
-identity information).
-You can use `get_vessel_info()` function first to extract `vessel id` from the `selfReportedInfo` list and then use it in the `get_event()` function:
+The Events API uses `vesselId` as input, so you always need to use `get_vessel_info()` first to extract `vesselId` from the `$selfReportedInfo` data and then use
+it in the `get_event()` function. 
+
 
 ```{r example_id_event, eval = TRUE}
-vessel_id <- get_vessel_info(query = 224224000, key = key)
-id <- vessel_id$selfReportedInfo$id
+vessel_info <- get_vessel_info(query = 224224000, key = key)
+
+id <- vessel_info$selfReportedInfo$id[1]
 ```
 
 To get a list of port visits for that vessel:
@@ -222,11 +224,10 @@ As another example, let's combine the Vessels and Events APIs to get fishing eve
 usa_trawlers <- get_vessel_info(
   where = "flag='USA' AND geartypes='TRAWLERS'",
   search_type = "search",
-  key = key, 
-  print_request = TRUE
+  key = key
 )
 # Pass the vector of vessel ids to Events API
-usa_trawler_ids <- usa_trawlers$combinedSourcesInfo$vesselId[1:20]
+usa_trawler_ids <- usa_trawlers$selfReportedInfo$id[1:20]
 ```
 > *Note*: `get_event()` can receive up to 20 vessel ids at a time 
 
@@ -253,7 +254,7 @@ get_event(event_type = 'FISHING',
 ```
 
 
-## Map Visualization API
+## Fishing effort API
 
 The `get_raster()` function gets a raster from the [4Wings API](https://globalfishingwatch.org/our-apis/documentation#map-visualization-4wings-api)
 and converts the response to a data frame. In order to use it, you should specify:
@@ -294,7 +295,8 @@ code_eez <- get_region_id(region_name = 'CIV', region_source = 'EEZ', key = key)
 get_raster(spatial_resolution = 'LOW',
            temporal_resolution = 'YEARLY',
            group_by = 'FLAG',
-           date_range = '2021-01-01,2021-10-01',
+           start_date = "2021-01-01",
+           end_date = "2021-10-01",
            region = code_eez$id,
            region_source = 'EEZ',
            key = key)
@@ -306,11 +308,17 @@ one you want:
 ```{r example_map_3, eval = TRUE}
 (get_region_id(region_name = 'France', region_source = 'EEZ', key = key))
 
-# Let's say we're interested in the French Exclusive Economic Zone, 5677
+```
+
+
+Let's say we're interested in the French Exclusive Economic Zone, 5677
+
+```{r fr_eez, eval = TRUE}
 get_raster(spatial_resolution = 'LOW',
            temporal_resolution = 'YEARLY',
            group_by = 'FLAG',
-           date_range = '2021-01-01,2021-10-01',
+           start_date = "2021-01-01",
+           end_date = "2021-10-01",
            region = 5677,
            region_source = 'EEZ',
            key = key)
@@ -327,7 +335,8 @@ code_mpa <- get_region_id(region_name = 'Phoenix', region_source = 'MPA', key = 
 get_raster(spatial_resolution = 'LOW',
            temporal_resolution = 'YEARLY',
            group_by = 'FLAG',
-           date_range = '2015-01-01,2015-06-01',
+           start_date = "2015-01-01",
+           end_date = "2015-06-01",
            region = code_mpa$id[1],
            region_source = 'MPA',
            key = key)
@@ -341,7 +350,8 @@ organizations (RFMO) that manage tuna and tuna-like species. These include `"ICC
 get_raster(spatial_resolution = 'LOW',
            temporal_resolution = 'DAILY',
            group_by = 'FLAG',
-           date_range = '2021-01-01,2021-01-15',
+           start_date = "2021-01-01",
+           end_date = "2021-01-15",
            region = 'ICCAT',
            region_source = 'RFMO',
            key = key)
