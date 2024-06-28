@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{get_regions}
 \alias{get_regions}
-\title{Function to pull numeric code using region name}
+\title{List of available regions}
 \usage{
 get_regions(region_source = "EEZ", key)
 }
@@ -15,5 +15,5 @@ get_regions(region_source = "EEZ", key)
 dataframe, all region ids and names for specified region type
 }
 \description{
-Function to pull numeric code using region name
+List of available regions
 }

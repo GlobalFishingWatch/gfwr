@@ -127,7 +127,7 @@ gfw_api_request <- function(endpoint, key) {
 }
 
 
-#' Function to pull numeric code using region name
+#' List of available regions
 #' @name get_regions
 #' @param region_source string, source of region data ('eez', 'mpa', 'rfmo')
 #' @param key string, API token
