@@ -632,16 +632,16 @@ get_raster(
 #> # A tibble: 6,539 × 6
 #>      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`
 #>    <dbl> <dbl>        <dbl> <chr>        <dbl>                    <dbl>
-#>  1  13.3  60.4         2021 MNG              1                    26.4 
-#>  2  13.3  60.5         2021 MNG              1                    36.8 
-#>  3  13.3  60.3         2021 MNG              1                    12.9 
-#>  4  13.4  60.5         2021 MNG              1                     2.04
-#>  5  13.3  61.1         2021 MNG              1                     2.83
-#>  6  13.1  61.2         2021 MNG              1                     2.92
-#>  7  13    61.4         2021 MNG              1                     2.19
-#>  8  12.9  61.6         2021 MNG              1                     4.2 
-#>  9  14    65.1         2021 CHN              3                    24.8 
-#> 10  12.5  62.6         2021 MNG              1                     4.87
+#>  1  16.7  60.7         2021 CHN              2                    10.8 
+#>  2  16.9  61           2021 CHN              4                    26.4 
+#>  3  16.8  61           2021 CHN              5                    22.6 
+#>  4  16.9  61.2         2021 CHN              2                    19.6 
+#>  5  16.8  60.8         2021 CHN              1                     4.5 
+#>  6  17.2  61.3         2021 CHN              1                     4.5 
+#>  7  16.8  61.4         2021 CHN              1                     6.94
+#>  8  16.7  61.4         2021 CHN              2                    11.2 
+#>  9  16.7  61.5         2021 CHN              2                    16.5 
+#> 10  16.8  61.7         2021 CHN              4                    31.5 
 #> # ℹ 6,529 more rows
 ```
 
@@ -682,7 +682,7 @@ get_raster(spatial_resolution = 'LOW',
 #>  7   1.9  -4.1         2021 FRA              1                     0.04
 #>  8   4    -6.9         2021 FRA              1                     2.99
 #>  9   4.3  -4.1         2021 FRA              2                     3.51
-#> 10   4.5  -6.6         2021 CHN              1                    29.9 
+#> 10   4.7  -6.2         2021 CHN              2                    12.9 
 #> # ℹ 601 more rows
 ```
 
@@ -721,16 +721,16 @@ get_raster(spatial_resolution = 'LOW',
 #> # A tibble: 5,660 × 6
 #>      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`
 #>    <dbl> <dbl>        <dbl> <chr>        <dbl>                    <dbl>
-#>  1  47.1  -3           2021 FRA             55                    3983.
-#>  2  47.1  -3.1         2021 FRA             49                    2662.
-#>  3  47.2  -3.1         2021 FRA             39                     469.
-#>  4  47.2  -3           2021 FRA             39                    1306.
-#>  5  47.1  -2.9         2021 FRA             49                    1381.
-#>  6  47.1  -2.8         2021 FRA             43                     562.
-#>  7  47.2  -2.9         2021 FRA             43                    1378.
-#>  8  48.9  -2.6         2021 FRA             18                     320.
-#>  9  48.8  -2.8         2021 FRA             15                     223.
-#> 10  48.8  -2.5         2021 FRA             13                     520.
+#>  1  42     9.7         2021 FRA              1                     13.6
+#>  2  43     5.6         2021 FRA              3                     13.8
+#>  3  41.3   8.6         2021 ITA              2                    115. 
+#>  4  41.6   9.4         2021 FRA              2                     44.1
+#>  5  41.6   9.5         2021 FRA              2                    300. 
+#>  6  41.5   9.4         2021 FRA              2                     40.6
+#>  7  45.6  -2.1         2021 FRA             24                    778. 
+#>  8  46    -1.9         2021 FRA             30                    556. 
+#>  9  46    -1.8         2021 FRA             29                   1044. 
+#> 10  45.9  -2           2021 FRA             16                    182. 
 #> # ℹ 5,650 more rows
 ```
 
@@ -760,16 +760,16 @@ get_raster(spatial_resolution = 'LOW',
 #> # A tibble: 40 × 6
 #>      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`
 #>    <dbl> <dbl>        <dbl> <chr>        <dbl>                    <dbl>
-#>  1  -4.7 -176.         2015 KIR              1                     0.36
-#>  2  -2.3 -176.         2015 TWN              1                    10.8 
-#>  3  -2.3 -176.         2015 TWN              1                     1.71
-#>  4  -2.9 -176.         2015 FSM              1                     2.77
-#>  5  -3.9 -176.         2015 KOR              1                     4.88
-#>  6  -4   -176.         2015 KOR              1                     1.37
-#>  7  -4.1 -176.         2015 KOR              1                     2.67
-#>  8  -1.7 -172.         2015 KOR              1                     0.78
-#>  9  -1.3 -171.         2015 KOR              1                     0.08
-#> 10  -3.7 -173.         2015 KOR              1                     1.49
+#>  1  -4.7 -176.         2015 KOR              3                    15.8 
+#>  2  -4.7 -176.         2015 KIR              1                     0.36
+#>  3  -3   -176.         2015 FSM              1                     2.16
+#>  4  -2.9 -176.         2015 FSM              1                     5.09
+#>  5  -4.1 -176.         2015 KOR              1                     2.67
+#>  6  -2.2 -176.         2015 KIR              1                     1.89
+#>  7  -3.6 -176.         2015 KIR              1                     5.99
+#>  8  -3.1 -176.         2015 KOR              1                     0.91
+#>  9  -3.5 -176.         2015 KOR              1                    10.8 
+#> 10  -3.4 -176.         2015 KOR              1                     1.37
 #> # ℹ 30 more rows
 ```
 
@@ -851,6 +851,34 @@ get_event(event_type = 'FISHING',
 #> 10 23330ffa0e1bbab43ead8328456c45aa fishing  43.7 -124.  8456  United States
 #> # ℹ 24 more rows
 ```
+
+### When your API request times out
+
+For API performance reasons, the `get_raster()` function restricts
+individual queries to a single year of data. However, even with this
+restriction, it is possible for API request to time out before it
+completes. When this occurs, the initial `get_raster()` call will return
+an error, and subsequent API requests using any `gfwr` `get_` function
+will return an HTTP 429 error until the original request completes:
+
+> Error in `httr2::req_perform()`: ! HTTP 429 Too Many Requests. • Your
+> application token is not currently enabled to perform more than one
+> concurrent report. If you need to generate more than one report
+> concurrently, contact us at <apis@globalfishingwatch.org>
+
+Although no data was received, the request is still being processed by
+the APIs and will become available when it completes. To account for
+this, `gfwr` includes the `get_last_report()` function, which lets users
+request the results of their last API request with `get_raster()`.
+
+The `get_last_report()` function will tell you if the APIs are still
+processing your request and will download the results if the request has
+finished successfully. You will receive an error message if the request
+finished but resulted in an error or if it’s been \>30 minutes since the
+last report was generated using `get_raster()`. For more information,
+see the [Get last report generated
+endpoint](https://globalfishingwatch.org/our-apis/documentation#get-last-report-generated)
+documentation on the GFW API page.
 
 ## Contributing
 
