@@ -116,16 +116,6 @@
 #'  start_date = "2020-01-01",
 #'  end_date = "2020-01-31",
 #'  key = gfw_auth())
-#' # fishing events inside user-defined shapefile
-#' data(test_shape)
-#' get_event(event_type = 'FISHING',
-#'               start_date = "2017-01-01",
-#'               end_date = "2017-01-31",
-#'               region = test_shape,
-#'               region_source = 'USER_JSON',
-#'               flags = 'CHN',
-#'               key = gfw_auth())
-#'
 #' # fishing events in Senegal EEZ
 #'get_event(event_type = 'FISHING',
 #'               start_date = "2020-10-01",

@@ -253,7 +253,7 @@ vector_to_array <- function(x, type = "vessel") {
 #' @param endpoint The GFW endpoint destination for the geojson ("raster" or "event")
 #' @returns A correctly-formatted geojson to be used in `get_raster()` or `get_event()`
 #' @importFrom geojsonsf sf_geojson
-#' @example
+#' @examples
 #' library(gfwr)
 #' data(test_shape)
 #' substr(sf_to_geojson(test_shape), 1, 20)

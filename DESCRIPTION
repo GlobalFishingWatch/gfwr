@@ -33,9 +33,16 @@ Imports:
     methods,
     class
 Suggests:
+    devtools,
+    ggplot2,
     glue,
     knitr,
-    rmarkdown
+    qpdf,
+    rmarkdown,
+    rnaturalearth,
+    rnaturalearthdata,
+    scales,
+    sf
 URL: https://github.com/GlobalFishingWatch/gfwr
 BugReports: https://github.com/GlobalFishingWatch/gfwr/issues
 Depends: 

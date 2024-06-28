@@ -7,8 +7,8 @@
 #' @param group_by parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
 #'  'FLAGANDGEARTYPE' or 'MMSI'. Optional.
 #' @param filter_by parameter to filter by.
-#' @param date_range Start and end of date range for raster (must be 366 days or
-#'  less). Formatted "YYYY-MM-DD,YYYY-MM-DD"
+#' @param start_date Start of date range to search events, in YYYY-MM-DD format and including this date
+#' @param end_date End of date range to search events, in YYYY-MM-DD format and excluding this date
 #' @param region sf shape to filter raster or GFW region code (such as a
 #' Marine Regions Geographic Identifier or EEZ code).
 #' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')
@@ -46,7 +46,8 @@
 #' data(test_shape)
 #' get_raster(spatial_resolution = 'LOW',
 #'             temporal_resolution = 'YEARLY',
-#'             date_range = '2021-01-01,2021-10-01',
+#'             start_date = '2021-01-01',
+#'             end_date = '2021-10-01',
 #'             region = test_shape,
 #'             region_source = 'USER_JSON',
 #'             key = gfw_auth(),

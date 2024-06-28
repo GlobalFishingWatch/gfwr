@@ -2,7 +2,7 @@
 title: "Making maps with `gfwr`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{making-maps}
+  %\VignetteIndexEntry{Making maps with `gfwr`}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -19,9 +19,9 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-A powerful feature of `gfwr` is the ability to get data for making custom maps of human activity at sea, such as apparent fishing effort, at-sea transshipment, and port visits. The `get_raster()` function provides gridded (e.g. raster) data from GFW's [4Wings Map Visualization API](https://globalfishingwatch.org/our-apis/documentation#map-visualization-4wings-api) and is useful for making heatmaps, while the `get_events()` function supplies vector data (mostly point locations) from the GFW [Events API](https://globalfishingwatch.org/our-apis/documentation#events-api) for individual vessel events. 
+A powerful feature of `gfwr` is the ability to get data for making custom maps of human activity at sea, such as apparent fishing effort, at-sea transshipment, and port visits. The `get_raster()` function provides gridded (e.g. raster) data from GFW's [4Wings Map Visualization API](https://globalfishingwatch.org/our-apis/documentation#map-visualization-4wings-api) and is useful for making heatmaps, while the `get_event()` function supplies vector data (mostly point locations) from the GFW [Events API](https://globalfishingwatch.org/our-apis/documentation#events-api) for individual vessel events. 
 
->This vignette demonstrates how to use and combine multiple `gfwr` functions to make a variety of maps of fishing vessel activity. Specifically, this vignette will show how to use the `get_raster()` function to make heatmaps of apparent fishing effort, and the `get_events()` function to visualize the locations of specific events. It will demonstrate how to request data for specific regions using `gfwr`'s built-in options, as well as how to use a custom region provided by the user.
+>This vignette demonstrates how to use and combine multiple `gfwr` functions to make a variety of maps of fishing vessel activity. Specifically, this vignette will show how to use the `get_raster()` function to make heatmaps of apparent fishing effort, and the `get_event()` function to visualize the locations of specific events. It will demonstrate how to request data for specific regions using `gfwr`'s built-in options, as well as how to use a custom region provided by the user.
 
 ### Setup
 
@@ -44,10 +44,13 @@ gfw_key <- gfw_auth()
 For this vignette, we'll also use some `tidyverse` packages for data wrangling and plotting, as well as `sf` for creating and manipulating spatial data and `rnaturalearth` to add reference data to our maps.
 
 ```{r other_packages}
-library(tidyverse, quietly = T)
+library(dplyr, quietly = T)
+library(tidyr)
 library(sf)
 library(rnaturalearth)
+library(rnaturalearthdata)
 library(glue)
+library(ggplot2)
 ```
 
 To make our maps a little nicer, let's define a custom `ggplot2` theme and a color palette for our heatmaps of apparent fishing effort.
@@ -118,7 +121,8 @@ eez_fish_df <- get_raster(
   spatial_resolution = "HIGH",
   temporal_resolution = "YEARLY",
   group_by = "FLAG",
-  date_range = paste0(start_date,',',end_date),
+  start_date = start_date,
+  end_date = end_date,
   region = ita_eez_code$id,
   region_source = "EEZ"
   )
@@ -167,7 +171,8 @@ iotc_fish_df <- get_raster(
   spatial_resolution = "LOW",
   temporal_resolution = "YEARLY",
   group_by = "GEARTYPE",
-  date_range = paste0(start_date,',',end_date),
+  start_date = start_date,
+  end_date = end_date,
   region = "IOTC",
   region_source = "RFMO"
   )
@@ -301,14 +306,15 @@ Let's create a `sf` bounding box object for our region to use for plotting later
 my_shp_bbox <- st_bbox(my_shp)
 ```
 
-Now we're ready to request data in our custom region from `get_raster()` and `get_events()`.
+Now we're ready to request data in our custom region from `get_raster()` and `get_event()`.
 
 ```{r user_json_raster}
 my_raster_df <- get_raster(
   spatial_resolution = "LOW",
   temporal_resolution = "YEARLY",
   group_by = "GEARTYPE",
-  date_range = paste0(start_date,',',end_date),
+  start_date = start_date,
+  end_date = end_date,
   region = my_shp,
   region_source = "USER_JSON"
   )
