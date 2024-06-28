@@ -29,7 +29,9 @@ Imports:
     rjson,
     rlang,
     tibble,
-    tidyr
+    tidyr,
+    methods,
+    class
 Suggests:
     glue,
     rmarkdown

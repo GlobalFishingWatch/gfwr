@@ -170,12 +170,11 @@ Find more information in our [caveat documentation](https://globalfishingwatch.o
 
 Let's say that you don't know the `vessel id` but you have the MMSI (or other
 identity information).
-You can use `get_vessel_info()` function first to extract `vessel id` and then use
-it in the `get_event()` function:
+You can use `get_vessel_info()` function first to extract `vessel id` from the `selfReportedInfo` list and then use it in the `get_event()` function:
 
 ```{r example_id_event, eval = TRUE}
 vessel_id <- get_vessel_info(query = 224224000, key = key)
-id <- vessel_id$registryInfo$id
+id <- vessel_id$selfReportedInfo$id
 ```
 
 To get a list of port visits for that vessel:
