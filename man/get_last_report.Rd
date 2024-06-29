@@ -4,7 +4,7 @@
 \alias{get_last_report}
 \title{Base function to get status of last report generated}
 \usage{
-get_last_report(key)
+get_last_report(key = gfw_auth())
 }
 \arguments{
 \item{key}{Authorization token. Can be obtained with \code{gfw_auth()} function}

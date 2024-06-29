@@ -5,9 +5,9 @@
 \title{Base function to get vessel information from API and convert response to data frame}
 \usage{
 get_vessel_info(
-  ids = NULL,
   query = NULL,
   where = NULL,
+  ids = NULL,
   includes = c("AUTHORIZATIONS", "OWNERSHIP", "MATCH_CRITERIA"),
   match_fields = NULL,
   registries_info_data = c("ALL"),
@@ -18,13 +18,12 @@ get_vessel_info(
 )
 }
 \arguments{
-\item{ids}{When \code{search_type = "id"}, a vector with the vessel id of interest,
-obtained after performing a search_type = "search".}
-
 \item{query}{When \code{search_type = "search"}, a length-1 vector with the identity
 variable of interest, MMSI, IMO, call sign or ship name.}
 
 \item{where}{When \code{search_type = "search"}, an SQL expression to find the vessel of interest}
+
+\item{ids}{When \code{search_type = "id"}, a vector with the vesselId of interest}
 
 \item{includes}{Enhances the response with new information, defaults to include all.
 \describe{

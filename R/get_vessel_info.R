@@ -3,8 +3,7 @@
 #' @param query When `search_type = "search"`, a length-1 vector with the identity
 #' variable of interest, MMSI, IMO, call sign or ship name.
 #' @param where When `search_type = "search"`, an SQL expression to find the vessel of interest
-#' @param ids When `search_type = "id"`, a vector with the vessel id of interest,
-#' obtained after performing a search_type = "search".
+#' @param ids When `search_type = "id"`, a vector with the vesselId of interest
 #' @param search_type Type of vessel search to perform. Can be `"search"` or
 #' `"id"`. (Note:`"advanced"` and `"basic"` are no longer in use as of gfwr 2.0.0.)
 #' @param match_fields Optional. Allows to filter by `matchFields` levels.
@@ -65,9 +64,9 @@
 #'  ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
 #'  registries_info_data = c("DELTA"), key = gfw_auth())
 #' @export
-get_vessel_info <- function(ids = NULL,
-                            query = NULL,
+get_vessel_info <- function(query = NULL,
                             where = NULL,
+                            ids = NULL,
                             includes = c("AUTHORIZATIONS", "OWNERSHIP", "MATCH_CRITERIA"),
                             match_fields = NULL,
                             registries_info_data = c("ALL"),
@@ -78,7 +77,7 @@ get_vessel_info <- function(ids = NULL,
 
   if (search_type %in% c("advanced", "basic")) {
     # Signal the deprecation to the user
-    warning("basic or advanced search are no longer in use as of gfwr 2.0.0. Options are 'search' or 'id'. Use `query` for simple queries and `where` for advanced SQL expressions")
+    warning("basic or advanced search are no longer in use. Options are 'search' or 'id'")
     search_type <- "search"
   }
 
@@ -104,22 +103,10 @@ dataset <- "public-global-vessel-identity:latest"
 dataset <- vector_to_array(dataset, type = "datasets")
 args <- c(args, dataset)
 
-# ID search now receives a vector
-if (search_type == "id") {
-  if (is.null(ids)) stop("parameter ids must be specified when search_type = 'id'")
-  ids <- vector_to_array(ids, type = "ids")
-
-  path_append <- "vessels"
-  if (!is.null(registries_info_data)) {
-    reg_info <- c(`registries-info-data` = registries_info_data)
-    args <- c(args, reg_info)
-  }
-  args <- c(args,
-            ids)
-  #args <- args[!names(args) %in% c('limit','offset')]
-  } else if (search_type == "search") {
-    if (is.null(query) & is.null (where)) stop("either 'query' or 'where' must be specified when search_type = 'search'")
-    if (!is.null(query) & !is.null (where)) stop("specify either 'query' or 'where', but not both when search_type = 'search'")
+#Default is search
+    if (search_type == "search") {
+    if (is.null(query) & is.null(where)) stop("either 'query' or 'where' must be specified when search_type = 'search'")
+    if (!is.null(query) & !is.null(where)) stop("specify either 'query' or 'where', but not both when search_type = 'search'")
     if (!is.null(query))  {
       query <- c(`query` = query)
       args <- c(args, query)
@@ -135,7 +122,19 @@ if (search_type == "id") {
       incl <- vector_to_array(includes, type = "includes")
       args <- c(args, incl)
       }
+    }
+# ID search now receives a vector
+if (search_type == "id" & is.null(ids)) stop("parameter 'ids' must be specified when search_type = 'id'")
+if (!is.null("ids") & is.null(where) & is.null(query) & search_type == "search") stop("search_type must be 'id' when ids are specified")
+if (!is.null("ids") & search_type == "id") {
+  path_append <- "vessels"
+  ids <- vector_to_array(ids, type = "ids")
+  args <- c(args, ids)
+  if (!is.null(registries_info_data)) {
+    reg_info <- c(`registries-info-data` = registries_info_data)
+    args <- c(args, reg_info)
   }
+}
 
 endpoint <- base %>%
   httr2::req_url_path_append(path_append) %>%
@@ -174,5 +173,6 @@ if (print_request) print(endpoint)
     selfReportedInfo = dplyr::bind_rows(purrr::map(response$entries$selfReportedInfo, tibble::tibble))
     )
 
+  output$selfReportedInfo <- output$selfReportedInfo %>% dplyr::rename(vesselId = id)
   return(output)
 }

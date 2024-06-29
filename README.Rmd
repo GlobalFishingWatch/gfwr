@@ -177,7 +177,7 @@ it in the `get_event()` function.
 ```{r example_id_event, eval = TRUE}
 vessel_info <- get_vessel_info(query = 224224000, key = key)
 
-id <- vessel_info$selfReportedInfo$id[1]
+id <- vessel_info$selfReportedInfo$vesselId[1]
 ```
 
 To get a list of port visits for that vessel:
@@ -189,6 +189,8 @@ get_event(event_type = 'PORT_VISIT',
           key = key
           )
 ```
+
+> *Note*: Try narrowing your search using `start_date` and `end_date` if the request is too large and returns a time out error (524)
 
 We can also use more than one `vessel id`:
 
@@ -228,7 +230,7 @@ usa_trawlers <- get_vessel_info(
   key = key
 )
 # Pass the vector of vessel ids to Events API
-usa_trawler_ids <- usa_trawlers$selfReportedInfo$id[1:20]
+usa_trawler_ids <- usa_trawlers$selfReportedInfo$vesselId[1:20]
 ```
 > *Note*: `get_event()` can receive up to 20 vessel ids at a time 
 
@@ -278,7 +280,7 @@ get_raster(
   temporal_resolution = 'YEARLY',
   group_by = 'FLAG',
   start_date = '2021-01-01',
-  end_date = '2021-07-01',
+  end_date = '2021-02-01',
   region = test_shape,
   region_source = 'USER_JSON',
   key = key

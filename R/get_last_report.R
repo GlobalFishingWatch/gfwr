@@ -31,7 +31,7 @@
 #' get_last_report(key = gfw_auth())
 #' }
 #'
-get_last_report <- function(key) {
+get_last_report <- function(key = gfw_auth()) {
 
   # Format request
   endpoint <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/4wings/last-report") %>%
