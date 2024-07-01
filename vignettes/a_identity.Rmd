@@ -11,11 +11,11 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#",
-  eval = T
+  eval = TRUE
 )
 ```
 
-```{r setup, eval = F}
+```{r, eval = F}
 library(gfwr)
 ```
 
@@ -25,34 +25,70 @@ devtools::load_all()
 
 This vignette explains the use of `get_vessel_info()` as a key function to understand vessel identity and to use all the other Global Fishing Watch API endpoints.
 
-The package main vignette provides examples of the general use of the function, but here we discuss the structure of the `get_vessel_info()` response and how to get __Vessel ID__ for use in the functions `get_event()` and `get_event_stats()`. 
+We discuss basic identity markers, why Vessel ID was created, the structure of the `get_vessel_info()` response and how to get __Vessel ID__ for use in the functions `get_event()` and `get_event_stats()`. 
 
 
 ## Automatic Identification System (AIS) 
 
 The Automatic Identification System (AIS) is an automatic tracking system originally developed to help preventing collisions between vessels at sea. 
 Vessels broadcast AIS to  alert other vessels of their presence, but terrestrial and satellite receivers can also receive these messages and monitor vessel movements. 
+AIS is at the core of Global Fishing Watch analysis pipelines, including the AIS-based fishing effort calculation displayed on our map and available through function `get_raster()` in `gfwr`.
 
 AIS messages include identity information about the vessel, such as ship name, call sign, and International Maritime Organization (IMO) number, as well as an identifier known as the Maritime Mobile Service Identity (MMSI). 
 
-- __MMSI__ are nine-digit numbers broadcasted in AIS messages. MMSI are supposed to be unique for each vessel but can be duplicated for many reasons--including the fact that the data entry in AIS messages is manual.
+- __MMSI__ are nine-digit numbers broadcasted in AIS messages. MMSIs are supposed to be unique for each vessel, but 1. a vessel can change MMSIs throughout its lifecycle--for example when it's reflagged, because the first three digits refer to the flag country 2. several vessels can broadcast the same MMSI at the same time. This happens for many reasons, including the fact that data entry in AIS messages is manual.
 
-- __Shipname__ and __callsign__ can be also transmitted in AIS messages but they are optional, not every AIS-broadcasting vessel transmits them, or their transmission can be inconsistent.
+- __Shipname__ and __callsign__ can be also transmitted in AIS messages but they are optional, not every AIS-broadcasting vessel transmits them, and their transmission can be inconsistent. Shipnames can also vary a lot in their spelling, requiring some fuzzy matching to detect if they refer to the same vessel. 
 
-- __IMO numbers__ are permanent unique identifiers that follow a vessel from construction to scrapping. Assigned by the International Maritime Organization, these can be also used to identify vessels and can be transmitted along with MMSI, but they are optional, frequently missing in AIS messages.
+- __IMO numbers__ are permanent unique identifiers that follow a vessel from construction to scrapping. Assigned by the International Maritime Organization, IMO numbers are required for only a subset of industrial fishing vessels. IMO number can be transmitted along with MMSI in AIS messages but they are frequently missing.
 
-Function `get_vessel_info()` can search for vessels using any of these identifiers.
+These identity markers are often the starting point of any enquiry around vessel identity.
+However, due to their characteristics, none of these identifiers should be used as the sole identity source for a vessel. Global Fishing Watch does extensive work to analyze and gather all the information available for a given vessel into cohesive sets. 
 
-Let's start with a simple search by MMSI. To get information of a vessel using its MMSI, IMO number, callsign or name, the search can be done directly using the number or the string. For example, to look for a vessel with `MMSI = 224224000`, the number is enough:
+
+Function `get_vessel_info()` allows a user to run a basic query using MMSI, callsign, shipname or IMO number but it also allows for complex searches, using a combination of these to retrieve the vessel of interest more accurately:
+
+__Do a simple search using "query" and search_type = "search" (which is the default so it can be omitted from the function call)__
+
+```{r search, eval = FALSE}
+get_vessel_info(query = 224224000, search_type = "search")
+```
+
+__Do complex search or fuzzy matching using `"where"` and `search_type = "search"`__
+
+```{r, eval= FALSE}
+get_vessel_info(where = "imo = '8300949'")
+get_vessel_info(where = "imo = '8300949' AND ssvid = '214182732'")
+get_vessel_info(where = "shipname LIKE '%GABU REEFE%' OR imo = '8300949'")
+```
+
+
+Importantly, the response will return the _vessels_ that match the combination of identity markers requested, even if their identity markers are not exactly the ones requested. 
+
+The function doesn't "filter" the results literally because the vessels of interest can have different MMSI, IMO, shipnames (or spellings of it) and callsigns in time, and these are all part of the identity history of that same vessel. Internally, Global Fishing Watch reconstructs the vessel identity history by matching a combination of these fields. 
+
+One of the key elements of this response is the __`vesselId`__, used by functions `get_event()` and `get_event_stats()`.
+
+
+## __`vesselId`__
+
+To solve the complexity of having several vessel identifiers that can be duplicated or missing for each vessel and that can change in time, Global Fishing Watch developed __`vesselId`__, a unified vessel identity variable that combines vessel information and is specific to a specific time interval.
+
+
+A __`vesselId`__ is formed by a combination of the MMSI and the IMO number when available, or by the MMSI, callsign and shipname transmitted in AIS messages. Each __`vesselId`__ is thus associated to a single MMSI at a specific period of time, and refers to a single vessel.
+
+A single vessel can have several __`vesselId`__ in time, but Global Fishing Watch returns all of them and this is why simple calls to `get_vessel_info()` can return tables that have many rows and different identity markers in time.
+
+
+## Use examples 
+
+Let's go back to the simple search. To get information of a vessel using its MMSI, IMO number, callsign or name, the search can be done directly using the number or the string. For example, to look for a vessel with `MMSI = 224224000`, the number is enough:
 
 ```{r example_vessel_info_1}
 mmsi_search <- get_vessel_info(query = 224224000,
                 search_type = "search",
                 key = gfw_auth())
 ```
-
-By default the search will assume it's an MMSI, and if the MMSI is not found, IMO will be considered, followed by the other identity markers. 
-
 
 The response from the API is a list with seven elements: 
 
@@ -66,108 +102,121 @@ The content of the original AIS message transmitted by the vessel appears in `$s
 mmsi_search$selfReportedInfo
 ```
 
-As you can see this vessel returns two lines of code. One corresponds to our original search, ssvid (MMSI) equals 224224000.
+As you can see this vessel returns two lines of code. One corresponds to our original search, where ssvid (MMSI) equals 224224000.
 
-The second line has a different ssvid, but the same name and IMO number. The two lines correspond to the same vessel, and as you can see it has been reflagged from BES to ESP, an operation that implies the change of ssvid because the first three digits of ssvid correspond to the flag country. 
+The second line has a different ssvid, but the same name and IMO number.
+The two lines correspond to the same vessel, and as you can see it has been reflagged from BES to ESP--an operation that implies the change of ssvid because the first three digits of MMSI correspond to the flag country.
 
-As you can see here, that vessel had one flag and ssvid between 2015 and 2019, then it was reflagged and operates with a BES flag since 2019 and until 2023.
+Variable `matchFields` reports that the matching was done using `"SEVERAL_FIELDS"`, 
+date variables `transmissionDateFrom` and `transmissionDateTo` indicate that the
+vessel operated with an Spain flag (ESP) and one ssvid between 2015 and 2019, then
+it was reflagged and operated with a BES flag (from Bonaire, Sint Eustatius and Saba) 
+between 2019 and 2023.
 
-```{r , message=FALSE}
+
+```{r message=FALSE}
 library(dplyr)
+library(tidyr)
 mmsi_search$selfReportedInfo %>% 
-  select(id, ssvid, flag, contains("Date"))
+  select(vesselId, ssvid, flag, contains("Date"))
 ```
 
-The field `id` in this example corresponds to Global Fishing Watch Vessel ID.
+This is a simple case, in which the successive __`vesselId`__ do not overlap in time 
+and most identifiers match, in spite of some changes.
 
+For some vessels, variables `transmissionDateFrom` and `transmissionDateTo` can 
+overlap and other fields can be different. Before picking a __`vesselId`__ to use 
+in other functions, it is useful to examinate:
 
-## Vessel ID `VesselId`
-
-To solve the complexity of having several vessel identifiers that can be duplicated or missing for each vessel and that can change in time, Global Fishing Watch developed `vesselId`, a unified vessel identity variable that combines vessel information and is specific to a specific time interval.
-
-The same vessel hull can thus have shifting identity markers in time, and detecting which VesselID is the vessel of interest in each case is key to analyses. 
- 
-> **Note**:
-> The spelling `vesselId` follows our API convention but you may encounter several ways to spell it across our documentation, including "vessel ID" and "vessel id", and in some tables it appears only as `id` 
-
-A `vesselId` is composed by a combination of the MMSI and the IMO number when available, or by the MMSI, callsign and shipname transmitted in AIS messages. 
-
-Each `vesselId` will be associated to a single MMSI at a specific period of time, and refers to a single vessel, but a single MMSI can have many associated vessel IDs simultaneously. 
-
-A vessel can have both different SSVIDs and different vesselIDs in time, but Global Fishing Watch keeps track of the several vesselIDs a single vessel can have in time. 
-
-This is why simple calls to `get_vessel_info()` can return tables that have many rows and different identity markers in time.
-
-In our example, both lines returned correspond to the same vessel. 
-
+- which __`vesselId`__ corresponds to the time internal of interest
+- if other identifiers are matching
+- the number of messages transmitted, in `messagesCounter`. Sometimes very few 
+positions are transmitted for a short time interval and that __`vesselId`__ can 
+be treated as an exception
 
 ## Registry data 
 
-Global Fishing Watch also compiles vessel information from over 40 public vessel registries and matches this information with the AIS-transmitted identity fields. 
+Vessel registries carry important vessel identity information, like vessel
+characteristics, history of registration, licenses to fish in certain areas, and
+vessel ownership data. Global Fishing Watch compiles vessel information from over 40
+public vessel registries and matches this information with the AIS-transmitted
+identity fields to provide a better overview of a vessel's identity. 
 
-Registry matching allows to identity if and when vessels are registered for activities in the regions they operate, it can provide ownership information and understand better the identity of a given vessel. 
+This information is requested by parameter `"includes"` and returned in the elements 
 
-`get_vessel_info()` returns some dataframes related to registry information
+- `$registryInfoTotalRecords` (number of records in registries),
+```{r}
+mmsi_search$registryInfoTotalRecords
+```
+- `$registryInfo` the actual information in the registry, including identity, 
+vessel characteristics, dates of transmission and whether the record corresponds 
+to the latestVesselInfo available
 
-
-
-
-The vesselID can be extracted by using either
-
-- `$selfReportedInfo$id` or `$combinedSourcesInfo$vesselID`
-
-- `$selfReportedInfo` is the data that comes from the AIS message
-
-- `$combinedSourcesInfo` comes from the combination of sources
-
-
-
-To do more specific searches (`imo = '8300949'`), combine different fields (`imo = '8300949' AND ssvid = '214182732'`) and do fuzzy matching (`"shipname LIKE '%GABU REEFE%' OR imo = '8300949'"`), use parameter `where` instead of `query`:
-
-```{r example_vessel_info_2}
-get_vessel_info(where = "shipname LIKE '%GABU REEFE%' OR imo = '8300949'",
-                search_type = "search",
-                key = gfw_auth())
+```{r}
+mmsi_search$registryInfo
+```
+- `$registryOwners` with their name, country of origin, ssvid of the vessel and 
+dates of ownership. Sometimes the vessel can change identities and flags but its 
+owners remain the same, and sometimes changes in identity correspond to changes in ownership. 
+```{r}
+mmsi_search$registryOwners
+```
+- `$registryPublicAuthorizations` of the response and the respective organizations
+```{r registryInfo}
+mmsi_search$registryPublicAuthorizations %>%
+  tidyr::unnest(sourceCode)
 ```
 
-> **Note**:
-> In `gfwr` tables, the MMSI field that comes from AIS is referred to as SSVID (source-specific vessel ID, because other sources can have different names for that fiels). Searches using SQL expressions have to be written as "ssvid = '214182732'"
+## Matching AIS and registries: case examples
 
+In the best of cases, AIS messages match registry information and the whole identity 
+of the vessel can be reconstructed. 
+Here are two examples with on registry match and AIS data not overlapping in time
 
-* The `id` search allows the user to specify a vector of `vessel id`
+This vessel has a single identity throughout its entire history:
 
-> **Note**:
-> `vessel id` is an internal ID generated by GFW to connect data accross APIs
-and involves a combination of vessel and tracking data information. It can be
-retrieved using `get_vessel_info()` as shown above.
+```{r one AIS}
+one_AIS <- get_vessel_info(where= "ssvid='701024000'")
 
-
-To search using `vessel id`:
-
-```{r example_vessel_info_3}
-get_vessel_info(ids = "8c7304226-6c71-edbe-0b63-c246734b3c01",
-                search_type = "id",
-                key = gfw_auth())
+#see AIS-based identities
+one_AIS$selfReportedInfo
+#check registry info:
+one_AIS$registryInfo %>% relocate(transmissionDateFrom, transmissionDateTo) #changing column order for visualization
 ```
 
-To specify more than one `vessel id`, you can submit a vector of identifiers:
+This other vessel has had three identities based on AIS, but these are easy to reconstruct:
 
-```{r example_vessel_info_4}
-get_vessel_info(ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01",
-                        "6583c51e3-3626-5638-866a-f47c3bc7ef7c",
-                        "71e7da672-2451-17da-b239-857831602eca"),
-                search_type = 'id',
-                key = gfw_auth())
+```{r remedy002}
+three_AIS <- get_vessel_info(where= "ssvid='412217989'") #one registry, three AIS 
+# see AIS-based indentities:
+three_AIS$selfReportedInfo %>% relocate(transmissionDateFrom, transmissionDateTo) 
+#check registry info:
+three_AIS$registryInfo 
 ```
 
+However, sometimes a vessel found in AIS has no registry information and the registry fields come back empty.
+
+```{r}
+get_vessel_info(where = "ssvid='71000036'")
+```
+
+It is also possible that a search returns a vessel with no matching AIS information and no registry
+
+```{r remedy001}
+noAIS_noReg <- get_vessel_info(where = "imo='44201155'") #no AIS, no registry information
+noAIS_noReg$registryInfoTotalRecords
+noAIS_noReg$selfReported
+```
+
+Digging into the `$selfReported` information, we find the vessel MMSI is malformed (it has only six characters) and points to very few positions in old AIS messages (2013). Variable `matchFields` reports `NO_MATCH`.
 
 
-On our map, the vessel search is located at https://globalfishingwatch.org/map/vessel-search.
 
 
 # Read more:
 
+- Park et al. (2023). Tracking elusive and shifting identities of the global fishing fleet [link](https://www.science.org/doi/full/10.1126/sciadv.abp8200) for a more detailed account of Global Fishing Watch identity work.
 - https://globalfishingwatch.org/datasets-and-code-vessel-identity/
 - https://globalfishingwatch.org/data/spoofing-one-identity-shared-by-multiple-vessels/ 
-- Park et al. (2023). Tracking elusive and shifting identities of the global fishing fleet
+
 

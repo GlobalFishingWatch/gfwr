@@ -143,9 +143,10 @@ gfw_api_request <- function(endpoint, key) {
 #' @importFrom httr2 resp_body_json
 #'
 
-get_regions <- function(region_source = 'EEZ', key) {
+get_regions <- function(region_source = 'EEZ',
+                        key = gfw_auth()) {
 
-  if(!toupper(region_source) %in% c('EEZ','MPA','RFMO')){
+  if (!toupper(region_source) %in% c('EEZ','MPA','RFMO')){
     stop('Enter a valid region source ("EEZ", "MPA", or "RFMO"')
   } else {
     result <- get_endpoint(dataset_type = region_source) %>%
@@ -177,7 +178,7 @@ get_regions <- function(region_source = 'EEZ', key) {
 #' @importFrom httr2 resp_body_json
 #'
 
-get_region_id <- function(region_name, region_source = 'EEZ', key) {
+get_region_id <- function(region_name, region_source = 'EEZ', key = gfw_auth()) {
 
   result <- get_endpoint(dataset_type = region_source) %>%
     httr2::req_headers(Authorization = paste("Bearer", key, sep = " ")) %>%

@@ -4,7 +4,7 @@
 \alias{get_regions}
 \title{List of available regions}
 \usage{
-get_regions(region_source = "EEZ", key)
+get_regions(region_source = "EEZ", key = gfw_auth())
 }
 \arguments{
 \item{region_source}{string, source of region data ('eez', 'mpa', 'rfmo')}

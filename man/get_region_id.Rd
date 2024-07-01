@@ -4,7 +4,7 @@
 \alias{get_region_id}
 \title{Function to pull numeric code using region name}
 \usage{
-get_region_id(region_name, region_source = "EEZ", key)
+get_region_id(region_name, region_source = "EEZ", key = gfw_auth())
 }
 \arguments{
 \item{region_name}{string or numeric, EEZ/MPA/RFMO name or id}
