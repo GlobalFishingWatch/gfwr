@@ -3,7 +3,7 @@
 __`gfwr` was updated to work with version 3 of our APIs.__ This results in various breaking changes in 
 parameter names and output formats. We aim to list here the major modifications but please also
 check [the API documentation](https://globalfishingwatch.org/our-apis/documentation#version-3-api)
-and the [migration guide](https://drive.google.com/file/d/1xPXhG6tj3132wHvCLu0OwwgKV7NtbuFI/view?usp=drive_link)
+and the [migration guide](https://globalfishingwatch.org/our-apis/assets/GFW_API.Migration_Guide_to_v3.pdf)
 if anything is new or missing.
 
 ## Endpoints
@@ -18,6 +18,11 @@ if anything is new or missing.
   region 
   + `get_last_report()` to check status of last API request to `get_raster()`
   
+**Note:** Some [APIs](https://globalfishingwatch.org/our-apis/documentation#version-3-api) were not implemented because they were primarily designed for a frontend application rather than for data download. These APIs are:
+* /v3/4wings/generate-png
+* /v3/4wings/tile/:type/:z/:x/:y
+* /v3/4wings/interaction/{z}/{x}/{y}/{cells}
+* /v3/4wings/bins/:z
 
 ## Major changes and new features
 
