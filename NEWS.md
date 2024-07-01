@@ -19,10 +19,11 @@ if anything is new or missing.
   + `get_last_report()` to check status of last API request to `get_raster()`
   
 **Note:** Some [APIs](https://globalfishingwatch.org/our-apis/documentation#version-3-api) were not implemented because they were primarily designed for a frontend application rather than for data download. These APIs are:
-* /v3/4wings/generate-png
-* /v3/4wings/tile/:type/:z/:x/:y
-* /v3/4wings/interaction/{z}/{x}/{y}/{cells}
-* /v3/4wings/bins/:z
+
+* `/v3/4wings/generate-png`
+* `/v3/4wings/tile/:type/:z/:x/:y`
+* `/v3/4wings/interaction/{z}/{x}/{y}/{cells}`
+* `/v3/4wings/bins/:z`
 
 ## Major changes and new features
 

@@ -47,6 +47,7 @@ purposes. When contacting the GFW team it will be useful to send this string}
 Base function to get raster from API and convert response to data frame
 }
 \examples{
+\dontrun{
 library(gfwr)
 # using region codes
 code_eez <- get_region_id(region_name = 'CIV', region_source = 'EEZ',
@@ -70,4 +71,5 @@ get_raster(spatial_resolution = 'LOW',
             region_source = 'USER_JSON',
             key = gfw_auth(),
             print_request = TRUE)
+}
 }

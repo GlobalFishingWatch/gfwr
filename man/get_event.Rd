@@ -100,6 +100,7 @@ second component is an integer used to distinguish between different vessels
 in the encounter.
 }
 \examples{
+\dontrun{
 library(gfwr)
 # port visits
 get_event(event_type = "PORT_VISIT",
@@ -156,4 +157,5 @@ get_event(event_type = 'FISHING',
               region_source = 'EEZ',
               flags = 'CHN',
               key = gfw_auth())
+              }
 }
