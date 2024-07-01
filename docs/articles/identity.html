@@ -90,7 +90,7 @@ of vessel identity in <code>gfwr</code>
 </h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/GlobalFishingWatch/gfwr/blob/HEAD/vignettes/identity.Rmd" class="external-link"><code>vignettes/identity.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/GlobalFishingWatch/gfwr/blob/HEAD/vignettes/articles/identity.Rmd" class="external-link"><code>vignettes/articles/identity.Rmd</code></a></small>
       <div class="hidden name"><code>identity.Rmd</code></div>
 
     </div>
@@ -346,7 +346,7 @@ with on registry match and AIS data not overlapping in time</p>
 <span><span class="co"># <span style="color: #949494;"># A tibble: 1 × 13</span></span></span>
 <span><span class="co">#   vesselId         ssvid shipname nShipname flag  callsign imo   messagesCounter</span></span>
 <span><span class="co">#   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">1</span> 8e930bac5-594b-… 7010… ATLANTI… ATLANTIC… ARG   LW3233   8615…       975<span style="text-decoration: underline;">249</span>718</span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">1</span> 8e930bac5-594b-… 7010… ATLANTI… ATLANTIC… ARG   LW3233   8615…       975<span style="text-decoration: underline;">700</span>351</span></span>
 <span><span class="co"># <span style="color: #949494;"># ℹ 5 more variables: positionsCounter &lt;int&gt;, sourceCode &lt;list&gt;,</span></span></span>
 <span><span class="co"># <span style="color: #949494;">#   matchFields &lt;chr&gt;, transmissionDateFrom &lt;chr&gt;, transmissionDateTo &lt;chr&gt;</span></span></span></code></pre></div>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -368,7 +368,7 @@ are easy to reconstruct:</p>
 <span><span class="co"># <span style="color: #949494;"># A tibble: 3 × 13</span></span></span>
 <span><span class="co">#   transmissionDateFrom transmissionDateTo   vesselId    ssvid shipname nShipname</span></span>
 <span><span class="co">#   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">1</span> 2021-11-29T06:20:07Z 2024-06-27T23:59:48Z b373b6306-… 4122… HAO YAN… HAOYANG77</span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">1</span> 2021-11-29T06:20:07Z 2024-06-28T23:58:36Z b373b6306-… 4122… HAO YAN… HAOYANG77</span></span>
 <span><span class="co"># <span style="color: #BCBCBC;">2</span> 2014-03-29T00:32:05Z 2021-11-27T20:13:55Z 305097c65-… 4122… JIN LIA… JINLIAOY…</span></span>
 <span><span class="co"># <span style="color: #BCBCBC;">3</span> 2012-08-01T01:47:23Z 2014-03-29T00:14:05Z 95a173191-… 4316… HAKKO M… HAKKOMAR…</span></span>
 <span><span class="co"># <span style="color: #949494;"># ℹ 7 more variables: flag &lt;chr&gt;, callsign &lt;chr&gt;, imo &lt;chr&gt;,</span></span></span>

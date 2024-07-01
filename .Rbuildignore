@@ -11,3 +11,4 @@ data-raw
 ^gfwr.*\.tar\.gz$
 ^gfwr.*\.tgz$
 ^data-raw$
+vignettes
