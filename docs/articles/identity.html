@@ -104,7 +104,7 @@ key function to understand vessel identity and to use all the other
 Global Fishing Watch API endpoints.</p>
 <p>We discuss basic identity markers, why Vessel ID was created, the
 structure of the <code><a href="../reference/get_vessel_info.html">get_vessel_info()</a></code> response and how to get
-<strong>Vessel ID</strong> for use in the functions
+<strong><code>vesselId</code></strong> for use in the functions
 <code><a href="../reference/get_event.html">get_event()</a></code> and <code><a href="../reference/get_event_stats.html">get_event_stats()</a></code>.</p>
 <div class="section level3">
 <h3 id="automatic-identification-system-ais">Automatic Identification System (AIS)<a class="anchor" aria-label="anchor" href="#automatic-identification-system-ais"></a>
@@ -143,9 +143,14 @@ missing.</p></li>
 </ul>
 <p>These identity markers are often the starting point of any enquiry
 around vessel identity. However, due to their characteristics, none of
-these identifiers should be used as the sole identity source for a
-vessel. Global Fishing Watch does extensive work to analyze and gather
+these identifiers should be interpreted as the sole identity source for
+a vessel. Global Fishing Watch does extensive work to analyze and gather
 all the information available for a given vessel into cohesive sets.</p>
+<blockquote>
+<p><strong>Note:</strong> MMSI is referred to as <code>ssvid</code> in our
+tables. <code>ssvid</code> stands for “source-specific vessel identity”.
+In this case, the source is AIS, and ssvid = MMSI.</p>
+</blockquote>
 <p>Function <code><a href="../reference/get_vessel_info.html">get_vessel_info()</a></code> allows a user to run a basic
 query using MMSI, callsign, shipname or IMO number but it also allows
 for complex searches, using a combination of these to retrieve the
@@ -162,15 +167,14 @@ call)</strong></p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_vessel_info.html">get_vessel_info</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"imo = '8300949'"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/get_vessel_info.html">get_vessel_info</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"imo = '8300949' AND ssvid = '214182732'"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/get_vessel_info.html">get_vessel_info</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"shipname LIKE '%GABU REEFE%' OR imo = '8300949'"</span><span class="op">)</span></span></code></pre></div>
-<p>Importantly, the response will return the <em>vessels</em> that match
-the combination of identity markers requested, even if their identity
-markers are not exactly the ones requested.</p>
-<p>The function doesn’t “filter” the results literally because the
-vessels of interest can have different MMSI, IMO, shipnames (or
-spellings of it) and callsigns in time, and these are all part of the
-identity history of that same vessel. Internally, Global Fishing Watch
-reconstructs the vessel identity history by matching a combination of
-these fields.</p>
+<p>Importantly, the response will return all the information it has for
+the vessel that matches the combination of identity markers requested,
+not only the ones requested.</p>
+<p>The function doesn’t “filter” the results literally because vessels
+can have different MMSI, IMO, shipnames (or spellings of it) and
+callsigns in time, and these are all part of the identity history of
+that same vessel. Internally, Global Fishing Watch reconstructs the
+vessel identity history by matching a combination of these fields.</p>
 <p>One of the key elements of this response is the
 <strong><code>vesselId</code></strong>, used by functions
 <code><a href="../reference/get_event.html">get_event()</a></code> and <code><a href="../reference/get_event_stats.html">get_event_stats()</a></code>.</p>
@@ -190,10 +194,9 @@ and shipname transmitted in AIS messages. Each
 <strong><code>vesselId</code></strong> is thus associated to a single
 MMSI at a specific period of time, and refers to a single vessel.</p>
 <p>A single vessel can have several
-<strong><code>vesselId</code></strong> in time, but Global Fishing Watch
-returns all of them and this is why simple calls to
-<code><a href="../reference/get_vessel_info.html">get_vessel_info()</a></code> can return tables that have many rows and
-different identity markers in time.</p>
+<strong><code>vesselId</code></strong> in time, and this is why simple
+calls to <code><a href="../reference/get_vessel_info.html">get_vessel_info()</a></code> can return tables that have many
+rows and different identity markers in time.</p>
 </div>
 <div class="section level3">
 <h3 id="use-examples">Use examples<a class="anchor" aria-label="anchor" href="#use-examples"></a>
@@ -224,19 +227,20 @@ appears in <code>$selfReportedInfo</code>:</p>
 <span><span class="co"># <span style="color: #BCBCBC;">2</span> 3c99c326d-dd2e-… 2242… AGURTZA… AGURTZAB… ESP   EBSJ     8733…         1<span style="text-decoration: underline;">887</span>249</span></span>
 <span><span class="co"># <span style="color: #949494;"># ℹ 5 more variables: positionsCounter &lt;int&gt;, sourceCode &lt;list&gt;,</span></span></span>
 <span><span class="co"># <span style="color: #949494;">#   matchFields &lt;chr&gt;, transmissionDateFrom &lt;chr&gt;, transmissionDateTo &lt;chr&gt;</span></span></span></code></pre></div>
-<p>As you can see this vessel returns two lines of code. One corresponds
-to our original search, where ssvid (MMSI) equals 224224000.</p>
+<p>As you can see this vessel returns a dataframe with two rows. One
+corresponds to our original search, where ssvid (MMSI) equals
+224224000.</p>
 <p>The second line has a different ssvid, but the same name and IMO
 number. The two lines correspond to the same vessel, and as you can see
-it has been reflagged from BES to ESP–an operation that implies the
-change of ssvid because the first three digits of MMSI correspond to the
-flag country.</p>
+form the fields <code>transmissionDateFrom</code> and
+<code>transmissionDateTo</code>, <code>flag</code>, and
+<code>ssvid</code>, the vessel operated with a Spain flag (ESP) and one
+ssvid between 2015 and 2019, then it was reflagged and operated with a
+BES flag (from Bonaire, Sint Eustatius and Saba) between 2019 and 2023.
+The change in ssvid reflects the reflagging operation because the first
+three digits of MMSI correspond to the flag country.</p>
 <p>Variable <code>matchFields</code> reports that the matching was done
-using <code>"SEVERAL_FIELDS"</code>, date variables
-<code>transmissionDateFrom</code> and <code>transmissionDateTo</code>
-indicate that the vessel operated with an Spain flag (ESP) and one ssvid
-between 2015 and 2019, then it was reflagged and operated with a BES
-flag (from Bonaire, Sint Eustatius and Saba) between 2019 and 2023.</p>
+using <code>"SEVERAL_FIELDS"</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
@@ -252,17 +256,43 @@ flag (from Bonaire, Sint Eustatius and Saba) between 2019 and 2023.</p>
 identifiers match, in spite of some changes.</p>
 <p>For some vessels, variables <code>transmissionDateFrom</code> and
 <code>transmissionDateTo</code> can overlap and other fields can be
-different. Before picking a <strong><code>vesselId</code></strong> to
-use in other functions, it is useful to examinate:</p>
+different.</p>
+<div class="section level4">
+<h4 id="using-vesselid-in-other-functions">Using <strong><code>vesselId</code></strong> in other functions<a class="anchor" aria-label="anchor" href="#using-vesselid-in-other-functions"></a>
+</h4>
+<p><strong><code>vesselId</code></strong> can be extracted from
+<code>$selfReportedInfo$vesselId</code>, but is is highly recommended to
+take a look at the response and confirm which of the values returned
+vesselId should be selected.</p>
+<p>Before picking a <strong><code>vesselId</code></strong> to use in
+other functions, it is useful to examinate:</p>
 <ul>
 <li>which <strong><code>vesselId</code></strong> corresponds to the time
-internal of interest</li>
-<li>if other identifiers are matching</li>
+interval of interest</li>
+<li>if other identifiers are matching, indicating there is enough
+confidence that different <strong><code>vesselId</code></strong> refer
+to the vessels of interest</li>
 <li>the number of messages transmitted, in <code>messagesCounter</code>.
 Sometimes very few positions are transmitted for a short time interval
 and that <strong><code>vesselId</code></strong> can be treated as an
 exception</li>
 </ul>
+<p>You can use the selected <strong><code>vesselId</code></strong> to
+get any events related to the vessel of interest in other functions.</p>
+<p>In our example, Global Fishing Watch analyses report the vessel had
+two encounters:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">id</span> <span class="op">&lt;-</span> <span class="va">mmsi_search</span><span class="op">$</span><span class="va">selfReportedInfo</span><span class="op">$</span><span class="va">vesselId</span></span>
+<span><span class="fu"><a href="../reference/get_event.html">get_event</a></span><span class="op">(</span>event_type <span class="op">=</span> <span class="st">"ENCOUNTER"</span>, vessels <span class="op">=</span> <span class="va">id</span><span class="op">)</span> </span>
+<span><span class="co"># [1] "Downloading 2 events from GFW"</span></span>
+<span><span class="co"># <span style="color: #949494;"># A tibble: 2 × 11</span></span></span>
+<span><span class="co">#   start               end                 id      type    lat   lon regions     </span></span>
+<span><span class="co">#   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>      </span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">1</span> 2020-09-14 <span style="color: #949494;">08:30:00</span> 2020-09-14 <span style="color: #949494;">11:50:00</span> 514d33… enco…  8.01 -<span style="color: #BB0000;">20.8</span> <span style="color: #949494;">&lt;named list&gt;</span></span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">2</span> 2021-04-19 <span style="color: #949494;">09:40:00</span> 2021-04-19 <span style="color: #949494;">12:50:00</span> 6ffcbd… enco…  3.08 -<span style="color: #BB0000;">12.2</span> <span style="color: #949494;">&lt;named list&gt;</span></span></span>
+<span><span class="co"># <span style="color: #949494;"># ℹ 4 more variables: boundingBox &lt;list&gt;, distances &lt;list&gt;, vessel &lt;list&gt;,</span></span></span>
+<span><span class="co"># <span style="color: #949494;">#   event_info &lt;list&gt;</span></span></span></code></pre></div>
+</div>
 </div>
 <div class="section level3">
 <h3 id="registry-data">Registry data<a class="anchor" aria-label="anchor" href="#registry-data"></a>
@@ -280,7 +310,7 @@ and returned in the elements</p>
 <code>$registryInfoTotalRecords</code> (number of records in
 registries),</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mmsi_search</span><span class="op">$</span><span class="va">registryInfoTotalRecords</span></span>
 <span><span class="co"># <span style="color: #949494;"># A tibble: 1 × 1</span></span></span>
 <span><span class="co">#   registryInfoTotalRecords</span></span>
@@ -290,9 +320,10 @@ registries),</li>
 <li>
 <code>$registryInfo</code> the actual information in the registry,
 including identity, vessel characteristics, dates of transmission and
-whether the record corresponds to the latestVesselInfo available</li>
+whether the record corresponds to the latest vessel information
+available</li>
 </ul>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mmsi_search</span><span class="op">$</span><span class="va">registryInfo</span></span>
 <span><span class="co"># <span style="color: #949494;"># A tibble: 1 × 15</span></span></span>
 <span><span class="co">#   id                    sourceCode ssvid flag  shipname nShipname callsign imo  </span></span>
@@ -308,7 +339,7 @@ ssvid of the vessel and dates of ownership. Sometimes the vessel can
 change identities and flags but its owners remain the same, and
 sometimes changes in identity correspond to changes in ownership.</li>
 </ul>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mmsi_search</span><span class="op">$</span><span class="va">registryOwners</span></span>
 <span><span class="co"># <span style="color: #949494;"># A tibble: 2 × 6</span></span></span>
 <span><span class="co">#   name             flag  ssvid     sourceCode dateFrom             dateTo       </span></span>
@@ -320,7 +351,7 @@ sometimes changes in identity correspond to changes in ownership.</li>
 <code>$registryPublicAuthorizations</code> of the response and the
 respective organizations</li>
 </ul>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mmsi_search</span><span class="op">$</span><span class="va">registryPublicAuthorizations</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">unnest</a></span><span class="op">(</span><span class="va">sourceCode</span><span class="op">)</span></span>
 <span><span class="co"># <span style="color: #949494;"># A tibble: 4 × 4</span></span></span>
@@ -338,7 +369,7 @@ respective organizations</li>
 whole identity of the vessel can be reconstructed. Here are two examples
 with on registry match and AIS data not overlapping in time</p>
 <p>This vessel has a single identity throughout its entire history:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">one_AIS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_vessel_info.html">get_vessel_info</a></span><span class="op">(</span>where<span class="op">=</span> <span class="st">"ssvid='701024000'"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#see AIS-based identities</span></span>
@@ -349,7 +380,7 @@ with on registry match and AIS data not overlapping in time</p>
 <span><span class="co"># <span style="color: #BCBCBC;">1</span> 8e930bac5-594b-… 7010… ATLANTI… ATLANTIC… ARG   LW3233   8615…       975<span style="text-decoration: underline;">700</span>351</span></span>
 <span><span class="co"># <span style="color: #949494;"># ℹ 5 more variables: positionsCounter &lt;int&gt;, sourceCode &lt;list&gt;,</span></span></span>
 <span><span class="co"># <span style="color: #949494;">#   matchFields &lt;chr&gt;, transmissionDateFrom &lt;chr&gt;, transmissionDateTo &lt;chr&gt;</span></span></span></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#check registry info:</span></span>
 <span><span class="va">one_AIS</span><span class="op">$</span><span class="va">registryInfo</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/relocate.html" class="external-link">relocate</a></span><span class="op">(</span><span class="va">transmissionDateFrom</span>, <span class="va">transmissionDateTo</span><span class="op">)</span> <span class="co">#changing column order for visualization</span></span>
 <span><span class="co"># <span style="color: #949494;"># A tibble: 1 × 15</span></span></span>
@@ -361,7 +392,7 @@ with on registry match and AIS data not overlapping in time</p>
 <span><span class="co"># <span style="color: #949494;">#   vesselInfoReference &lt;chr&gt;</span></span></span></code></pre></div>
 <p>This other vessel has had three identities based on AIS, but these
 are easy to reconstruct:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">three_AIS</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_vessel_info.html">get_vessel_info</a></span><span class="op">(</span>where<span class="op">=</span> <span class="st">"ssvid='412217989'"</span><span class="op">)</span> <span class="co">#one registry, three AIS </span></span>
 <span><span class="co"># see AIS-based indentities:</span></span>
 <span><span class="va">three_AIS</span><span class="op">$</span><span class="va">selfReportedInfo</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/relocate.html" class="external-link">relocate</a></span><span class="op">(</span><span class="va">transmissionDateFrom</span>, <span class="va">transmissionDateTo</span><span class="op">)</span> </span>
@@ -374,7 +405,7 @@ are easy to reconstruct:</p>
 <span><span class="co"># <span style="color: #949494;"># ℹ 7 more variables: flag &lt;chr&gt;, callsign &lt;chr&gt;, imo &lt;chr&gt;,</span></span></span>
 <span><span class="co"># <span style="color: #949494;">#   messagesCounter &lt;int&gt;, positionsCounter &lt;int&gt;, sourceCode &lt;list&gt;,</span></span></span>
 <span><span class="co"># <span style="color: #949494;">#   matchFields &lt;chr&gt;</span></span></span></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#check registry info:</span></span>
 <span><span class="va">three_AIS</span><span class="op">$</span><span class="va">registryInfo</span> </span>
 <span><span class="co"># <span style="color: #949494;"># A tibble: 1 × 15</span></span></span>
@@ -386,7 +417,7 @@ are easy to reconstruct:</p>
 <span><span class="co"># <span style="color: #949494;">#   vesselInfoReference &lt;chr&gt;</span></span></span></code></pre></div>
 <p>However, sometimes a vessel found in AIS has no registry information
 and the registry fields come back empty.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/get_vessel_info.html">get_vessel_info</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"ssvid='71000036'"</span><span class="op">)</span></span>
 <span><span class="co"># $dataset</span></span>
 <span><span class="co"># <span style="color: #949494;"># A tibble: 1 × 1</span></span></span>
@@ -432,14 +463,14 @@ and the registry fields come back empty.</p>
 <span><span class="co"># <span style="color: #949494;">#   matchFields &lt;chr&gt;, transmissionDateFrom &lt;chr&gt;, transmissionDateTo &lt;chr&gt;</span></span></span></code></pre></div>
 <p>It is also possible that a search returns a vessel with no matching
 AIS information and no registry</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">noAIS_noReg</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_vessel_info.html">get_vessel_info</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"imo='44201155'"</span><span class="op">)</span> <span class="co">#no AIS, no registry information</span></span>
 <span><span class="va">noAIS_noReg</span><span class="op">$</span><span class="va">registryInfoTotalRecords</span></span>
 <span><span class="co"># <span style="color: #949494;"># A tibble: 1 × 1</span></span></span>
 <span><span class="co">#   registryInfoTotalRecords</span></span>
 <span><span class="co">#                      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co"># <span style="color: #BCBCBC;">1</span>                        0</span></span></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">noAIS_noReg</span><span class="op">$</span><span class="va">selfReported</span></span>
 <span><span class="co"># <span style="color: #949494;"># A tibble: 1 × 13</span></span></span>
 <span><span class="co">#   vesselId         ssvid shipname nShipname flag  callsign imo   messagesCounter</span></span>
