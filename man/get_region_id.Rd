@@ -2,14 +2,14 @@
 % Please edit documentation in R/utils.R
 \name{get_region_id}
 \alias{get_region_id}
-\title{Function to pull numeric EEZ code using EEZ name}
+\title{Function to pull numeric code using region name}
 \usage{
-get_region_id(region_name, region_source = "eez", key)
+get_region_id(region_name, region_source = "EEZ", key = gfw_auth())
 }
 \arguments{
-\item{region_name}{string or numeric, EEZ/MPA name or EEZ/MPA id}
+\item{region_name}{string or numeric, EEZ/MPA/RFMO name or id}
 
-\item{region_source}{string, source of region data ('eez' or 'mpa')}
+\item{region_source}{string, source of region data ('eez', 'mpa', 'rfmo')}
 
 \item{key}{string, API token}
 }
@@ -17,5 +17,5 @@ get_region_id(region_name, region_source = "eez", key)
 dataframe, eez code and EEZ name for matching EEZs
 }
 \description{
-Function to pull numeric EEZ code using EEZ name
+Function to pull numeric code using region name
 }

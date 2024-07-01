@@ -10,10 +10,25 @@
     <loc>/Contributing.html</loc>
   </url>
   <url>
-    <loc>/LICENSE-text.html</loc>
+    <loc>/LICENSE.html</loc>
   </url>
   <url>
-    <loc>/LICENSE.html</loc>
+    <loc>/articles/a_identity.html</loc>
+  </url>
+  <url>
+    <loc>/articles/b_making-maps.html</loc>
+  </url>
+  <url>
+    <loc>/articles/gfwr.html</loc>
+  </url>
+  <url>
+    <loc>/articles/identity.html</loc>
+  </url>
+  <url>
+    <loc>/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>/articles/making-maps.html</loc>
   </url>
   <url>
     <loc>/authors.html</loc>
@@ -31,13 +46,22 @@
     <loc>/reference/get_event.html</loc>
   </url>
   <url>
+    <loc>/reference/get_event_stats.html</loc>
+  </url>
+  <url>
     <loc>/reference/get_identity_endpoint.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_last_report.html</loc>
   </url>
   <url>
     <loc>/reference/get_raster.html</loc>
   </url>
   <url>
     <loc>/reference/get_region_id.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_regions.html</loc>
   </url>
   <url>
     <loc>/reference/get_vessel_info.html</loc>
@@ -49,10 +73,10 @@
     <loc>/reference/gfw_auth.html</loc>
   </url>
   <url>
-    <loc>/reference/gfwr-package.html</loc>
+    <loc>/reference/gfw_user_agent.html</loc>
   </url>
   <url>
-    <loc>/reference/gist_error_body.html</loc>
+    <loc>/reference/gfwr-package.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
@@ -64,12 +88,18 @@
     <loc>/reference/make_datetime.html</loc>
   </url>
   <url>
-    <loc>/reference/paginate.html</loc>
+    <loc>/reference/parse_response_error.html</loc>
   </url>
   <url>
     <loc>/reference/pipe.html</loc>
   </url>
   <url>
     <loc>/reference/sf_to_geojson.html</loc>
+  </url>
+  <url>
+    <loc>/reference/test_shape.html</loc>
+  </url>
+  <url>
+    <loc>/reference/vector_to_array.html</loc>
   </url>
 </urlset>

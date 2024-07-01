@@ -1,7 +1,7 @@
-## Code of conduct
+# Code of conduct
 
 
-### Our pledge
+## Our pledge
 
 We as members, contributors, and leaders pledge to make participation in the `gfwr` contributing
 and users community a harassment-free experience for everyone, regardless of age, body
@@ -14,7 +14,7 @@ We pledge to act and interact in ways that contribute to an open, welcoming,
 diverse, inclusive, and healthy community.
 
 
-### Our standards
+## Our standards
 
 Examples of behavior that contributes to a positive environment for the 
 community include:
@@ -34,7 +34,7 @@ Examples of unacceptable behavior include:
 * Other conduct which could reasonably be considered inappropriate in a professional setting.
 
 
-### Enforcement responsibilities
+## Enforcement responsibilities
 
 The `gfwr` maintainers are responsible for clarifying and enforcing our standards of
 acceptable behavior and will take appropriate and fair corrective action in
@@ -47,16 +47,17 @@ not aligned to this Code of Conduct, and will communicate reasons for moderation
 decisions when appropriate.
 
 
-### Scope
+## Scope
 
 This Code of Conduct applies within all `gfwr` community spaces, and also applies when
 an individual is officially representing the community in public spaces.
-Examples of representing the `gfwr` community include using an official `gfwr` e-mail address,
-posting via an official social media account, or acting as an appointed
-representative at an online or offline event.
+Examples of representing the `gfwr` community include using an official `gfwr` 
+communication channel, such as the GitHub community discussions, posting via an
+official social media account, or acting as an appointed representative at an online
+or offline event.
 
 
-### Enforcement
+## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the `gfwr` package maintainers either publicly by
@@ -69,7 +70,7 @@ All maintainers are obligated to respect the privacy and security of the
 reporter of any incident.
 
 
-### Enforcement guidelines
+## Enforcement guidelines
 
 The maintainers will follow these Community Impact Guidelines in determining
 the consequences for any action they deem in violation of this Code of Conduct:

@@ -6,6 +6,11 @@
 \usage{
 gfw_api_request(endpoint, key)
 }
+\arguments{
+\item{endpoint}{the endpoint to make the request}
+
+\item{key}{Authentication key}
+}
 \description{
 General function for GFW API requests, including handling of pagination.
 }

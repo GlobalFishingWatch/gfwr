@@ -4,14 +4,23 @@
 \alias{sf_to_geojson}
 \title{Formats an sf shapefile to a formatted geojson}
 \usage{
-sf_to_geojson(sf_shape)
+sf_to_geojson(sf_shape, endpoint = "raster")
 }
 \arguments{
 \item{sf_shape}{The sf shapefile to transform}
+
+\item{endpoint}{The GFW endpoint destination for the geojson ("raster" or "event")}
 }
 \value{
-A correctly-formatted geojson to be used in \code{get_raster()}
+A correctly-formatted geojson to be used in \code{get_raster()} or \code{get_event()}
 }
 \description{
 Formats an sf shapefile to a formatted geojson
 }
+\examples{
+library(gfwr)
+data(test_shape)
+substr(sf_to_geojson(test_shape), 1, 20)
+substr(sf_to_geojson(test_shape, endpoint = "event"), 1, 20)
+}
+\keyword{internal}

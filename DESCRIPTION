@@ -1,6 +1,6 @@
 Package: gfwr
-Title: Interactions with GFW APIs providing data tibbles
-Version: 1.1.1
+Title: Access data from Global Fishing Watch APIs
+Version: 2.0.0
 Authors@R: c(
     person("Tyler", "Clavelle", , "tyler@globalfishingwatch.org", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-2155-2459")),
@@ -14,22 +14,38 @@ Authors@R: c(
           comment = c(ORCID = "0000-0002-3521-4338"))      
     )
 Description: This package connects to several Global Fishing Watch APIs to get vessel and events information in an R-friendly format.
-License: file LICENSE
+License: Apache License (>= 2)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.0
+RoxygenNote: 7.3.1
 Imports: 
     dplyr,
     geojsonsf,
     httr2,
+    jsonlite,
     magrittr,
     purrr,
     readr,
     rjson,
     rlang,
     tibble,
-    tidyr
+    tidyr,
+    methods,
+    class
 Suggests:
-    glue
+    devtools,
+    ggplot2,
+    glue,
+    knitr,
+    qpdf,
+    rmarkdown,
+    rnaturalearth,
+    rnaturalearthdata,
+    scales,
+    sf
 URL: https://github.com/GlobalFishingWatch/gfwr
 BugReports: https://github.com/GlobalFishingWatch/gfwr/issues
+Depends: 
+    R (>= 2.10)
+LazyData: true
+VignetteBuilder: knitr

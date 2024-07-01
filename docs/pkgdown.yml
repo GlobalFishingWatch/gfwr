@@ -1,6 +1,9 @@
-pandoc: 3.1.1
-pkgdown: 2.0.7
+pandoc: 3.1.11
+pkgdown: 2.0.9
 pkgdown_sha: ~
-articles: {}
-last_built: 2024-01-19T00:58Z
+articles:
+  gfwr: gfwr.html
+  identity: identity.html
+  making-maps: making-maps.html
+last_built: 2024-07-01T00:35Z
 
