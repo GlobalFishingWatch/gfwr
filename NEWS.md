@@ -1,6 +1,6 @@
 # gfwr 2.0.0
 
-__gfwr was updated to work with version 3 of our APIs.__ This results in various breaking changes in 
+__`gfwr` was updated to work with version 3 of our APIs.__ This results in various breaking changes in 
 parameter names and output formats. We aim to list here the major modifications but please also
 check [the API documentation](https://globalfishingwatch.org/our-apis/documentation#version-3-api)
 and the [migration guide](https://drive.google.com/file/d/1xPXhG6tj3132wHvCLu0OwwgKV7NtbuFI/view?usp=drive_link)

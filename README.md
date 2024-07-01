@@ -17,7 +17,8 @@ badge](https://globalfishingwatch.r-universe.dev/badges/:articles)](https://glob
 <!-- badges: end -->
 
 > **Important**  
-> This version of gfwr gives access to Global Fishing Watch API [version
+> This version of `gfwr` gives access to Global Fishing Watch API
+> [version
 > 3](https://globalfishingwatch.org/our-apis/documentation#version-3-api).
 > Starting April 30th, 2024, this is the official API version. To
 > install the previous version that communicated with API [version
@@ -688,16 +689,16 @@ get_raster(spatial_resolution = 'LOW',
 #> # A tibble: 611 × 6
 #>      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`
 #>    <dbl> <dbl>        <dbl> <chr>        <dbl>                    <dbl>
-#>  1   4.7  -6.2         2021 CHN              2                    12.9 
-#>  2   2.9  -7           2021 BLZ              1                     0.08
-#>  3   2.7  -6.5         2021 BLZ              1                     1.1 
-#>  4   2.5  -6.6         2021 BLZ              1                     2.1 
-#>  5   2.3  -6.7         2021 BLZ              1                     2.88
-#>  6   1.9  -6.8         2021 GHA              1                     2.98
-#>  7   2    -6           2021 BLZ              1                     4.52
-#>  8   1.3  -7.1         2021 ESP              1                     0.12
-#>  9   1.1  -6.9         2021 ESP              1                     0.86
-#> 10   1.2  -6.6         2021 BLZ              1                     0.75
+#>  1   4.9  -5.8         2021 CHN              4                    31   
+#>  2   4.9  -5.9         2021 CHN              3                    11.7 
+#>  3   5.2  -4           2021 GTM              2                     2.58
+#>  4   2.7  -5.3         2021 FRA              1                     0.25
+#>  5   2.7  -4           2021 ESP              1                     6.06
+#>  6   1.9  -4.2         2021 FRA              1                     2.21
+#>  7   1.9  -4.1         2021 FRA              1                     0.04
+#>  8   4    -6.9         2021 FRA              1                     2.99
+#>  9   4.3  -4.1         2021 FRA              2                     3.51
+#> 10   4.7  -6.2         2021 CHN              2                    12.9 
 #> # ℹ 601 more rows
 ```
 
@@ -737,16 +738,16 @@ get_raster(spatial_resolution = 'LOW',
 #> # A tibble: 5,660 × 6
 #>      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`
 #>    <dbl> <dbl>        <dbl> <chr>        <dbl>                    <dbl>
-#>  1  50.8   1.4         2021 FRA             27                  1686.  
-#>  2  50.8   1.3         2021 FRA             39                   679.  
-#>  3  50.8   1.3         2021 NLD             11                    60.7 
-#>  4  50.8   1.3         2021 GBR             10                    35.5 
-#>  5  51.5   2.1         2021 NLD             19                   193.  
-#>  6  51.5   2.1         2021 BEL              1                     5.34
-#>  7  51.4   2.1         2021 FRA             14                   146.  
-#>  8  51.3   2           2021 FRA             13                    66.6 
-#>  9  51.2   1.9         2021 FRA             19                   554.  
-#> 10  51.2   1.9         2021 GBR              1                     2.48
+#>  1  42.6   9.5         2021 FRA              1                    26.3 
+#>  2  50.9   1.4         2021 FRA             30                   831.  
+#>  3  50.8   1.3         2021 BEL              1                     5.92
+#>  4  51.4   2.1         2021 BEL              3                     3.14
+#>  5  51.2   2.1         2021 NLD             21                   123.  
+#>  6  51.3   2           2021 NLD             16                    68.9 
+#>  7  51.2   2           2021 FRA             22                   465.  
+#>  8  51.5   2.2         2021 NLD             20                   546.  
+#>  9  51.5   2.2         2021 BEL              3                    62.6 
+#> 10  51.4   2.3         2021 BEL              6                     8.07
 #> # ℹ 5,650 more rows
 ```
 
@@ -776,16 +777,16 @@ get_raster(spatial_resolution = 'LOW',
 #> # A tibble: 40 × 6
 #>      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`
 #>    <dbl> <dbl>        <dbl> <chr>        <dbl>                    <dbl>
-#>  1  -4.7 -176.         2015 KIR              1                     0.36
-#>  2  -3.7 -173.         2015 KOR              1                     1.49
-#>  3  -3.9 -173.         2015 KOR              1                     0.01
-#>  4  -2.5 -176.         2015 KOR              1                     6.54
-#>  5  -2.8 -176.         2015 KOR              2                    21.6 
-#>  6  -2.9 -176.         2015 KOR              2                     9.74
-#>  7  -3.1 -176.         2015 KOR              3                    11.6 
-#>  8  -3.5 -176.         2015 KOR              1                     3.11
-#>  9  -3.6 -176.         2015 KOR              1                     7.98
-#> 10  -4.7 -176.         2015 KOR              3                    15.8 
+#>  1  -4.7 -176.         2015 KOR              3                    15.8 
+#>  2  -4.7 -176.         2015 KIR              1                     0.36
+#>  3  -3   -176.         2015 FSM              1                     2.16
+#>  4  -2.9 -176.         2015 FSM              1                     5.09
+#>  5  -4.1 -176.         2015 KOR              1                     2.67
+#>  6  -2.2 -176.         2015 KIR              1                     1.89
+#>  7  -3.6 -176.         2015 KIR              1                     5.99
+#>  8  -3.1 -176.         2015 KOR              1                     0.91
+#>  9  -3.5 -176.         2015 KOR              1                    10.8 
+#> 10  -3.4 -176.         2015 KOR              1                     1.37
 #> # ℹ 30 more rows
 ```
 

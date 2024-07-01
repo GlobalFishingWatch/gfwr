@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 > **Important**  
-> This version of gfwr gives access to Global Fishing Watch API [version 3](https://globalfishingwatch.org/our-apis/documentation#version-3-api). Starting April 30th, 2024, this is the official API version. To install the previous version that communicated with API [version 2](https://globalfishingwatch.org/our-apis/documentation#version-2-api), please refer to branch `APIv2` in this repository. 
+> This version of `gfwr` gives access to Global Fishing Watch API [version 3](https://globalfishingwatch.org/our-apis/documentation#version-3-api). Starting April 30th, 2024, this is the official API version. To install the previous version that communicated with API [version 2](https://globalfishingwatch.org/our-apis/documentation#version-2-api), please refer to branch `APIv2` in this repository. 
 > `remotes::install_github("GlobalFishingWatch/gfwr", ref = "APIv2")`
 
 The `gfwr` R package is a simple wrapper for the Global Fishing Watch (GFW) [APIs](https://globalfishingwatch.org/our-apis/documentation#introduction). It provides convenient functions to freely pull GFW data directly into R in tidy formats.
