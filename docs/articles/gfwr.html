@@ -90,7 +90,7 @@
 Fishing Watch APIs</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/GlobalFishingWatch/gfwr/blob/HEAD/vignettes/gfwr.Rmd" class="external-link"><code>vignettes/gfwr.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/GlobalFishingWatch/gfwr/blob/HEAD/vignettes/articles/gfwr.Rmd" class="external-link"><code>vignettes/articles/gfwr.Rmd</code></a></small>
       <div class="hidden name"><code>gfwr.Rmd</code></div>
 
     </div>
@@ -258,8 +258,8 @@ For example, to look for a vessel with
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 9</span></span></span>
 <span><span class="co">#&gt;   vesselId  geartypes_geartype_n…¹ geartypes_geartype_s…² geartypes_geartype_y…³</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 6632c9eb… PURSE_SEINE_SUPPORT    GFW_VESSEL_LIST                          <span style="text-decoration: underline;">2</span>019</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 3c99c326… PURSE_SEINE_SUPPORT    GFW_VESSEL_LIST                          <span style="text-decoration: underline;">2</span>015</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 3c99c326… PURSE_SEINE_SUPPORT    GFW_VESSEL_LIST                          <span style="text-decoration: underline;">2</span>015</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 6632c9eb… PURSE_SEINE_SUPPORT    GFW_VESSEL_LIST                          <span style="text-decoration: underline;">2</span>019</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ abbreviated names: ¹​geartypes_geartype_name, ²​geartypes_geartype_source,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   ³​geartypes_geartype_yearFrom</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: geartypes_geartype_yearTo &lt;int&gt;,</span></span></span>
@@ -320,9 +320,9 @@ parameter <code>where</code> instead of <code>query</code>:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 9</span></span></span>
 <span><span class="co">#&gt;   vesselId  geartypes_geartype_n…¹ geartypes_geartype_s…² geartypes_geartype_y…³</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1da8dbc2… CARRIER                GFW_VESSEL_LIST                          <span style="text-decoration: underline;">2</span>022</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 58cf536b… CARRIER                GFW_VESSEL_LIST                          <span style="text-decoration: underline;">2</span>012</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 0b7047cb… CARRIER                GFW_VESSEL_LIST                          <span style="text-decoration: underline;">2</span>019</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 58cf536b… CARRIER                GFW_VESSEL_LIST                          <span style="text-decoration: underline;">2</span>012</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 0b7047cb… CARRIER                GFW_VESSEL_LIST                          <span style="text-decoration: underline;">2</span>019</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 1da8dbc2… CARRIER                GFW_VESSEL_LIST                          <span style="text-decoration: underline;">2</span>022</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ abbreviated names: ¹​geartypes_geartype_name, ²​geartypes_geartype_source,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   ³​geartypes_geartype_yearFrom</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: geartypes_geartype_yearTo &lt;int&gt;,</span></span></span>
@@ -333,7 +333,7 @@ parameter <code>where</code> instead of <code>query</code>:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 13</span></span></span>
 <span><span class="co">#&gt;   vesselId         ssvid shipname nShipname flag  callsign imo   messagesCounter</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1da8dbc23-3c48-… 6135… GABU RE… GABUREEF… CMR   TJMC996  8300…        71<span style="text-decoration: underline;">748</span>394</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 1da8dbc23-3c48-… 6135… GABU RE… GABUREEF… CMR   TJMC996  8300…        71<span style="text-decoration: underline;">775</span>911</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 0b7047cb5-58c8-… 2141… GABU RE… GABUREEF… MDA   ER2732   8300…        70<span style="text-decoration: underline;">035</span>084</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 58cf536b1-1fca-… 6168… GABU RE… GABUREEF… COM   D6FJ2    8300…        32<span style="text-decoration: underline;">121</span>624</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: positionsCounter &lt;int&gt;, sourceCode &lt;list&gt;,</span></span></span>
@@ -408,7 +408,7 @@ and specify <code>search_type = "id"</code>:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 13</span></span></span>
 <span><span class="co">#&gt;   vesselId         ssvid shipname nShipname flag  callsign imo   messagesCounter</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 8c7304226-6c71-… 2106… FRIO FO… FRIOFORW… CYP   5BWC3    9076…       263<span style="text-decoration: underline;">134</span>677</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 8c7304226-6c71-… 2106… FRIO FO… FRIOFORW… CYP   5BWC3    9076…       263<span style="text-decoration: underline;">226</span>124</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: positionsCounter &lt;int&gt;, sourceCode &lt;list&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   matchFields &lt;chr&gt;, transmissionDateFrom &lt;chr&gt;, transmissionDateTo &lt;chr&gt;</span></span></span></code></pre></div>
 <p>To specify more than one <code>vesselId</code>, you can submit a
@@ -431,18 +431,18 @@ vector:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 1</span></span></span>
 <span><span class="co">#&gt;   registryInfoTotalRecords</span></span>
 <span><span class="co">#&gt;                      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>                        2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>                        1</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>                        1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>                        1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>                        2</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $registryInfo</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 15</span></span></span>
 <span><span class="co">#&gt;   id                    sourceCode ssvid flag  shipname nShipname callsign imo  </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> a8d00ce54b37add7f85a… <span style="color: #949494;">&lt;chr [6]&gt;</span>  2106… CYP   FRIO FO… FRIOFORW… 5BWC3    9076…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> a8d00ce54b37add7f85a… <span style="color: #949494;">&lt;chr [2]&gt;</span>  2733… RUS   FRIO FO… FRIOFORW… UCRZ     9076…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 685862e0626f6234c844… <span style="color: #949494;">&lt;chr [5]&gt;</span>  5480… PHL   JOHNREY… JOHNREYN… DUQA7    8118…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> b82d02e5c2c11e5fe536… <span style="color: #949494;">&lt;chr [5]&gt;</span>  4417… KOR   ADRIA    ADRIA     DTBY3    8919…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> b82d02e5c2c11e5fe536… <span style="color: #949494;">&lt;chr [5]&gt;</span>  4417… KOR   ADRIA    ADRIA     DTBY3    8919…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 685862e0626f6234c844… <span style="color: #949494;">&lt;chr [5]&gt;</span>  5480… PHL   JOHNREY… JOHNREYN… DUQA7    8118…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> a8d00ce54b37add7f85a… <span style="color: #949494;">&lt;chr [6]&gt;</span>  2106… CYP   FRIO FO… FRIOFORW… 5BWC3    9076…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> a8d00ce54b37add7f85a… <span style="color: #949494;">&lt;chr [2]&gt;</span>  2733… RUS   FRIO FO… FRIOFORW… UCRZ     9076…</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 7 more variables: latestVesselInfo &lt;lgl&gt;, transmissionDateFrom &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   transmissionDateTo &lt;chr&gt;, geartypes &lt;list&gt;, lengthM &lt;dbl&gt;, tonnageGt &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   vesselInfoReference &lt;chr&gt;</span></span></span>
@@ -451,34 +451,34 @@ vector:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 6</span></span></span>
 <span><span class="co">#&gt;   name                          flag  ssvid     sourceCode dateFrom       dateTo</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> COLINER                       CYP   210631000 <span style="color: #949494;">&lt;chr [1]&gt;</span>  2014-01-01T00… 2024-…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> COLINER                       CYP   273379740 <span style="color: #949494;">&lt;chr [1]&gt;</span>  2015-02-27T10… 2018-…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> TRANS PACIFIC JOURNEY FISHING PHL   548012100 <span style="color: #949494;">&lt;chr [3]&gt;</span>  2017-02-07T00… 2019-…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> DONGWON INDUSTRIES            KOR   441734000 <span style="color: #949494;">&lt;chr [2]&gt;</span>  2014-01-18T19… 2024-…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> DONGWON INDUSTRIES            KOR   441734000 <span style="color: #949494;">&lt;chr [2]&gt;</span>  2014-01-18T19… 2024-…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> TRANS PACIFIC JOURNEY FISHING PHL   548012100 <span style="color: #949494;">&lt;chr [3]&gt;</span>  2017-02-07T00… 2019-…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> COLINER                       CYP   210631000 <span style="color: #949494;">&lt;chr [1]&gt;</span>  2014-01-01T00… 2024-…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> COLINER                       CYP   273379740 <span style="color: #949494;">&lt;chr [1]&gt;</span>  2015-02-27T10… 2018-…</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $registryPublicAuthorizations</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
 <span><span class="co">#&gt;   dateFrom             dateTo               ssvid     sourceCode</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2022-12-19T00:00:00Z 2024-05-01T00:00:00Z 210631000 <span style="color: #949494;">&lt;chr [1]&gt;</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2020-01-01T00:00:00Z 2024-05-01T00:00:00Z 210631000 <span style="color: #949494;">&lt;chr [1]&gt;</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 2013-09-20T00:00:00Z 2024-05-01T00:00:00Z 441734000 <span style="color: #949494;">&lt;chr [1]&gt;</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 2015-10-08T00:00:00Z 2020-07-21T00:00:00Z 441734000 <span style="color: #949494;">&lt;chr [1]&gt;</span> </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 2012-01-01T00:00:00Z 2024-05-01T00:00:00Z 548012100 <span style="color: #949494;">&lt;chr [1]&gt;</span> </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2012-01-01T00:00:00Z 2017-10-25T00:00:00Z 548012100 <span style="color: #949494;">&lt;chr [1]&gt;</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2013-09-20T00:00:00Z 2024-05-01T00:00:00Z 441734000 <span style="color: #949494;">&lt;chr [1]&gt;</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2015-10-08T00:00:00Z 2020-07-21T00:00:00Z 441734000 <span style="color: #949494;">&lt;chr [1]&gt;</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 2022-12-19T00:00:00Z 2024-05-01T00:00:00Z 210631000 <span style="color: #949494;">&lt;chr [1]&gt;</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 2020-01-01T00:00:00Z 2024-05-01T00:00:00Z 210631000 <span style="color: #949494;">&lt;chr [1]&gt;</span> </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $combinedSourcesInfo</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 8 × 9</span></span></span>
 <span><span class="co">#&gt;   vesselId  geartypes_geartype_n…¹ geartypes_geartype_s…² geartypes_geartype_y…³</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> da1cd7e1… CARRIER                GFW_VESSEL_LIST                          <span style="text-decoration: underline;">2</span>015</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 8c730422… CARRIER                GFW_VESSEL_LIST                          <span style="text-decoration: underline;">2</span>013</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 71e7da67… TUNA_PURSE_SEINES      COMBINATION_OF_REGIST…                   <span style="text-decoration: underline;">2</span>017</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 55889aef… TUNA_PURSE_SEINES      COMBINATION_OF_REGIST…                   <span style="text-decoration: underline;">2</span>017</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 6583c51e… OTHER                  COMBINATION_OF_REGIST…                   <span style="text-decoration: underline;">2</span>013</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 6583c51e… OTHER                  COMBINATION_OF_REGIST…                   <span style="text-decoration: underline;">2</span>013</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> 6583c51e… TUNA_PURSE_SEINES      COMBINATION_OF_REGIST…                   <span style="text-decoration: underline;">2</span>014</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> 6583c51e… TUNA_PURSE_SEINES      COMBINATION_OF_REGIST…                   <span style="text-decoration: underline;">2</span>014</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 6583c51e… OTHER                  COMBINATION_OF_REGIST…                   <span style="text-decoration: underline;">2</span>013</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 6583c51e… OTHER                  COMBINATION_OF_REGIST…                   <span style="text-decoration: underline;">2</span>013</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 6583c51e… TUNA_PURSE_SEINES      COMBINATION_OF_REGIST…                   <span style="text-decoration: underline;">2</span>014</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 6583c51e… TUNA_PURSE_SEINES      COMBINATION_OF_REGIST…                   <span style="text-decoration: underline;">2</span>014</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 55889aef… TUNA_PURSE_SEINES      COMBINATION_OF_REGIST…                   <span style="text-decoration: underline;">2</span>017</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 71e7da67… TUNA_PURSE_SEINES      COMBINATION_OF_REGIST…                   <span style="text-decoration: underline;">2</span>017</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> da1cd7e1… CARRIER                GFW_VESSEL_LIST                          <span style="text-decoration: underline;">2</span>015</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> 8c730422… CARRIER                GFW_VESSEL_LIST                          <span style="text-decoration: underline;">2</span>013</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ abbreviated names: ¹​geartypes_geartype_name, ²​geartypes_geartype_source,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   ³​geartypes_geartype_yearFrom</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: geartypes_geartype_yearTo &lt;int&gt;,</span></span></span>
@@ -489,9 +489,9 @@ vector:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 13</span></span></span>
 <span><span class="co">#&gt;   vesselId         ssvid shipname nShipname flag  callsign imo   messagesCounter</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 8c7304226-6c71-… 2106… FRIO FO… FRIOFORW… CYP   5BWC3    9076…       263<span style="text-decoration: underline;">134</span>677</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 6583c51e3-3626-… 4417… ADRIA    ADRIA     KOR   DTBY3    8919…         3<span style="text-decoration: underline;">742</span>574</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 71e7da672-2451-… 5480… JOHN RE… JOHNREYN… PHL   DUQA-7   8118…         1<span style="text-decoration: underline;">967</span>237</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 6583c51e3-3626-… 4417… ADRIA    ADRIA     KOR   DTBY3    8919…         3<span style="text-decoration: underline;">742</span>574</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 8c7304226-6c71-… 2106… FRIO FO… FRIOFORW… CYP   5BWC3    9076…       263<span style="text-decoration: underline;">226</span>124</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: positionsCounter &lt;int&gt;, sourceCode &lt;list&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   matchFields &lt;chr&gt;, transmissionDateFrom &lt;chr&gt;, transmissionDateTo &lt;chr&gt;</span></span></span></code></pre></div>
 <p>This is useful especially because a vessel can have different
