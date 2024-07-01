@@ -24,45 +24,36 @@ agrees to abide by our [code of conduct](CodeOfConduct.md).
 
 ## How to Contribute
 
-The easiest way to get started is to file an issue
+1. The easiest way to get started is to file an [issue](https://github.com/GlobalFishingWatch/gfwr/issues)
 to tell us about a spelling mistake,
-some awkward wording,
-or a bug.
+some awkward wording, or a bug. This allows us to assign the item to someone and to respond to it in a threaded discussion.
 
-1.  If you do not have a [GitHub](https://github.com) account,
-    you can send us comments by email (see our emails in the [DESCRIPTION file](DESCRIPTION)).
-    However,
-    we will be able to respond more quickly if you use one of the other methods described below.
-
-2.  If you have a [GitHub](https://github.com) account,
-    or are willing to [create one](https://github.com/join),
-    but do not know how to use Git,
-    you can report problems or suggest improvements by [creating an issue](https://github.com/GlobalFishingWatch/gfwr/issues).
-    This allows us to assign the item to someone
-    and to respond to it in a threaded discussion.
-
-3.  If you are comfortable with Git,
+2.  If you are comfortable with Git,
     and would like to add or change material,
-    you can submit a pull request (PR).
+    you can submit a pull request (PR). __Please address all PRs to our `develop` branch.__
+    
+3.  If you do not have a [GitHub](https://github.com) account,
+    you can send us comments by email to research@globalfishingwatch.org.
+    However, we will be able to respond more quickly if you use one of the other methods described above.
 
-Our preferred options are 3, 2, and 1, in that order.
+
+Our preferred options are 1, 2, and 3, in that order.
 
 ## What to Contribute
 
 ### Fixing typos
 
-You can fix typos, spelling mistakes, or grammatical errors in the documentation directly with a PR. 
+You can fix typos, spelling mistakes, or grammatical errors in the documentation directly with a PR to branch `develop`. 
 This generally means you'll need to edit [roxygen2 comments](https://roxygen2.r-lib.org/articles/roxygen2.html) in an `.R`, not a `.Rd` file. 
 You can find the `.R` file that generates the `.Rd` by reading the comment in the first line.
 
-If the PR is too complicated, you can use options 1 or 2 in the [previous section](#how-to-contribute)
+You can also use options 1 or 3 in the [previous section](#how-to-contribute)
 
 ### Improvements to documentation
 
 You may think that some functions are not clear enough and have suggestions to 
-improve the documentation of the package. Here you'll also need to edit 
-[roxygen2 comments](https://roxygen2.r-lib.org/articles/roxygen2.html) in an `.R` 
-file, in case you go for a PR.
+improve the documentation of the package. Here you'll also need to file an issue. You can also edit 
+[roxygen2 comments](https://roxygen2.r-lib.org/articles/roxygen2.html) in the corresponding `.R` file, and file a PR.
 
 ### Bug reports
 

@@ -38,8 +38,8 @@ get_last_report <- function(key = gfw_auth()) {
     httr2::req_headers(Authorization = paste("Bearer",
                                              key,
                                              sep = " ")) %>%
-    httr2::req_user_agent(gfw_user_agent()) %>%
-    httr2::req_error(body = parse_response_error)
+    httr2::req_user_agent(gfw_user_agent()) #%>%
+   # httr2::req_error(body = parse_response_error)
 
     # Perform request
     response <- req_perform(endpoint)

@@ -68,6 +68,7 @@
 #' in the encounter.
 #'
 #' @examples
+#' \dontrun{
 #' library(gfwr)
 #' # port visits
 #' get_event(event_type = "PORT_VISIT",
@@ -124,6 +125,7 @@
 #'               region_source = 'EEZ',
 #'               flags = 'CHN',
 #'               key = gfw_auth())
+#'               }
 #' @export
 
 get_event <- function(event_type,

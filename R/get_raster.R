@@ -29,6 +29,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(gfwr)
 #' # using region codes
 #' code_eez <- get_region_id(region_name = 'CIV', region_source = 'EEZ',
@@ -52,6 +53,7 @@
 #'             region_source = 'USER_JSON',
 #'             key = gfw_auth(),
 #'             print_request = TRUE)
+#' }
 get_raster <- function(spatial_resolution = NULL,
                        temporal_resolution = NULL,
                        group_by = NULL,

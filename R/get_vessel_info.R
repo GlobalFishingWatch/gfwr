@@ -43,6 +43,7 @@
 #' to search using a GFW vessel id.
 #'
 #' @examples
+#' \dontrun{
 #' library(gfwr)
 #' # Simple searches, using includes
 #' get_vessel_info(query = 224224000, search_type = "search",
@@ -63,6 +64,7 @@
 #'  delta <- get_vessel_info(search_type = "id",
 #'  ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
 #'  registries_info_data = c("DELTA"), key = gfw_auth())
+#'  }
 #' @export
 get_vessel_info <- function(query = NULL,
                             where = NULL,

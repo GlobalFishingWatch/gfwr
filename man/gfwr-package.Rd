@@ -6,12 +6,15 @@
 \alias{gfwr-package}
 \title{gfwr: Access data from Global Fishing Watch APIs}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 This package connects to several Global Fishing Watch APIs to get vessel and events information in an R-friendly format.
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://github.com/GlobalFishingWatch/gfwr}
+  \item \url{https://globalfishingwatch.github.io/gfwr/}
   \item Report bugs at \url{https://github.com/GlobalFishingWatch/gfwr/issues}
 }
 

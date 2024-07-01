@@ -43,7 +43,7 @@ Suggests:
     rnaturalearthdata,
     scales,
     sf
-URL: https://github.com/GlobalFishingWatch/gfwr
+URL: https://github.com/GlobalFishingWatch/gfwr, https://globalfishingwatch.github.io/gfwr/
 BugReports: https://github.com/GlobalFishingWatch/gfwr/issues
 Depends: 
     R (>= 2.10)
