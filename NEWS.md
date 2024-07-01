@@ -6,12 +6,6 @@ check [the API documentation](https://globalfishingwatch.org/our-apis/documentat
 and the [migration guide](https://globalfishingwatch.org/our-apis/assets/GFW_API.Migration_Guide_to_v3.pdf)
 if anything is new or missing.
 
-Some [APIs](https://globalfishingwatch.org/our-apis/documentation#version-3-api) were not implemented because they were primarily designed for a frontend application rather than a library. These APIs are:
-* /v3/4wings/generate-png
-* /v3/4wings/tile/:type/:z/:x/:y
-* /v3/4wings/interaction/{z}/{x}/{y}/{cells}
-* /v3/4wings/bins/:z
-
 ## Endpoints
 
 - Same endpoints as in v1.1.0
@@ -24,6 +18,11 @@ Some [APIs](https://globalfishingwatch.org/our-apis/documentation#version-3-api)
   region 
   + `get_last_report()` to check status of last API request to `get_raster()`
   
+**Note:** Some [APIs](https://globalfishingwatch.org/our-apis/documentation#version-3-api) were not implemented because they were primarily designed for a frontend application rather than for data download. These APIs are:
+* /v3/4wings/generate-png
+* /v3/4wings/tile/:type/:z/:x/:y
+* /v3/4wings/interaction/{z}/{x}/{y}/{cells}
+* /v3/4wings/bins/:z
 
 ## Major changes and new features
 
