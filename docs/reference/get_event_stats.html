@@ -102,7 +102,7 @@ vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
 
 
 <dt>vessels</dt>
-<dd><p>A vector of VesselIDs, obtained via the <code><a href="get_vessel_info.html">get_vessel_info()</a></code> function</p></dd>
+<dd><p>A vector of vesselIds, obtained via the <code><a href="get_vessel_info.html">get_vessel_info()</a></code> function</p></dd>
 
 
 <dt>vessel_types</dt>
@@ -123,8 +123,7 @@ vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
 <dd><p>Optional but mandatory if using the argument region.
 Source of the region. If 'EEZ','MPA', 'RFMO',
 then the value for the argument region must be the code for that region.
-If 'USER_JSON', then region has to point to a formatted geojson shapefile.
-See Details about formatting the geojson.</p></dd>
+If 'USER_JSON', then region has to be an sf object</p></dd>
 
 
 <dt>region</dt>
@@ -181,7 +180,8 @@ to obtain the correctly-formatted geojson.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/GlobalFishingWatch/gfwr" class="external-link">gfwr</a></span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/GlobalFishingWatch/gfwr" class="external-link">gfwr</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span> <span class="co"># stats for encounters involving Russian carriers in given time range</span></span></span>
 <span class="r-in"><span><span class="fu">get_event_stats</span><span class="op">(</span>event_type <span class="op">=</span> <span class="st">'ENCOUNTER'</span>,</span></span>
 <span class="r-in"><span>encounter_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CARRIER-FISHING"</span>,<span class="st">"FISHING-CARRIER"</span><span class="op">)</span>,</span></span>
@@ -192,11 +192,6 @@ to obtain the correctly-formatted geojson.</p>
 <span class="r-in"><span>duration <span class="op">=</span> <span class="fl">60</span>,</span></span>
 <span class="r-in"><span>interval <span class="op">=</span> <span class="st">"YEAR"</span>,</span></span>
 <span class="r-in"><span>key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Downloading 25348 events for  198  vessels from  1 flag(s) from GFW"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   numEvents numFlags numVessels flags      timeseries</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>     <span style="text-decoration: underline;">25</span>348        1        198 <span style="color: #949494;">&lt;list [1]&gt;</span> <span style="color: #949494;">&lt;list [6]&gt;</span></span>
 <span class="r-in"><span> <span class="co"># port visits stats in a region (Senegal)</span></span></span>
 <span class="r-in"><span> <span class="fu">get_event_stats</span><span class="op">(</span>event_type <span class="op">=</span> <span class="st">'PORT_VISIT'</span>,</span></span>
 <span class="r-in"><span>start_date <span class="op">=</span> <span class="st">"2018-01-01"</span>,</span></span>
@@ -205,11 +200,7 @@ to obtain the correctly-formatted geojson.</p>
 <span class="r-in"><span>region <span class="op">=</span> <span class="fl">8371</span>,</span></span>
 <span class="r-in"><span>region_source <span class="op">=</span> <span class="st">'EEZ'</span>,</span></span>
 <span class="r-in"><span>interval <span class="op">=</span> <span class="st">"YEAR"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Downloading 4365 events for  1368  vessels from  72 flag(s) from GFW"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   numEvents numFlags numVessels flags       timeseries</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span>      <span style="text-decoration: underline;">4</span>365       72       <span style="text-decoration: underline;">1</span>368 <span style="color: #949494;">&lt;list [73]&gt;</span> <span style="color: #949494;">&lt;list [2]&gt;</span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
