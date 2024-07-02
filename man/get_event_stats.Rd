@@ -30,7 +30,7 @@ of "ENCOUNTER", "FISHING", "GAP", "LOITERING", "PORT_VISIT"}
 vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
 "FISHING-SUPPORT", "SUPPORT-FISHING"}
 
-\item{vessels}{A vector of VesselIDs, obtained via the \code{get_vessel_info()} function}
+\item{vessels}{A vector of vesselIds, obtained via the \code{get_vessel_info()} function}
 
 \item{vessel_types}{Optional. A vector of vessel types, any combination of:
 "FISHING", "CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL",
@@ -43,8 +43,7 @@ vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
 \item{region_source}{Optional but mandatory if using the argument region.
 Source of the region. If 'EEZ','MPA', 'RFMO',
 then the value for the argument region must be the code for that region.
-If 'USER_JSON', then region has to point to a formatted geojson shapefile.
-See Details about formatting the geojson.}
+If 'USER_JSON', then region has to be an sf object}
 
 \item{region}{GFW region code (such as an EEZ, MPA or RFMO code) or a
 formatted geojson shape. See Details about formatting the geojson.}
@@ -88,6 +87,7 @@ If you have an \strong{sf} shapefile, you can also use function \code{\link[=sf_
 to obtain the correctly-formatted geojson.
 }
 \examples{
+\dontrun{
 library(gfwr)
  # stats for encounters involving Russian carriers in given time range
 get_event_stats(event_type = 'ENCOUNTER',
@@ -107,4 +107,5 @@ confidences = c('3','4'),
 region = 8371,
 region_source = 'EEZ',
 interval = "YEAR")
+}
 }

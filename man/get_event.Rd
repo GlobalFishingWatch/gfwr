@@ -34,7 +34,7 @@ of "ENCOUNTER", "FISHING", "GAP", "LOITERING", "PORT_VISIT"}
 vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
 "FISHING-SUPPORT", "SUPPORT-FISHING"}
 
-\item{vessels}{A vector of VesselIDs, obtained via the \code{get_vessel_info()} function}
+\item{vessels}{A vector of vesselIds, obtained via the \code{get_vessel_info()} function}
 
 \item{flags}{ISO3 code for the flag of the vessels. Null by default.}
 

@@ -1,7 +1,7 @@
 #'
 #' Base function to get events from API and convert response to data frame
 #'
-#' @param vessels A vector of VesselIDs, obtained via the `get_vessel_info()` function
+#' @param vessels A vector of vesselIds, obtained via the `get_vessel_info()` function
 #' @param event_type Type of event to get data of. A vector with any combination
 #' of "ENCOUNTER", "FISHING", "GAP", "LOITERING", "PORT_VISIT"
 #' @param encounter_types Filters for types of vessels during the encounter. A
@@ -328,7 +328,7 @@ get_event <- function(event_type,
 #'
 #' Base function to get events stats from API and convert response to data frame
 #'
-#' @param vessels A vector of VesselIDs, obtained via the `get_vessel_info()` function
+#' @param vessels A vector of vesselIds, obtained via the `get_vessel_info()` function
 #' @param event_type Type of event to get data of. A vector with any combination
 #' of "ENCOUNTER", "FISHING", "GAP", "LOITERING", "PORT_VISIT"
 #' @param encounter_types Filters for types of vessels during the encounter. A
@@ -340,8 +340,7 @@ get_event <- function(event_type,
 #' @param region_source Optional but mandatory if using the argument region.
 #' Source of the region. If 'EEZ','MPA', 'RFMO',
 #' then the value for the argument region must be the code for that region.
-#' If 'USER_JSON', then region has to point to a formatted geojson shapefile.
-#' See Details about formatting the geojson.
+#' If 'USER_JSON', then region has to be an sf object
 #' @param region GFW region code (such as an EEZ, MPA or RFMO code) or a
 #' formatted geojson shape. See Details about formatting the geojson.
 #' @param duration duration, in minutes, of the event, ex. 30
@@ -388,6 +387,7 @@ get_event <- function(event_type,
 #' to obtain the correctly-formatted geojson.
 #'
 #' @examples
+#' \dontrun{
 #' library(gfwr)
 #'  # stats for encounters involving Russian carriers in given time range
 #' get_event_stats(event_type = 'ENCOUNTER',
@@ -407,6 +407,7 @@ get_event <- function(event_type,
 #' region = 8371,
 #' region_source = 'EEZ',
 #' interval = "YEAR")
+#' }
 #' @export
 
 get_event_stats <- function(event_type,
@@ -490,8 +491,12 @@ get_event_stats <- function(event_type,
     } else if (region_source == 'RFMO' & is.character(region)) {
       region = rjson::toJSON(list(region = list(dataset = 'public-rfmo',
                                                 id = region)))
-    } else if (region_source == 'USER_JSON' & is.character(region)) {
-      region
+    } else if (region_source == 'USER_JSON') {
+      if (methods::is(region, 'sf') & base::class(region$geometry)[1] %in% c("sfc_POLYGON","sfc_MULTIPOLYGON")) {
+        region <- sf_to_geojson(region, endpoint = 'event')
+      } else {
+        stop('custom region is not an sf polygon')
+      }
     } else {
       stop('region source and region format do not match')
     }
