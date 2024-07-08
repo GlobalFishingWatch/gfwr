@@ -91,8 +91,8 @@ if (is.null(region_source)) stop("region_source and region params are required")
     region <- rjson::toJSON(list(region = list(dataset = 'public-rfmo',
                                               id = region)))
   } else if (region_source == 'USER_JSON') {
-    if (length(region) > 1) stop("only 1 json region must be provided")
-    if (methods::is(region, 'sf') & base::class(region$geometry)[1] %in% c("sfc_POLYGON","sfc_MULTIPOLYGON")) {
+    if (methods::is(region, 'sf') & base::class(region$geometry)[1] %in% c("sfc_POLYGON","sfc_MULTIPOLYGON")
+        ) {
       region <- sf_to_geojson(region, endpoint = 'raster')
     } else {
       stop('custom region is not an sf polygon')
