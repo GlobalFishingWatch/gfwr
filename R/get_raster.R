@@ -112,6 +112,7 @@ if (is.null(region_source)) stop("region_source and region params are required")
     #httr2::req_error(req = ., body = parse_response_error)
   if (print_request) print(request)
   response <- request %>%
+    httr2::req_user_agent(gfw_user_agent()) %>%
     httr2::req_perform(.) %>%
     httr2::resp_body_raw(.)
 
