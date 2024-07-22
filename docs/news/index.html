@@ -68,7 +68,7 @@
 <p><strong><code>gfwr</code> was updated to work with version 3 of our APIs.</strong> This results in various breaking changes in parameter names and output formats. We aim to list here the major modifications but please also check <a href="https://globalfishingwatch.org/our-apis/documentation#version-3-api" class="external-link">the API documentation</a> and the <a href="https://globalfishingwatch.org/our-apis/assets/GFW_API.Migration_Guide_to_v3.pdf" class="external-link">migration guide</a> if anything is new or missing.</p>
 <div class="section level3">
 <h3 id="endpoints-2-0-0">Endpoints<a class="anchor" aria-label="anchor" href="#endpoints-2-0-0"></a></h3>
-<ul><li>Same endpoints as in v1.1.0
+<ul><li>Same endpoints as in <code>v1.1.0</code>
 <ul><li>
 <code><a href="../reference/get_raster.html">get_raster()</a></code> communicates with the 4Wings API to get fishing effort</li>
 <li>
@@ -114,10 +114,14 @@
 <li>
 <code><a href="../reference/get_raster.html">get_raster()</a></code>
 <ul><li>All parameters must now be specified using UPPER CASE (ex. <code>spatial_resolution = "LOW"</code> instead of <code>spatial_resolution = "low"</code>)</li>
-<li>The <code>region</code> argument now accepts <code>sf</code> polygons rather than a GeoJSON string</li>
+<li>The <code>region</code> argument now accepts <code>sf</code> polygons rather than a GeoJSON string.</li>
 <li>Parameters <code>start_date</code> and <code>end_date</code> replace <code>date_range</code> for consistency with other functions</li>
 </ul></li>
+</ul><div class="section level4">
+<h4 id="additional-changes-2-0-0">Additional changes<a class="anchor" aria-label="anchor" href="#additional-changes-2-0-0"></a></h4>
+<ul><li>Option <code>USER_JSON</code> has been renamed to <code>USER_SHAPEFILE</code> for clarity (addresses <a href="https://github.com/GlobalFishingWatch/gfwr/issues/161" class="external-link">#161</a>)</li>
 </ul></div>
+</div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.1.0" id="gfwr-110">gfwr 1.1.0<a class="anchor" aria-label="anchor" href="#gfwr-110"></a></h2>

@@ -43,7 +43,7 @@ vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
 \item{region_source}{Optional but mandatory if using the argument region.
 Source of the region. If 'EEZ','MPA', 'RFMO',
 then the value for the argument region must be the code for that region.
-If 'USER_JSON', then region has to be an sf object}
+If 'USER_SHAPEFILE', then region has to be an sf object}
 
 \item{region}{GFW region code (such as an EEZ, MPA or RFMO code) or a
 formatted geojson shape. See Details about formatting the geojson.}

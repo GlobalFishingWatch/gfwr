@@ -290,12 +290,12 @@ and converts the response to a data frame. In order to use it, you should specif
 * The variable to group by: `FLAG`, `GEARTYPE`, `FLAGANDGEARTYPE`, `MMSI` or `VESSEL_ID`
 * The date range `note: this must be 366 days or less`
 * The region polygon in `sf` format or the region code (such as an EEZ code) to filter the raster
-* The source for the specified region. Currently, `EEZ`, `MPA`, `RFMO` or `USER_JSON` (for `sf` shapefiles).
+* The source for the specified region. Currently, `EEZ`, `MPA`, `RFMO` or `USER_SHAPEFILE` (for `sf` shapefiles).
 
 
 ### Examples
 
-You can load a sample shapefile inside `gfwr` to see how `'USER_JSON'` works:
+You can load a sample shapefile inside `gfwr` to see how `'USER_SHAPEFILE'` works:
 
 ```{r example_map_1}
 data("test_shape")
@@ -307,7 +307,7 @@ get_raster(
   start_date = '2021-01-01',
   end_date = '2021-02-01',
   region = test_shape,
-  region_source = 'USER_JSON',
+  region_source = 'USER_SHAPEFILE',
   key = key
   )
 ```

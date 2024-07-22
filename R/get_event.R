@@ -16,7 +16,7 @@
 #' @param confidences Confidence levels (1-4) of events (port visits only)
 #' @param region sf shape to filter raster or GFW region code (such as an
 #' EEZ code). See details about formatting the geojson
-#' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')
+#' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_SHAPEFILE')
 #' @param gap_intentional_disabling Logical. Whether the Gap events are intentional,
 #' according to Global Fishing Watch algorithms
 #' @param key Authorization token. Can be obtained with gfw_auth() function
@@ -124,6 +124,18 @@
 #'               region = 8371,
 #'               region_source = 'EEZ',
 #'               flags = 'CHN',
+#'               key = gfw_auth())
+#'
+#' # fishing events in user shapefile
+#' test_polygon <- sf::st_bbox(c(xmin = -70, xmax = -40, ymin = -10, ymax = 5),
+#'  crs = 4326) |>
+#'  sf::st_as_sfc() |>
+#'  sf::st_as_sf()
+#'get_event(event_type = 'FISHING',
+#'               start_date = "2020-10-01",
+#'               end_date = "2020-12-31",
+#'               region = test_polygon,
+#'               region_source = 'USER_SHAPEFILE',
 #'               key = gfw_auth())
 #'               }
 #' @export
@@ -233,8 +245,9 @@ get_event <- function(event_type,
     } else if (region_source == 'RFMO' & is.character(region)) {
       region = rjson::toJSON(list(region = list(dataset = 'public-rfmo',
                                                 id = region)))
-    } else if (region_source == 'USER_JSON') {
-      if (methods::is(region, 'sf') & base::class(region$geometry)[1] %in% c("sfc_POLYGON","sfc_MULTIPOLYGON")) {
+    } else if (region_source == 'USER_SHAPEFILE') {
+      if (methods::is(region, 'sf') & any(base::class(sf::st_geometry(region)) %in% c("sfc_POLYGON","sfc_MULTIPOLYGON"))
+      ) {
         region <- sf_to_geojson(region, endpoint = 'event')
       } else {
         stop('custom region is not an sf polygon')
@@ -250,7 +263,7 @@ get_event <- function(event_type,
                                       list(startDate = jsonlite::unbox(start)),
                                       list(endDate = jsonlite::unbox(end))
       ))
-  } else if (region_source == 'USER_JSON') {
+  } else if (region_source == 'USER_SHAPEFILE') {
 
       body_args <- jsonlite::toJSON(c(body_args,
                                     list(startDate = jsonlite::unbox(start)), # removes from array
@@ -341,7 +354,7 @@ get_event <- function(event_type,
 #' @param region_source Optional but mandatory if using the argument region.
 #' Source of the region. If 'EEZ','MPA', 'RFMO',
 #' then the value for the argument region must be the code for that region.
-#' If 'USER_JSON', then region has to be an sf object
+#' If 'USER_SHAPEFILE', then region has to be an sf object
 #' @param region GFW region code (such as an EEZ, MPA or RFMO code) or a
 #' formatted geojson shape. See Details about formatting the geojson.
 #' @param duration duration, in minutes, of the event, ex. 30
@@ -492,7 +505,7 @@ get_event_stats <- function(event_type,
     } else if (region_source == 'RFMO' & is.character(region)) {
       region = rjson::toJSON(list(region = list(dataset = 'public-rfmo',
                                                 id = region)))
-    } else if (region_source == 'USER_JSON') {
+    } else if (region_source == 'USER_SHAPEFILE') {
       if (methods::is(region, 'sf') & base::class(region$geometry)[1] %in% c("sfc_POLYGON","sfc_MULTIPOLYGON")) {
         region <- sf_to_geojson(region, endpoint = 'event')
       } else {
@@ -510,7 +523,7 @@ get_event_stats <- function(event_type,
                                     list(endDate = jsonlite::unbox(end)),
                                     list(timeseriesInterval = jsonlite::unbox(interval))
     ))
-  } else if (region_source == 'USER_JSON') {
+  } else if (region_source == 'USER_SHAPEFILE') {
 
     body_args <- jsonlite::toJSON(c(body_args,
                                     list(startDate = jsonlite::unbox(start)), # removes from array

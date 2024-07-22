@@ -11,7 +11,7 @@
 #' @param end_date End of date range to search events, in YYYY-MM-DD format and excluding this date
 #' @param region sf shape to filter raster or GFW region code (such as a
 #' Marine Regions Geographic Identifier or EEZ code).
-#' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')
+#' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_SHAPEFILE')
 #' @param key Authorization token. Can be obtained with `gfw_auth()` function
 #' @param print_request Boolean. Whether to print the request, for debugging
 #' purposes. When contacting the GFW team it will be useful to send this string
@@ -50,7 +50,7 @@
 #'             start_date = '2021-01-01',
 #'             end_date = '2021-10-01',
 #'             region = test_shape,
-#'             region_source = 'USER_JSON',
+#'             region_source = 'USER_SHAPEFILE',
 #'             key = gfw_auth(),
 #'             print_request = TRUE)
 #' }
@@ -90,9 +90,9 @@ if (is.null(region_source)) stop("region_source and region params are required")
     if (length(region) > 1) stop("only 1 RFMO region must be provided")
     region <- rjson::toJSON(list(region = list(dataset = 'public-rfmo',
                                               id = region)))
-  } else if (region_source == 'USER_JSON') {
-    if (methods::is(region, 'sf') & base::class(region$geometry)[1] %in% c("sfc_POLYGON","sfc_MULTIPOLYGON")
-        ) {
+  } else if (region_source == 'USER_SHAPEFILE') {
+    if (methods::is(region, 'sf') & any(base::class(sf::st_geometry(region)) %in% c("sfc_POLYGON","sfc_MULTIPOLYGON"))
+                 ) {
       region <- sf_to_geojson(region, endpoint = 'raster')
     } else {
       stop('custom region is not an sf polygon')

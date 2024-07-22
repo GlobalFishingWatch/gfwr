@@ -7,7 +7,7 @@
 get_endpoint(dataset_type, ...)
 }
 \arguments{
-\item{dataset_type}{Type of dataset to get API dataset name for. It can be
+\item{dataset_type}{Type of dataset to get API dataset name for. It can be "raster",
 "ENCOUNTER", "LOITERING", "FISHING", "PORT_VISIT", "GAP", "EEZ", "RFMO" or "MPA"}
 
 \item{...}{Other arguments that would depend on the dataset type.}

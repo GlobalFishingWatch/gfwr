@@ -1,7 +1,7 @@
 #'
 #' Function to get API dataset name for given event type
 #'
-#' @param dataset_type Type of dataset to get API dataset name for. It can be
+#' @param dataset_type Type of dataset to get API dataset name for. It can be "raster",
 #'   "ENCOUNTER", "LOITERING", "FISHING", "PORT_VISIT", "GAP", "EEZ", "RFMO" or "MPA"
 #' @param ... Other arguments that would depend on the dataset type.
 #' @importFrom httr2 request
