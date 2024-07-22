@@ -8,7 +8,7 @@ if anything is new or missing.
 
 ## Endpoints
 
-- Same endpoints as in v1.1.0
+- Same endpoints as in `v1.1.0`
   + `get_raster()` communicates with the 4Wings API to get fishing effort
   + `get_vessel_info()` communicates with the Vessels API
   + `get_event()` communicates with the Events API
@@ -50,6 +50,9 @@ script and copy the string of the request when [filling an issue](https://github
   + The `region` argument now accepts `sf` polygons rather than a GeoJSON string
   + Parameters `start_date` and `end_date` replace `date_range` for consistency with other functions
   
+### Additional changes 
+
+- Option `USER_JSON` has been renamed to `USER_SHAPEFILE` for clarity (addresses #161)
 
 
 # gfwr 1.1.0

@@ -152,7 +152,7 @@ get_regions <- function(region_source = 'EEZ',
     result <- get_endpoint(dataset_type = region_source) %>%
       httr2::req_headers(Authorization = paste("Bearer", key, sep = " ")) %>%
       httr2::req_user_agent(gfw_user_agent()) %>%
-      httr2::req_error(body = parse_response_error) %>%
+     # httr2::req_error(body = parse_response_error) %>%
       httr2::req_perform(.) %>%
       httr2::resp_body_json(.) %>%
       dplyr::bind_rows()

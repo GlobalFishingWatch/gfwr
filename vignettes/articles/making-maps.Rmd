@@ -86,7 +86,7 @@ end_date <- '2021-03-31'
 
 ## Making heatmaps of apparent fishing effort with `get_raster()`
 
-The `gfwr` function `get_raster()` provides aggregated gridded (e.g. raster) data for AIS-based apparent fishing effort (SAR). It was designed to provide data for a specific region, offering users the ability to select from multiple built-in region types by specifying a specific Exclusive Economic Zone (EEZ), Marine Protected Area (MPA), or Regional Fisheries Management Organization (RFMO). 
+The `gfwr` function `get_raster()` provides aggregated gridded (e.g. raster) data for AIS-based apparent fishing effort. It was designed to provide data for a specific region, offering users the ability to select from multiple built-in region types by specifying a specific Exclusive Economic Zone (EEZ), Marine Protected Area (MPA), or Regional Fisheries Management Organization (RFMO). 
 
 The list of available regions for each type, and their `label` and `id`, can be accessed with the `get_regions()` function.
 
@@ -316,7 +316,7 @@ my_raster_df <- get_raster(
   start_date = start_date,
   end_date = end_date,
   region = my_shp,
-  region_source = "USER_JSON"
+  region_source = "USER_SHAPEFILE"
   )
 ```
 
@@ -329,7 +329,7 @@ my_port_events_df <- get_event(event_type = "PORT_VISIT",
                           start_date = start_date,
                           end_date = end_date,
                           region = my_shp,
-                          region_source = "USER_JSON") 
+                          region_source = "USER_SHAPEFILE") 
 ```
 
 and loitering events by refrigerated cargo vessels
@@ -340,7 +340,7 @@ my_loitering_events_df <- get_event(event_type = "LOITERING",
                                     start_date = start_date,
                                     end_date = end_date,
                                     region = my_shp,
-                                    region_source = "USER_JSON") 
+                                    region_source = "USER_SHAPEFILE") 
 ```
 
 As before, let's summarize the raster to plot all fishing activity by fishing vessels

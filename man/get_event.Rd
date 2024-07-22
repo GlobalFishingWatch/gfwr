@@ -49,7 +49,7 @@ vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
 \item{region}{sf shape to filter raster or GFW region code (such as an
 EEZ code). See details about formatting the geojson}
 
-\item{region_source}{source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')}
+\item{region_source}{source of the region ('EEZ','MPA', 'RFMO' or 'USER_SHAPEFILE')}
 
 \item{gap_intentional_disabling}{Logical. Whether the Gap events are intentional,
 according to Global Fishing Watch algorithms}
@@ -156,6 +156,18 @@ get_event(event_type = 'FISHING',
               region = 8371,
               region_source = 'EEZ',
               flags = 'CHN',
+              key = gfw_auth())
+
+# fishing events in user shapefile
+test_polygon <- sf::st_bbox(c(xmin = -70, xmax = -40, ymin = -10, ymax = 5),
+ crs = 4326) |>
+ sf::st_as_sfc() |>
+ sf::st_as_sf()
+get_event(event_type = 'FISHING',
+              start_date = "2020-10-01",
+              end_date = "2020-12-31",
+              region = test_polygon,
+              region_source = 'USER_SHAPEFILE',
               key = gfw_auth())
               }
 }

@@ -36,7 +36,7 @@ or "HIGH" = 0.01 degree}
 \item{region}{sf shape to filter raster or GFW region code (such as a
 Marine Regions Geographic Identifier or EEZ code).}
 
-\item{region_source}{source of the region ('EEZ','MPA', 'RFMO' or 'USER_JSON')}
+\item{region_source}{source of the region ('EEZ','MPA', 'RFMO' or 'USER_SHAPEFILE')}
 
 \item{key}{Authorization token. Can be obtained with \code{gfw_auth()} function}
 
@@ -68,7 +68,7 @@ get_raster(spatial_resolution = 'LOW',
             start_date = '2021-01-01',
             end_date = '2021-10-01',
             region = test_shape,
-            region_source = 'USER_JSON',
+            region_source = 'USER_SHAPEFILE',
             key = gfw_auth(),
             print_request = TRUE)
 }
