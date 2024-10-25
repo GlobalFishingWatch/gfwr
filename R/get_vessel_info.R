@@ -25,8 +25,7 @@
 #' @param key Authorization token. Can be obtained with `gfw_auth()` function
 #' @param print_request Boolean. Whether to print the request, for debugging
 #' purposes. When contacting the GFW team it will be useful to send this string
-#' @param ... Other parameters, such as limit and offset
-
+#' @param ... Other parameters, see API documentation
 #' @importFrom httr2 req_headers
 #' @importFrom httr2 req_perform
 #' @importFrom httr2 req_user_agent
@@ -90,6 +89,7 @@ get_vessel_info <- function(query = NULL,
     #offset = 0
   #)
   #
+
 # gets endpoint here ---------
 
 # API endpoint specific parameters from ...
@@ -97,6 +97,7 @@ args <- list(...)
 for (i in seq_len(length(args))) {
   assign(names(args[i]), args[[i]])
 }
+
 
 base <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/")
 
@@ -127,7 +128,9 @@ args <- c(args, dataset)
     }
 # ID search now receives a vector
 if (search_type == "id" & is.null(ids)) stop("parameter 'ids' must be specified when search_type = 'id'")
+
 if (!is.null("ids") & is.null(where) & is.null(query) & search_type == "search") stop("search_type must be 'id' when ids are specified")
+
 if (!is.null("ids") & search_type == "id") {
   path_append <- "vessels"
   ids <- vector_to_array(ids, type = "ids")
@@ -142,18 +145,44 @@ endpoint <- base %>%
   httr2::req_url_path_append(path_append) %>%
   httr2::req_url_query(!!!args)
 
-if (print_request) print(endpoint)
 
-   response <- endpoint %>%
+   request <- endpoint %>%
     httr2::req_headers(Authorization = paste("Bearer", key, sep = " ")) %>%
     #httr2::req_error(., body = gist_error_body) %>%
-    httr2::req_user_agent(gfw_user_agent()) %>%
-    httr2::req_perform() %>%
-    httr2::resp_body_json(simplifyVector = TRUE)
+    httr2::req_user_agent(gfw_user_agent())
+
+    response <- httr2::req_perform(request) %>%
+    httr2::resp_body_json(simplifyVector = TRUE, check_type = TRUE)
 # stop if not found
    if (response$total == 0) return(message("No vessel was found with that identifier"))
 
-  # format tibbles
+    ###PAGINATION
+    # List to store responses
+    limit <- 50
+    responses <- list()
+    responses[[1]] <- response
+
+    # Current page values
+    total <- response$total
+
+    next_since <- response$since
+
+    while (!is.null(next_since)) {
+      # # API call for next page
+      next_response <- request %>%
+        httr2::req_url_query(`since` = response$since) %>%
+        httr2::req_perform()  %>%
+        httr2::resp_body_json(simplifyVector = TRUE, check_type = TRUE)
+
+      # Append response to list
+      responses[[length(responses) + 1]] <- next_response
+
+      # Pull out next_since of latest API response
+      next_since <- next_response$since
+    }
+    all_entries <- purrr::map(responses, purrr::pluck, 'entries') %>%
+      purrr::flatten(.)
+   # format tibbles
   combinedSourcesInfo <- dplyr::bind_rows(purrr::map(response$entries$combinedSourcesInfo, tibble::tibble))
 
   if (!is.null(combinedSourcesInfo$geartypes))
