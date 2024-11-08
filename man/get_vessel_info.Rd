@@ -13,6 +13,7 @@ get_vessel_info(
   registries_info_data = c("ALL"),
   search_type = "search",
   key = gfw_auth(),
+  quiet = FALSE,
   print_request = FALSE,
   ...
 )
@@ -49,10 +50,13 @@ changed one or more identity properties}
 
 \item{key}{Authorization token. Can be obtained with \code{gfw_auth()} function}
 
+\item{quiet}{Boolean. Whether to print the number of events returned by the
+request and progress}
+
 \item{print_request}{Boolean. Whether to print the request, for debugging
 purposes. When contacting the GFW team it will be useful to send this string}
 
-\item{...}{Other parameters, such as limit and offset}
+\item{...}{Other parameters, see API documentation}
 }
 \description{
 Base function to get vessel information from API and convert response to data frame

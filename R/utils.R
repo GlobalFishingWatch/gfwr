@@ -275,7 +275,12 @@ sf_to_geojson <- function(sf_shape, endpoint = 'raster') {
 }
 
 globalVariables(c("."))
+globalVariables(c("<list>"))
+globalVariables(c("geartypes"))
 globalVariables(c("id"))
-globalVariables(c("value"))
 globalVariables(c("includes"))
+globalVariables(c("index"))
+globalVariables(c("shiptypes"))
+globalVariables(c("sourceCode"))
+globalVariables(c("value"))
 globalVariables(c("registries_info_data"))
