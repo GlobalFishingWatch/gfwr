@@ -192,10 +192,10 @@ get_vessel_info <- function(query = NULL,
     next_since <- next_response$since
     n_entries <- length(next_response$entries)
     if (quiet == FALSE) {
-      total_requests <- floor(total/limit)
-      current_request <- length(responses) + 1
-      message(paste(floor(current_request*100/total_requests), "%" ))
-    }
+      total_requests <- ceiling(total/limit)
+      current_request <- length(responses)
+      cat("\rDownloading", floor(current_request*100/total_requests), "%" )
+      }
   }
   # format tibbles
   all_entries <- purrr::map(responses, purrr::pluck, 'entries')
