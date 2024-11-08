@@ -78,7 +78,6 @@ get_vessel_info <- function(query = NULL,
                             quiet = FALSE,
                             print_request = FALSE,
                             ...) {
-
   if (search_type %in% c("advanced", "basic")) {
     # Signal the deprecation to the user
     warning("basic or advanced search are no longer in use. Options are 'search' or 'id'")
@@ -93,24 +92,37 @@ get_vessel_info <- function(query = NULL,
   #)
   #
 
-# gets endpoint here ---------
+  # gets endpoint here ---------
 
-# API endpoint specific parameters from ...
-args <- list(...)
-for (i in seq_len(length(args))) {
-  assign(names(args[i]), args[[i]])
-}
+  # API endpoint specific parameters from ...
+  args <- list(...)
+  for (i in seq_len(length(args))) {
+    assign(names(args[i]), args[[i]])
+  }
 
 
-base <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/")
+  base <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/")
 
-# Only one dataset ID for selected API
-dataset <- "public-global-vessel-identity:latest"
-dataset <- vector_to_array(dataset, type = "datasets")
-args <- c(args, dataset)
+  # Only one dataset ID for selected API
+  dataset <- "public-global-vessel-identity:latest"
+  dataset <- vector_to_array(dataset, type = "datasets")
+  args <- c(args, dataset)
 
-#Default is search
-    if (search_type == "search") {
+  #Default is search
+  # Search id - ID search now receives a vector
+  if (search_type == "id" & is.null(ids)) stop("parameter 'ids' must be specified when search_type = 'id'")
+  if (!is.null("ids") & is.null(where) & is.null(query) & search_type == "search") stop("search_type must be 'id' when ids are specified")
+  if (!is.null("ids") & search_type == "id") {
+    path_append <- "vessels"
+    ids <- vector_to_array(ids, type = "ids")
+    args <- c(args, ids)
+    if (!is.null(registries_info_data)) {
+      reg_info <- c(`registries-info-data` = registries_info_data)
+      args <- c(args, reg_info)
+    }
+  }
+  # search search
+  if (search_type == "search") {
     if (is.null(query) & is.null(where)) stop("either 'query' or 'where' must be specified when search_type = 'search'")
     if (!is.null(query) & !is.null(where)) stop("specify either 'query' or 'where', but not both when search_type = 'search'")
     if (!is.null(query))  {
@@ -129,131 +141,124 @@ args <- c(args, dataset)
       args <- c(args, incl)
       }
     }
-# ID search now receives a vector
-if (search_type == "id" & is.null(ids)) stop("parameter 'ids' must be specified when search_type = 'id'")
 
-if (!is.null("ids") & is.null(where) & is.null(query) & search_type == "search") stop("search_type must be 'id' when ids are specified")
 
-if (!is.null("ids") & search_type == "id") {
-  path_append <- "vessels"
-  ids <- vector_to_array(ids, type = "ids")
-  args <- c(args, ids)
-  if (!is.null(registries_info_data)) {
-    reg_info <- c(`registries-info-data` = registries_info_data)
-    args <- c(args, reg_info)
-  }
-}
+  endpoint <- base %>%
+    httr2::req_url_path_append(path_append) %>%
+    httr2::req_url_query(!!!args)
 
-endpoint <- base %>%
-  httr2::req_url_path_append(path_append) %>%
-  httr2::req_url_query(!!!args)
 
-    limit <- 50
-
-   request <- endpoint %>%
-      httr2::req_url_query(`limit` = limit) %>%
+  request <- endpoint %>%
     httr2::req_headers(Authorization = paste("Bearer", key, sep = " ")) %>%
     #httr2::req_error(., body = gist_error_body) %>%
     httr2::req_user_agent(gfw_user_agent())
 
-    response <- request %>%
-      httr2::req_perform() %>%
+  # pagination in search
+  if (search_type == "search") {
+    limit <- 50
+    request <- request %>%
+      httr2::req_url_query(`limit` = limit)
+
+  }
+  # performs request
+  response <- request %>%
+    httr2::req_perform() %>%
     httr2::resp_body_json(simplifyVector = TRUE, check_type = TRUE)
-# stop if not found
-   if (response$total == 0) return(message("No vessel was found with that identifier"))
+  # stop if not found
+  if (response$total == 0) return(message("No vessel was found with that identifier"))
 
-    ###PAGINATION
-    # List to store responses
-    responses <- list()
-    responses[[1]] <- response
+  # List to store responses
+  responses <- list()
+  responses[[1]] <- response
 
-    # Current page values
-    total <- response$total
-    if (quiet == FALSE) message(paste( total, "total vessels"))
-    n_entries <- length(response$entries)
-    next_since <- response$since
+  # Current page values
+  total <- response$total
+  if (quiet == FALSE) message(paste( total, "total vessels"))
+  n_entries <- length(response$entries)
+  next_since <- response$since
 
-    while (n_entries != 0) {
+  # Pagination
+  while (!is.null(next_since) && n_entries != 0) {
       # # API call for next page
       next_response <- request %>%
         httr2::req_url_query(`since` = next_since) %>%
         httr2::req_perform()  %>%
         httr2::resp_body_json(simplifyVector = TRUE, check_type = TRUE)
 
-      # Append response to list
-      responses[[length(responses) + 1]] <- next_response
+    # Append response to list
+    responses[[length(responses) + 1]] <- next_response
 
-      # Pull out next_since of latest API response
-      next_since <- next_response$since
-      n_entries <- length(next_response$entries)
-      if (quiet == FALSE) {
+    # Pull out next_since of latest API response
+    next_since <- next_response$since
+    n_entries <- length(next_response$entries)
+    if (quiet == FALSE) {
       total_requests <- floor(total/limit)
       current_request <- length(responses) + 1
-        message(paste(floor(current_request*100/total_requests), "%" ))
-      }
+      message(paste(floor(current_request*100/total_requests), "%" ))
     }
-    # format tibbles
-    all_entries <- purrr::map(responses, purrr::pluck, 'entries')
-    # dataset (same but good to have for length)
+  }
+  # format tibbles
+  all_entries <- purrr::map(responses, purrr::pluck, 'entries')
 
-    # 1/8 dataset
-    dataset <- purrr::map(all_entries, purrr::pluck, 'dataset') %>%
-      unlist(recursive = F) %>%
-      tibble::tibble(dataset = .)
+  # 1/8 dataset
+  dataset <- purrr::map(all_entries, purrr::pluck, 'dataset') %>%
+    unlist(recursive = F) %>%
+    tibble::tibble(dataset = .)
 
-    # 2/8 registryinfototalrecords
-    # one row per vessel. Those who have registry info will show up with 1, those are the ones that have their vesselRecord id available under registryInfo$id
-    #most vessels with registry will show up first but sometimes there are vessels with registry down the list
-    registryInfoTotalRecords <-
-      purrr::map(all_entries, purrr::pluck, 'registryInfoTotalRecords') %>%
-      unlist(recursive = F) %>%
-      tibble::tibble(registryInfoTotalRecords = .)
+  # 2/8 registryinfototalrecords
+  # one row per vessel. Those who have registry info will show up with 1,
+  # those are the ones that have their vesselRecord id available under registryInfo$id
+  # most vessels with registry will show up first but sometimes there are vessels with registry down the list
+  registryInfoTotalRecords <-
+    purrr::map(all_entries, purrr::pluck, 'registryInfoTotalRecords') %>%
+    unlist(recursive = F) %>%
+    tibble::tibble(registryInfoTotalRecords = .)
 
-    # 3/8 registryInfo -only for those who have it
-    registryInfo <- purrr::map(all_entries, purrr::pluck, 'registryInfo') %>%
-      unlist(recursive = FALSE) %>%
-      purrr::map(., tibble::tibble) %>%
-      dplyr::bind_rows(.id = "index") %>%
-      dplyr::mutate(index = as.numeric(index)) %>%
-      dplyr::rename(vesselRecord = id) %>%
+  # 3/8 registryInfo -only for those who have it
+  registryInfo <- purrr::map(all_entries, purrr::pluck, 'registryInfo') %>%
+    unlist(recursive = FALSE) %>%
+    purrr::map(., tibble::tibble) %>%
+    dplyr::bind_rows(.id = "index") %>%
+    dplyr::mutate(index = as.numeric(index)) %>%
+    dplyr::rename(vesselRecord = id) %>%
     #  dplyr::select(-`<list>`) %>%
     # unnest geartypes
-      tidyr::unnest(geartypes, keep_empty = TRUE)
+    tidyr::unnest(geartypes, keep_empty = TRUE)
 
-    # 4/8 registryOwners #has all records with and without registry but may have a different
-    #dimension than registryInfo due to lack of data
-    registryOwners <- purrr::map(all_entries, purrr::pluck, "registryOwners") %>%
-      unlist(recursive= FALSE) %>%
-      purrr::map(., tibble::tibble) %>%
-      dplyr::bind_rows(.id = "index") %>%
-      dplyr::mutate(index = as.numeric(index))
-     # dplyr::select(-`<list>`)
+  # 4/8 registryOwners #has all records with and without registry but may have a different
+  #dimension than registryInfo due to lack of data
+  registryOwners <- purrr::map(all_entries, purrr::pluck, "registryOwners") %>%
+    unlist(recursive= FALSE) %>%
+    purrr::map(., tibble::tibble) %>%
+    dplyr::bind_rows(.id = "index") %>%
+    dplyr::mutate(index = as.numeric(index))
+    # dplyr::select(-`<list>`)
 
-    # 5/8 registryPublicAuthorizations
-    registryPublicAuthorizations <- purrr::map(all_entries, purrr::pluck, 'registryPublicAuthorizations') %>%
-      unlist(recursive = F) %>%
-      purrr::map(., tibble::tibble) %>%
-      dplyr::bind_rows(.id = "index") %>%
-      dplyr::mutate(index = as.numeric(index))
-      #tidyr::unnest(sourceCode, keep_empty = TRUE)
-#      dplyr::select(-`<list>`)
+  # 5/8 registryPublicAuthorizations
+  registryPublicAuthorizations <- purrr::map(all_entries, purrr::pluck, 'registryPublicAuthorizations') %>%
+    unlist(recursive = F) %>%
+    purrr::map(., tibble::tibble) %>%
+    dplyr::bind_rows(.id = "index") %>%
+    dplyr::mutate(index = as.numeric(index))
+    #tidyr::unnest(sourceCode, keep_empty = TRUE)
+    # dplyr::select(-`<list>`)
 
+  # 6/8 combinedSourcesInfo joins vesselId, geartypes and shiptypes.
+  combinedSourcesInfo <- purrr::map(all_entries, purrr::pluck, 'combinedSourcesInfo') %>%
+    unlist(recursive = F) %>%
+    purrr::map(., tibble::tibble) %>%
+    dplyr::bind_rows(.id = "index") %>%
+    dplyr::mutate(index = as.numeric(index)) %>% #after indexing we can unnest
+    tidyr::unnest(geartypes, names_sep = "_geartype_", keep_empty = TRUE) %>%
+    tidyr::unnest(shiptypes, names_sep = "_shiptype_", keep_empty = TRUE)
 
-    #6/8 combinedSourcesInfo joins vesselId, geartypes and shiptypes.
-    combinedSourcesInfo <- purrr::map(all_entries, purrr::pluck, 'combinedSourcesInfo') %>%
-      unlist(recursive = F) %>%
-      purrr::map(., tibble::tibble) %>%
-      dplyr::bind_rows(.id = "index") %>%
-      dplyr::mutate(index = as.numeric(index)) %>% #after indexing we can unnest
-      tidyr::unnest(geartypes, names_sep = "_geartype_", keep_empty = TRUE) %>%
-      tidyr::unnest(shiptypes, names_sep = "_shiptype_", keep_empty = TRUE)
-
-    # 7/8 selfReportedInfo this is AIS
-    selfReportedInfo <- purrr::map(all_entries, purrr::pluck, 'selfReportedInfo') %>%
-      unlist(recursive = F) %>%
-      purrr::map(., tibble::tibble) %>%
-      dplyr::bind_rows(.id = "index") %>%
-      dplyr::mutate(index = as.numeric(index))
+  # 7/8 selfReportedInfo this is AIS
+  selfReportedInfo <- purrr::map(all_entries, purrr::pluck, 'selfReportedInfo') %>%
+    unlist(recursive = F) %>%
+    purrr::map(., tibble::tibble) %>%
+    dplyr::bind_rows(.id = "index") %>%
+    dplyr::mutate(index = as.numeric(index)) %>%
+    dplyr::rename(vesselId = id)
 
   # build output list
   output <- list(

@@ -1,3 +1,22 @@
+#gfwr 2.0.1
+
+# Major changes
+
+- We have updated the parsing of the output of `get_vessel_info()` to allow for 
+long, paginated responses. Most simple queries would not need pagination, but
+some advanced queries using `where` return long responses that involve 
+pagination. This issue is now solved and the number of results should be 
+equal to the number of vessels returned by Vessel Viewer on our map. 
+
+# New features
+
+- We added an `index` column to indicate which `vesselIds` are grouped together 
+and belong to the same vessel. This should help associate information from the 
+returned datasets and guide the user when requesting events for a single boat or
+a group of boats.
+
+
+
 # gfwr 2.0.0
 
 __`gfwr` was updated to work with version 3 of our APIs.__ This results in various breaking changes in 
