@@ -249,8 +249,8 @@ get_vessel_info <- function(query = NULL,
     purrr::map(., tibble::tibble) %>%
     dplyr::bind_rows(.id = "index") %>%
     dplyr::mutate(index = as.numeric(index)) %>% #after indexing we can unnest
-    tidyr::unnest(geartypes, names_sep = "_geartype_", keep_empty = TRUE) %>%
-    tidyr::unnest(shiptypes, names_sep = "_shiptype_", keep_empty = TRUE)
+    tidyr::unnest(geartypes, names_sep = "_", keep_empty = TRUE) %>%
+    tidyr::unnest(shiptypes, names_sep = "_", keep_empty = TRUE)
 
   # 7/8 selfReportedInfo this is AIS
   selfReportedInfo <- purrr::map(all_entries, purrr::pluck, 'selfReportedInfo') %>%
