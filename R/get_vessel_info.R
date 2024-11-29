@@ -64,7 +64,8 @@
 #'  registries_info_data = c("NONE"), key = gfw_auth())
 #'  delta <- get_vessel_info(search_type = "id",
 #'  ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
-#'  registries_info_data = c("DELTA"), key = gfw_auth())
+#'  #registries_info_data = c("DELTA"),
+#'  key = gfw_auth())
 #'  }
 #' @export
 get_vessel_info <- function(query = NULL,
@@ -178,7 +179,7 @@ get_vessel_info <- function(query = NULL,
   next_since <- response$since
 
   # Pagination
-  while (!is.null(next_since) && n_entries != 0) {
+  while (!is.null(next_since)) {
       # # API call for next page
       next_response <- request %>%
         httr2::req_url_query(`since` = next_since) %>%
@@ -218,13 +219,17 @@ get_vessel_info <- function(query = NULL,
   registryInfo <- purrr::map(all_entries, purrr::pluck, 'registryInfo') %>%
     unlist(recursive = FALSE) %>%
     purrr::map(., tibble::tibble) %>%
-    dplyr::bind_rows(.id = "index") %>%
+    dplyr::bind_rows(.id = "index")
+  # format if non-empty
+  if (any(registryInfoTotalRecords$registryInfoTotalRecords != 0)) {
+  lookup <- c(recordId = "id")
+    registryInfo <- registryInfo %>%
     dplyr::mutate(index = as.numeric(index)) %>%
-    dplyr::rename(vesselRecord = id) %>%
+    dplyr::rename(dplyr::any_of(lookup)) %>%
     #  dplyr::select(-`<list>`) %>%
     # unnest geartypes
     tidyr::unnest(geartypes, keep_empty = TRUE)
-
+    }
   # 4/8 registryOwners #has all records with and without registry but may have a different
   #dimension than registryInfo due to lack of data
   registryOwners <- purrr::map(all_entries, purrr::pluck, "registryOwners") %>%

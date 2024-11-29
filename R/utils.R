@@ -141,8 +141,10 @@ gfw_api_request <- function(endpoint, key) {
 #' @importFrom httr2 req_error
 #' @importFrom httr2 req_user_agent
 #' @importFrom httr2 resp_body_json
-#'
-
+#' @examples
+#' get_regions(region_source = "EEZ")
+#' get_regions(region_source = "RFMO")
+#' get_regions(region_source = "MPA")
 get_regions <- function(region_source = 'EEZ',
                         key = gfw_auth()) {
 
@@ -164,11 +166,10 @@ get_regions <- function(region_source = 'EEZ',
 #' Function to pull numeric code using region name
 #' @name get_region_id
 #' @param region_name string or numeric, EEZ/MPA/RFMO name or id
-#' @param region_source string, source of region data ('eez', 'mpa', 'rfmo')
+#' @param region_source string, source of region data ('EEZ', 'MPA', 'RFMO')
 #' @param key string, API token
 #' @export
-#' @return dataframe, eez code and EEZ name for matching EEZs
-#'
+#' @return a tibble with label, EEZ code and EEZ name for matching EEZs
 #' @importFrom dplyr filter
 #' @importFrom dplyr bind_rows
 #' @importFrom httr2 req_headers
@@ -176,7 +177,10 @@ get_regions <- function(region_source = 'EEZ',
 #' @importFrom httr2 req_error
 #' @importFrom httr2 req_user_agent
 #' @importFrom httr2 resp_body_json
-#'
+#' @examples
+#' get_region_id(region_name = "COL", region_source = "EEZ")
+#' get_region_id(region_name = "Nazca", region_source = "MPA")
+#' get_region_id(region_name = "IOTC", region_source = "RFMO")
 
 get_region_id <- function(region_name, region_source = 'EEZ', key = gfw_auth()) {
 
