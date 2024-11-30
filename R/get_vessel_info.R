@@ -64,7 +64,7 @@
 #'  registries_info_data = c("NONE"), key = gfw_auth())
 #'  delta <- get_vessel_info(search_type = "id",
 #'  ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
-#'  #registries_info_data = c("DELTA"),
+#'  registries_info_data = c("DELTA"),
 #'  key = gfw_auth())
 #'  }
 #' @export

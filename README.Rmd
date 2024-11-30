@@ -309,7 +309,7 @@ usa_trawlers <- get_vessel_info(
   where = "flag='USA' AND geartypes='TRAWLERS'",
   search_type = "search",
   key = key,
-  quiet = FALSE #uncomment this if you want an estimate progress of the download
+  quiet = TRUE # quiet = FALSE if you want an estimate progress of the download
 )
 ```
 
