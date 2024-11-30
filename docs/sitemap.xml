@@ -1,114 +1,37 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/404.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/CodeOfConduct.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/Contributing.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/articles/a_identity.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/articles/articles/gfwr.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/articles/articles/identity.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/articles/articles/making-maps.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/articles/b_making-maps.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/articles/gfwr.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/articles/identity.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/articles/making-maps.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/index.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/reference/get_endpoint.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/reference/get_event.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/reference/get_event_stats.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/reference/get_identity_endpoint.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/reference/get_last_report.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/reference/get_raster.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/reference/get_region_id.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/reference/get_regions.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/reference/get_vessel_info.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/reference/gfw_api_request.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/reference/gfw_auth.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/reference/gfw_user_agent.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/reference/gfwr-package.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/reference/make_char.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/reference/make_datetime.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/reference/parse_response_error.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/reference/sf_to_geojson.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/reference/test_shape.html</loc>
-  </url>
-  <url>
-    <loc>https://globalfishingwatch.github.io/gfwr/reference/vector_to_array.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://globalfishingwatch.github.io/gfwr/404.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/CodeOfConduct.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/Contributing.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/LICENSE.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/articles/a_identity.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/articles/b_making-maps.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/articles/gfwr.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/articles/identity.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/articles/index.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/articles/making-maps.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/authors.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/index.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/news/index.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/reference/get_endpoint.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/reference/get_event.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/reference/get_event_stats.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/reference/get_identity_endpoint.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/reference/get_last_report.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/reference/get_raster.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/reference/get_region_id.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/reference/get_regions.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/reference/get_vessel_info.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/reference/gfw_api_request.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/reference/gfw_auth.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/reference/gfw_user_agent.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/reference/gfwr-package.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/reference/index.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/reference/make_char.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/reference/make_datetime.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/reference/parse_response_error.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/reference/pipe.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/reference/sf_to_geojson.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/reference/test_shape.html</loc></url>
+<url><loc>https://globalfishingwatch.github.io/gfwr/reference/vector_to_array.html</loc></url>
 </urlset>
+

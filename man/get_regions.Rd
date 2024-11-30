@@ -17,3 +17,8 @@ dataframe, all region ids and names for specified region type
 \description{
 List of available regions
 }
+\examples{
+get_regions(region_source = "EEZ")
+get_regions(region_source = "RFMO")
+get_regions(region_source = "MPA")
+}

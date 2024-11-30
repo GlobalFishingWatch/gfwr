@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gfwr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1</span>
       </span>
     </div>
 
@@ -31,7 +31,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
@@ -47,14 +47,14 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/GlobalFishingWatch/gfwr/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
@@ -78,6 +78,7 @@
 <span>  registries_info_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ALL"</span><span class="op">)</span>,</span>
 <span>  search_type <span class="op">=</span> <span class="st">"search"</span>,</span>
 <span>  key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  quiet <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  print_request <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -85,20 +86,22 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>query</dt>
+
+
+<dl><dt id="arg-query">query<a class="anchor" aria-label="anchor" href="#arg-query"></a></dt>
 <dd><p>When <code>search_type = "search"</code>, a length-1 vector with the identity
 variable of interest, MMSI, IMO, call sign or ship name.</p></dd>
 
 
-<dt>where</dt>
+<dt id="arg-where">where<a class="anchor" aria-label="anchor" href="#arg-where"></a></dt>
 <dd><p>When <code>search_type = "search"</code>, an SQL expression to find the vessel of interest</p></dd>
 
 
-<dt>ids</dt>
+<dt id="arg-ids">ids<a class="anchor" aria-label="anchor" href="#arg-ids"></a></dt>
 <dd><p>When <code>search_type = "id"</code>, a vector with the vesselId of interest</p></dd>
 
 
-<dt>includes</dt>
+<dt id="arg-includes">includes<a class="anchor" aria-label="anchor" href="#arg-includes"></a></dt>
 <dd><p>Enhances the response with new information, defaults to include all.</p><dl><dt><code>"OWNERSHIP"</code></dt>
 <dd><p>returns ownership information</p></dd>
 
@@ -112,12 +115,12 @@ variable of interest, MMSI, IMO, call sign or ship name.</p></dd>
 </dl></dd>
 
 
-<dt>match_fields</dt>
+<dt id="arg-match-fields">match_fields<a class="anchor" aria-label="anchor" href="#arg-match-fields"></a></dt>
 <dd><p>Optional. Allows to filter by <code>matchFields</code> levels.
 Possible values: <code>"SEVERAL_FIELDS"</code>, <code>"NO_MATCH"</code>, <code>"ALL"</code>. Incompatible with <code>where</code></p></dd>
 
 
-<dt>registries_info_data</dt>
+<dt id="arg-registries-info-data">registries_info_data<a class="anchor" aria-label="anchor" href="#arg-registries-info-data"></a></dt>
 <dd><p>when <code>search_type == "id"</code>, gets all the registry
 objects, only the delta or the latest.</p><dl><dt><code>"NONE"</code></dt>
 <dd><p>The API will return the most recent object only</p></dd>
@@ -133,22 +136,27 @@ changed one or more identity properties</p></dd>
 </dl></dd>
 
 
-<dt>search_type</dt>
+<dt id="arg-search-type">search_type<a class="anchor" aria-label="anchor" href="#arg-search-type"></a></dt>
 <dd><p>Type of vessel search to perform. Can be <code>"search"</code> or
 <code>"id"</code>. (Note:<code>"advanced"</code> and <code>"basic"</code> are no longer in use as of gfwr 2.0.0.)</p></dd>
 
 
-<dt>key</dt>
+<dt id="arg-key">key<a class="anchor" aria-label="anchor" href="#arg-key"></a></dt>
 <dd><p>Authorization token. Can be obtained with <code><a href="gfw_auth.html">gfw_auth()</a></code> function</p></dd>
 
 
-<dt>print_request</dt>
+<dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>
+<dd><p>Boolean. Whether to print the number of events returned by the
+request and progress</p></dd>
+
+
+<dt id="arg-print-request">print_request<a class="anchor" aria-label="anchor" href="#arg-print-request"></a></dt>
 <dd><p>Boolean. Whether to print the request, for debugging
 purposes. When contacting the GFW team it will be useful to send this string</p></dd>
 
 
-<dt>...</dt>
-<dd><p>Other parameters, such as limit and offset</p></dd>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
+<dd><p>Other parameters, see API documentation</p></dd>
 
 </dl></div>
     <div id="details">
@@ -162,7 +170,7 @@ to search using a GFW vessel id.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/GlobalFishingWatch/gfwr" class="external-link">gfwr</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Simple searches, using includes</span></span></span>
 <span class="r-in"><span><span class="fu">get_vessel_info</span><span class="op">(</span>query <span class="op">=</span> <span class="fl">224224000</span>, search_type <span class="op">=</span> <span class="st">"search"</span>,</span></span>
@@ -182,8 +190,9 @@ to search using a GFW vessel id.</p>
 <span class="r-in"><span> registries_info_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NONE"</span><span class="op">)</span>, key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span> <span class="va">delta</span> <span class="op">&lt;-</span> <span class="fu">get_vessel_info</span><span class="op">(</span>search_type <span class="op">=</span> <span class="st">"id"</span>,</span></span>
 <span class="r-in"><span> ids <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"8c7304226-6c71-edbe-0b63-c246734b3c01"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span> registries_info_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DELTA"</span><span class="op">)</span>, key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span> <span class="op">}</span></span></span>
+<span class="r-in"><span> registries_info_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DELTA"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -198,12 +207,12 @@ to search using a GFW vessel id.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
 
-  
+
 
 
   <!-- inserted at the end of the body -->
