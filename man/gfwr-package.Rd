@@ -20,13 +20,13 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Tyler Clavelle \email{tyler@globalfishingwatch.org} (\href{https://orcid.org/0000-0002-2155-2459}{ORCID})
+\strong{Maintainer}: Andrea Sánchez-Tapia \email{andrea.sanchez-tapia@globalfishingwatch.org} (\href{https://orcid.org/0000-0002-3521-4338}{ORCID})
 
 Authors:
 \itemize{
+  \item Tyler Clavelle \email{tyler@globalfishingwatch.org} (\href{https://orcid.org/0000-0002-2155-2459}{ORCID})
   \item Rocío Joo \email{rocio.joo@globalfishingwatch.org} (\href{https://orcid.org/0000-0003-0319-4210}{ORCID})
   \item Nate Miller \email{nate@globalfishingwatch.org}
-  \item Andrea Sánchez-Tapia \email{andrea.sanchez-tapia@globalfishingwatch.org} (\href{https://orcid.org/0000-0002-3521-4338}{ORCID})
 }
 
 }

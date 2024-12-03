@@ -9,8 +9,8 @@ get_raster(
   temporal_resolution = NULL,
   group_by = NULL,
   filter_by = NULL,
-  start_date = NULL,
-  end_date = NULL,
+  start_date = "2023-01-01",
+  end_date = "2023-12-31",
   region = NULL,
   region_source = NULL,
   key = gfw_auth(),
@@ -29,9 +29,9 @@ or "HIGH" = 0.01 degree}
 
 \item{filter_by}{parameter to filter by.}
 
-\item{start_date}{Start of date range to search events, in YYYY-MM-DD format and including this date}
+\item{start_date}{Required. Start of date range to search events, in YYYY-MM-DD format and including this date}
 
-\item{end_date}{End of date range to search events, in YYYY-MM-DD format and excluding this date}
+\item{end_date}{Required. End of date range to search events, in YYYY-MM-DD format and excluding this date}
 
 \item{region}{sf shape to filter raster or GFW region code (such as a
 Marine Regions Geographic Identifier or EEZ code).}

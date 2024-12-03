@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gfwr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1</span>
       </span>
     </div>
 
@@ -31,7 +31,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
@@ -47,14 +47,14 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/GlobalFishingWatch/gfwr/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
@@ -63,6 +63,35 @@
       <small>Source: <a href="https://github.com/GlobalFishingWatch/gfwr/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="2.0.1" id="gfwr-201">gfwr 2.0.1<a class="anchor" aria-label="anchor" href="#gfwr-201"></a></h2>
+<p>2024-11-28</p>
+<div class="section level3">
+<h3 id="major-change---bug-fix-2-0-1">Major change - bug fix<a class="anchor" aria-label="anchor" href="#major-change---bug-fix-2-0-1"></a></h3>
+<ul><li>We updated the parsing of the output of <code><a href="../reference/get_vessel_info.html">get_vessel_info()</a></code>. For some advanced queries using <code>where</code>, the function was returning only a subset of the vessels. This issue is now solved and the number of results should be equal to the number of vessels returned by Vessel Viewer on our map. (solves <a href="https://github.com/GlobalFishingWatch/gfwr/issues/176" class="external-link">#176</a>)</li>
+</ul></div>
+<div class="section level3">
+<h3 id="breaking-changes-2-0-1">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-2-0-1"></a></h3>
+<ul><li>
+<p>Some fields in the response were renamed across outputs (addressing issue <a href="https://github.com/GlobalFishingWatch/gfwr/issues/146" class="external-link">#146</a>):</p>
+<ul><li>
+<code><a href="../reference/get_vessel_info.html">get_vessel_info()</a></code>: in <code>$registryInfo</code> we renamed <code>id</code> to <code>registryId</code>
+</li>
+<li>
+<code><a href="../reference/get_event.html">get_event()</a></code>: we renamed <code>id</code> to <code>eventId</code> and <code>type</code> to <code>eventType</code>
+</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-2-0-1">New features<a class="anchor" aria-label="anchor" href="#new-features-2-0-1"></a></h3>
+<ul><li><p><code><a href="../reference/get_vessel_info.html">get_vessel_info()</a></code>: We added an <code>index</code> column to indicate which <code>vesselIds</code> are grouped together and belong to the same vessel. This should help associate information from the returned datasets and guide the user when requesting events for a single vessel or a group of vessels.</p></li>
+<li><p><code><a href="../reference/get_event.html">get_event()</a></code>: We unnested the column-list <code>"vessel"</code> to give more visibility to the vessels each event corresponds to.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="minor-changes-2-0-1">Minor changes<a class="anchor" aria-label="anchor" href="#minor-changes-2-0-1"></a></h3>
+<ul><li>We updated the <code><a href="../reference/get_event.html">get_event()</a></code> section in the README to improve the workflow and send groups of <code>vesselIds</code> corresponding to one or multiple vessels.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="2.0.0" id="gfwr-200">gfwr 2.0.0<a class="anchor" aria-label="anchor" href="#gfwr-200"></a></h2>
 <p><strong><code>gfwr</code> was updated to work with version 3 of our APIs.</strong> This results in various breaking changes in parameter names and output formats. We aim to list here the major modifications but please also check <a href="https://globalfishingwatch.org/our-apis/documentation#version-3-api" class="external-link">the API documentation</a> and the <a href="https://globalfishingwatch.org/our-apis/assets/GFW_API.Migration_Guide_to_v3.pdf" class="external-link">migration guide</a> if anything is new or missing.</p>
@@ -114,7 +143,7 @@
 <li>
 <code><a href="../reference/get_raster.html">get_raster()</a></code>
 <ul><li>All parameters must now be specified using UPPER CASE (ex. <code>spatial_resolution = "LOW"</code> instead of <code>spatial_resolution = "low"</code>)</li>
-<li>The <code>region</code> argument now accepts <code>sf</code> polygons rather than a GeoJSON string.</li>
+<li>The <code>region</code> argument now accepts <code>sf</code> polygons rather than a GeoJSON string</li>
 <li>Parameters <code>start_date</code> and <code>end_date</code> replace <code>date_range</code> for consistency with other functions</li>
 </ul></li>
 </ul><div class="section level4">
@@ -163,12 +192,12 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
       </footer></div>
 
-  
+
 
 
   <!-- inserted at the end of the body -->

@@ -7,8 +7,8 @@
 #' @param group_by parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
 #'  'FLAGANDGEARTYPE' or 'MMSI'. Optional.
 #' @param filter_by parameter to filter by.
-#' @param start_date Start of date range to search events, in YYYY-MM-DD format and including this date
-#' @param end_date End of date range to search events, in YYYY-MM-DD format and excluding this date
+#' @param start_date Required. Start of date range to search events, in YYYY-MM-DD format and including this date
+#' @param end_date Required. End of date range to search events, in YYYY-MM-DD format and excluding this date
 #' @param region sf shape to filter raster or GFW region code (such as a
 #' Marine Regions Geographic Identifier or EEZ code).
 #' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_SHAPEFILE')
@@ -58,8 +58,8 @@ get_raster <- function(spatial_resolution = NULL,
                        temporal_resolution = NULL,
                        group_by = NULL,
                        filter_by = NULL,
-                       start_date = NULL,
-                       end_date = NULL,
+                       start_date = "2023-01-01",
+                       end_date = "2023-12-31",
                        region = NULL,
                        region_source = NULL,
                        key = gfw_auth(),
