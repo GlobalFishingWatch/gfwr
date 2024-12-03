@@ -161,7 +161,9 @@ get_vessel_info <- function(query = NULL,
       httr2::req_url_query(`limit` = limit)
 
   }
+  
   # performs request
+  if (print_request) print(request)
   response <- request %>%
     httr2::req_perform() %>%
     httr2::resp_body_json(simplifyVector = TRUE, check_type = TRUE)
