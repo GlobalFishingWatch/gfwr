@@ -4,10 +4,12 @@
 \alias{get_last_report}
 \title{Base function to get status of last report generated}
 \usage{
-get_last_report(key = gfw_auth())
+get_last_report(key = gfw_auth(), show_col_types = TRUE)
 }
 \arguments{
 \item{key}{Authorization token. Can be obtained with \code{gfw_auth()} function}
+
+\item{show_col_types}{Boolean. Whether to show the column specification when reading the downloaded CSV.}
 }
 \description{
 Function to check the status of the last API request sent with get_raster().

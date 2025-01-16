@@ -13,6 +13,7 @@
 #' Marine Regions Geographic Identifier or EEZ code).
 #' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_SHAPEFILE')
 #' @param key Authorization token. Can be obtained with `gfw_auth()` function
+#' @param show_col_types Boolean. Whether to show the column specification when reading the downloaded CSV.
 #' @param print_request Boolean. Whether to print the request, for debugging
 #' purposes. When contacting the GFW team it will be useful to send this string
 #' @importFrom readr read_csv
@@ -63,6 +64,7 @@ get_raster <- function(spatial_resolution = NULL,
                        region = NULL,
                        region_source = NULL,
                        key = gfw_auth(),
+                       show_col_types = TRUE,
                        print_request = FALSE) {
   date_range <- paste(start_date, end_date, sep = ",")
   # Endpoint
@@ -123,5 +125,5 @@ if (is.null(region_source)) stop("region_source and region params are required")
 
   # unzip zip file and extract .csv
   file <- unz(temp, names[grepl(".csv$", names)])
-  return(readr::read_csv(file))
+  return(readr::read_csv(file, show_col_types = show_col_types))
 }

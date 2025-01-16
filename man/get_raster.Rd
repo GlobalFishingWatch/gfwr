@@ -14,6 +14,7 @@ get_raster(
   region = NULL,
   region_source = NULL,
   key = gfw_auth(),
+  show_col_types = TRUE,
   print_request = FALSE
 )
 }
@@ -39,6 +40,8 @@ Marine Regions Geographic Identifier or EEZ code).}
 \item{region_source}{source of the region ('EEZ','MPA', 'RFMO' or 'USER_SHAPEFILE')}
 
 \item{key}{Authorization token. Can be obtained with \code{gfw_auth()} function}
+
+\item{show_col_types}{Boolean. Whether to show the column specification when reading the downloaded CSV.}
 
 \item{print_request}{Boolean. Whether to print the request, for debugging
 purposes. When contacting the GFW team it will be useful to send this string}

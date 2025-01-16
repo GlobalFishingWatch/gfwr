@@ -3,6 +3,7 @@
 #'
 #' @name get_last_report
 #' @param key Authorization token. Can be obtained with `gfw_auth()` function
+#' @param show_col_types Boolean. Whether to show the column specification when reading the downloaded CSV.
 #' @importFrom httr2 request
 #' @importFrom httr2 req_headers
 #' @importFrom httr2 req_error
@@ -31,7 +32,7 @@
 #' get_last_report(key = gfw_auth())
 #' }
 #'
-get_last_report <- function(key = gfw_auth()) {
+get_last_report <- function(key = gfw_auth(), show_col_types = TRUE) {
 
   # Format request
   endpoint <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/4wings/last-report") %>%
@@ -61,7 +62,7 @@ get_last_report <- function(key = gfw_auth()) {
 
         # unzip zip file and extract .csv
         file <- unz(temp, names[grepl(".csv$", names)])
-        return(readr::read_csv(file))
+        return(readr::read_csv(file, show_col_types = show_col_types))
 
         }
 
