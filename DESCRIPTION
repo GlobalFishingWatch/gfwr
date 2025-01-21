@@ -1,8 +1,8 @@
 Package: gfwr
 Title: Access data from Global Fishing Watch APIs
-Version: 2.0.0
+Version: 2.0.1
 Authors@R: c(
-    person("Tyler", "Clavelle", , "tyler@globalfishingwatch.org", role = c("aut", "cre"),
+    person("Tyler", "Clavelle", , "tyler@globalfishingwatch.org", role = c("aut"),
            comment = c(ORCID = "0000-0002-2155-2459")),
     person("Rocío", "Joo", , "rocio.joo@globalfishingwatch.org",
           role = c("aut"),
@@ -10,14 +10,14 @@ Authors@R: c(
     person("Nate", "Miller", , "nate@globalfishingwatch.org",
           role = c("aut")),      
     person("Andrea", "Sánchez-Tapia", , "andrea.sanchez-tapia@globalfishingwatch.org",
-          role = c("aut"),
+          role = c("aut", "cre"),
           comment = c(ORCID = "0000-0002-3521-4338"))      
     )
 Description: This package connects to several Global Fishing Watch APIs to get vessel and events information in an R-friendly format.
 License: Apache License (>= 2)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Imports: 
     dplyr,
     geojsonsf,

@@ -72,22 +72,20 @@
 #' library(gfwr)
 #' # port visits
 #' get_event(event_type = "PORT_VISIT",
-#'           vessels = c("e0c9823749264a129d6b47a7aabce377",
-#'           "8c7304226-6c71-edbe-0b63-c246734b3c01"),
+#'           vessels = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
 #'           start_date = "2017-01-26",
 #'           end_date = "2017-12-31",
 #'           confidence = c(3, 4), # only for port visits
 #'           key = gfw_auth())
 #'  #encounters
 #'  get_event(event_type = "ENCOUNTER",
-#'  vessels = c("e0c9823749264a129d6b47a7aabce377",
-#'   "8c7304226-6c71-edbe-0b63-c246734b3c01"),
-#'   start_date = "2018-01-30",
-#'   end_date = "2023-02-04",
+#'  vessels = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
+#'   start_date = "2012-01-30",
+#'   end_date = "2024-02-04",
 #'   key = gfw_auth())
 #'  # fishing
 #'  get_event(event_type = "FISHING",
-#'  vessels = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
+#'  vessels = c("9b3e9019d-d67f-005a-9593-b66b997559e5"),
 #'   start_date = "2017-01-26",
 #'   end_date = "2023-02-04",
 #'   key = gfw_auth())
@@ -132,8 +130,8 @@
 #'  sf::st_as_sfc() |>
 #'  sf::st_as_sf()
 #'get_event(event_type = 'FISHING',
-#'               start_date = "2020-10-01",
-#'               end_date = "2020-12-31",
+#'               start_date = "2022-01-01",
+#'               end_date = "2024-01-01",
 #'               region = test_polygon,
 #'               region_source = 'USER_SHAPEFILE',
 #'               key = gfw_auth())
@@ -302,20 +300,24 @@ get_event <- function(event_type,
     df_out <- tibble::tibble(
       start = purrr::map_chr(all_entries, 'start'),
       end = purrr::map_chr(all_entries, 'end'),
-      id = purrr::map_chr(all_entries, 'id'),
-      type = purrr::map_chr(all_entries, 'type'),
+      eventId = purrr::map_chr(all_entries, 'id'),
+      eventType = purrr::map_chr(all_entries, 'type'),
       lat = purrr::map_dbl(all_entries, purrr::pluck, 'position','lat'),
       lon = purrr::map_dbl(all_entries, purrr::pluck, 'position','lon'),
       regions = purrr::map(all_entries, purrr::pluck, 'regions'),
       boundingBox = purrr::map(all_entries, 'boundingBox'),
       distances = purrr::map(all_entries, 'distances'),
       vessel = purrr::map(all_entries, 'vessel'),
-      event_info = purrr::map(all_entries, length(all_entries[[1]])) # the event_info is always the last element
+      event_info = purrr::map(all_entries, length(all_entries[[1]])) # the event_info is always the last element and changes names
     )
 
     # Map function to each event to convert to data frame
     event_df <- df_out %>%
       dplyr::mutate(dplyr::across(c(start, end), make_datetime))
+    # Unnest vessel information
+    event_df <- event_df %>%
+      tidyr::unnest_wider(vessel, names_sep = "_") %>%
+      dplyr::rename(vesselId = vessel_id)
     #
     #     # Print out total events
     total <- nrow(event_df)

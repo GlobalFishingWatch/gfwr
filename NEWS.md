@@ -1,4 +1,40 @@
+# gfwr 2.0.1 
+
+2024-11-28
+
+## Major change - bug fix
+
+- We updated the parsing of the output of `get_vessel_info()`. For some advanced
+queries using `where`, the function was returning only a subset of the vessels. 
+This issue is now solved and the number of results should be equal to the number
+of vessels returned by Vessel Viewer on our map. (solves #176)
+
+## Breaking changes
+
+- Some fields in the response were renamed across outputs (addressing issue #146):
+
+  - `get_vessel_info()`: in `$registryInfo` we renamed `id` to `registryId` 
+  - `get_event()`: we renamed `id` to `eventId` and `type` to `eventType`
+
+
+## New features
+
+- `get_vessel_info()`: We added an `index` column to indicate which `vesselIds` 
+are grouped together and belong to the same vessel. This should help associate 
+information from the returned datasets and guide the user when requesting events
+for a single vessel or a group of vessels.
+
+- `get_event()`: We unnested the column-list `"vessel"` to give more visibility to 
+the vessels each event corresponds to.
+
+## Minor changes
+
+- We updated the `get_event()` section in the README to improve the workflow and 
+send groups of `vesselIds` corresponding to one or multiple vessels.
+
+
 # gfwr 2.0.0
+
 
 __`gfwr` was updated to work with version 3 of our APIs.__ This results in various breaking changes in 
 parameter names and output formats. We aim to list here the major modifications but please also

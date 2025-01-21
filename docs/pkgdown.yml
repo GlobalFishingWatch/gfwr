@@ -1,12 +1,11 @@
-pandoc: 3.1.11
-pkgdown: 2.0.9
+pandoc: '3.2'
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
-  gfwr: gfwr.html
-  identity: identity.html
-  making-maps: making-maps.html
-last_built: 2024-07-22T21:21Z
+  articles/gfwr: gfwr.html
+  articles/identity: identity.html
+  articles/making-maps: making-maps.html
+last_built: 2024-11-30T04:49Z
 urls:
   reference: https://globalfishingwatch.github.io/gfwr/reference
   article: https://globalfishingwatch.github.io/gfwr/articles
-

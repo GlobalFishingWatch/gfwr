@@ -83,7 +83,7 @@ get_last_report <- function(key = gfw_auth()) {
       NA
     },
     warning = function(cond) {
-      message(paste("Request caused a warning:", url))
+      message(paste("Request caused a warning:"))
       message("Here's the original warning message:")
       message(conditionMessage(cond))
       # Choose a return value in case of warning

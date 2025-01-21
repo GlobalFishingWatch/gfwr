@@ -9,13 +9,18 @@ get_region_id(region_name, region_source = "EEZ", key = gfw_auth())
 \arguments{
 \item{region_name}{string or numeric, EEZ/MPA/RFMO name or id}
 
-\item{region_source}{string, source of region data ('eez', 'mpa', 'rfmo')}
+\item{region_source}{string, source of region data ('EEZ', 'MPA', 'RFMO')}
 
 \item{key}{string, API token}
 }
 \value{
-dataframe, eez code and EEZ name for matching EEZs
+a tibble with label, EEZ code and EEZ name for matching EEZs
 }
 \description{
 Function to pull numeric code using region name
+}
+\examples{
+get_region_id(region_name = "COL", region_source = "EEZ")
+get_region_id(region_name = "Nazca", region_source = "MPA")
+get_region_id(region_name = "IOTC", region_source = "RFMO")
 }
