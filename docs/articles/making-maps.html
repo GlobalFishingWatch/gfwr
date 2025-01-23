@@ -261,16 +261,16 @@ degree resolution and grouped by flag State:</p>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 69,483 × 6</span></span></span>
 <span><span class="co">#&gt;      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  45.1  12.4         <span style="text-decoration: underline;">2</span>021 ITA             13                     39.1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  45.1  12.4         <span style="text-decoration: underline;">2</span>021 ITA             15                     22.3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  45.1  12.4         <span style="text-decoration: underline;">2</span>021 ITA             13                     37.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  45.2  13.0         <span style="text-decoration: underline;">2</span>021 ITA             14                     19.3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  45.1  12.5         <span style="text-decoration: underline;">2</span>021 ITA             18                     61.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  45.1  12.5         <span style="text-decoration: underline;">2</span>021 ITA             14                     36.3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  45.1  12.5         <span style="text-decoration: underline;">2</span>021 ITA             13                     44.4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  45.1  12.5         <span style="text-decoration: underline;">2</span>021 ITA             15                     67.8</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  45.0  12.5         <span style="text-decoration: underline;">2</span>021 ITA             13                     47.0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  45.1  12.5         <span style="text-decoration: underline;">2</span>021 ITA             15                     50.4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  38.0  12.3         <span style="text-decoration: underline;">2</span>021 ITA             13                     48.5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  37.4  12.8         <span style="text-decoration: underline;">2</span>021 ITA             14                     18.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  37.4  12.8         <span style="text-decoration: underline;">2</span>021 ITA             14                     16.2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  37.5  12.9         <span style="text-decoration: underline;">2</span>021 ITA             14                     25.9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  37.5  12.9         <span style="text-decoration: underline;">2</span>021 ITA             14                     18.1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  37.5  12.9         <span style="text-decoration: underline;">2</span>021 ITA             13                     17.2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  37.4  13.0         <span style="text-decoration: underline;">2</span>021 ITA             15                     17.8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  37.4  13.1         <span style="text-decoration: underline;">2</span>021 ITA             17                     39.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  37.4  13.1         <span style="text-decoration: underline;">2</span>021 ITA             17                     27.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  37.4  13.1         <span style="text-decoration: underline;">2</span>021 ITA             15                     18.2</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 69,473 more rows</span></span></span></code></pre>
 <p>Because the data includes fishing by all flag states, to make a map
 of all activity, we first need to summarize activity by grid cell.</p>
@@ -328,20 +328,19 @@ effort data within the jurisdiction of the Indian Ocean Tuna Commission
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use `spec()` to retrieve the full column specification for this data.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 105,594 × 6</span></span></span>
-<span><span class="co">#&gt;      Lat   Lon `Time Range` geartype         `Vessel IDs` Apparent Fishing Hou…¹</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> -<span style="color: #BB0000;">34.7</span> 136.          <span style="text-decoration: underline;">2</span>021 inconclusive               11                  375. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> -<span style="color: #BB0000;">34.8</span> 136.          <span style="text-decoration: underline;">2</span>021 inconclusive               11                  184. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> -<span style="color: #BB0000;">34.9</span> 136.          <span style="text-decoration: underline;">2</span>021 inconclusive                9                  158. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> -<span style="color: #BB0000;">35</span>   136.          <span style="text-decoration: underline;">2</span>021 inconclusive                9                  148. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> -<span style="color: #BB0000;">35.2</span> 136.          <span style="text-decoration: underline;">2</span>021 inconclusive                9                  130. </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> -<span style="color: #BB0000;">35.3</span> 136.          <span style="text-decoration: underline;">2</span>021 inconclusive                9                   99.4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  -<span style="color: #BB0000;">6.1</span>  44.4         <span style="text-decoration: underline;">2</span>021 drifting_longli…           10                   34.0</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  -<span style="color: #BB0000;">6.3</span>  44.5         <span style="text-decoration: underline;">2</span>021 drifting_longli…            9                   31.3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  -<span style="color: #BB0000;">6.5</span>  44           <span style="text-decoration: underline;">2</span>021 drifting_longli…            9                   23.4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  -<span style="color: #BB0000;">6.5</span>  44.1         <span style="text-decoration: underline;">2</span>021 drifting_longli…           10                   24.4</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 105,584 more rows</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ abbreviated name: ¹​`Apparent Fishing Hours`</span></span></span></code></pre>
+<span><span class="co">#&gt;      Lat   Lon `Time Range` geartype `Vessel IDs` `Apparent Fishing Hours`</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   6.1  99.9         <span style="text-decoration: underline;">2</span>021 trawlers           20                    272. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   5.7 100.          <span style="text-decoration: underline;">2</span>021 trawlers           20                    334. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>   4.7 100.          <span style="text-decoration: underline;">2</span>021 trawlers           28                    532. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>   4.7 100.          <span style="text-decoration: underline;">2</span>021 trawlers           23                    310. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   5.5  99.9         <span style="text-decoration: underline;">2</span>021 trawlers            9                    236. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>   5.2  99.9         <span style="text-decoration: underline;">2</span>021 trawlers           10                     89.0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   5.6 100           <span style="text-decoration: underline;">2</span>021 trawlers            9                    226. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   4.9 100.          <span style="text-decoration: underline;">2</span>021 trawlers            9                     68.2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   4.7 100.          <span style="text-decoration: underline;">2</span>021 fishing            12                    428. </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>   4.8 100.          <span style="text-decoration: underline;">2</span>021 trawlers           47                   <span style="text-decoration: underline;">2</span>432. </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 105,584 more rows</span></span></span></code></pre>
 <p>This time, instead of aggregating all activity, let’s plot the
 activity of a specific gear type:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
@@ -537,7 +536,7 @@ vessels</p>
 <span>                          end_date <span class="op">=</span> <span class="va">end_date</span>,</span>
 <span>                          region <span class="op">=</span> <span class="va">my_shp</span>,</span>
 <span>                          region_source <span class="op">=</span> <span class="st">"USER_SHAPEFILE"</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; [1] "Downloading 4211 events from GFW"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "Downloading 4230 events from GFW"</span></span></code></pre></div>
 <p>and loitering events by refrigerated cargo vessels</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_loitering_events_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_event.html">get_event</a></span><span class="op">(</span>event_type <span class="op">=</span> <span class="st">"LOITERING"</span>,</span>

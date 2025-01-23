@@ -234,10 +234,10 @@ get_vessel_info(where = "shipname LIKE '%GABU REEFE%' OR imo = '8300949'",
 #> # A tibble: 4 × 10
 #>   index vesselId              geartypes_name geartypes_source geartypes_yearFrom
 #>   <dbl> <chr>                 <chr>          <chr>                         <int>
-#> 1     1 58cf536b1-1fca-dac3-… CARRIER        GFW_VESSEL_LIST                2012
-#> 2     1 1da8dbc23-3c48-d5ce-… CARRIER        GFW_VESSEL_LIST                2022
-#> 3     1 0b7047cb5-58c8-6e63-… CARRIER        GFW_VESSEL_LIST                2019
-#> 4     1 9827ea1ea-a120-f374-… CARRIER        GFW_VESSEL_LIST                2024
+#> 1     1 1da8dbc23-3c48-d5ce-… CARRIER        GFW_VESSEL_LIST                2022
+#> 2     1 0b7047cb5-58c8-6e63-… CARRIER        GFW_VESSEL_LIST                2019
+#> 3     1 9827ea1ea-a120-f374-… CARRIER        GFW_VESSEL_LIST                2024
+#> 4     1 58cf536b1-1fca-dac3-… CARRIER        GFW_VESSEL_LIST                2012
 #> # ℹ 5 more variables: geartypes_yearTo <int>, shiptypes_name <chr>,
 #> #   shiptypes_source <chr>, shiptypes_yearFrom <int>, shiptypes_yearTo <int>
 #> 
@@ -245,7 +245,7 @@ get_vessel_info(where = "shipname LIKE '%GABU REEFE%' OR imo = '8300949'",
 #> # A tibble: 4 × 14
 #>   index vesselId   ssvid shipname nShipname flag  callsign imo   messagesCounter
 #>   <dbl> <chr>      <chr> <chr>    <chr>     <chr> <chr>    <chr>           <int>
-#> 1     1 9827ea1ea… 6290… GABU RE… GABUREEF… GMB   C5J278   8300…          118837
+#> 1     1 9827ea1ea… 6290… GABU RE… GABUREEF… GMB   C5J278   8300…          126103
 #> 2     1 1da8dbc23… 6135… GABU RE… GABUREEF… CMR   TJMC996  8300…          973251
 #> 3     1 0b7047cb5… 2141… GABU RE… GABUREEF… MDA   ER2732   8300…          642750
 #> 4     1 58cf536b1… 6168… GABU RE… GABUREEF… COM   D6FJ2    8300…          469834
@@ -300,7 +300,7 @@ get_vessel_info(ids = "8c7304226-6c71-edbe-0b63-c246734b3c01",
 #> # A tibble: 3 × 7
 #>   index name    flag  ssvid     sourceCode dateFrom             dateTo          
 #>   <dbl> <chr>   <chr> <chr>     <list>     <chr>                <chr>           
-#> 1     1 COLINER RUS   273379740 <chr [1]>  2015-02-27T10:59:43Z 2024-09-30T20:2…
+#> 1     1 COLINER RUS   273379740 <chr [1]>  2015-02-27T10:59:43Z 2024-10-31T23:4…
 #> 2     1 COLINER CYP   511101495 <chr [1]>  2024-07-04T14:27:04Z 2024-07-24T14:2…
 #> 3     1 COLINER CYP   210631000 <chr [1]>  2013-05-15T20:19:43Z 2024-07-04T14:1…
 #> 
@@ -316,11 +316,11 @@ get_vessel_info(ids = "8c7304226-6c71-edbe-0b63-c246734b3c01",
 #> # A tibble: 5 × 10
 #>   index vesselId              geartypes_name geartypes_source geartypes_yearFrom
 #>   <dbl> <chr>                 <chr>          <chr>                         <int>
-#> 1     1 0cb77880e-ee49-2ce4-… CARRIER        GFW_VESSEL_LIST                2012
+#> 1     1 0edad163f-f53d-9ddb-… CARRIER        GFW_VESSEL_LIST                2024
 #> 2     1 3c81a942b-bf0a-f476-… CARRIER        GFW_VESSEL_LIST                2015
-#> 3     1 0edad163f-f53d-9ddb-… CARRIER        GFW_VESSEL_LIST                2024
-#> 4     1 8c7304226-6c71-edbe-… CARRIER        GFW_VESSEL_LIST                2013
-#> 5     1 da1cd7e1b-b8d0-539c-… CARRIER        GFW_VESSEL_LIST                2015
+#> 3     1 da1cd7e1b-b8d0-539c-… CARRIER        GFW_VESSEL_LIST                2015
+#> 4     1 0cb77880e-ee49-2ce4-… CARRIER        GFW_VESSEL_LIST                2012
+#> 5     1 8c7304226-6c71-edbe-… CARRIER        GFW_VESSEL_LIST                2013
 #> # ℹ 5 more variables: geartypes_yearTo <int>, shiptypes_name <chr>,
 #> #   shiptypes_source <chr>, shiptypes_yearFrom <int>, shiptypes_yearTo <int>
 #> 
@@ -354,21 +354,21 @@ get_vessel_info(ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01",
 #> # A tibble: 3 × 1
 #>   registryInfoTotalRecords
 #>                      <int>
-#> 1                        5
-#> 2                        2
+#> 1                        2
+#> 2                        5
 #> 3                        1
 #> 
 #> $registryInfo
 #> # A tibble: 8 × 17
 #>   index recordId        sourceCode ssvid flag  shipname nShipname callsign imo  
 #>   <dbl> <chr>           <list>     <chr> <chr> <chr>    <chr>     <chr>    <chr>
-#> 1     1 a8d00ce54b37ad… <chr [3]>  2733… RUS   FRIO FO… FRIOFORW… UCRZ     9076…
-#> 2     1 a8d00ce54b37ad… <chr [2]>  5111… PLW   FRIO FO… FRIOFORW… T8A4891  9076…
-#> 3     1 a8d00ce54b37ad… <chr [6]>  2106… CYP   FRIO FO… FRIOFORW… 5BWC3    9076…
-#> 4     1 a8d00ce54b37ad… <chr [2]>  3413… KNA   FRIO FO… FRIOFORW… V4JQ3    9076…
-#> 5     1 a8d00ce54b37ad… <chr [2]>  3546… PAN   FRIO AE… FRIOAEGE… 3FGY4    9076…
-#> 6     2 b82d02e5c2c11e… <chr [5]>  4417… KOR   ADRIA    ADRIA     DTBY3    8919…
-#> 7     2 b82d02e5c2c11e… <chr [4]>  4417… KOR   PREMIER  PREMIER   DTBY3    8919…
+#> 1     1 b82d02e5c2c11e… <chr [5]>  4417… KOR   ADRIA    ADRIA     DTBY3    8919…
+#> 2     1 b82d02e5c2c11e… <chr [4]>  4417… KOR   PREMIER  PREMIER   DTBY3    8919…
+#> 3     2 a8d00ce54b37ad… <chr [3]>  2733… RUS   FRIO FO… FRIOFORW… UCRZ     9076…
+#> 4     2 a8d00ce54b37ad… <chr [2]>  5111… PLW   FRIO FO… FRIOFORW… T8A4891  9076…
+#> 5     2 a8d00ce54b37ad… <chr [6]>  2106… CYP   FRIO FO… FRIOFORW… 5BWC3    9076…
+#> 6     2 a8d00ce54b37ad… <chr [2]>  3413… KNA   FRIO FO… FRIOFORW… V4JQ3    9076…
+#> 7     2 a8d00ce54b37ad… <chr [2]>  3546… PAN   FRIO AE… FRIOAEGE… 3FGY4    9076…
 #> 8     3 685862e0626f62… <chr [5]>  5480… PHL   JOHNREY… JOHNREYN… DUQA7    8118…
 #> # ℹ 8 more variables: latestVesselInfo <lgl>, transmissionDateFrom <chr>,
 #> #   transmissionDateTo <chr>, geartypes <chr>, lengthM <dbl>, tonnageGt <dbl>,
@@ -378,22 +378,22 @@ get_vessel_info(ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01",
 #> # A tibble: 5 × 7
 #>   index name                          flag  ssvid     sourceCode dateFrom dateTo
 #>   <dbl> <chr>                         <chr> <chr>     <list>     <chr>    <chr> 
-#> 1     1 COLINER                       RUS   273379740 <chr [1]>  2015-02… 2024-…
-#> 2     1 COLINER                       CYP   511101495 <chr [1]>  2024-07… 2024-…
-#> 3     1 COLINER                       CYP   210631000 <chr [1]>  2013-05… 2024-…
-#> 4     2 DONGWON INDUSTRIES            KOR   441734000 <chr [2]>  2013-09… 2024-…
-#> 5     3 TRANS PACIFIC JOURNEY FISHING PHL   548012100 <chr [3]>  2017-02… 2019-…
+#> 1     1 DONGWON INDUSTRIES            KOR   441734000 <chr [2]>  2013-09… 2024-…
+#> 2     2 COLINER                       RUS   273379740 <chr [1]>  2015-02… 2024-…
+#> 3     2 COLINER                       CYP   511101495 <chr [1]>  2024-07… 2024-…
+#> 4     2 COLINER                       CYP   210631000 <chr [1]>  2013-05… 2024-…
+#> 5     3 TRANS PACIFIC JOURNEY FISHING PHL   548012100 <chr [4]>  2017-02… 2019-…
 #> 
 #> $registryPublicAuthorizations
 #> # A tibble: 8 × 5
 #>   index dateFrom             dateTo               ssvid     sourceCode
 #>   <dbl> <chr>                <chr>                <chr>     <list>    
-#> 1     1 2023-01-01T00:00:00Z 2024-09-01T00:00:00Z 210631000 <chr [1]> 
-#> 2     1 2020-01-01T00:00:00Z 2024-09-01T00:00:00Z 210631000 <chr [1]> 
-#> 3     1 2024-08-09T00:00:00Z 2024-09-01T00:00:00Z 273379740 <chr [1]> 
-#> 4     2 2015-10-08T00:00:00Z 2020-07-21T00:00:00Z 441734000 <chr [1]> 
-#> 5     2 2012-01-01T00:00:00Z 2013-09-19T00:00:00Z 441734000 <chr [1]> 
-#> 6     2 2013-09-20T00:00:00Z 2024-09-01T00:00:00Z 441734000 <chr [1]> 
+#> 1     1 2015-10-08T00:00:00Z 2020-07-21T00:00:00Z 441734000 <chr [1]> 
+#> 2     1 2012-01-01T00:00:00Z 2013-09-19T00:00:00Z 441734000 <chr [1]> 
+#> 3     1 2013-09-20T00:00:00Z 2024-09-01T00:00:00Z 441734000 <chr [1]> 
+#> 4     2 2023-01-01T00:00:00Z 2024-09-01T00:00:00Z 210631000 <chr [1]> 
+#> 5     2 2020-01-01T00:00:00Z 2024-09-01T00:00:00Z 210631000 <chr [1]> 
+#> 6     2 2024-08-09T00:00:00Z 2024-09-01T00:00:00Z 273379740 <chr [1]> 
 #> 7     3 2012-01-01T00:00:00Z 2017-10-25T00:00:00Z 548012100 <chr [1]> 
 #> 8     3 2019-02-10T18:02:49Z 2024-09-01T00:00:00Z 548012100 <chr [1]> 
 #> 
@@ -401,15 +401,15 @@ get_vessel_info(ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01",
 #> # A tibble: 9 × 10
 #>   index vesselId              geartypes_name geartypes_source geartypes_yearFrom
 #>   <dbl> <chr>                 <chr>          <chr>                         <int>
-#> 1     1 0cb77880e-ee49-2ce4-… CARRIER        GFW_VESSEL_LIST                2012
-#> 2     1 3c81a942b-bf0a-f476-… CARRIER        GFW_VESSEL_LIST                2015
-#> 3     1 0edad163f-f53d-9ddb-… CARRIER        GFW_VESSEL_LIST                2024
-#> 4     1 8c7304226-6c71-edbe-… CARRIER        GFW_VESSEL_LIST                2013
-#> 5     1 da1cd7e1b-b8d0-539c-… CARRIER        GFW_VESSEL_LIST                2015
-#> 6     2 aca119c29-95dd-f5c4-… TUNA_PURSE_SE… COMBINATION_OF_…               2012
-#> 7     2 6583c51e3-3626-5638-… TUNA_PURSE_SE… COMBINATION_OF_…               2013
-#> 8     3 71e7da672-2451-17da-… TUNA_PURSE_SE… COMBINATION_OF_…               2017
-#> 9     3 55889aefb-bef9-224c-… TUNA_PURSE_SE… COMBINATION_OF_…               2017
+#> 1     1 6583c51e3-3626-5638-… TUNA_PURSE_SE… COMBINATION_OF_…               2013
+#> 2     1 aca119c29-95dd-f5c4-… TUNA_PURSE_SE… COMBINATION_OF_…               2012
+#> 3     2 0edad163f-f53d-9ddb-… CARRIER        GFW_VESSEL_LIST                2024
+#> 4     2 3c81a942b-bf0a-f476-… CARRIER        GFW_VESSEL_LIST                2015
+#> 5     2 da1cd7e1b-b8d0-539c-… CARRIER        GFW_VESSEL_LIST                2015
+#> 6     2 0cb77880e-ee49-2ce4-… CARRIER        GFW_VESSEL_LIST                2012
+#> 7     2 8c7304226-6c71-edbe-… CARRIER        GFW_VESSEL_LIST                2013
+#> 8     3 55889aefb-bef9-224c-… TUNA_PURSE_SE… COMBINATION_OF_…               2017
+#> 9     3 71e7da672-2451-17da-… TUNA_PURSE_SE… COMBINATION_OF_…               2017
 #> # ℹ 5 more variables: geartypes_yearTo <int>, shiptypes_name <chr>,
 #> #   shiptypes_source <chr>, shiptypes_yearFrom <int>, shiptypes_yearTo <int>
 #> 
@@ -417,8 +417,8 @@ get_vessel_info(ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01",
 #> # A tibble: 3 × 14
 #>   index vesselId   ssvid shipname nShipname flag  callsign imo   messagesCounter
 #>   <dbl> <chr>      <chr> <chr>    <chr>     <chr> <chr>    <chr>           <int>
-#> 1     1 8c7304226… 2106… FRIO FO… FRIOFORW… CYP   5BWC3    9076…         3369802
-#> 2     2 6583c51e3… 4417… ADRIA    ADRIA     KOR   DTBY3    <NA>           360249
+#> 1     1 6583c51e3… 4417… ADRIA    ADRIA     KOR   DTBY3    <NA>           360249
+#> 2     2 8c7304226… 2106… FRIO FO… FRIOFORW… CYP   5BWC3    9076…         3369802
 #> 3     3 71e7da672… 5480… JOHN RE… JOHNREYN… PHL   DUQA-7   8118…          133081
 #> # ℹ 5 more variables: positionsCounter <int>, sourceCode <list>,
 #> #   matchFields <chr>, transmissionDateFrom <chr>, transmissionDateTo <chr>
@@ -457,18 +457,18 @@ get_event(event_type = 'ENCOUNTER',
           )
 #> [1] "Downloading 286 events from GFW"
 #> # A tibble: 286 × 16
-#>    start               end                 eventId        eventType    lat   lon
-#>    <dttm>              <dttm>              <chr>          <chr>      <dbl> <dbl>
-#>  1 2019-12-31 12:00:00 2020-01-01 23:20:00 9d99a5cad40f4… encounter  44.5  136. 
-#>  2 2019-12-31 12:00:00 2020-01-01 23:20:00 9d99a5cad40f4… encounter  44.5  136. 
-#>  3 2019-12-28 00:20:00 2020-01-01 23:40:00 2f326a52b9b48… encounter  43.4  135. 
-#>  4 2020-01-01 17:40:00 2020-01-01 23:30:00 24df89e2316c7… encounter  38.3  121. 
-#>  5 2020-01-01 00:00:00 2020-01-01 15:00:00 93b3cfca5f8bf… encounter  60.2  166. 
-#>  6 2020-01-01 06:30:00 2020-01-01 20:00:00 2568331d0c9cc… encounter  30.0  123. 
-#>  7 2020-01-01 12:30:00 2020-01-01 21:30:00 95bd2e16bc8d9… encounter  38.5  121. 
-#>  8 2020-01-01 03:30:00 2020-01-01 06:50:00 f3f2dda127bbe… encounter  39.1  118. 
-#>  9 2020-01-01 16:10:00 2020-01-02 08:20:00 601a7210fbb8a… encounter -17.5  -79.5
-#> 10 2020-01-01 03:20:00 2020-01-01 07:10:00 878c6f107b33d… encounter  -7.93  60.0
+#>    start               end                 eventId       eventType    lat    lon
+#>    <dttm>              <dttm>              <chr>         <chr>      <dbl>  <dbl>
+#>  1 2019-12-26 14:10:00 2020-01-03 05:30:00 42a406089abf… encounter  -1.79 -113. 
+#>  2 2019-12-31 14:50:00 2020-01-01 20:20:00 4831292899e8… encounter -17.6   -79.4
+#>  3 2019-12-31 05:50:00 2020-01-01 12:20:00 3832c571fb38… encounter  21.2   111. 
+#>  4 2019-12-31 12:00:00 2020-01-01 23:20:00 9d99a5cad40f… encounter  44.5   136. 
+#>  5 2019-12-30 11:00:00 2020-01-06 14:00:00 3067e6a37d32… encounter   9.49  -99.1
+#>  6 2019-12-31 16:00:00 2020-01-01 08:50:00 fe5c55975661… encounter  -3.44 -147. 
+#>  7 2020-01-01 15:00:00 2020-01-01 18:20:00 fa8f5ac8ae49… encounter   9.49  -99.1
+#>  8 2020-01-01 05:10:00 2020-01-01 07:50:00 8127047b4160… encounter  34.7   129. 
+#>  9 2020-01-01 03:00:00 2020-01-01 10:40:00 72a9f8c07e8b… encounter  29.4   123. 
+#> 10 2020-01-01 00:00:00 2020-01-01 03:20:00 4498204f090d… encounter  24.6   119. 
 #> # ℹ 276 more rows
 #> # ℹ 10 more variables: regions <list>, boundingBox <list>, distances <list>,
 #> #   vesselId <chr>, vessel_name <chr>, vessel_ssvid <chr>, vessel_flag <chr>,
@@ -500,18 +500,18 @@ get_event(event_type = 'FISHING',
                key = gfw_auth())
 #> [1] "Downloading 59 events from GFW"
 #> # A tibble: 59 × 16
-#>    start               end                 eventId       eventType     lat   lon
-#>    <dttm>              <dttm>              <chr>         <chr>       <dbl> <dbl>
-#>  1 2020-10-20 03:23:35 2020-10-20 16:14:26 97790a3a15dc… fishing    4.89   -51.8
-#>  2 2020-10-03 05:50:14 2020-10-05 03:35:27 b68b49e7e365… fishing    4.73   -51.5
-#>  3 2020-10-01 12:54:31 2020-10-01 21:26:31 083f87bff859… fishing    4.75   -51.6
-#>  4 2020-10-19 11:28:05 2020-10-19 15:56:47 52b41baac7ea… fishing    0.376  -47.8
-#>  5 2020-10-11 20:13:50 2020-10-12 02:24:29 2dd889e7f9ec… fishing    0.140  -47.9
-#>  6 2020-10-25 13:25:27 2020-10-25 19:48:17 75143d8026e8… fishing    0.193  -47.9
-#>  7 2020-10-22 01:59:54 2020-10-22 03:58:15 2ed40086d273… fishing   -0.0635 -47.8
-#>  8 2020-10-11 10:42:33 2020-10-11 14:06:06 791924103dda… fishing    0.183  -47.9
-#>  9 2020-10-05 08:50:27 2020-10-06 17:35:21 c75671db2488… fishing    4.71   -51.5
-#> 10 2020-10-01 23:29:31 2020-10-03 03:11:17 4d538f3b37e2… fishing    4.74   -51.5
+#>    start               end                 eventId        eventType    lat   lon
+#>    <dttm>              <dttm>              <chr>          <chr>      <dbl> <dbl>
+#>  1 2020-10-03 05:50:14 2020-10-05 03:35:27 b68b49e7e3655… fishing    4.73  -51.5
+#>  2 2020-10-01 23:29:31 2020-10-03 03:11:17 4d538f3b37e2a… fishing    4.74  -51.5
+#>  3 2020-10-05 08:50:27 2020-10-06 17:35:21 c75671db2488b… fishing    4.71  -51.5
+#>  4 2020-10-20 03:23:35 2020-10-20 16:14:26 97790a3a15dc5… fishing    4.89  -51.8
+#>  5 2020-10-30 12:22:15 2020-10-30 13:51:56 8524e3c9d9c25… fishing    3.79  -50.1
+#>  6 2020-10-01 12:54:31 2020-10-01 21:26:31 083f87bff8592… fishing    4.75  -51.6
+#>  7 2020-10-17 06:06:57 2020-10-18 20:00:32 8404b41048fca… fishing    4.72  -51.5
+#>  8 2020-10-26 14:08:01 2020-10-26 18:20:07 f3f5f186fc457… fishing    3.59  -49.9
+#>  9 2020-10-05 11:38:19 2020-10-05 14:02:11 d144dab167a30… fishing   -0.123 -47.7
+#> 10 2020-10-03 11:58:33 2020-10-03 19:30:08 92a28d8935c1c… fishing   -0.107 -47.7
 #> # ℹ 49 more rows
 #> # ℹ 10 more variables: regions <list>, boundingBox <list>, distances <list>,
 #> #   vesselId <chr>, vessel_name <chr>, vessel_ssvid <chr>, vessel_flag <chr>,
@@ -559,16 +559,16 @@ get_event(event_type = 'PORT_VISIT',
 #> # A tibble: 25 × 15
 #>    start               end                 eventId        eventType   lat    lon
 #>    <dttm>              <dttm>              <chr>          <chr>     <dbl>  <dbl>
-#>  1 2020-06-25 09:13:36 2020-06-25 20:31:10 29863e18bfa98… port_vis… 16.9  -25.0 
-#>  2 2020-06-20 12:33:45 2020-06-20 19:43:10 a8f5401a3bbec… port_vis… 14.6  -17.4 
-#>  3 2020-03-05 13:28:59 2020-03-10 02:26:24 0d845cb306614… port_vis…  5.20  -4.02
-#>  4 2020-08-08 06:40:40 2020-08-10 08:13:39 acd48bf28e6b3… port_vis… 14.6  -17.4 
-#>  5 2020-02-23 12:44:03 2020-02-24 10:35:02 672bc20417b3c… port_vis… 16.9  -25.0 
-#>  6 2020-04-01 05:55:58 2020-04-05 15:03:18 953e1cf8246db… port_vis…  5.23  -4.02
-#>  7 2020-04-19 06:16:46 2020-04-21 14:02:19 5ad5c93c5448d… port_vis… 28.1  -15.4 
-#>  8 2020-08-19 09:44:55 2020-08-19 18:39:59 724b8c1b2fb6d… port_vis… 16.9  -25.0 
-#>  9 2021-05-19 22:46:40 2021-06-08 08:54:49 ed0ffc8600077… port_vis… 14.7  -17.4 
-#> 10 2020-07-06 06:45:06 2020-07-12 09:13:39 6845cffacfe25… port_vis…  5.20  -4.02
+#>  1 2021-05-19 22:46:40 2021-06-08 08:54:49 ed0ffc8600077… port_vis… 14.7  -17.4 
+#>  2 2020-02-23 12:44:03 2020-02-24 10:35:02 672bc20417b3c… port_vis… 16.9  -25.0 
+#>  3 2021-08-01 12:58:44 2021-08-16 16:00:15 a26f4940e189c… port_vis…  5.20  -4.02
+#>  4 2019-11-15 14:15:11 2019-11-19 07:49:20 bbeed3f884a6f… port_vis…  5.20  -4.02
+#>  5 2021-10-17 09:52:51 2021-10-17 16:06:40 d133e151d9edd… port_vis… 14.6  -17.4 
+#>  6 2020-06-10 13:51:11 2020-06-13 13:51:28 8f14e93f2e157… port_vis…  5.23  -3.97
+#>  7 2020-04-01 05:55:58 2020-04-05 15:03:18 953e1cf8246db… port_vis…  5.23  -4.02
+#>  8 2020-04-19 06:16:46 2020-04-21 14:02:19 5ad5c93c5448d… port_vis… 28.1  -15.4 
+#>  9 2020-07-06 06:45:06 2020-07-12 09:13:39 6845cffacfe25… port_vis…  5.20  -4.02
+#> 10 2020-11-01 14:17:48 2020-11-06 12:25:53 f39043169c3c4… port_vis…  5.20  -4.02
 #> # ℹ 15 more rows
 #> # ℹ 9 more variables: regions <list>, boundingBox <list>, distances <list>,
 #> #   vesselId <chr>, vessel_name <chr>, vessel_ssvid <chr>, vessel_flag <chr>,
@@ -588,16 +588,16 @@ get_event(event_type = 'PORT_VISIT',
 #> # A tibble: 74 × 15
 #>    start               end                 eventId        eventType   lat    lon
 #>    <dttm>              <dttm>              <chr>          <chr>     <dbl>  <dbl>
-#>  1 2016-03-03 05:47:02 2016-03-03 11:46:33 4a7f8049e265e… port_vis…  5.20  -4.02
-#>  2 2019-08-05 07:57:25 2019-08-07 14:33:40 86eadd44ab4a9… port_vis… 14.6  -17.4 
-#>  3 2016-03-31 04:43:41 2016-04-02 09:07:10 617db86945865… port_vis…  5.20  -4.02
-#>  4 2019-07-09 09:31:01 2019-07-13 13:19:15 557fe44f868f3… port_vis…  5.23  -3.97
-#>  5 2015-12-29 14:52:13 2016-01-03 16:38:59 ecd93cc08b521… port_vis…  5.29  -4.01
-#>  6 2018-09-19 06:32:12 2018-09-22 11:02:34 04989af5b8533… port_vis…  5.23  -3.97
-#>  7 2019-11-15 14:15:11 2019-11-19 07:49:20 bbeed3f884a6f… port_vis…  5.20  -4.02
-#>  8 2016-04-20 06:50:58 2016-04-20 19:47:10 3c267cf9e13f5… port_vis… 14.7  -17.4 
-#>  9 2016-04-24 07:14:33 2016-04-24 11:54:59 104e08b308b96… port_vis… 14.6  -17.4 
-#> 10 2019-09-29 05:40:18 2019-10-02 17:16:39 baa809792afe6… port_vis… 14.6  -17.4 
+#>  1 2020-06-25 09:13:36 2020-06-25 20:31:10 29863e18bfa98… port_vis… 16.9  -25.0 
+#>  2 2020-06-20 12:33:45 2020-06-20 19:43:10 a8f5401a3bbec… port_vis… 14.6  -17.4 
+#>  3 2015-12-29 14:52:13 2016-01-03 16:38:59 ecd93cc08b521… port_vis…  5.29  -4.01
+#>  4 2017-04-13 10:07:49 2017-04-29 20:58:13 de2a5c8f51a93… port_vis… 14.6  -17.4 
+#>  5 2015-12-06 11:48:38 2015-12-10 16:19:37 f03fae29b2df6… port_vis…  5.23  -3.97
+#>  6 2020-09-26 16:17:55 2020-10-01 18:59:15 80f2a666bf03b… port_vis…  5.20  -4.02
+#>  7 2017-04-30 15:25:23 2017-05-05 18:41:04 89c261f0abda7… port_vis…  5.23  -3.97
+#>  8 2016-05-18 19:31:04 2016-05-22 14:20:05 8f19c373a1d4b… port_vis…  5.20  -4.02
+#>  9 2020-02-23 12:44:03 2020-02-24 10:35:02 672bc20417b3c… port_vis… 16.9  -25.0 
+#> 10 2020-12-14 09:46:52 2020-12-22 16:54:09 9205a53a7b91d… port_vis…  5.20  -4.04
 #> # ℹ 64 more rows
 #> # ℹ 9 more variables: regions <list>, boundingBox <list>, distances <list>,
 #> #   vesselId <chr>, vessel_name <chr>, vessel_ssvid <chr>, vessel_flag <chr>,
@@ -637,24 +637,24 @@ usa_trawlers <- get_vessel_info(
 )
 ```
 
-This list returns 6592 `vesselIds` belonging to 4144 vessels.
+This list returns 6298 `vesselIds` belonging to 4084 vessels.
 
 ``` r
 usa_trawlers$selfReportedInfo
-#> # A tibble: 6,592 × 14
+#> # A tibble: 6,298 × 14
 #>    index vesselId  ssvid shipname nShipname flag  callsign imo   messagesCounter
 #>    <dbl> <chr>     <chr> <chr>    <chr>     <chr> <chr>    <chr>           <int>
 #>  1     1 c698dfcc… 3677… TREMONT  TREMONT   USA   WDJ5556  <NA>            71116
-#>  2     2 64907178… 3662… SUSAN L  SUSANL    USA   WQZ4631  <NA>          1539173
-#>  3     3 5e6c03ec… 3682… CAPTAIN… CAPTAINT… USA   WDN3761  <NA>           786924
-#>  4     3 045a49e9… 3680… AMG      AMG       USA   WDK2542  <NA>             9964
-#>  5     3 161cee78… 3677… ATLANTI… ATLANTIS1 USA   WDI5729  <NA>             3288
-#>  6     4 242fa3fb… 3670… TAUNY A… TAUNYANN  USA   WDC4097  <NA>          2038373
-#>  7     5 0dddd2a8… 3673… SHAMROCK SHAMROCK  USA   WDD8722  <NA>             2720
-#>  8     5 695b254f… 3673… SHAMROCK SHAMROCK  USA   <NA>     <NA>              477
-#>  9     5 ac994bda… 3673… <NA>     <NA>      USA   WDD8722  <NA>             3179
-#> 10     6 47b94476… 3668… ORION    ORION     USA   <NA>     <NA>            23007
-#> # ℹ 6,582 more rows
+#>  2     2 64907178… 3662… SUSAN L  SUSANL    USA   WQZ4631  <NA>          1547116
+#>  3     3 47b94476… 3668… ORION    ORION     USA   <NA>     <NA>            23007
+#>  4     4 9f555214… 3680… PELICAN  PELICAN   USA   WDJ8253  <NA>           315450
+#>  5     4 15cea26f… 3680… PELICAN  PELICAN   USA   <NA>     <NA>              407
+#>  6     5 e5ad57b2… 3670… SEVEN B… SEVENBS5  USA   WAN6419  <NA>            24990
+#>  7     5 32b60617… 3670… SEVEN B… SEVENB5   USA   WAN6419  <NA>            15083
+#>  8     5 e2309c08… 3670… SEVEN B… SEVENB5   USA   <NA>     <NA>              814
+#>  9     6 242fa3fb… 3670… TAUNY A… TAUNYANN  USA   WDC4097  <NA>          2043739
+#> 10     7 0dddd2a8… 3673… SHAMROCK SHAMROCK  USA   WDD8722  <NA>             2720
+#> # ℹ 6,288 more rows
 #> # ℹ 5 more variables: positionsCounter <int>, sourceCode <list>,
 #> #   matchFields <chr>, transmissionDateFrom <chr>, transmissionDateTo <chr>
 ```
@@ -674,14 +674,14 @@ each_USA_trawler %>% filter(index <= 10)
 #>    <dbl> <chr>                                
 #>  1     1 c698dfcc5-5c85-9329-b1ac-8b3656ea9233
 #>  2     2 64907178b-b02a-f401-afa1-b3a099d7a142
-#>  3     3 5e6c03ecd-d774-2d00-6b39-21ab335fca3b
-#>  4     3 045a49e97-7d67-6ef7-219c-fd1a270af740
-#>  5     3 161cee78f-f568-b97e-cb75-5348a2d811ba
-#>  6     4 242fa3fbf-fa03-eb47-5855-f0880b8e7acf
-#>  7     5 0dddd2a83-3626-24f1-0fe6-3c4d45bbb409
-#>  8     5 695b254f7-7e6c-ff50-dc63-55139d9e0101
-#>  9     5 ac994bdab-b59c-9fcc-659e-40179e5dddfb
-#> 10     6 47b944765-5819-b2ab-8c2e-cfc82bd2e82c
+#>  3     3 47b944765-5819-b2ab-8c2e-cfc82bd2e82c
+#>  4     4 9f5552145-50ed-92f4-4514-5177b1a6511d
+#>  5     4 15cea26f5-57ad-acac-4cbf-b45cefb7ab04
+#>  6     5 e5ad57b2d-d250-3691-821a-3d9e8d932fef
+#>  7     5 32b606172-2468-2817-1b4f-fae340279e02
+#>  8     5 e2309c089-9d4e-263e-0035-31022b36c6ff
+#>  9     6 242fa3fbf-fa03-eb47-5855-f0880b8e7acf
+#> 10     7 0dddd2a83-3626-24f1-0fe6-3c4d45bbb409
 #> # ℹ 11 more rows
 # It's exactly 20 in this case to we will request those.
 ten_usa_trawlers <- each_USA_trawler %>% filter(index <= 10)
@@ -698,22 +698,22 @@ events <- get_event(event_type = 'FISHING',
                     start_date = "2020-01-01", 
                     end_date = "2020-02-01", 
                     key = key)
-#> [1] "Downloading 31 events from GFW"
+#> [1] "Downloading 35 events from GFW"
 events
-#> # A tibble: 31 × 16
-#>    start               end                 eventId         eventType   lat   lon
-#>    <dttm>              <dttm>              <chr>           <chr>     <dbl> <dbl>
-#>  1 2020-01-10 18:21:53 2020-01-12 03:13:04 6739137b68e5fb… fishing    38.0 -73.9
-#>  2 2020-01-22 03:07:24 2020-01-23 03:57:57 7812ab3b7950fc… fishing    38.0 -73.9
-#>  3 2020-01-24 14:05:32 2020-01-24 22:02:36 761b7338d7e866… fishing    38.0 -74.0
-#>  4 2020-01-21 10:19:37 2020-01-21 15:31:33 b07cba0b120d99… fishing    38.1 -73.9
-#>  5 2020-01-09 12:30:54 2020-01-09 17:44:54 51c5140b261fca… fishing    38.4 -73.5
-#>  6 2020-01-23 11:55:49 2020-01-23 22:03:58 6662cc521a4c81… fishing    38.0 -73.9
-#>  7 2020-01-30 12:02:27 2020-01-30 21:34:23 9e8b988bfdfa30… fishing    38.0 -73.9
-#>  8 2020-01-10 12:35:22 2020-01-10 16:22:01 4f20b44a59be19… fishing    38.0 -73.9
-#>  9 2020-01-31 17:27:10 2020-01-31 23:44:46 4658cdceebbf29… fishing    38.0 -73.9
-#> 10 2020-01-23 06:40:00 2020-01-23 07:48:45 5d37b7e7f124d8… fishing    38.0 -73.9
-#> # ℹ 21 more rows
+#> # A tibble: 35 × 16
+#>    start               end                 eventId        eventType   lat    lon
+#>    <dttm>              <dttm>              <chr>          <chr>     <dbl>  <dbl>
+#>  1 2020-01-31 07:58:03 2020-01-31 13:32:38 ce97b3eedf575… fishing    42.8 -125. 
+#>  2 2020-01-31 15:05:36 2020-01-31 21:32:05 32c27b8be6040… fishing    43.0 -125. 
+#>  3 2020-01-31 05:25:15 2020-01-31 06:43:40 ea857a15cef2e… fishing    42.8 -125. 
+#>  4 2020-01-29 10:01:51 2020-01-29 12:21:51 25faed9edb8e8… fishing    42.8 -125. 
+#>  5 2020-01-30 23:49:26 2020-01-31 04:34:08 90c53f1ca7571… fishing    38    -73.9
+#>  6 2020-01-23 06:40:00 2020-01-23 07:48:45 5d37b7e7f124d… fishing    38.0  -73.9
+#>  7 2020-01-29 01:14:50 2020-01-29 03:37:58 37d74bd1caa4a… fishing    38.1  -73.9
+#>  8 2020-01-15 02:29:41 2020-01-15 14:44:05 e77d4c67e0956… fishing    38.0  -73.9
+#>  9 2020-01-10 18:21:53 2020-01-12 03:13:04 6739137b68e5f… fishing    38.0  -73.9
+#> 10 2020-01-22 03:07:24 2020-01-23 03:57:57 7812ab3b7950f… fishing    38.0  -73.9
+#> # ℹ 25 more rows
 #> # ℹ 10 more variables: regions <list>, boundingBox <list>, distances <list>,
 #> #   vesselId <chr>, vessel_name <chr>, vessel_ssvid <chr>, vessel_flag <chr>,
 #> #   vessel_type <chr>, vessel_publicAuthorizations <list>, event_info <list>
@@ -726,20 +726,20 @@ each event: `vesselId`, `vessel_name`, `ssvid` (MMSI), `flag`,
 ``` r
 events %>% 
   dplyr::select(starts_with("vessel"))
-#> # A tibble: 31 × 6
+#> # A tibble: 35 × 6
 #>    vesselId                     vessel_name vessel_ssvid vessel_flag vessel_type
 #>    <chr>                        <chr>       <chr>        <chr>       <chr>      
-#>  1 64907178b-b02a-f401-afa1-b3… SUSAN L     366211560    USA         fishing    
-#>  2 64907178b-b02a-f401-afa1-b3… SUSAN L     366211560    USA         fishing    
-#>  3 64907178b-b02a-f401-afa1-b3… SUSAN L     366211560    USA         fishing    
-#>  4 64907178b-b02a-f401-afa1-b3… SUSAN L     366211560    USA         fishing    
+#>  1 454a28f85-56e4-93cb-efa6-ff… BERNADETTE  366233570    USA         fishing    
+#>  2 454a28f85-56e4-93cb-efa6-ff… BERNADETTE  366233570    USA         fishing    
+#>  3 454a28f85-56e4-93cb-efa6-ff… BERNADETTE  366233570    USA         fishing    
+#>  4 454a28f85-56e4-93cb-efa6-ff… BERNADETTE  366233570    USA         fishing    
 #>  5 64907178b-b02a-f401-afa1-b3… SUSAN L     366211560    USA         fishing    
 #>  6 64907178b-b02a-f401-afa1-b3… SUSAN L     366211560    USA         fishing    
 #>  7 64907178b-b02a-f401-afa1-b3… SUSAN L     366211560    USA         fishing    
 #>  8 64907178b-b02a-f401-afa1-b3… SUSAN L     366211560    USA         fishing    
 #>  9 64907178b-b02a-f401-afa1-b3… SUSAN L     366211560    USA         fishing    
 #> 10 64907178b-b02a-f401-afa1-b3… SUSAN L     366211560    USA         fishing    
-#> # ℹ 21 more rows
+#> # ℹ 25 more rows
 #> # ℹ 1 more variable: vessel_publicAuthorizations <list>
 ```
 
@@ -853,9 +853,9 @@ get_raster(spatial_resolution = 'LOW',
 #>  5   3.7  -4           2021 ESP              1                     0.94
 #>  6   4.5  -3.8         2021 SLV              1                     8.13
 #>  7   3.4  -3.9         2021 BES              1                     1.65
-#>  8   5    -5.3         2021 CHN              2                    43.0 
-#>  9   4.6  -5.2         2021 GHA              1                     2.97
-#> 10   4.4  -3.9         2021 SEN              1                     1.84
+#>  8   5.1  -4.6         2021 CHN              1                     2.24
+#>  9   4.7  -6.5         2021 CHN              1                    18.2 
+#> 10   4.5  -6.7         2021 CHN              1                    44.2 
 #> # ℹ 586 more rows
 ```
 
@@ -895,16 +895,16 @@ get_raster(spatial_resolution = 'LOW',
 #> # A tibble: 5,433 × 6
 #>      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`
 #>    <dbl> <dbl>        <dbl> <chr>        <dbl>                    <dbl>
-#>  1  51     1.4         2021 NLD              5                     8.62
-#>  2  50.9   1.4         2021 FRA             28                   885.  
-#>  3  50.9   1.3         2021 FRA             23                    87   
-#>  4  50.8   1.3         2021 BEL              1                     4.86
-#>  5  50.8   1.3         2021 FRA             39                   685.  
-#>  6  50.8   1.2         2021 GBR             11                   255.  
-#>  7  50.7   1.4         2021 FRA             53                  2669.  
-#>  8  51.5   2.1         2021 BEL              1                     7.04
-#>  9  51.3   2.1         2021 NLD             19                    97.2 
-#> 10  51.2   1.9         2021 FRA             20                   560.  
+#>  1  49.2  -5.7         2021 FRA             16                   167.  
+#>  2  48.9  -5.7         2021 FRA             17                   276.  
+#>  3  49.1  -5.9         2021 FRA             18                   168.  
+#>  4  48.9  -6.4         2021 GBR              4                    44.8 
+#>  5  50.9   1.4         2021 NLD              9                    25.4 
+#>  6  50.9   1.3         2021 GBR              2                     2.44
+#>  7  50.8   1.3         2021 NLD             10                    55.5 
+#>  8  50.7   1.4         2021 FRA             53                  2669.  
+#>  9  51.4   2.1         2021 NLD             14                   199.  
+#> 10  51.2   2           2021 NLD             26                   437.  
 #> # ℹ 5,423 more rows
 ```
 
@@ -936,16 +936,16 @@ get_raster(spatial_resolution = 'LOW',
 #> # A tibble: 38 × 6
 #>      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`
 #>    <dbl> <dbl>        <dbl> <chr>        <dbl>                    <dbl>
-#>  1  -3.6 -176.         2015 KIR              1                     6.07
-#>  2  -3.1 -176.         2015 KOR              1                     0.91
-#>  3  -3.4 -176.         2015 KOR              1                     2.38
-#>  4  -3.5 -176.         2015 KOR              1                     9.74
-#>  5  -3.6 -176.         2015 KOR              2                     9.34
-#>  6  -3.6 -176.         2015 KOR              1                     1.98
-#>  7  -3.6 -176.         2015 KOR              1                     7.9 
-#>  8  -4.2 -176.         2015 KOR              1                     0.05
-#>  9  -1   -170.         2015 KOR              1                     2.39
-#> 10  -2.2 -176.         2015 KIR              1                     1.89
+#>  1  -2.9 -176.         2015 FSM              1                     2.77
+#>  2  -3.9 -176.         2015 KOR              2                     5.21
+#>  3  -1.3 -171.         2015 KOR              1                     0.08
+#>  4  -1.7 -172.         2015 KOR              1                     0.98
+#>  5  -4.1 -176.         2015 KOR              1                     2.67
+#>  6  -4   -176.         2015 KOR              1                     1.37
+#>  7  -2.3 -176.         2015 TWN              1                    17.3 
+#>  8  -2.3 -176.         2015 TWN              1                     0.68
+#>  9  -4.7 -176.         2015 KIR              1                     0.36
+#> 10  -2.8 -176.         2015 KOR              2                    18.4 
 #> # ℹ 28 more rows
 ```
 
@@ -1011,22 +1011,22 @@ get_event(event_type = 'FISHING',
                                          region_source = 'EEZ',
                                          key = key)$label) %>% 
   dplyr::select(-start, -end)
-#> [1] "Downloading 31 events from GFW"
-#> # A tibble: 31 × 6
+#> [1] "Downloading 35 events from GFW"
+#> # A tibble: 35 × 6
 #> # Rowwise: 
-#>    eventId                          eventType   lat   lon eez   eez_name     
-#>    <chr>                            <chr>     <dbl> <dbl> <chr> <chr>        
-#>  1 6739137b68e5fb477de38226f57892f7 fishing    38.0 -73.9 8456  United States
-#>  2 7812ab3b7950fc01a2e0e1e8fda3710a fishing    38.0 -73.9 8456  United States
-#>  3 761b7338d7e8667cbb220f7c2c49af43 fishing    38.0 -74.0 8456  United States
-#>  4 b07cba0b120d99d177191663a3e1c67d fishing    38.1 -73.9 8456  United States
-#>  5 51c5140b261fca6214ea872209b74d85 fishing    38.4 -73.5 8456  United States
-#>  6 6662cc521a4c81f9943f6f006b939770 fishing    38.0 -73.9 8456  United States
-#>  7 9e8b988bfdfa302f5c44b75f73208cf1 fishing    38.0 -73.9 8456  United States
-#>  8 4f20b44a59be19f188863af0a57e44c9 fishing    38.0 -73.9 8456  United States
-#>  9 4658cdceebbf29e39b695283dd77924a fishing    38.0 -73.9 8456  United States
-#> 10 5d37b7e7f124d8e80eb3c683cc6bd1b4 fishing    38.0 -73.9 8456  United States
-#> # ℹ 21 more rows
+#>    eventId                          eventType   lat    lon eez   eez_name     
+#>    <chr>                            <chr>     <dbl>  <dbl> <chr> <chr>        
+#>  1 32c27b8be60405dd20d344325b298d04 fishing    43.0 -125.  8456  United States
+#>  2 25faed9edb8e8e2b7098fb6d55d5fbb4 fishing    42.8 -125.  8456  United States
+#>  3 ea857a15cef2ef00df6b4645d4e7f699 fishing    42.8 -125.  8456  United States
+#>  4 4ffea71b304a651b9c17b580f1d06091 fishing    38.0  -73.9 8456  United States
+#>  5 ca7ea60b731e76f4046c4543f4736656 fishing    38.0  -73.9 8456  United States
+#>  6 761b7338d7e8667cbb220f7c2c49af43 fishing    38.0  -74.0 8456  United States
+#>  7 1ad29cb3dcfcafaf027afc7d0e5c5c22 fishing    38.0  -73.9 8456  United States
+#>  8 4658cdceebbf29e39b695283dd77924a fishing    38.0  -73.9 8456  United States
+#>  9 c60e52370d48a741413094daec2d78ca fishing    38.1  -73.8 8456  United States
+#> 10 51c5140b261fca6214ea872209b74d85 fishing    38.4  -73.5 8456  United States
+#> # ℹ 25 more rows
 ```
 
 ### When your API request times out
