@@ -18,9 +18,9 @@ get_event(
   encounter_types = NULL,
   gap_intentional_disabling = NULL,
   confidences = c(2, 3, 4),
+  key = gfw_auth(),
   limit = 99999,
   offset = 0,
-  key = gfw_auth(),
   quiet = FALSE,
   print_request = FALSE,
   ...
@@ -46,27 +46,37 @@ are -start, +end, -end.}
 "CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL",
 "BUNKER_OR_TANKER", "CARGO"}
 
-\item{region_source}{source of the region ('EEZ','MPA', 'RFMO' or 'USER_SHAPEFILE')}
+\item{region_source}{source of the region ('EEZ','MPA', 'RFMO' or
+'USER_SHAPEFILE'). Null by default but required if a value for region is specified.}
 
 \item{region}{sf shape to filter raster or GFW region code (such as an
 EEZ code). See details about formatting the geojson}
 
-\item{duration}{duration, in minutes, of the event, ex. 30}
+\item{duration}{minimum duration that the event should have (in minutes). The
+default value is 1.}
 
-\item{encounter_types}{Filters for types of vessels during the encounter. A
+\item{encounter_types}{Only useful when event_type = "ENCOUNTER". Filters for
+types of vessels during the encounter. A
 vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
 "FISHING-SUPPORT", "SUPPORT-FISHING"}
 
-\item{gap_intentional_disabling}{Logical. Whether the Gap events are intentional,
+\item{gap_intentional_disabling}{Logical. Only useful when event_type = "GAP".
+To show intentional gap events,
 according to Global Fishing Watch algorithms}
 
-\item{confidences}{Confidence levels (1-4) of events (port visits only)}
-
-\item{limit}{Limit}
-
-\item{offset}{Offset}
+\item{confidences}{Only useful when event_type = "PORT_VISIT". Confidence
+levels (1-4) of events.}
 
 \item{key}{Authorization token. Can be obtained with gfw_auth() function}
+
+\item{limit}{Amount of search results to return. The default value is 99999.}
+
+\item{offset}{Offset into the search results, used for pagination. It starts
+at 0. It is used in combination with the param limit, for example you send
+limit = 5 and you get in the response total vessels =10. So, If you send
+offset =0 OR you don’t send it, you will get the first 5 results (first page).
+Therefore, in order to get the second page, you need to send offset = 5 which
+is the position of the first element you want from the second page.}
 
 \item{quiet}{Boolean. Whether to print the number of events returned by the
 request}
