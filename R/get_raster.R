@@ -6,7 +6,9 @@
 #' 'DAILY', 'MONTHLY', 'YEARLY'
 #' @param group_by parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
 #'  'FLAGANDGEARTYPE' or 'MMSI'. Optional.
-#' @param filter_by parameter to filter by.
+#' @param filter_by Possible fields to filter by are: flag, geartype and vessel_id.
+#' filter_by works together with group_by. You can aggregate results using group_by,
+#' for example by flag, and then do "flag IN ('ESP')".
 #' @param start_date Required. Start of date range to search events, in YYYY-MM-DD format and including this date
 #' @param end_date Required. End of date range to search events, in YYYY-MM-DD format and excluding this date
 #' @param region sf shape to filter raster or GFW region code (such as a
@@ -54,14 +56,14 @@
 #'             key = gfw_auth(),
 #'             print_request = TRUE)
 #' }
-get_raster <- function(spatial_resolution = NULL,
+get_raster <- function(start_date = "2023-01-01",
+                       end_date = "2023-12-31",
+                       spatial_resolution = NULL,
                        temporal_resolution = NULL,
                        group_by = NULL,
                        filter_by = NULL,
-                       start_date = "2023-01-01",
-                       end_date = "2023-12-31",
-                       region = NULL,
                        region_source = NULL,
+                       region = NULL,
                        key = gfw_auth(),
                        print_request = FALSE) {
   date_range <- paste(start_date, end_date, sep = ",")
