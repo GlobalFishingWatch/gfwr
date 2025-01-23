@@ -6,15 +6,16 @@
 \usage{
 get_event_stats(
   event_type,
-  encounter_types = NULL,
-  vessels = NULL,
-  vessel_types = NULL,
   start_date = "2012-01-01",
   end_date = "2024-12-31",
+  duration = 1,
+  interval = NULL,
+  vessels = NULL,
+  vessel_types = NULL,
+  flags = NULL,
   region_source = NULL,
   region = NULL,
-  interval = NULL,
-  duration = 1,
+  encounter_types = NULL,
   confidences = c(2, 3, 4),
   key = gfw_auth(),
   quiet = FALSE,
@@ -26,9 +27,13 @@ get_event_stats(
 \item{event_type}{Type of event to get data of. A vector with any combination
 of "ENCOUNTER", "FISHING", "GAP", "LOITERING", "PORT_VISIT"}
 
-\item{encounter_types}{Filters for types of vessels during the encounter. A
-vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
-"FISHING-SUPPORT", "SUPPORT-FISHING"}
+\item{start_date}{Start of date range to search events, in YYYY-MM-DD format and including this date}
+
+\item{end_date}{End of date range to search events, in YYYY-MM-DD format and excluding this date}
+
+\item{duration}{minimum duration of the event in minutes. The default value is 1.}
+
+\item{interval}{Time series granularity. Must be a string. Possible values: 'HOUR', 'DAY', 'MONTH', 'YEAR'.}
 
 \item{vessels}{A vector of vesselIds, obtained via the \code{get_vessel_info()} function}
 
@@ -36,9 +41,7 @@ vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
 "FISHING", "CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL",
 "BUNKER_OR_TANKER", "CARGO"}
 
-\item{start_date}{Start of date range to search events, in YYYY-MM-DD format and including this date}
-
-\item{end_date}{End of date range to search events, in YYYY-MM-DD format and excluding this date}
+\item{flags}{ISO3 code for the flag of the vessels. Null by default.}
 
 \item{region_source}{Optional but mandatory if using the argument region.
 Source of the region. If 'EEZ','MPA', 'RFMO',
@@ -48,11 +51,13 @@ If 'USER_SHAPEFILE', then region has to be an sf object}
 \item{region}{GFW region code (such as an EEZ, MPA or RFMO code) or a
 formatted geojson shape. See Details about formatting the geojson.}
 
-\item{interval}{Time series granularity. Must be a string. Possible values: 'HOUR', 'DAY', 'MONTH', 'YEAR'.}
+\item{encounter_types}{Only useful when event_type = "ENCOUNTER".
+Filters for types of vessels during the encounter. A
+vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
+"FISHING-SUPPORT", "SUPPORT-FISHING"}
 
-\item{duration}{duration, in minutes, of the event, ex. 30}
-
-\item{confidences}{Confidence levels (1-4) of events (port visits only)}
+\item{confidences}{Only useful when event_type = "PORT_VISIT". Confidence
+levels (1-4) of events.}
 
 \item{key}{Authorization token. Can be obtained with gfw_auth() function}
 

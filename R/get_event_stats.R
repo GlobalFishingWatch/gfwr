@@ -5,20 +5,23 @@
 #' @param vessels A vector of vesselIds, obtained via the `get_vessel_info()` function
 #' @param event_type Type of event to get data of. A vector with any combination
 #' of "ENCOUNTER", "FISHING", "GAP", "LOITERING", "PORT_VISIT"
-#' @param encounter_types Filters for types of vessels during the encounter. A
+#' @param encounter_types Only useful when event_type = "ENCOUNTER".
+#' Filters for types of vessels during the encounter. A
 #' vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
 #' "FISHING-SUPPORT", "SUPPORT-FISHING"
 #' @param start_date Start of date range to search events, in YYYY-MM-DD format and including this date
 #' @param end_date End of date range to search events, in YYYY-MM-DD format and excluding this date
-#' @param confidences Confidence levels (1-4) of events (port visits only)
+#' @param confidences Only useful when event_type = "PORT_VISIT". Confidence
+#' levels (1-4) of events.
 #' @param region_source Optional but mandatory if using the argument region.
 #' Source of the region. If 'EEZ','MPA', 'RFMO',
 #' then the value for the argument region must be the code for that region.
 #' If 'USER_SHAPEFILE', then region has to be an sf object
 #' @param region GFW region code (such as an EEZ, MPA or RFMO code) or a
 #' formatted geojson shape. See Details about formatting the geojson.
-#' @param duration duration, in minutes, of the event, ex. 30
+#' @param duration minimum duration of the event in minutes. The default value is 1.
 #' @param interval Time series granularity. Must be a string. Possible values: 'HOUR', 'DAY', 'MONTH', 'YEAR'.
+#' @param flags ISO3 code for the flag of the vessels. Null by default.
 #' @param key Authorization token. Can be obtained with gfw_auth() function
 #' @param quiet Boolean. Whether to print the number of events returned by the
 #' request
@@ -85,15 +88,16 @@
 #' @export
 
 get_event_stats <- function(event_type,
-                            encounter_types = NULL,
-                            vessels = NULL,
-                            vessel_types = NULL,
                             start_date = "2012-01-01",
                             end_date = "2024-12-31",
+                            duration = 1,
+                            interval = NULL,
+                            vessels = NULL,
+                            vessel_types = NULL,
+                            flags = NULL,
                             region_source = NULL,
                             region = NULL,
-                            interval = NULL,
-                            duration = 1,
+                            encounter_types = NULL,
                             confidences = c(2, 3, 4),
                             key = gfw_auth(),
                             quiet = FALSE,
