@@ -332,11 +332,11 @@ dataset.
 each_USA_trawler <- usa_trawlers$selfReportedInfo[, c("index", "vesselId")] 
 # how many vessels correspond to the first ten vessels. 
 each_USA_trawler %>% filter(index <= 10)
-# It's exactly 20 in this case to we will request those.
+# It's exactly 19 in this case to we will request those.
 ten_usa_trawlers <- each_USA_trawler %>% filter(index <= 10)
 ```
 
-The first 20 `vesselIds` correspond to 10 vessels according to `index`. 
+The first 19 `vesselIds` correspond to 10 vessels according to `index`. 
 
 Let's pass the vector of vessel ids to Events API. Now get the list of fishing
 events for these trawlers in January, 2020:
