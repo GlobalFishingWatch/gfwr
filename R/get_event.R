@@ -1,31 +1,46 @@
 #'
 #' Base function to get events from API and convert response to data frame
 #'
-#' @param vessels A vector of vesselIds, obtained via the `get_vessel_info()` function
+#' @param vessels A vector of vesselIds, obtained via the `get_vessel_info()`
+#' function
 #' @param event_type Type of event to get data of. A vector with any combination
 #' of "ENCOUNTER", "FISHING", "GAP", "LOITERING", "PORT_VISIT"
-#' @param encounter_types Filters for types of vessels during the encounter. A
+#' @param encounter_types Only useful when event_type = "ENCOUNTER". Filters for
+#' types of vessels during the encounter. A
 #' vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
 #' "FISHING-SUPPORT", "SUPPORT-FISHING"
 #' @param vessel_types A vector of vessel types, any combination of: "FISHING",
 #' "CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL",
 #' "BUNKER_OR_TANKER", "CARGO"
-#' @param duration duration, in minutes, of the event, ex. 30
-#' @param start_date Start of date range to search events, in YYYY-MM-DD format and including this date
-#' @param end_date End of date range to search events, in YYYY-MM-DD format and excluding this date
-#' @param confidences Confidence levels (1-4) of events (port visits only)
-#' @param region sf shape to filter raster or GFW region code (such as an
-#' EEZ code). See details about formatting the geojson
-#' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_SHAPEFILE')
-#' @param gap_intentional_disabling Logical. Whether the Gap events are intentional,
+#' @param duration minimum duration that the event should have (in minutes). The
+#' default value is 1.
+#' @param start_date Start of date range to search events, in YYYY-MM-DD format
+#' and including this date
+#' @param end_date End of date range to search events, in YYYY-MM-DD format and
+#' excluding this date
+#' @param confidences Only useful when event_type = "PORT_VISIT". Confidence
+#' levels (1-4) of events.
+#' @param region If region_source is set to "EEZ", "MPA" or "RFMO", GFW region
+#' code (see get_region_id()) if region_source = "USER_SHAPEFILE", sf shape with
+#' the area of interest.
+#' @param region_source source of the region ('EEZ','MPA', 'RFMO' or
+#' 'USER_SHAPEFILE'). Null by default but required if a value for region is
+#' specified.
+#' @param gap_intentional_disabling Logical. Only useful when event_type = "GAP".
+#' To show intentional gap events,
 #' according to Global Fishing Watch algorithms
 #' @param key Authorization token. Can be obtained with gfw_auth() function
 #' @param quiet Boolean. Whether to print the number of events returned by the
 #' request
 #' @param print_request Boolean. Whether to print the request, for debugging
 #' purposes. When contacting the GFW team it will be useful to send this string
-#' @param limit Limit
-#' @param offset Offset
+#' @param limit Amount of search results to return. The default value is 99999.
+#' @param offset Offset into the search results, used for pagination. It starts
+#' at 0. It is used in combination with the param limit, for example you send
+#' limit = 5 and you get in the response total vessels =10. So, If you send
+#' offset =0 OR you don’t send it, you will get the first 5 results (first page).
+#' Therefore, in order to get the second page, you need to send offset = 5 which
+#' is the position of the first element you want from the second page.
 #' @param flags ISO3 code for the flag of the vessels. Null by default.
 #' @param sort How to sort the events. By default, +start, which sorts the events
 #' in ascending order (+) of the start dates of the events. Other possible values
@@ -139,21 +154,21 @@
 #' @export
 
 get_event <- function(event_type,
-                      encounter_types = NULL,
+                      start_date = "2012-01-01",
+                      end_date = "2024-12-31",
+                      sort = "+start",
                       vessels = NULL,
                       flags = NULL,
                       vessel_types = NULL,
-                      start_date = "2012-01-01",
-                      end_date = "2024-12-31",
-                      region = NULL,
                       region_source = NULL,
-                      gap_intentional_disabling = NULL,
+                      region = NULL,
                       duration = 1,
+                      encounter_types = NULL,
+                      gap_intentional_disabling = NULL,
                       confidences = c(2, 3, 4),
+                      key = gfw_auth(),
                       limit = 99999,
                       offset = 0,
-                      sort = "+start",
-                      key = gfw_auth(),
                       quiet = FALSE,
                       print_request = FALSE,
                       ...) {
