@@ -1,7 +1,8 @@
 #'
 #' Base function to get events from API and convert response to data frame
 #'
-#' @param vessels A vector of vesselIds, obtained via the `get_vessel_info()` function
+#' @param vessels A vector of vesselIds, obtained via the `get_vessel_info()`
+#' function
 #' @param event_type Type of event to get data of. A vector with any combination
 #' of "ENCOUNTER", "FISHING", "GAP", "LOITERING", "PORT_VISIT"
 #' @param encounter_types Only useful when event_type = "ENCOUNTER". Filters for
@@ -13,14 +14,18 @@
 #' "BUNKER_OR_TANKER", "CARGO"
 #' @param duration minimum duration that the event should have (in minutes). The
 #' default value is 1.
-#' @param start_date Start of date range to search events, in YYYY-MM-DD format and including this date
-#' @param end_date End of date range to search events, in YYYY-MM-DD format and excluding this date
+#' @param start_date Start of date range to search events, in YYYY-MM-DD format
+#' and including this date
+#' @param end_date End of date range to search events, in YYYY-MM-DD format and
+#' excluding this date
 #' @param confidences Only useful when event_type = "PORT_VISIT". Confidence
 #' levels (1-4) of events.
-#' @param region sf shape to filter raster or GFW region code (such as an
-#' EEZ code). See details about formatting the geojson
+#' @param region If region_source is set to "EEZ", "MPA" or "RFMO", GFW region
+#' code (see get_region_id()) if region_source = "USER_SHAPEFILE", sf shape with
+#' the area of interest.
 #' @param region_source source of the region ('EEZ','MPA', 'RFMO' or
-#' 'USER_SHAPEFILE'). Null by default but required if a value for region is specified.
+#' 'USER_SHAPEFILE'). Null by default but required if a value for region is
+#' specified.
 #' @param gap_intentional_disabling Logical. Only useful when event_type = "GAP".
 #' To show intentional gap events,
 #' according to Global Fishing Watch algorithms

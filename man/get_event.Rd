@@ -30,15 +30,18 @@ get_event(
 \item{event_type}{Type of event to get data of. A vector with any combination
 of "ENCOUNTER", "FISHING", "GAP", "LOITERING", "PORT_VISIT"}
 
-\item{start_date}{Start of date range to search events, in YYYY-MM-DD format and including this date}
+\item{start_date}{Start of date range to search events, in YYYY-MM-DD format
+and including this date}
 
-\item{end_date}{End of date range to search events, in YYYY-MM-DD format and excluding this date}
+\item{end_date}{End of date range to search events, in YYYY-MM-DD format and
+excluding this date}
 
 \item{sort}{How to sort the events. By default, +start, which sorts the events
 in ascending order (+) of the start dates of the events. Other possible values
 are -start, +end, -end.}
 
-\item{vessels}{A vector of vesselIds, obtained via the \code{get_vessel_info()} function}
+\item{vessels}{A vector of vesselIds, obtained via the \code{get_vessel_info()}
+function}
 
 \item{flags}{ISO3 code for the flag of the vessels. Null by default.}
 
@@ -47,10 +50,12 @@ are -start, +end, -end.}
 "BUNKER_OR_TANKER", "CARGO"}
 
 \item{region_source}{source of the region ('EEZ','MPA', 'RFMO' or
-'USER_SHAPEFILE'). Null by default but required if a value for region is specified.}
+'USER_SHAPEFILE'). Null by default but required if a value for region is
+specified.}
 
-\item{region}{sf shape to filter raster or GFW region code (such as an
-EEZ code). See details about formatting the geojson}
+\item{region}{If region_source is set to "EEZ", "MPA" or "RFMO", GFW region
+code (see get_region_id()) if region_source = "USER_SHAPEFILE", sf shape with
+the area of interest.}
 
 \item{duration}{minimum duration that the event should have (in minutes). The
 default value is 1.}
