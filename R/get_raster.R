@@ -6,11 +6,14 @@
 #' 'DAILY', 'MONTHLY', 'YEARLY'
 #' @param group_by parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
 #'  'FLAGANDGEARTYPE' or 'MMSI'. Optional.
-#' @param filter_by Possible fields to filter by are: flag, geartype and vessel_id.
-#' filter_by works together with group_by. You can aggregate results using group_by,
+#' @param filter_by Possible fields to filter AIS-based fishing effort by are:
+#' flag, geartype and vessel_id. filter_by works together with group_by.
+#' You can aggregate results using group_by,
 #' for example by flag, and then do "flag IN ('ESP')".
-#' @param start_date Required. Start of date range to search events, in YYYY-MM-DD format and including this date
-#' @param end_date Required. End of date range to search events, in YYYY-MM-DD format and excluding this date
+#' @param start_date Required. Start of date range to search events, in
+#' YYYY-MM-DD format and including this date
+#' @param end_date Required. End of date range to search events, in
+#' YYYY-MM-DD format and excluding this date
 #' @param region sf shape to filter raster or GFW region code (such as a
 #' Marine Regions Geographic Identifier or EEZ code).
 #' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_SHAPEFILE')

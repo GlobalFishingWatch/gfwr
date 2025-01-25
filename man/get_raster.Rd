@@ -18,9 +18,11 @@ get_raster(
 )
 }
 \arguments{
-\item{start_date}{Required. Start of date range to search events, in YYYY-MM-DD format and including this date}
+\item{start_date}{Required. Start of date range to search events, in
+YYYY-MM-DD format and including this date}
 
-\item{end_date}{Required. End of date range to search events, in YYYY-MM-DD format and excluding this date}
+\item{end_date}{Required. End of date range to search events, in
+YYYY-MM-DD format and excluding this date}
 
 \item{spatial_resolution}{raster spatial resolution. Can be "LOW" = 0.1 degree
 or "HIGH" = 0.01 degree}
@@ -31,8 +33,9 @@ or "HIGH" = 0.01 degree}
 \item{group_by}{parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
 'FLAGANDGEARTYPE' or 'MMSI'. Optional.}
 
-\item{filter_by}{Possible fields to filter by are: flag, geartype and vessel_id.
-filter_by works together with group_by. You can aggregate results using group_by,
+\item{filter_by}{Possible fields to filter AIS-based fishing effort by are:
+flag, geartype and vessel_id. filter_by works together with group_by.
+You can aggregate results using group_by,
 for example by flag, and then do "flag IN ('ESP')".}
 
 \item{region_source}{source of the region ('EEZ','MPA', 'RFMO' or 'USER_SHAPEFILE')}
