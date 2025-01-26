@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gfwr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.2</span>
       </span>
     </div>
 
@@ -72,11 +72,11 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_vessel_info</span><span class="op">(</span></span>
 <span>  query <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  where <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  search_type <span class="op">=</span> <span class="st">"search"</span>,</span>
 <span>  ids <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  includes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"AUTHORIZATIONS"</span>, <span class="st">"OWNERSHIP"</span>, <span class="st">"MATCH_CRITERIA"</span><span class="op">)</span>,</span>
 <span>  match_fields <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  registries_info_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ALL"</span><span class="op">)</span>,</span>
-<span>  search_type <span class="op">=</span> <span class="st">"search"</span>,</span>
 <span>  key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  quiet <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  print_request <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -97,8 +97,13 @@ variable of interest, MMSI, IMO, call sign or ship name.</p></dd>
 <dd><p>When <code>search_type = "search"</code>, an SQL expression to find the vessel of interest</p></dd>
 
 
+<dt id="arg-search-type">search_type<a class="anchor" aria-label="anchor" href="#arg-search-type"></a></dt>
+<dd><p>Type of vessel search to perform. Can be <code>"search"</code> (the default)
+or <code>"id"</code>. (Note:<code>"advanced"</code> and <code>"basic"</code> are no longer in use as of gfwr 2.0.0.)</p></dd>
+
+
 <dt id="arg-ids">ids<a class="anchor" aria-label="anchor" href="#arg-ids"></a></dt>
-<dd><p>When <code>search_type = "id"</code>, a vector with the vesselId of interest</p></dd>
+<dd><p>When <code>search_type = "id"</code>, a vector with the <code>vesselId</code> of interest</p></dd>
 
 
 <dt id="arg-includes">includes<a class="anchor" aria-label="anchor" href="#arg-includes"></a></dt>
@@ -136,18 +141,13 @@ changed one or more identity properties</p></dd>
 </dl></dd>
 
 
-<dt id="arg-search-type">search_type<a class="anchor" aria-label="anchor" href="#arg-search-type"></a></dt>
-<dd><p>Type of vessel search to perform. Can be <code>"search"</code> or
-<code>"id"</code>. (Note:<code>"advanced"</code> and <code>"basic"</code> are no longer in use as of gfwr 2.0.0.)</p></dd>
-
-
 <dt id="arg-key">key<a class="anchor" aria-label="anchor" href="#arg-key"></a></dt>
-<dd><p>Authorization token. Can be obtained with <code><a href="gfw_auth.html">gfw_auth()</a></code> function</p></dd>
+<dd><p>Authorization token. Can be obtained with <code><a href="gfw_auth.html">gfw_auth()</a></code> function (the default)</p></dd>
 
 
 <dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>
 <dd><p>Boolean. Whether to print the number of events returned by the
-request and progress</p></dd>
+request and progress. Default is FALSE.</p></dd>
 
 
 <dt id="arg-print-request">print_request<a class="anchor" aria-label="anchor" href="#arg-print-request"></a></dt>
@@ -165,7 +165,7 @@ purposes. When contacting the GFW team it will be useful to send this string</p>
 MMSI, IMO, callsign, shipname as inputs, using parameter <code>"query"</code>. For more advanced
 SQL searches, use parameter <code>"where"</code>. You can combine logic operators like <code>AND</code>,
 <code>OR</code>, <code>=</code>, <code>&gt;=</code> , &lt;, <code>LIKE</code> (for fuzzy matching). The <code>id</code> search allows the user
-to search using a GFW vessel id.</p>
+to search using a GFW <code>vesselId</code>.</p>
     </div>
 
     <div id="ref-examples">

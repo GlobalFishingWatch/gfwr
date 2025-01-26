@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gfwr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.2</span>
       </span>
     </div>
 
@@ -60,7 +60,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Base function to get events stats from API and convert response to data frame</h1>
-    <small class="dont-index">Source: <a href="https://github.com/GlobalFishingWatch/gfwr/blob/HEAD/R/get_event.R" class="external-link"><code>R/get_event.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/GlobalFishingWatch/gfwr/blob/HEAD/R/get_event_stats.R" class="external-link"><code>R/get_event_stats.R</code></a></small>
     <div class="hidden name"><code>get_event_stats.Rd</code></div>
     </div>
 
@@ -71,15 +71,16 @@
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_event_stats</span><span class="op">(</span></span>
 <span>  <span class="va">event_type</span>,</span>
-<span>  encounter_types <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  vessels <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  vessel_types <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  start_date <span class="op">=</span> <span class="st">"2012-01-01"</span>,</span>
 <span>  end_date <span class="op">=</span> <span class="st">"2024-12-31"</span>,</span>
+<span>  interval <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  vessels <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  flags <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  vessel_types <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  region_source <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  region <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  interval <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  duration <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  encounter_types <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  confidences <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span>,</span>
 <span>  key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  quiet <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -97,28 +98,30 @@
 of "ENCOUNTER", "FISHING", "GAP", "LOITERING", "PORT_VISIT"</p></dd>
 
 
-<dt id="arg-encounter-types">encounter_types<a class="anchor" aria-label="anchor" href="#arg-encounter-types"></a></dt>
-<dd><p>Filters for types of vessels during the encounter. A
-vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
-"FISHING-SUPPORT", "SUPPORT-FISHING"</p></dd>
-
-
-<dt id="arg-vessels">vessels<a class="anchor" aria-label="anchor" href="#arg-vessels"></a></dt>
-<dd><p>A vector of vesselIds, obtained via the <code><a href="get_vessel_info.html">get_vessel_info()</a></code> function</p></dd>
-
-
-<dt id="arg-vessel-types">vessel_types<a class="anchor" aria-label="anchor" href="#arg-vessel-types"></a></dt>
-<dd><p>Optional. A vector of vessel types, any combination of:
-"FISHING", "CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL",
-"BUNKER_OR_TANKER", "CARGO"</p></dd>
-
-
 <dt id="arg-start-date">start_date<a class="anchor" aria-label="anchor" href="#arg-start-date"></a></dt>
 <dd><p>Start of date range to search events, in YYYY-MM-DD format and including this date</p></dd>
 
 
 <dt id="arg-end-date">end_date<a class="anchor" aria-label="anchor" href="#arg-end-date"></a></dt>
 <dd><p>End of date range to search events, in YYYY-MM-DD format and excluding this date</p></dd>
+
+
+<dt id="arg-interval">interval<a class="anchor" aria-label="anchor" href="#arg-interval"></a></dt>
+<dd><p>Time series granularity. Must be a string. Possible values: 'HOUR', 'DAY', 'MONTH', 'YEAR'.</p></dd>
+
+
+<dt id="arg-vessels">vessels<a class="anchor" aria-label="anchor" href="#arg-vessels"></a></dt>
+<dd><p>A vector of vesselIds, obtained via the <code><a href="get_vessel_info.html">get_vessel_info()</a></code> function</p></dd>
+
+
+<dt id="arg-flags">flags<a class="anchor" aria-label="anchor" href="#arg-flags"></a></dt>
+<dd><p>ISO3 code for the flag of the vessels. Null by default.</p></dd>
+
+
+<dt id="arg-vessel-types">vessel_types<a class="anchor" aria-label="anchor" href="#arg-vessel-types"></a></dt>
+<dd><p>Optional. A vector of vessel types, any combination of:
+"FISHING", "CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL",
+"BUNKER_OR_TANKER", "CARGO"</p></dd>
 
 
 <dt id="arg-region-source">region_source<a class="anchor" aria-label="anchor" href="#arg-region-source"></a></dt>
@@ -133,16 +136,20 @@ If 'USER_SHAPEFILE', then region has to be an sf object</p></dd>
 formatted geojson shape. See Details about formatting the geojson.</p></dd>
 
 
-<dt id="arg-interval">interval<a class="anchor" aria-label="anchor" href="#arg-interval"></a></dt>
-<dd><p>Time series granularity. Must be a string. Possible values: 'HOUR', 'DAY', 'MONTH', 'YEAR'.</p></dd>
-
-
 <dt id="arg-duration">duration<a class="anchor" aria-label="anchor" href="#arg-duration"></a></dt>
-<dd><p>duration, in minutes, of the event, ex. 30</p></dd>
+<dd><p>minimum duration of the event in minutes. The default value is 1.</p></dd>
+
+
+<dt id="arg-encounter-types">encounter_types<a class="anchor" aria-label="anchor" href="#arg-encounter-types"></a></dt>
+<dd><p>Only useful when event_type = "ENCOUNTER".
+Filters for types of vessels during the encounter. A
+vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
+"FISHING-SUPPORT", "SUPPORT-FISHING"</p></dd>
 
 
 <dt id="arg-confidences">confidences<a class="anchor" aria-label="anchor" href="#arg-confidences"></a></dt>
-<dd><p>Confidence levels (1-4) of events (port visits only)</p></dd>
+<dd><p>Only useful when event_type = "PORT_VISIT". Confidence
+levels (1-4) of events.</p></dd>
 
 
 <dt id="arg-key">key<a class="anchor" aria-label="anchor" href="#arg-key"></a></dt>
