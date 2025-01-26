@@ -7,11 +7,11 @@
 get_vessel_info(
   query = NULL,
   where = NULL,
+  search_type = "search",
   ids = NULL,
   includes = c("AUTHORIZATIONS", "OWNERSHIP", "MATCH_CRITERIA"),
   match_fields = NULL,
   registries_info_data = c("ALL"),
-  search_type = "search",
   key = gfw_auth(),
   quiet = FALSE,
   print_request = FALSE,
@@ -24,7 +24,10 @@ variable of interest, MMSI, IMO, call sign or ship name.}
 
 \item{where}{When \code{search_type = "search"}, an SQL expression to find the vessel of interest}
 
-\item{ids}{When \code{search_type = "id"}, a vector with the vesselId of interest}
+\item{search_type}{Type of vessel search to perform. Can be \code{"search"} (the default)
+or \code{"id"}. (Note:\code{"advanced"} and \code{"basic"} are no longer in use as of gfwr 2.0.0.)}
+
+\item{ids}{When \code{search_type = "id"}, a vector with the \code{vesselId} of interest}
 
 \item{includes}{Enhances the response with new information, defaults to include all.
 \describe{
@@ -45,13 +48,10 @@ changed one or more identity properties}
 \item{\code{"ALL"}}{The registryInfo array will return the same number of objects that rows we have in the vessel database}
 }}
 
-\item{search_type}{Type of vessel search to perform. Can be \code{"search"} or
-\code{"id"}. (Note:\code{"advanced"} and \code{"basic"} are no longer in use as of gfwr 2.0.0.)}
-
-\item{key}{Authorization token. Can be obtained with \code{gfw_auth()} function}
+\item{key}{Authorization token. Can be obtained with \code{gfw_auth()} function (the default)}
 
 \item{quiet}{Boolean. Whether to print the number of events returned by the
-request and progress}
+request and progress. Default is FALSE.}
 
 \item{print_request}{Boolean. Whether to print the request, for debugging
 purposes. When contacting the GFW team it will be useful to send this string}
@@ -66,7 +66,7 @@ When \code{search_type = "search"} the search takes basic identity features like
 MMSI, IMO, callsign, shipname as inputs, using parameter \code{"query"}. For more advanced
 SQL searches, use parameter \code{"where"}. You can combine logic operators like \code{AND},
 \code{OR}, \code{=}, \code{>=} , <, \code{LIKE} (for fuzzy matching). The \code{id} search allows the user
-to search using a GFW vessel id.
+to search using a GFW \code{vesselId}.
 }
 \examples{
 \dontrun{

@@ -40,8 +40,11 @@ excluding this date}
 in ascending order (+) of the start dates of the events. Other possible values
 are -start, +end, -end.}
 
-\item{vessels}{A vector of vesselIds, obtained via the \code{get_vessel_info()}
-function}
+\item{vessels}{A vector of \code{vesselIds}, obtained via the \code{get_vessel_info()}
+function. The maximum number of \code{vesselIds} depends on the character length of
+the whole request, the request will fail with error HTTP 422: Unprocessable
+entity when too many \code{vesselIds} are sent. This value is around 2,800
+vessels, depending on the other parameters of the request.}
 
 \item{flags}{ISO3 code for the flag of the vessels. Null by default.}
 
@@ -49,30 +52,33 @@ function}
 "CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL",
 "BUNKER_OR_TANKER", "CARGO"}
 
-\item{region_source}{source of the region ('EEZ','MPA', 'RFMO' or
+\item{region_source}{Source of the region ('EEZ','MPA', 'RFMO' or
 'USER_SHAPEFILE'). Null by default but required if a value for region is
 specified.}
 
-\item{region}{If region_source is set to "EEZ", "MPA" or "RFMO", GFW region
-code (see get_region_id()) if region_source = "USER_SHAPEFILE", sf shape with
-the area of interest.}
+\item{region}{If \code{region_source} is set to "EEZ", "MPA" or "RFMO", GFW region
+code (see \code{get_region_id()}) if \code{region_source = "USER_SHAPEFILE"}, \code{sf}
+shapefile with the area of interest.}
 
-\item{duration}{minimum duration that the event should have (in minutes). The
+\item{duration}{Minimum duration that the event should have (in minutes). The
 default value is 1.}
 
-\item{encounter_types}{Only useful when event_type = "ENCOUNTER". Filters for
+\item{encounter_types}{Only useful when \code{event_type = "ENCOUNTER"}. Filters for
 types of vessels during the encounter. A
 vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
 "FISHING-SUPPORT", "SUPPORT-FISHING"}
 
-\item{gap_intentional_disabling}{Logical. Only useful when event_type = "GAP".
-To show intentional gap events,
-according to Global Fishing Watch algorithms}
+\item{gap_intentional_disabling}{Logical. Only useful when \code{event_type = "GAP"}.
+Filters intentional gap events according to Global Fishing Watch algorithms.
+Check the \href{https://globalfishingwatch.org/our-apis/documentation#ais-off-event-aka-gap}{gaps API documentation} for more details.}
 
-\item{confidences}{Only useful when event_type = "PORT_VISIT". Confidence
-levels (1-4) of events.}
+\item{confidences}{Only useful when \code{event_type = "PORT_VISIT"}. Confidence
+levels of port visits. Low-confidence port visits (confidence 1)
+are not available for download. See the
+\href{https://globalfishingwatch.org/our-apis/documentation#confidence-levels-of-a-port-visit}{API documentation}
+for more details}
 
-\item{key}{Authorization token. Can be obtained with gfw_auth() function}
+\item{key}{Authorization token. Can be obtained with \code{gfw_auth()} function}
 
 \item{limit}{Amount of search results to return. The default value is 99999.}
 
