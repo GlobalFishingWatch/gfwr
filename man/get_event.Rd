@@ -19,8 +19,6 @@ get_event(
   gap_intentional_disabling = NULL,
   confidences = c(2, 3, 4),
   key = gfw_auth(),
-  limit = 99999,
-  offset = 0,
   quiet = FALSE,
   print_request = FALSE,
   ...
@@ -79,15 +77,6 @@ are not available for download. See the
 for more details}
 
 \item{key}{Authorization token. Can be obtained with \code{gfw_auth()} function}
-
-\item{limit}{Amount of search results to return. The default value is 99999.}
-
-\item{offset}{Offset into the search results, used for pagination. It starts
-at 0. It is used in combination with the param limit, for example you send
-limit = 5 and you get in the response total vessels =10. So, If you send
-offset =0 OR you don’t send it, you will get the first 5 results (first page).
-Therefore, in order to get the second page, you need to send offset = 5 which
-is the position of the first element you want from the second page.}
 
 \item{quiet}{Boolean. Whether to print the number of events returned by the
 request}

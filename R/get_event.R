@@ -40,13 +40,6 @@
 #' [API documentation](https://globalfishingwatch.org/our-apis/documentation#confidence-levels-of-a-port-visit)
 #' for more details
 #' @param key Authorization token. Can be obtained with `gfw_auth()` function
-#' @param limit Amount of search results to return. The default value is 99999.
-#' @param offset Offset into the search results, used for pagination. It starts
-#' at 0. It is used in combination with the param limit, for example you send
-#' limit = 5 and you get in the response total vessels =10. So, If you send
-#' offset =0 OR you don’t send it, you will get the first 5 results (first page).
-#' Therefore, in order to get the second page, you need to send offset = 5 which
-#' is the position of the first element you want from the second page.
 #' @param quiet Boolean. Whether to print the number of events returned by the
 #' request
 #' @param print_request Boolean. Whether to print the request, for debugging
@@ -173,8 +166,6 @@ get_event <- function(event_type,
                       gap_intentional_disabling = NULL,
                       confidences = c(2, 3, 4),
                       key = gfw_auth(),
-                      limit = 99999,
-                      offset = 0,
                       quiet = FALSE,
                       print_request = FALSE,
                       ...) {
@@ -183,8 +174,8 @@ get_event <- function(event_type,
   for (i in seq_len(length(args))) {
     assign(names(args[i]), args[[i]])
   }
-  url_args <- c(limit = limit,
-                offset = offset,
+  url_args <- c(limit = 99999,
+                offset = 0,
                 sort = sort
             )
 

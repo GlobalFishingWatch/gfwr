@@ -90,13 +90,13 @@
 get_event_stats <- function(event_type,
                             start_date = "2012-01-01",
                             end_date = "2024-12-31",
-                            duration = 1,
                             interval = NULL,
                             vessels = NULL,
-                            vessel_types = NULL,
                             flags = NULL,
+                            vessel_types = NULL,
                             region_source = NULL,
                             region = NULL,
+                            duration = 1,
                             encounter_types = NULL,
                             confidences = c(2, 3, 4),
                             key = gfw_auth(),
@@ -230,7 +230,7 @@ get_event_stats <- function(event_type,
 
     #
     if (quiet == FALSE) {
-      print(paste("Downloading", df_out$numEvents, "events for ", df_out$numVessels, " vessels from ", df_out$numFlags, "flag(s) from GFW"))
+      print(paste("There are", df_out$numEvents, "events for ", df_out$numVessels, " vessels from ", df_out$numFlags, "flag(s) in the selected area in the Global Fishing Watch database"))
     }
   } else {
     if (quiet == FALSE) {
