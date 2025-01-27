@@ -5,43 +5,46 @@
 \title{Base function to get raster from API and convert response to data frame}
 \usage{
 get_raster(
-  start_date = "2023-01-01",
-  end_date = "2023-12-31",
   spatial_resolution = NULL,
   temporal_resolution = NULL,
-  group_by = NULL,
-  filter_by = NULL,
+  start_date = "2023-01-01",
+  end_date = "2023-12-31",
   region_source = NULL,
   region = NULL,
+  group_by = NULL,
+  filter_by = NULL,
   key = gfw_auth(),
   print_request = FALSE
 )
 }
 \arguments{
+\item{spatial_resolution}{Raster spatial resolution. Can be "LOW" = 0.1 degree
+or "HIGH" = 0.01 degree}
+
+\item{temporal_resolution}{Raster temporal resolution. Can be 'HOURLY',
+'DAILY', 'MONTHLY', 'YEARLY'}
+
 \item{start_date}{Required. Start of date range to search events, in
 YYYY-MM-DD format and including this date}
 
 \item{end_date}{Required. End of date range to search events, in
 YYYY-MM-DD format and excluding this date}
 
-\item{spatial_resolution}{raster spatial resolution. Can be "LOW" = 0.1 degree
-or "HIGH" = 0.01 degree}
+\item{region_source}{Source of the region ('EEZ','MPA', 'RFMO' or
+'USER_SHAPEFILE'). Null by default but required if a value for region is
+specified.}
 
-\item{temporal_resolution}{raster temporal resolution. Can be 'HOURLY',
-'DAILY', 'MONTHLY', 'YEARLY'}
+\item{region}{If \code{region_source} is set to "EEZ", "MPA" or "RFMO", GFW region
+code (see \code{get_region_id()}) if \code{region_source = "USER_SHAPEFILE"}, \code{sf}
+shapefile with the area of interest.}
 
-\item{group_by}{parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
+\item{group_by}{Parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
 'FLAGANDGEARTYPE' or 'MMSI'. Optional.}
 
-\item{filter_by}{Possible fields to filter AIS-based fishing effort by are:
-flag, geartype and vessel_id. filter_by works together with group_by.
-You can aggregate results using group_by,
-for example by flag, and then do "flag IN ('ESP')".}
-
-\item{region_source}{source of the region ('EEZ','MPA', 'RFMO' or 'USER_SHAPEFILE')}
-
-\item{region}{sf shape to filter raster or GFW region code (such as a
-Marine Regions Geographic Identifier or EEZ code).}
+\item{filter_by}{Fields to filter AIS-based fishing effort after
+\code{group_by}. Possible options are \code{flag}, \code{geartype} and \code{vessel_id}. You can
+aggregate results using \code{group_by}, for example \code{group_by = 'FLAG'}, and then
+filter results using \code{filter_by = "flag IN ('ESP')"}.}
 
 \item{key}{Authorization token. Can be obtained with \code{gfw_auth()} function}
 

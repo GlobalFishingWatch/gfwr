@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gfwr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.2</span>
       </span>
     </div>
 
@@ -71,20 +71,18 @@
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_event</span><span class="op">(</span></span>
 <span>  <span class="va">event_type</span>,</span>
-<span>  encounter_types <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  start_date <span class="op">=</span> <span class="st">"2012-01-01"</span>,</span>
+<span>  end_date <span class="op">=</span> <span class="st">"2024-12-31"</span>,</span>
+<span>  sort <span class="op">=</span> <span class="st">"+start"</span>,</span>
 <span>  vessels <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  flags <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  vessel_types <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  start_date <span class="op">=</span> <span class="st">"2012-01-01"</span>,</span>
-<span>  end_date <span class="op">=</span> <span class="st">"2024-12-31"</span>,</span>
-<span>  region <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  region_source <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  gap_intentional_disabling <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  region <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  duration <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  encounter_types <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  gap_intentional_disabling <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  confidences <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span>,</span>
-<span>  limit <span class="op">=</span> <span class="fl">99999</span>,</span>
-<span>  offset <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>  sort <span class="op">=</span> <span class="st">"+start"</span>,</span>
 <span>  key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  quiet <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  print_request <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -101,14 +99,28 @@
 of "ENCOUNTER", "FISHING", "GAP", "LOITERING", "PORT_VISIT"</p></dd>
 
 
-<dt id="arg-encounter-types">encounter_types<a class="anchor" aria-label="anchor" href="#arg-encounter-types"></a></dt>
-<dd><p>Filters for types of vessels during the encounter. A
-vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
-"FISHING-SUPPORT", "SUPPORT-FISHING"</p></dd>
+<dt id="arg-start-date">start_date<a class="anchor" aria-label="anchor" href="#arg-start-date"></a></dt>
+<dd><p>Start of date range to search events, in YYYY-MM-DD format
+and including this date</p></dd>
+
+
+<dt id="arg-end-date">end_date<a class="anchor" aria-label="anchor" href="#arg-end-date"></a></dt>
+<dd><p>End of date range to search events, in YYYY-MM-DD format and
+excluding this date</p></dd>
+
+
+<dt id="arg-sort">sort<a class="anchor" aria-label="anchor" href="#arg-sort"></a></dt>
+<dd><p>How to sort the events. By default, +start, which sorts the events
+in ascending order (+) of the start dates of the events. Other possible values
+are -start, +end, -end.</p></dd>
 
 
 <dt id="arg-vessels">vessels<a class="anchor" aria-label="anchor" href="#arg-vessels"></a></dt>
-<dd><p>A vector of vesselIds, obtained via the <code><a href="get_vessel_info.html">get_vessel_info()</a></code> function</p></dd>
+<dd><p>A vector of <code>vesselIds</code>, obtained via the <code><a href="get_vessel_info.html">get_vessel_info()</a></code>
+function. The maximum number of <code>vesselIds</code> depends on the character length of
+the whole request, the request will fail with error HTTP 422: Unprocessable
+entity when too many <code>vesselIds</code> are sent. This value is around 2,800
+vessels, depending on the other parameters of the request.</p></dd>
 
 
 <dt id="arg-flags">flags<a class="anchor" aria-label="anchor" href="#arg-flags"></a></dt>
@@ -121,52 +133,46 @@ vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
 "BUNKER_OR_TANKER", "CARGO"</p></dd>
 
 
-<dt id="arg-start-date">start_date<a class="anchor" aria-label="anchor" href="#arg-start-date"></a></dt>
-<dd><p>Start of date range to search events, in YYYY-MM-DD format and including this date</p></dd>
-
-
-<dt id="arg-end-date">end_date<a class="anchor" aria-label="anchor" href="#arg-end-date"></a></dt>
-<dd><p>End of date range to search events, in YYYY-MM-DD format and excluding this date</p></dd>
+<dt id="arg-region-source">region_source<a class="anchor" aria-label="anchor" href="#arg-region-source"></a></dt>
+<dd><p>Source of the region ('EEZ','MPA', 'RFMO' or
+'USER_SHAPEFILE'). Null by default but required if a value for region is
+specified.</p></dd>
 
 
 <dt id="arg-region">region<a class="anchor" aria-label="anchor" href="#arg-region"></a></dt>
-<dd><p>sf shape to filter raster or GFW region code (such as an
-EEZ code). See details about formatting the geojson</p></dd>
-
-
-<dt id="arg-region-source">region_source<a class="anchor" aria-label="anchor" href="#arg-region-source"></a></dt>
-<dd><p>source of the region ('EEZ','MPA', 'RFMO' or 'USER_SHAPEFILE')</p></dd>
-
-
-<dt id="arg-gap-intentional-disabling">gap_intentional_disabling<a class="anchor" aria-label="anchor" href="#arg-gap-intentional-disabling"></a></dt>
-<dd><p>Logical. Whether the Gap events are intentional,
-according to Global Fishing Watch algorithms</p></dd>
+<dd><p>If <code>region_source</code> is set to "EEZ", "MPA" or "RFMO", GFW region
+code (see <code><a href="get_region_id.html">get_region_id()</a></code>) if <code>region_source = "USER_SHAPEFILE"</code>, <code>sf</code>
+shapefile with the area of interest.</p></dd>
 
 
 <dt id="arg-duration">duration<a class="anchor" aria-label="anchor" href="#arg-duration"></a></dt>
-<dd><p>duration, in minutes, of the event, ex. 30</p></dd>
+<dd><p>Minimum duration that the event should have (in minutes). The
+default value is 1.</p></dd>
+
+
+<dt id="arg-encounter-types">encounter_types<a class="anchor" aria-label="anchor" href="#arg-encounter-types"></a></dt>
+<dd><p>Only useful when <code>event_type = "ENCOUNTER"</code>. Filters for
+types of vessels during the encounter. A
+vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
+"FISHING-SUPPORT", "SUPPORT-FISHING"</p></dd>
+
+
+<dt id="arg-gap-intentional-disabling">gap_intentional_disabling<a class="anchor" aria-label="anchor" href="#arg-gap-intentional-disabling"></a></dt>
+<dd><p>Logical. Only useful when <code>event_type = "GAP"</code>.
+Filters intentional gap events according to Global Fishing Watch algorithms.
+Check the <a href="https://globalfishingwatch.org/our-apis/documentation#ais-off-event-aka-gap" class="external-link">gaps API documentation</a> for more details.</p></dd>
 
 
 <dt id="arg-confidences">confidences<a class="anchor" aria-label="anchor" href="#arg-confidences"></a></dt>
-<dd><p>Confidence levels (1-4) of events (port visits only)</p></dd>
-
-
-<dt id="arg-limit">limit<a class="anchor" aria-label="anchor" href="#arg-limit"></a></dt>
-<dd><p>Limit</p></dd>
-
-
-<dt id="arg-offset">offset<a class="anchor" aria-label="anchor" href="#arg-offset"></a></dt>
-<dd><p>Offset</p></dd>
-
-
-<dt id="arg-sort">sort<a class="anchor" aria-label="anchor" href="#arg-sort"></a></dt>
-<dd><p>How to sort the events. By default, +start, which sorts the events
-in ascending order (+) of the start dates of the events. Other possible values
-are -start, +end, -end.</p></dd>
+<dd><p>Only useful when <code>event_type = "PORT_VISIT"</code>. Confidence
+levels of port visits. Low-confidence port visits (confidence 1)
+are not available for download. See the
+<a href="https://globalfishingwatch.org/our-apis/documentation#confidence-levels-of-a-port-visit" class="external-link">API documentation</a>
+for more details</p></dd>
 
 
 <dt id="arg-key">key<a class="anchor" aria-label="anchor" href="#arg-key"></a></dt>
-<dd><p>Authorization token. Can be obtained with gfw_auth() function</p></dd>
+<dd><p>Authorization token. Can be obtained with <code><a href="gfw_auth.html">gfw_auth()</a></code> function</p></dd>
 
 
 <dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>

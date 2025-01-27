@@ -1,22 +1,25 @@
 #' Base function to get raster from API and convert response to data frame
 #'
-#' @param spatial_resolution raster spatial resolution. Can be "LOW" = 0.1 degree
+#' @param spatial_resolution Raster spatial resolution. Can be "LOW" = 0.1 degree
 #'  or "HIGH" = 0.01 degree
-#' @param temporal_resolution raster temporal resolution. Can be 'HOURLY',
+#' @param temporal_resolution Raster temporal resolution. Can be 'HOURLY',
 #' 'DAILY', 'MONTHLY', 'YEARLY'
-#' @param group_by parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
-#'  'FLAGANDGEARTYPE' or 'MMSI'. Optional.
-#' @param filter_by Possible fields to filter AIS-based fishing effort by are:
-#' flag, geartype and vessel_id. filter_by works together with group_by.
-#' You can aggregate results using group_by,
-#' for example by flag, and then do "flag IN ('ESP')".
 #' @param start_date Required. Start of date range to search events, in
 #' YYYY-MM-DD format and including this date
 #' @param end_date Required. End of date range to search events, in
 #' YYYY-MM-DD format and excluding this date
-#' @param region sf shape to filter raster or GFW region code (such as a
-#' Marine Regions Geographic Identifier or EEZ code).
-#' @param region_source source of the region ('EEZ','MPA', 'RFMO' or 'USER_SHAPEFILE')
+#' @param region_source Source of the region ('EEZ','MPA', 'RFMO' or
+#' 'USER_SHAPEFILE'). Null by default but required if a value for region is
+#' specified.
+#' @param region If `region_source` is set to "EEZ", "MPA" or "RFMO", GFW region
+#' code (see `get_region_id()`) if `region_source = "USER_SHAPEFILE"`, `sf`
+#' shapefile with the area of interest.
+#' @param group_by Parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
+#'  'FLAGANDGEARTYPE' or 'MMSI'. Optional.
+#' @param filter_by Fields to filter AIS-based fishing effort after
+#' `group_by`. Possible options are `flag`, `geartype` and `vessel_id`. You can
+#' aggregate results using `group_by`, for example `group_by = 'FLAG'`, and then
+#' filter results using `filter_by = "flag IN ('ESP')"`.
 #' @param key Authorization token. Can be obtained with `gfw_auth()` function
 #' @param print_request Boolean. Whether to print the request, for debugging
 #' purposes. When contacting the GFW team it will be useful to send this string
@@ -59,14 +62,14 @@
 #'             key = gfw_auth(),
 #'             print_request = TRUE)
 #' }
-get_raster <- function(start_date = "2023-01-01",
-                       end_date = "2023-12-31",
-                       spatial_resolution = NULL,
+get_raster <- function(spatial_resolution = NULL,
                        temporal_resolution = NULL,
-                       group_by = NULL,
-                       filter_by = NULL,
+                       start_date = "2023-01-01",
+                       end_date = "2023-12-31",
                        region_source = NULL,
                        region = NULL,
+                       group_by = NULL,
+                       filter_by = NULL,
                        key = gfw_auth(),
                        print_request = FALSE) {
   date_range <- paste(start_date, end_date, sep = ",")

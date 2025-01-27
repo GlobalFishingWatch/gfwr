@@ -8,13 +8,13 @@ get_event_stats(
   event_type,
   start_date = "2012-01-01",
   end_date = "2024-12-31",
-  duration = 1,
   interval = NULL,
   vessels = NULL,
-  vessel_types = NULL,
   flags = NULL,
+  vessel_types = NULL,
   region_source = NULL,
   region = NULL,
+  duration = 1,
   encounter_types = NULL,
   confidences = c(2, 3, 4),
   key = gfw_auth(),
@@ -31,17 +31,15 @@ of "ENCOUNTER", "FISHING", "GAP", "LOITERING", "PORT_VISIT"}
 
 \item{end_date}{End of date range to search events, in YYYY-MM-DD format and excluding this date}
 
-\item{duration}{minimum duration of the event in minutes. The default value is 1.}
-
 \item{interval}{Time series granularity. Must be a string. Possible values: 'HOUR', 'DAY', 'MONTH', 'YEAR'.}
 
 \item{vessels}{A vector of vesselIds, obtained via the \code{get_vessel_info()} function}
 
+\item{flags}{ISO3 code for the flag of the vessels. Null by default.}
+
 \item{vessel_types}{Optional. A vector of vessel types, any combination of:
 "FISHING", "CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL",
 "BUNKER_OR_TANKER", "CARGO"}
-
-\item{flags}{ISO3 code for the flag of the vessels. Null by default.}
 
 \item{region_source}{Optional but mandatory if using the argument region.
 Source of the region. If 'EEZ','MPA', 'RFMO',
@@ -50,6 +48,8 @@ If 'USER_SHAPEFILE', then region has to be an sf object}
 
 \item{region}{GFW region code (such as an EEZ, MPA or RFMO code) or a
 formatted geojson shape. See Details about formatting the geojson.}
+
+\item{duration}{minimum duration of the event in minutes. The default value is 1.}
 
 \item{encounter_types}{Only useful when event_type = "ENCOUNTER".
 Filters for types of vessels during the encounter. A

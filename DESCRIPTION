@@ -1,6 +1,6 @@
 Package: gfwr
 Title: Access data from Global Fishing Watch APIs
-Version: 2.0.1
+Version: 2.0.2
 Authors@R: c(
     person("Tyler", "Clavelle", , "tyler@globalfishingwatch.org", role = c("aut"),
            comment = c(ORCID = "0000-0002-2155-2459")),
