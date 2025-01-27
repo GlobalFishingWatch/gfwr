@@ -14,6 +14,7 @@ get_raster(
   group_by = NULL,
   filter_by = NULL,
   key = gfw_auth(),
+  show_col_types = TRUE,
   print_request = FALSE
 )
 }
@@ -47,6 +48,8 @@ aggregate results using \code{group_by}, for example \code{group_by = 'FLAG'}, a
 filter results using \code{filter_by = "flag IN ('ESP')"}.}
 
 \item{key}{Authorization token. Can be obtained with \code{gfw_auth()} function}
+
+\item{show_col_types}{Boolean. Whether to show the column specification when reading the downloaded CSV.}
 
 \item{print_request}{Boolean. Whether to print the request, for debugging
 purposes. When contacting the GFW team it will be useful to send this string}
