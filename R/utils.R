@@ -217,8 +217,7 @@ get_region_id <- function(region_name, region_source = 'EEZ', key = gfw_auth()) 
   # RFMO names
   else if (region_source == "RFMO" & is.character(region_name)) {
     result %>%
-      dplyr::filter(agrepl(region_name, .$label)) %>%
-      dplyr::mutate(id = as.numeric(id))
+      dplyr::filter(agrepl(region_name, .$label))
   }
   # RFMO ids
   else if (region_source == "RFMO" & is.numeric(region_name)) {

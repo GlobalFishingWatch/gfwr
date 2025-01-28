@@ -6,20 +6,18 @@
 \usage{
 get_event(
   event_type,
-  encounter_types = NULL,
+  start_date = "2012-01-01",
+  end_date = "2024-12-31",
+  sort = "+start",
   vessels = NULL,
   flags = NULL,
   vessel_types = NULL,
-  start_date = "2012-01-01",
-  end_date = "2024-12-31",
-  region = NULL,
   region_source = NULL,
-  gap_intentional_disabling = NULL,
+  region = NULL,
   duration = 1,
+  encounter_types = NULL,
+  gap_intentional_disabling = NULL,
   confidences = c(2, 3, 4),
-  limit = 99999,
-  offset = 0,
-  sort = "+start",
   key = gfw_auth(),
   quiet = FALSE,
   print_request = FALSE,
@@ -30,11 +28,21 @@ get_event(
 \item{event_type}{Type of event to get data of. A vector with any combination
 of "ENCOUNTER", "FISHING", "GAP", "LOITERING", "PORT_VISIT"}
 
-\item{encounter_types}{Filters for types of vessels during the encounter. A
-vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
-"FISHING-SUPPORT", "SUPPORT-FISHING"}
+\item{start_date}{Start of date range to search events, in YYYY-MM-DD format
+and including this date}
 
-\item{vessels}{A vector of vesselIds, obtained via the \code{get_vessel_info()} function}
+\item{end_date}{End of date range to search events, in YYYY-MM-DD format and
+excluding this date}
+
+\item{sort}{How to sort the events. By default, +start, which sorts the events
+in ascending order (+) of the start dates of the events. Other possible values
+are -start, +end, -end.}
+
+\item{vessels}{A vector of \code{vesselIds}, obtained via the \code{get_vessel_info()}
+function. The maximum number of \code{vesselIds} depends on the character length of
+the whole request, the request will fail with error HTTP 422: Unprocessable
+entity when too many \code{vesselIds} are sent. This value is around 2,800
+vessels, depending on the other parameters of the request.}
 
 \item{flags}{ISO3 code for the flag of the vessels. Null by default.}
 
@@ -42,31 +50,33 @@ vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
 "CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL",
 "BUNKER_OR_TANKER", "CARGO"}
 
-\item{start_date}{Start of date range to search events, in YYYY-MM-DD format and including this date}
+\item{region_source}{Source of the region ('EEZ','MPA', 'RFMO' or
+'USER_SHAPEFILE'). Null by default but required if a value for region is
+specified.}
 
-\item{end_date}{End of date range to search events, in YYYY-MM-DD format and excluding this date}
+\item{region}{If \code{region_source} is set to "EEZ", "MPA" or "RFMO", GFW region
+code (see \code{get_region_id()}) if \code{region_source = "USER_SHAPEFILE"}, \code{sf}
+shapefile with the area of interest.}
 
-\item{region}{sf shape to filter raster or GFW region code (such as an
-EEZ code). See details about formatting the geojson}
+\item{duration}{Minimum duration that the event should have (in minutes). The
+default value is 1.}
 
-\item{region_source}{source of the region ('EEZ','MPA', 'RFMO' or 'USER_SHAPEFILE')}
+\item{encounter_types}{Only useful when \code{event_type = "ENCOUNTER"}. Filters for
+types of vessels during the encounter. A
+vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
+"FISHING-SUPPORT", "SUPPORT-FISHING"}
 
-\item{gap_intentional_disabling}{Logical. Whether the Gap events are intentional,
-according to Global Fishing Watch algorithms}
+\item{gap_intentional_disabling}{Logical. Only useful when \code{event_type = "GAP"}.
+Filters intentional gap events according to Global Fishing Watch algorithms.
+Check the \href{https://globalfishingwatch.org/our-apis/documentation#ais-off-event-aka-gap}{gaps API documentation} for more details.}
 
-\item{duration}{duration, in minutes, of the event, ex. 30}
+\item{confidences}{Only useful when \code{event_type = "PORT_VISIT"}. Confidence
+levels of port visits. Low-confidence port visits (confidence 1)
+are not available for download. See the
+\href{https://globalfishingwatch.org/our-apis/documentation#confidence-levels-of-a-port-visit}{API documentation}
+for more details}
 
-\item{confidences}{Confidence levels (1-4) of events (port visits only)}
-
-\item{limit}{Limit}
-
-\item{offset}{Offset}
-
-\item{sort}{How to sort the events. By default, +start, which sorts the events
-in ascending order (+) of the start dates of the events. Other possible values
-are -start, +end, -end.}
-
-\item{key}{Authorization token. Can be obtained with gfw_auth() function}
+\item{key}{Authorization token. Can be obtained with \code{gfw_auth()} function}
 
 \item{quiet}{Boolean. Whether to print the number of events returned by the
 request}

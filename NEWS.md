@@ -1,3 +1,8 @@
+# gfwr 2.0.2 
+
+Minor updates in documentation, parameter reordering and improving descriptions. 
+No breaking changes.
+
 # gfwr 2.0.1 
 
 2024-11-28

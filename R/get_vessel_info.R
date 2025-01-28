@@ -3,17 +3,17 @@
 #' @param query When `search_type = "search"`, a length-1 vector with the identity
 #' variable of interest, MMSI, IMO, call sign or ship name.
 #' @param where When `search_type = "search"`, an SQL expression to find the vessel of interest
-#' @param ids When `search_type = "id"`, a vector with the vesselId of interest
-#' @param search_type Type of vessel search to perform. Can be `"search"` or
-#' `"id"`. (Note:`"advanced"` and `"basic"` are no longer in use as of gfwr 2.0.0.)
-#' @param match_fields Optional. Allows to filter by `matchFields` levels.
-#' Possible values: `"SEVERAL_FIELDS"`, `"NO_MATCH"`, `"ALL"`. Incompatible with `where`
+#' @param search_type Type of vessel search to perform. Can be `"search"` (the default)
+#' or `"id"`. (Note:`"advanced"` and `"basic"` are no longer in use as of gfwr 2.0.0.)
+#' @param ids When `search_type = "id"`, a vector with the `vesselId` of interest
 #' @param includes Enhances the response with new information, defaults to include all.
 #' \describe{
 #' \item{`"OWNERSHIP"`}{returns ownership information}
 #' \item{`"AUTHORIZATIONS"`}{lists public authorizations for that vessel}
 #' \item{`"MATCH_CRITERIA"`}{adds information about the reason why a vessel is returned}
 #' }
+#' @param match_fields Optional. Allows to filter by `matchFields` levels.
+#' Possible values: `"SEVERAL_FIELDS"`, `"NO_MATCH"`, `"ALL"`. Incompatible with `where`
 #' @param registries_info_data when `search_type == "id"`, gets all the registry
 #' objects, only the delta or the latest.
 #' \describe{
@@ -22,9 +22,9 @@
 #'  changed one or more identity properties}
 #'  \item{`"ALL"`}{The registryInfo array will return the same number of objects that rows we have in the vessel database}
 #'  }
+#' @param key Authorization token. Can be obtained with `gfw_auth()` function (the default)
 #' @param quiet Boolean. Whether to print the number of events returned by the
-#' request and progress
-#' @param key Authorization token. Can be obtained with `gfw_auth()` function
+#' request and progress. Default is FALSE.
 #' @param print_request Boolean. Whether to print the request, for debugging
 #' purposes. When contacting the GFW team it will be useful to send this string
 #' @param ... Other parameters, see API documentation
@@ -41,7 +41,7 @@
 #' MMSI, IMO, callsign, shipname as inputs, using parameter `"query"`. For more advanced
 #' SQL searches, use parameter `"where"`. You can combine logic operators like `AND`,
 #' `OR`, `=`, `>=` , <, `LIKE` (for fuzzy matching). The `id` search allows the user
-#' to search using a GFW vessel id.
+#' to search using a GFW `vesselId`.
 #'
 #' @examples
 #' \dontrun{
@@ -70,11 +70,13 @@
 #' @export
 get_vessel_info <- function(query = NULL,
                             where = NULL,
+                            search_type = "search",
                             ids = NULL,
-                            includes = c("AUTHORIZATIONS", "OWNERSHIP", "MATCH_CRITERIA"),
+                            includes = c("AUTHORIZATIONS",
+                                         "OWNERSHIP",
+                                         "MATCH_CRITERIA"),
                             match_fields = NULL,
                             registries_info_data = c("ALL"),
-                            search_type = "search",
                             key = gfw_auth(),
                             quiet = FALSE,
                             print_request = FALSE,
@@ -161,7 +163,7 @@ get_vessel_info <- function(query = NULL,
       httr2::req_url_query(`limit` = limit)
 
   }
-  
+
   # performs request
   if (print_request) print(request)
   response <- request %>%

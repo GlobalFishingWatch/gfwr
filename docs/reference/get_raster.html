@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gfwr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.2</span>
       </span>
     </div>
 
@@ -72,12 +72,12 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_raster</span><span class="op">(</span></span>
 <span>  spatial_resolution <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  temporal_resolution <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  group_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  filter_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  start_date <span class="op">=</span> <span class="st">"2023-01-01"</span>,</span>
 <span>  end_date <span class="op">=</span> <span class="st">"2023-12-31"</span>,</span>
-<span>  region <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  region_source <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  region <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  group_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  filter_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  print_request <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -88,39 +88,47 @@
 
 
 <dl><dt id="arg-spatial-resolution">spatial_resolution<a class="anchor" aria-label="anchor" href="#arg-spatial-resolution"></a></dt>
-<dd><p>raster spatial resolution. Can be "LOW" = 0.1 degree
+<dd><p>Raster spatial resolution. Can be "LOW" = 0.1 degree
 or "HIGH" = 0.01 degree</p></dd>
 
 
 <dt id="arg-temporal-resolution">temporal_resolution<a class="anchor" aria-label="anchor" href="#arg-temporal-resolution"></a></dt>
-<dd><p>raster temporal resolution. Can be 'HOURLY',
+<dd><p>Raster temporal resolution. Can be 'HOURLY',
 'DAILY', 'MONTHLY', 'YEARLY'</p></dd>
 
 
+<dt id="arg-start-date">start_date<a class="anchor" aria-label="anchor" href="#arg-start-date"></a></dt>
+<dd><p>Required. Start of date range to search events, in
+YYYY-MM-DD format and including this date</p></dd>
+
+
+<dt id="arg-end-date">end_date<a class="anchor" aria-label="anchor" href="#arg-end-date"></a></dt>
+<dd><p>Required. End of date range to search events, in
+YYYY-MM-DD format and excluding this date</p></dd>
+
+
+<dt id="arg-region-source">region_source<a class="anchor" aria-label="anchor" href="#arg-region-source"></a></dt>
+<dd><p>Source of the region ('EEZ','MPA', 'RFMO' or
+'USER_SHAPEFILE'). Null by default but required if a value for region is
+specified.</p></dd>
+
+
+<dt id="arg-region">region<a class="anchor" aria-label="anchor" href="#arg-region"></a></dt>
+<dd><p>If <code>region_source</code> is set to "EEZ", "MPA" or "RFMO", GFW region
+code (see <code><a href="get_region_id.html">get_region_id()</a></code>) if <code>region_source = "USER_SHAPEFILE"</code>, <code>sf</code>
+shapefile with the area of interest.</p></dd>
+
+
 <dt id="arg-group-by">group_by<a class="anchor" aria-label="anchor" href="#arg-group-by"></a></dt>
-<dd><p>parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
+<dd><p>Parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
 'FLAGANDGEARTYPE' or 'MMSI'. Optional.</p></dd>
 
 
 <dt id="arg-filter-by">filter_by<a class="anchor" aria-label="anchor" href="#arg-filter-by"></a></dt>
-<dd><p>parameter to filter by.</p></dd>
-
-
-<dt id="arg-start-date">start_date<a class="anchor" aria-label="anchor" href="#arg-start-date"></a></dt>
-<dd><p>Required. Start of date range to search events, in YYYY-MM-DD format and including this date</p></dd>
-
-
-<dt id="arg-end-date">end_date<a class="anchor" aria-label="anchor" href="#arg-end-date"></a></dt>
-<dd><p>Required. End of date range to search events, in YYYY-MM-DD format and excluding this date</p></dd>
-
-
-<dt id="arg-region">region<a class="anchor" aria-label="anchor" href="#arg-region"></a></dt>
-<dd><p>sf shape to filter raster or GFW region code (such as a
-Marine Regions Geographic Identifier or EEZ code).</p></dd>
-
-
-<dt id="arg-region-source">region_source<a class="anchor" aria-label="anchor" href="#arg-region-source"></a></dt>
-<dd><p>source of the region ('EEZ','MPA', 'RFMO' or 'USER_SHAPEFILE')</p></dd>
+<dd><p>Fields to filter AIS-based fishing effort after
+<code>group_by</code>. Possible options are <code>flag</code>, <code>geartype</code> and <code>vessel_id</code>. You can
+aggregate results using <code>group_by</code>, for example <code>group_by = 'FLAG'</code>, and then
+filter results using <code>filter_by = "flag IN ('ESP')"</code>.</p></dd>
 
 
 <dt id="arg-key">key<a class="anchor" aria-label="anchor" href="#arg-key"></a></dt>
