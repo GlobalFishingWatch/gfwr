@@ -69,6 +69,21 @@ get_raster(spatial_resolution = 'LOW',
            region_source = 'EEZ',
            key = gfw_auth(),
            print_request = TRUE)
+code_mpa <- get_region_id(region_name = 'Galapagos', region_source = 'MPA')
+get_raster(spatial_resolution = 'LOW',
+           temporal_resolution = 'MONTHLY',
+           group_by = 'FLAG',
+           start_date = "2022-01-01",
+           end_date = "2023-01-01",
+           region = code_mpa$id[3],
+           region_source = 'MPA')
+code_rfmo <- get_region_id(region_name = 'IATTC', region_source = 'RFMO')
+get_raster(spatial_resolution = 'LOW',
+           temporal_resolution = 'MONTHLY',
+           start_date = "2022-01-01",
+           end_date = "2023-01-01",
+           region = code_rfmo$id[1],
+           region_source = 'RFMO')
 #using a sf from disk /loading a test sf object
 data(test_shape)
 get_raster(spatial_resolution = 'LOW',
