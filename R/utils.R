@@ -178,9 +178,11 @@ get_regions <- function(region_source = 'EEZ',
 #' @importFrom httr2 req_user_agent
 #' @importFrom httr2 resp_body_json
 #' @examples
+#' \dontrun{
 #' get_region_id(region_name = "COL", region_source = "EEZ")
 #' get_region_id(region_name = "Nazca", region_source = "MPA")
 #' get_region_id(region_name = "IOTC", region_source = "RFMO")
+#' }
 
 get_region_id <- function(region_name, region_source = 'EEZ', key = gfw_auth()) {
 

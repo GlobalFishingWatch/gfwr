@@ -231,13 +231,16 @@ get_vessel_info <- function(query = NULL,
     dplyr::mutate(index = as.numeric(index)) %>%
     dplyr::rename(dplyr::any_of(lookup)) %>%
     #  dplyr::select(-`<list>`) %>%
-    # unnest geartypes
-    tidyr::unnest(geartypes, keep_empty = TRUE)
+    # unnest geartypes if the column exists
+    {
+    if ("geartypes" %in% names(.))
+      tidyr::unnest(., geartypes, names_sep = "_", keep_empty = TRUE)
+    }
     }
   # 4/8 registryOwners #has all records with and without registry but may have a different
   #dimension than registryInfo due to lack of data
   registryOwners <- purrr::map(all_entries, purrr::pluck, "registryOwners") %>%
-    unlist(recursive= FALSE) %>%
+    unlist(recursive = FALSE) %>%
     purrr::map(., tibble::tibble) %>%
     dplyr::bind_rows(.id = "index") %>%
     dplyr::mutate(index = as.numeric(index))
@@ -258,8 +261,15 @@ get_vessel_info <- function(query = NULL,
     purrr::map(., tibble::tibble) %>%
     dplyr::bind_rows(.id = "index") %>%
     dplyr::mutate(index = as.numeric(index)) %>% #after indexing we can unnest
-    tidyr::unnest(geartypes, names_sep = "_", keep_empty = TRUE) %>%
-    tidyr::unnest(shiptypes, names_sep = "_", keep_empty = TRUE)
+    {
+      if ("geartypes" %in% names(.))
+        tidyr::unnest(., geartypes, names_sep = "_", keep_empty = TRUE)
+    } %>%
+    {
+      if ("shiptypes" %in% names(.))
+        tidyr::unnest(., shiptypes, names_sep = "_", keep_empty = TRUE)
+    }
+
 
   # 7/8 selfReportedInfo this is AIS
   selfReportedInfo <- purrr::map(all_entries, purrr::pluck, 'selfReportedInfo') %>%
