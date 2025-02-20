@@ -230,7 +230,7 @@ later). We could look up the Italian EEZ <code>id</code> in the
 <span><span class="va">ita_eez_code</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_region_id.html">get_region_id</a></span><span class="op">(</span>region_name <span class="op">=</span> <span class="st">"ITA"</span>, region_source <span class="op">=</span> <span class="st">"EEZ"</span>, key <span class="op">=</span> <span class="fu"><a href="../reference/gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
 <span><span class="co">#&gt;      id label iso3 </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">5</span>682 Italy ITA</span></span></code></pre>
 <p>The <code><a href="../reference/get_raster.html">get_raster()</a></code> function allows users to specify
 multiple criteria to customize the data they download, including the
@@ -249,28 +249,20 @@ degree resolution and grouped by flag State:</p>
 <span>  end_date <span class="op">=</span> <span class="va">end_date</span>,</span>
 <span>  region <span class="op">=</span> <span class="va">ita_eez_code</span><span class="op">$</span><span class="va">id</span>,</span>
 <span>  region_source <span class="op">=</span> <span class="st">"EEZ"</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">69412</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">6</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">Delimiter:</span> ","</span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">chr</span> (1): flag</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">dbl</span> (5): Lat, Lon, Time Range, Vessel IDs, Apparent Fishing Hours</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use `spec()` to retrieve the full column specification for this data.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span></code></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 69,412 × 6</span></span></span>
 <span><span class="co">#&gt;      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  42.4 15.5          <span style="text-decoration: underline;">2</span>021 ITA              1                     0.8 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  40.7 18.1          <span style="text-decoration: underline;">2</span>021 ITA              2                     7.53</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  44.5 12.9          <span style="text-decoration: underline;">2</span>021 ITA              1                     2.05</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  42.9 10.6          <span style="text-decoration: underline;">2</span>021 ITA              3                    14.4 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  39.6  8.32         <span style="text-decoration: underline;">2</span>021 ITA              2                     2.96</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  44.0 13.1          <span style="text-decoration: underline;">2</span>021 ITA              7                    11.1 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  42.6 10.4          <span style="text-decoration: underline;">2</span>021 ITA              1                     2.97</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  42.0 15.9          <span style="text-decoration: underline;">2</span>021 ITA              6                     6.7 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  41.6 16.6          <span style="text-decoration: underline;">2</span>021 ITA              3                     3.04</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  38.4 16.6          <span style="text-decoration: underline;">2</span>021 ITA              2                     4.07</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  43.7  13.6         <span style="text-decoration: underline;">2</span>021 ITA              3                     6.76</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  42.2  15.7         <span style="text-decoration: underline;">2</span>021 ITA              9                     8.14</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  40.9  13.9         <span style="text-decoration: underline;">2</span>021 ITA             10                    21.1 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  41.9  16.6         <span style="text-decoration: underline;">2</span>021 ITA              2                     2.03</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  43.7  14.1         <span style="text-decoration: underline;">2</span>021 ITA              3                     6.46</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  41.0  18.1         <span style="text-decoration: underline;">2</span>021 ITA              2                     1.57</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  42.4  14.9         <span style="text-decoration: underline;">2</span>021 ITA              3                     5.56</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  45.2  12.4         <span style="text-decoration: underline;">2</span>021 ITA              1                     0.17</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  41.9  11.9         <span style="text-decoration: underline;">2</span>021 ITA              1                     1.28</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  37.4  12.6         <span style="text-decoration: underline;">2</span>021 ITA              5                     6.03</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 69,402 more rows</span></span></span></code></pre>
 <p>Because the data includes fishing by all flag states, to make a map
 of all activity, we first need to summarize activity by grid cell.</p>
@@ -285,9 +277,9 @@ of all activity, we first need to summarize activity by grid cell.</p>
 <code class="sourceCode R"><span><span class="va">eez_fish_all_df</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">fishing_hours</span> <span class="op">&gt;=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_raster</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Lon</span>,</span>
-<span>                  y <span class="op">=</span> <span class="va">Lat</span>,</span>
-<span>                  fill <span class="op">=</span> <span class="va">fishing_hours</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_tile</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Lon</span>,</span>
+<span>                y <span class="op">=</span> <span class="va">Lat</span>,</span>
+<span>                fill <span class="op">=</span> <span class="va">fishing_hours</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://docs.ropensci.org/rnaturalearth/reference/ne_countries.html" class="external-link">ne_countries</a></span><span class="op">(</span>returnclass <span class="op">=</span> <span class="st">"sf"</span>, scale <span class="op">=</span> <span class="st">"medium"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">eez_fish_all_df</span><span class="op">$</span><span class="va">Lon</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">eez_fish_all_df</span><span class="op">$</span><span class="va">Lon</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>           ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">eez_fish_all_df</span><span class="op">$</span><span class="va">Lat</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">eez_fish_all_df</span><span class="op">$</span><span class="va">Lat</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -299,11 +291,7 @@ of all activity, we first need to summarize activity by grid cell.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Apparent fishing hours in the Italian EEZ"</span>,</span>
 <span>       subtitle <span class="op">=</span> <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"{start_date} to {end_date}"</span><span class="op">)</span>,</span>
 <span>       fill <span class="op">=</span> <span class="st">"Fishing hours"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="va">map_theme</span></span>
-<span><span class="co">#&gt; Warning: Raster pixels are placed at uneven horizontal intervals and will be shifted</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Consider using `geom_tile()` instead.</span></span>
-<span><span class="co">#&gt; Raster pixels are placed at uneven horizontal intervals and will be shifted</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Consider using `geom_tile()` instead.</span></span></code></pre></div>
+<span>  <span class="va">map_theme</span></span></code></pre></div>
 <p><img src="making-maps_files/figure-html/ita_plot-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>As another example, let’s request low resolution apparent fishing
 effort data within the jurisdiction of the Indian Ocean Tuna Commission
@@ -318,28 +306,20 @@ effort data within the jurisdiction of the Indian Ocean Tuna Commission
 <span>  end_date <span class="op">=</span> <span class="va">end_date</span>,</span>
 <span>  region <span class="op">=</span> <span class="st">"IOTC"</span>,</span>
 <span>  region_source <span class="op">=</span> <span class="st">"RFMO"</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">98457</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">6</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">Delimiter:</span> ","</span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">chr</span> (1): geartype</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">dbl</span> (5): Lat, Lon, Time Range, Vessel IDs, Apparent Fishing Hours</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use `spec()` to retrieve the full column specification for this data.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span></code></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 98,457 × 6</span></span></span>
 <span><span class="co">#&gt;      Lat   Lon `Time Range` geartype         `Vessel IDs` Apparent Fishing Hou…¹</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   2.3  63.7         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   1.88</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> -<span style="color: #BB0000;">33.6</span>  99.7         <span style="text-decoration: underline;">2</span>021 drifting_longli…            3                  24.9 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> -<span style="color: #BB0000;">14.6</span>  61           <span style="text-decoration: underline;">2</span>021 set_longlines               6                 114.  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> -<span style="color: #BB0000;">20.6</span>  55.9         <span style="text-decoration: underline;">2</span>021 fishing                     1                   3.99</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  -<span style="color: #BB0000;">7.3</span>  65.4         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   3.02</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> -<span style="color: #BB0000;">21.1</span>  55           <span style="text-decoration: underline;">2</span>021 tuna_purse_sein…            1                   5.01</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   7.6  77.9         <span style="text-decoration: underline;">2</span>021 fishing                     1                  14.9 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   4.4 100           <span style="text-decoration: underline;">2</span>021 trawlers                    2                   2.08</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> -<span style="color: #BB0000;">16.8</span>  79.8         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   2.75</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">35.5</span>  20.7         <span style="text-decoration: underline;">2</span>021 set_longlines               1                   0.85</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> -<span style="color: #BB0000;">11.8</span>  63.6         <span style="text-decoration: underline;">2</span>021 drifting_longli…            7                  16.0 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   7.7  59.1         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   4.31</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  -<span style="color: #BB0000;">6</span>    46.6         <span style="text-decoration: underline;">2</span>021 drifting_longli…            5                  14.3 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> -<span style="color: #BB0000;">20.6</span>  88.4         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   1.68</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   0.9  55.6         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   3.05</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  -<span style="color: #BB0000;">7.3</span>  80.8         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   7.17</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> -<span style="color: #BB0000;">34.5</span>  86.9         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   4.86</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  -<span style="color: #BB0000;">3.5</span>  52.6         <span style="text-decoration: underline;">2</span>021 tuna_purse_sein…            1                   2.85</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  -<span style="color: #BB0000;">9.9</span>  60.6         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   9.9 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">22.3</span>  53.6         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   1.77</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 98,447 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ abbreviated name: ¹​`Apparent Fishing Hours`</span></span></span></code></pre>
 <p>This time, instead of aggregating all activity, let’s plot the
@@ -349,9 +329,9 @@ activity of a specific gear type:</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">geartype</span> <span class="op">==</span> <span class="st">'drifting_longlines'</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">`Apparent Fishing Hours`</span> <span class="op">&gt;=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_raster</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Lon</span>,</span>
-<span>                  y <span class="op">=</span> <span class="va">Lat</span>,</span>
-<span>                  fill <span class="op">=</span> <span class="va">`Apparent Fishing Hours`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_tile</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Lon</span>,</span>
+<span>                y <span class="op">=</span> <span class="va">Lat</span>,</span>
+<span>                fill <span class="op">=</span> <span class="va">`Apparent Fishing Hours`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://docs.ropensci.org/rnaturalearth/reference/ne_countries.html" class="external-link">ne_countries</a></span><span class="op">(</span>returnclass <span class="op">=</span> <span class="st">"sf"</span>, scale <span class="op">=</span> <span class="st">"medium"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">iotc_fish_df</span><span class="op">$</span><span class="va">Lon</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">iotc_fish_df</span><span class="op">$</span><span class="va">Lon</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>           ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">iotc_fish_df</span><span class="op">$</span><span class="va">Lat</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">iotc_fish_df</span><span class="op">$</span><span class="va">Lat</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -366,11 +346,7 @@ activity of a specific gear type:</p>
 <span>       fill <span class="op">=</span> <span class="st">"Fishing hours"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="va">map_theme</span></span>
 <span> </span>
-<span><span class="va">iotc_p1</span> </span>
-<span><span class="co">#&gt; Warning: Raster pixels are placed at uneven horizontal intervals and will be shifted</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Consider using `geom_tile()` instead.</span></span>
-<span><span class="co">#&gt; Raster pixels are placed at uneven horizontal intervals and will be shifted</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Consider using `geom_tile()` instead.</span></span></code></pre></div>
+<span><span class="va">iotc_p1</span> </span></code></pre></div>
 <p><img src="making-maps_files/figure-html/iotc_raster-1.png" width="90%" style="display: block; margin: auto;"></p>
 <div class="section level3">
 <h3 id="when-your-api-request-times-out">When your API request times out<a class="anchor" aria-label="anchor" href="#when-your-api-request-times-out"></a>
@@ -437,9 +413,9 @@ example.</p>
 <span>                           region_source <span class="op">=</span> <span class="st">"RFMO"</span><span class="op">)</span> </span>
 <span><span class="co">#&gt; [1] "Downloading 175 events from GFW"</span></span></code></pre></div>
 <p>Encounters events have two rows per event to represent both vessels.
-Because each row shares the same event ID (<code>event_id</code>), we
-can extract the <code>event_id</code> and select one row per
-<code>event_id</code> to remove duplicate positions. We’ll also use the
+Because each row shares the same event ID (<code>eventId</code>), we can
+extract the <code>eventId</code> and select one row per
+<code>eventId</code> to remove duplicate positions. We’ll also use the
 <code>lon</code> and <code>lat</code> coordinates to create a
 <code>sf</code> object for each encounter event.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
@@ -465,11 +441,7 @@ plot to the area with encounters.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">'Apparent fishing hours in the IOTC by drifting longlines and fishing vessel encounter events with carrier vessels'</span>,</span>
 <span>       color <span class="op">=</span> <span class="st">'Event type'</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will</span></span>
-<span><span class="co">#&gt; replace the existing one.</span></span>
-<span><span class="co">#&gt; Warning: Raster pixels are placed at uneven horizontal intervals and will be shifted</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Consider using `geom_tile()` instead.</span></span>
-<span><span class="co">#&gt; Raster pixels are placed at uneven horizontal intervals and will be shifted</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Consider using `geom_tile()` instead.</span></span></code></pre></div>
+<span><span class="co">#&gt; replace the existing one.</span></span></code></pre></div>
 <p><img src="making-maps_files/figure-html/iotc_plot_1-1.png" width="90%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
@@ -518,15 +490,7 @@ example, this is helpful when using more complex regions.</p>
 <span>  end_date <span class="op">=</span> <span class="va">end_date</span>,</span>
 <span>  region <span class="op">=</span> <span class="va">my_shp</span>,</span>
 <span>  region_source <span class="op">=</span> <span class="st">"USER_SHAPEFILE"</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">11375</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">6</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span></span>
-<span><span class="co">#&gt; <span style="font-weight: bold;">Delimiter:</span> ","</span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">chr</span> (1): geartype</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">dbl</span> (5): Lat, Lon, Time Range, Vessel IDs, Apparent Fishing Hours</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use `spec()` to retrieve the full column specification for this data.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span></code></pre></div>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p>For events, we’ll request high-confidence port visits by fishing
 vessels</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
@@ -537,7 +501,7 @@ vessels</p>
 <span>                          end_date <span class="op">=</span> <span class="va">end_date</span>,</span>
 <span>                          region <span class="op">=</span> <span class="va">my_shp</span>,</span>
 <span>                          region_source <span class="op">=</span> <span class="st">"USER_SHAPEFILE"</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; [1] "Downloading 4152 events from GFW"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "Downloading 4127 events from GFW"</span></span></code></pre></div>
 <p>and loitering events by refrigerated cargo vessels</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_loitering_events_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_event.html">get_event</a></span><span class="op">(</span>event_type <span class="op">=</span> <span class="st">"LOITERING"</span>,</span>
@@ -572,9 +536,9 @@ loitering events and port visits.</p>
 <code class="sourceCode R"><span><span class="va">my_raster_all_df</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">fishing_hours</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_raster</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Lon</span>,</span>
-<span>                  y <span class="op">=</span> <span class="va">Lat</span>,</span>
-<span>                  fill <span class="op">=</span> <span class="va">fishing_hours</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_tile</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Lon</span>,</span>
+<span>                y <span class="op">=</span> <span class="va">Lat</span>,</span>
+<span>                fill <span class="op">=</span> <span class="va">fishing_hours</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">my_events_sf</span>,</span>
 <span>          <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">eventType</span><span class="op">)</span>,</span>
 <span>          alpha <span class="op">=</span> <span class="fl">0.7</span><span class="op">)</span> <span class="op">+</span></span>
@@ -591,9 +555,7 @@ loitering events and port visits.</p>
 <span>    fill <span class="op">=</span> <span class="st">'Fishing hours'</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">'Event type'</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="va">map_theme</span></span>
-<span><span class="co">#&gt; Warning: Raster pixels are placed at uneven horizontal intervals and will be shifted</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Consider using `geom_tile()` instead.</span></span></code></pre></div>
+<span>  <span class="va">map_theme</span></span></code></pre></div>
 <p><img src="making-maps_files/figure-html/loitering_ports_fishing_map-1.png" width="90%" style="display: block; margin: auto;"></p>
 </div>
   </div>
