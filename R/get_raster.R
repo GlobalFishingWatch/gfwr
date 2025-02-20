@@ -131,5 +131,5 @@ if (is.null(region_source)) stop("region_source and region params are required")
 
   # unzip zip file and extract .csv
   file <- unz(temp, names[grepl(".csv$", names)])
-  return(readr::read_csv(file))
+  return(readr::read_csv(file, show_col_types = FALSE))
 }
