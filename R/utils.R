@@ -129,7 +129,7 @@ gfw_api_request <- function(endpoint, key) {
 
 #' List of available regions
 #' @name get_regions
-#' @param region_source string, source of region data ('eez', 'mpa', 'rfmo')
+#' @param region_source string, source of region data ('EEZ', 'MPA', 'RFMO')
 #' @param key string, API token
 #' @export
 #' @return dataframe, all region ids and names for specified region type
@@ -148,7 +148,7 @@ gfw_api_request <- function(endpoint, key) {
 get_regions <- function(region_source = 'EEZ',
                         key = gfw_auth()) {
 
-  if (!toupper(region_source) %in% c('EEZ','MPA','RFMO')){
+  if (!toupper(region_source) %in% c('EEZ','MPA','RFMO')) {
     stop('Enter a valid region source ("EEZ", "MPA", or "RFMO"')
   } else {
     result <- get_endpoint(dataset_type = region_source) %>%
@@ -178,9 +178,11 @@ get_regions <- function(region_source = 'EEZ',
 #' @importFrom httr2 req_user_agent
 #' @importFrom httr2 resp_body_json
 #' @examples
+#' \dontrun{
 #' get_region_id(region_name = "COL", region_source = "EEZ")
 #' get_region_id(region_name = "Nazca", region_source = "MPA")
 #' get_region_id(region_name = "IOTC", region_source = "RFMO")
+#' }
 
 get_region_id <- function(region_name, region_source = 'EEZ', key = gfw_auth()) {
 
@@ -195,8 +197,7 @@ get_region_id <- function(region_name, region_source = 'EEZ', key = gfw_auth()) 
   # EEZ names
   if (region_source == "EEZ" & is.character(region_name)) {
     result %>%
-      dplyr::filter(agrepl(region_name, .$label) | agrepl(paste0('^',region_name), .$iso3)) %>%
-      dplyr::mutate(id = as.numeric(id))
+      dplyr::filter(agrepl(region_name, .$label) | agrepl(paste0('^',region_name), .$iso3))
   }
   # EEZ ids
   else if (region_source == "EEZ" & is.numeric(region_name)) {
@@ -206,8 +207,7 @@ get_region_id <- function(region_name, region_source = 'EEZ', key = gfw_auth()) 
   # MPA names
   else if (region_source == "MPA" & is.character(region_name)) {
     result %>%
-      dplyr::filter(agrepl(region_name, .$label)) %>%
-      dplyr::mutate(id = as.numeric(id))
+      dplyr::filter(agrepl(region_name, .$label))
   }
   # MPA ids
   else if (region_source == "MPA" & is.numeric(region_name)) {

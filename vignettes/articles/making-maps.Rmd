@@ -153,9 +153,9 @@ Now we can use `ggplot2` to plot the data.
 eez_fish_all_df %>% 
   filter(fishing_hours >= 1) %>%
   ggplot() +
-  geom_raster(aes(x = Lon,
-                  y = Lat,
-                  fill = fishing_hours)) +
+  geom_tile(aes(x = Lon,
+                y = Lat,
+                fill = fishing_hours)) +
   geom_sf(data = ne_countries(returnclass = "sf", scale = "medium")) +
   coord_sf(xlim = c(min(eez_fish_all_df$Lon),max(eez_fish_all_df$Lon)),
            ylim = c(min(eez_fish_all_df$Lat),max(eez_fish_all_df$Lat))) +
@@ -196,9 +196,9 @@ iotc_p1 <- iotc_fish_df %>%
   filter(geartype == 'drifting_longlines') %>% 
   filter(`Apparent Fishing Hours` >= 1) %>% 
   ggplot() +
-  geom_raster(aes(x = Lon,
-                  y = Lat,
-                  fill = `Apparent Fishing Hours`)) +
+  geom_tile(aes(x = Lon,
+                y = Lat,
+                fill = `Apparent Fishing Hours`)) +
   geom_sf(data = ne_countries(returnclass = "sf", scale = "medium")) +
   coord_sf(xlim = c(min(iotc_fish_df$Lon),max(iotc_fish_df$Lon)),
            ylim = c(min(iotc_fish_df$Lat),max(iotc_fish_df$Lat))) +
@@ -247,7 +247,7 @@ encounters_df <- get_event(event_type = "ENCOUNTER",
                            region_source = "RFMO") 
 ```
 
-Encounters events have two rows per event to represent both vessels. Because each row shares the same event ID (`event_id`), we can extract the `event_id` and select one row per `event_id` to remove duplicate positions. We'll also use the `lon` and `lat` coordinates to create a `sf` object for each encounter event. 
+Encounters events have two rows per event to represent both vessels. Because each row shares the same event ID (`eventId`), we can extract the `eventId` and select one row per `eventId` to remove duplicate positions. We'll also use the `lon` and `lat` coordinates to create a `sf` object for each encounter event. 
 
 ```{r encounters}
 encounters_sf_df <- encounters_df %>% 
@@ -374,9 +374,9 @@ Finally, let's plot the fishing effort raster and overlay the loitering events a
 my_raster_all_df %>% 
   filter(fishing_hours > 1) %>% 
   ggplot() +
-  geom_raster(aes(x = Lon,
-                  y = Lat,
-                  fill = fishing_hours)) +
+  geom_tile(aes(x = Lon,
+                y = Lat,
+                fill = fishing_hours)) +
   geom_sf(data = my_events_sf,
           aes(color = eventType),
           alpha = 0.7) +

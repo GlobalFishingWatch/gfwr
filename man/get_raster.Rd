@@ -30,16 +30,14 @@ YYYY-MM-DD format and including this date}
 \item{end_date}{Required. End of date range to search events, in
 YYYY-MM-DD format and excluding this date}
 
-\item{region_source}{Source of the region ('EEZ','MPA', 'RFMO' or
-'USER_SHAPEFILE'). Null by default but required if a value for region is
-specified.}
+\item{region_source}{Required. Source of the region: 'EEZ','MPA', 'RFMO' or
+'USER_SHAPEFILE'}
 
-\item{region}{If \code{region_source} is set to "EEZ", "MPA" or "RFMO", GFW region
+\item{region}{Required. If \code{region_source} is set to "EEZ", "MPA" or "RFMO", GFW region
 code (see \code{get_region_id()}) if \code{region_source = "USER_SHAPEFILE"}, \code{sf}
 shapefile with the area of interest.}
 
-\item{group_by}{Parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
-'FLAGANDGEARTYPE' or 'MMSI'. Optional.}
+\item{group_by}{Optional. Parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE', 'FLAGANDGEARTYPE' or 'MMSI'.}
 
 \item{filter_by}{Fields to filter AIS-based fishing effort after
 \code{group_by}. Possible options are \code{flag}, \code{geartype} and \code{vessel_id}. You can
@@ -69,6 +67,21 @@ get_raster(spatial_resolution = 'LOW',
            region_source = 'EEZ',
            key = gfw_auth(),
            print_request = TRUE)
+code_mpa <- get_region_id(region_name = 'Galapagos', region_source = 'MPA')
+get_raster(spatial_resolution = 'LOW',
+           temporal_resolution = 'MONTHLY',
+           group_by = 'FLAG',
+           start_date = "2022-01-01",
+           end_date = "2023-01-01",
+           region = code_mpa$id[3],
+           region_source = 'MPA')
+code_rfmo <- get_region_id(region_name = 'IATTC', region_source = 'RFMO')
+get_raster(spatial_resolution = 'LOW',
+           temporal_resolution = 'MONTHLY',
+           start_date = "2022-01-01",
+           end_date = "2023-01-01",
+           region = code_rfmo$id[1],
+           region_source = 'RFMO')
 #using a sf from disk /loading a test sf object
 data(test_shape)
 get_raster(spatial_resolution = 'LOW',

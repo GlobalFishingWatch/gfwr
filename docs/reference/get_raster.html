@@ -108,20 +108,18 @@ YYYY-MM-DD format and excluding this date</p></dd>
 
 
 <dt id="arg-region-source">region_source<a class="anchor" aria-label="anchor" href="#arg-region-source"></a></dt>
-<dd><p>Source of the region ('EEZ','MPA', 'RFMO' or
-'USER_SHAPEFILE'). Null by default but required if a value for region is
-specified.</p></dd>
+<dd><p>Required. Source of the region: 'EEZ','MPA', 'RFMO' or
+'USER_SHAPEFILE'</p></dd>
 
 
 <dt id="arg-region">region<a class="anchor" aria-label="anchor" href="#arg-region"></a></dt>
-<dd><p>If <code>region_source</code> is set to "EEZ", "MPA" or "RFMO", GFW region
+<dd><p>Required. If <code>region_source</code> is set to "EEZ", "MPA" or "RFMO", GFW region
 code (see <code><a href="get_region_id.html">get_region_id()</a></code>) if <code>region_source = "USER_SHAPEFILE"</code>, <code>sf</code>
 shapefile with the area of interest.</p></dd>
 
 
 <dt id="arg-group-by">group_by<a class="anchor" aria-label="anchor" href="#arg-group-by"></a></dt>
-<dd><p>Parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
-'FLAGANDGEARTYPE' or 'MMSI'. Optional.</p></dd>
+<dd><p>Optional. Parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE', 'FLAGANDGEARTYPE' or 'MMSI'.</p></dd>
 
 
 <dt id="arg-filter-by">filter_by<a class="anchor" aria-label="anchor" href="#arg-filter-by"></a></dt>
@@ -157,6 +155,21 @@ purposes. When contacting the GFW team it will be useful to send this string</p>
 <span class="r-in"><span>           region_source <span class="op">=</span> <span class="st">'EEZ'</span>,</span></span>
 <span class="r-in"><span>           key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>           print_request <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">code_mpa</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_region_id.html">get_region_id</a></span><span class="op">(</span>region_name <span class="op">=</span> <span class="st">'Galapagos'</span>, region_source <span class="op">=</span> <span class="st">'MPA'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">get_raster</span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="st">'LOW'</span>,</span></span>
+<span class="r-in"><span>           temporal_resolution <span class="op">=</span> <span class="st">'MONTHLY'</span>,</span></span>
+<span class="r-in"><span>           group_by <span class="op">=</span> <span class="st">'FLAG'</span>,</span></span>
+<span class="r-in"><span>           start_date <span class="op">=</span> <span class="st">"2022-01-01"</span>,</span></span>
+<span class="r-in"><span>           end_date <span class="op">=</span> <span class="st">"2023-01-01"</span>,</span></span>
+<span class="r-in"><span>           region <span class="op">=</span> <span class="va">code_mpa</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>           region_source <span class="op">=</span> <span class="st">'MPA'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">code_rfmo</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_region_id.html">get_region_id</a></span><span class="op">(</span>region_name <span class="op">=</span> <span class="st">'IATTC'</span>, region_source <span class="op">=</span> <span class="st">'RFMO'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">get_raster</span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="st">'LOW'</span>,</span></span>
+<span class="r-in"><span>           temporal_resolution <span class="op">=</span> <span class="st">'MONTHLY'</span>,</span></span>
+<span class="r-in"><span>           start_date <span class="op">=</span> <span class="st">"2022-01-01"</span>,</span></span>
+<span class="r-in"><span>           end_date <span class="op">=</span> <span class="st">"2023-01-01"</span>,</span></span>
+<span class="r-in"><span>           region <span class="op">=</span> <span class="va">code_rfmo</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>           region_source <span class="op">=</span> <span class="st">'RFMO'</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co">#using a sf from disk /loading a test sf object</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">test_shape</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">get_raster</span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="st">'LOW'</span>,</span></span>

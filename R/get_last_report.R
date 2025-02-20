@@ -48,7 +48,7 @@ get_last_report <- function(key = gfw_auth()) {
     {
 
       # If response type is zip, it's the completed report
-      if(response$headers$`content-type` == 'application/zip') {
+      if (response$headers$`content-type` == 'application/zip') {
 
         # Process raw response to extract zip file
         response <- response %>%
@@ -61,11 +61,11 @@ get_last_report <- function(key = gfw_auth()) {
 
         # unzip zip file and extract .csv
         file <- unz(temp, names[grepl(".csv$", names)])
-        return(readr::read_csv(file))
+        return(readr::read_csv(file, show_col_types = FALSE))
 
         }
 
-      else if(response$headers$`content-type` == 'application/json'){
+      else if (response$headers$`content-type` == 'application/json') {
 
         response <- response %>%
           httr2::resp_body_json()

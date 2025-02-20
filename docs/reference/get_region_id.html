@@ -95,31 +95,11 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">get_region_id</span><span class="op">(</span>region_name <span class="op">=</span> <span class="st">"COL"</span>, region_source <span class="op">=</span> <span class="st">"EEZ"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      id label                                                        iso3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="text-decoration: underline;">48</span>971 Overlapping claim: Venezuela / Colombia / Dominican Republic COL  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> <span style="text-decoration: underline;">48</span>984 Serranilla Bank                                              COL  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">8</span>426 Colombia                                                     COL  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> <span style="text-decoration: underline;">62</span>598 Colombian Exclusive Economic Zone (Quitasueño)               COL  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> <span style="text-decoration: underline;">62</span>596 Serrana Bank                                                 COL  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> <span style="text-decoration: underline;">48</span>985 Bajo Nuevo Bank                                              COL  </span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="fu">get_region_id</span><span class="op">(</span>region_name <span class="op">=</span> <span class="st">"COL"</span>, region_source <span class="op">=</span> <span class="st">"EEZ"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">get_region_id</span><span class="op">(</span>region_name <span class="op">=</span> <span class="st">"Nazca"</span>, region_source <span class="op">=</span> <span class="st">"MPA"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   label                                                                 id NAME </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> Mositi Vanuaso-Lamiti-Malawai/Lekanai/Nacavanadi/Naovuka/Vanuaso… 3.16<span style="color: #949494;">e</span>5 Mosi…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Nazareti - Marine Managed Area                                    5.56<span style="color: #949494;">e</span>8 Naza…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Aveiro/ Nazaré - Special Protection Area (Birds Directive)        5.56<span style="color: #949494;">e</span>8 Avei…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Dorsal de Nasca - Reserva Nacional                                5.56<span style="color: #949494;">e</span>8 Dors…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Nazca-Desventuradas - Parque Nacional                             5.56<span style="color: #949494;">e</span>8 Nazc…</span>
 <span class="r-in"><span><span class="fu">get_region_id</span><span class="op">(</span>region_name <span class="op">=</span> <span class="st">"IOTC"</span>, region_source <span class="op">=</span> <span class="st">"RFMO"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   label  id     RFB   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> SWIOFC SWIOFC SWIOFC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> IOTC   IOTC   <span style="color: #BB0000;">NA</span>    </span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>

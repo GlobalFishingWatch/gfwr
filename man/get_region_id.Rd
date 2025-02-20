@@ -20,7 +20,9 @@ a tibble with label, EEZ code and EEZ name for matching EEZs
 Function to pull numeric code using region name
 }
 \examples{
+\dontrun{
 get_region_id(region_name = "COL", region_source = "EEZ")
 get_region_id(region_name = "Nazca", region_source = "MPA")
 get_region_id(region_name = "IOTC", region_source = "RFMO")
+}
 }

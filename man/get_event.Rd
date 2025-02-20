@@ -50,11 +50,11 @@ vessels, depending on the other parameters of the request.}
 "CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL",
 "BUNKER_OR_TANKER", "CARGO"}
 
-\item{region_source}{Source of the region ('EEZ','MPA', 'RFMO' or
-'USER_SHAPEFILE'). Null by default but required if a value for region is
-specified.}
+\item{region_source}{Optional. Source of the region ('EEZ','MPA', 'RFMO' or
+'USER_SHAPEFILE').}
 
-\item{region}{If \code{region_source} is set to "EEZ", "MPA" or "RFMO", GFW region
+\item{region}{Optional but required if a value for \code{region_source} is specified.
+If \code{region_source} is set to "EEZ", "MPA" or "RFMO", GFW region
 code (see \code{get_region_id()}) if \code{region_source = "USER_SHAPEFILE"}, \code{sf}
 shapefile with the area of interest.}
 
