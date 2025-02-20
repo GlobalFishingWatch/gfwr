@@ -148,7 +148,7 @@ gfw_api_request <- function(endpoint, key) {
 get_regions <- function(region_source = 'EEZ',
                         key = gfw_auth()) {
 
-  if (!toupper(region_source) %in% c('EEZ','MPA','RFMO')){
+  if (!toupper(region_source) %in% c('EEZ','MPA','RFMO')) {
     stop('Enter a valid region source ("EEZ", "MPA", or "RFMO"')
   } else {
     result <- get_endpoint(dataset_type = region_source) %>%
@@ -208,8 +208,7 @@ get_region_id <- function(region_name, region_source = 'EEZ', key = gfw_auth()) 
   # MPA names
   else if (region_source == "MPA" & is.character(region_name)) {
     result %>%
-      dplyr::filter(agrepl(region_name, .$label)) %>%
-      dplyr::mutate(id = as.numeric(id))
+      dplyr::filter(agrepl(region_name, .$label))
   }
   # MPA ids
   else if (region_source == "MPA" & is.numeric(region_name)) {
