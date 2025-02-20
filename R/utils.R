@@ -129,7 +129,7 @@ gfw_api_request <- function(endpoint, key) {
 
 #' List of available regions
 #' @name get_regions
-#' @param region_source string, source of region data ('eez', 'mpa', 'rfmo')
+#' @param region_source string, source of region data ('EEZ', 'MPA', 'RFMO')
 #' @param key string, API token
 #' @export
 #' @return dataframe, all region ids and names for specified region type
@@ -197,8 +197,7 @@ get_region_id <- function(region_name, region_source = 'EEZ', key = gfw_auth()) 
   # EEZ names
   if (region_source == "EEZ" & is.character(region_name)) {
     result %>%
-      dplyr::filter(agrepl(region_name, .$label) | agrepl(paste0('^',region_name), .$iso3)) %>%
-      dplyr::mutate(id = as.numeric(id))
+      dplyr::filter(agrepl(region_name, .$label) | agrepl(paste0('^',region_name), .$iso3))
   }
   # EEZ ids
   else if (region_source == "EEZ" & is.numeric(region_name)) {

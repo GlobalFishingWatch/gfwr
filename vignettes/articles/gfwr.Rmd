@@ -330,7 +330,8 @@ dataset.
 
 > *Note*: `get_event()` can receive several `vesselIds` at a time but will fail 
 when the character length of the whole request is too long (~100,000 characters).
-This means it will fail with error __HTTP 422: Unprocessable entity__ when too many `vesselIds` are requested, this value can be around 2,800 `vesselIds` depending 
+This means it will fail with error __HTTP 422: Unprocessable entity__ when too 
+many `vesselIds` are requested, this value can be around 2,800 `vesselIds` depending 
 on the other parameters of the search.
 
 For this example, we will send the `vesselIds` corresponding to the first twenty 
@@ -480,9 +481,10 @@ get_raster(spatial_resolution = 'LOW',
            key = key)
 ```
 
-It is also possible to filter rasters to one of the five regional fisheries 
-management organizations (RFMO) that manage tuna and tuna-like species. These 
-include `"ICCAT"`, `"IATTC"`,`"IOTC"`, `"CCSBT"` and `"WCPFC"`.
+It is also possible to filter rasters to regional fisheries management 
+organizations (RFMO) like `"ICCAT"`, `"IATTC"`, `"IOTC"`, `"CCSBT"` and
+`"WCPFC"`.
+
 
 ```{r example_map_5, eval=T}
 get_raster(spatial_resolution = 'LOW',
@@ -494,6 +496,8 @@ get_raster(spatial_resolution = 'LOW',
            region_source = 'RFMO',
            key = key)
 ```
+
+> *Note*: For a complete list of MPAs, RFMOs and EEZ, check the function `get_regions()`
 
 The `get_region_id()` function also works in reverse. If a region id is passed as
 a `numeric` to the function as the `region_name`, the corresponding region label
