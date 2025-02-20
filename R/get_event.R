@@ -19,10 +19,10 @@
 #' @param vessel_types A vector of vessel types, any combination of: "FISHING",
 #' "CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL",
 #' "BUNKER_OR_TANKER", "CARGO"
-#' @param region_source Source of the region ('EEZ','MPA', 'RFMO' or
-#' 'USER_SHAPEFILE'). Null by default but required if a value for region is
-#' specified.
-#' @param region If `region_source` is set to "EEZ", "MPA" or "RFMO", GFW region
+#' @param region_source Optional. Source of the region ('EEZ','MPA', 'RFMO' or
+#' 'USER_SHAPEFILE').
+#' @param region Optional but required if a value for `region_source` is specified.
+#' If `region_source` is set to "EEZ", "MPA" or "RFMO", GFW region
 #' code (see `get_region_id()`) if `region_source = "USER_SHAPEFILE"`, `sf`
 #' shapefile with the area of interest.
 #' @param duration Minimum duration that the event should have (in minutes). The

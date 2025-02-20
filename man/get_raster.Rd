@@ -30,16 +30,14 @@ YYYY-MM-DD format and including this date}
 \item{end_date}{Required. End of date range to search events, in
 YYYY-MM-DD format and excluding this date}
 
-\item{region_source}{Source of the region ('EEZ','MPA', 'RFMO' or
-'USER_SHAPEFILE'). Null by default but required if a value for region is
-specified.}
+\item{region_source}{Required. Source of the region: 'EEZ','MPA', 'RFMO' or
+'USER_SHAPEFILE'}
 
-\item{region}{If \code{region_source} is set to "EEZ", "MPA" or "RFMO", GFW region
+\item{region}{Required. If \code{region_source} is set to "EEZ", "MPA" or "RFMO", GFW region
 code (see \code{get_region_id()}) if \code{region_source = "USER_SHAPEFILE"}, \code{sf}
 shapefile with the area of interest.}
 
-\item{group_by}{Parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
-'FLAGANDGEARTYPE' or 'MMSI'. Optional.}
+\item{group_by}{Optional. Parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE', 'FLAGANDGEARTYPE' or 'MMSI'.}
 
 \item{filter_by}{Fields to filter AIS-based fishing effort after
 \code{group_by}. Possible options are \code{flag}, \code{geartype} and \code{vessel_id}. You can

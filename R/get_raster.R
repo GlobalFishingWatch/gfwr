@@ -8,14 +8,12 @@
 #' YYYY-MM-DD format and including this date
 #' @param end_date Required. End of date range to search events, in
 #' YYYY-MM-DD format and excluding this date
-#' @param region_source Source of the region ('EEZ','MPA', 'RFMO' or
-#' 'USER_SHAPEFILE'). Null by default but required if a value for region is
-#' specified.
-#' @param region If `region_source` is set to "EEZ", "MPA" or "RFMO", GFW region
+#' @param region_source Required. Source of the region: 'EEZ','MPA', 'RFMO' or
+#' 'USER_SHAPEFILE'
+#' @param region Required. If `region_source` is set to "EEZ", "MPA" or "RFMO", GFW region
 #' code (see `get_region_id()`) if `region_source = "USER_SHAPEFILE"`, `sf`
 #' shapefile with the area of interest.
-#' @param group_by Parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
-#'  'FLAGANDGEARTYPE' or 'MMSI'. Optional.
+#' @param group_by Optional. Parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE', 'FLAGANDGEARTYPE' or 'MMSI'.
 #' @param filter_by Fields to filter AIS-based fishing effort after
 #' `group_by`. Possible options are `flag`, `geartype` and `vessel_id`. You can
 #' aggregate results using `group_by`, for example `group_by = 'FLAG'`, and then

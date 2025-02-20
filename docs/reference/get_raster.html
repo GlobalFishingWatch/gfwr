@@ -108,20 +108,18 @@ YYYY-MM-DD format and excluding this date</p></dd>
 
 
 <dt id="arg-region-source">region_source<a class="anchor" aria-label="anchor" href="#arg-region-source"></a></dt>
-<dd><p>Source of the region ('EEZ','MPA', 'RFMO' or
-'USER_SHAPEFILE'). Null by default but required if a value for region is
-specified.</p></dd>
+<dd><p>Required. Source of the region: 'EEZ','MPA', 'RFMO' or
+'USER_SHAPEFILE'</p></dd>
 
 
 <dt id="arg-region">region<a class="anchor" aria-label="anchor" href="#arg-region"></a></dt>
-<dd><p>If <code>region_source</code> is set to "EEZ", "MPA" or "RFMO", GFW region
+<dd><p>Required. If <code>region_source</code> is set to "EEZ", "MPA" or "RFMO", GFW region
 code (see <code><a href="get_region_id.html">get_region_id()</a></code>) if <code>region_source = "USER_SHAPEFILE"</code>, <code>sf</code>
 shapefile with the area of interest.</p></dd>
 
 
 <dt id="arg-group-by">group_by<a class="anchor" aria-label="anchor" href="#arg-group-by"></a></dt>
-<dd><p>Parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE',
-'FLAGANDGEARTYPE' or 'MMSI'. Optional.</p></dd>
+<dd><p>Optional. Parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE', 'FLAGANDGEARTYPE' or 'MMSI'.</p></dd>
 
 
 <dt id="arg-filter-by">filter_by<a class="anchor" aria-label="anchor" href="#arg-filter-by"></a></dt>
