@@ -211,8 +211,8 @@ get_event(event_type = 'ENCOUNTER',
 
 > *Note*: We do not recommend trying too large downloads, such as all 
 encounters for all vessels over a long period of time. This will possibly 
-return time out (524) errors. Our API team is working on another API specific 
-for large downloads in the future.
+return time out (524) errors. Our API team is working on a bulk download solution 
+for the future.
 
 ### Events in a specific area
 
@@ -298,7 +298,7 @@ will also contain different information specific to each vessel.
 
 
 
-#### Multiple vessel events
+#### Events for multiple vessels
 
 As another example, let's combine the Vessels and Events APIs to get fishing 
 events for a list of USA-flagged trawlers:
@@ -309,8 +309,9 @@ usa_trawlers <- get_vessel_info(
   where = "flag='USA' AND geartypes='TRAWLERS'",
   search_type = "search",
   key = key,
-  quiet = TRUE # quiet = FALSE if you want an estimate progress of the download
+  quiet = TRUE 
 )
+  # Set quiet = FALSE if you want an estimate progress of the download
 ```
 
 This list returns `r nrow(usa_trawlers$selfReportedInfo)` `vesselIds` belonging
@@ -320,37 +321,43 @@ to `r nrow(usa_trawlers$dataset)` vessels.
 usa_trawlers$selfReportedInfo
 ```
 
+To fetch events for this list of vessels, we will use the `vesselId` column and 
+send it to the `vessels` parameter in `get_event()` function. 
 
 For clarity, we should try to send groups of `vesselIds` that belong to the same
-vessels. For this, we should check the `index` column in the `$selfReportedInfo`
+vessels. For this, we can check the `index` column in the `$selfReportedInfo`
 dataset. 
 
-> *Note*: `get_event()` can receive up to 20 vessel ids at a time 
+> *Note*: `get_event()` can receive several `vesselIds` at a time but will fail 
+when the character length of the whole request is too long (~100,000 characters).
+This means it will fail with error __HTTP 422: Unprocessable entity__ when too 
+many `vesselIds` are requested, this value can be around 2,800 `vesselIds` depending 
+on the other parameters of the search.
 
+For this example, we will send the `vesselIds` corresponding to the first twenty 
+vessels in the response: 
 
 ```{r usa_ten}
 each_USA_trawler <- usa_trawlers$selfReportedInfo[, c("index", "vesselId")] 
-# how many vessels correspond to the first ten vessels. 
-each_USA_trawler %>% filter(index <= 10)
-# It's exactly 19 in this case to we will request those.
-ten_usa_trawlers <- each_USA_trawler %>% filter(index <= 10)
+# how many vessels correspond to the first twenty vessels. 
+(twenty_usa_trawlers <- each_USA_trawler %>% filter(index <= 20))
 ```
 
-The first 19 `vesselIds` correspond to 10 vessels according to `index`. 
+There are `r nrow(twenty_usa_trawlers)` `vesselIds` corresponding to those 20 vessels.
 
-Let's pass the vector of vessel ids to Events API. Now get the list of fishing
+Let's pass the vector of `vesselIds` to Events API. Now get the list of fishing
 events for these trawlers in January, 2020:
 
 ```{r example_event_type_4b, eval=T}
 events <- get_event(event_type = 'FISHING',
-                    vessels = ten_usa_trawlers$vesselId,
+                    vessels = twenty_usa_trawlers$vesselId,
                     start_date = "2020-01-01", 
                     end_date = "2020-02-01", 
                     key = key)
 events
 ```
 
-The columns starting by `vessel` have the vessel-related information for each 
+The columns starting by `vessel` hold the vessel-related information for each 
 event: `vesselId`, `vessel_name`, `ssvid` (MMSI), `flag`, `vessel type` and 
 public authorizations.
 
@@ -363,7 +370,7 @@ When no events are available, the `get_event()` function returns nothing.
 
 ```{r example_event_type_4c, eval=T}
 get_event(event_type = 'FISHING',
-          vessels = ten_usa_trawlers$vesselId[2],
+          vessels = twenty_usa_trawlers$vesselId[2],
           start_date = "2020-01-01",
           end_date = "2020-01-01",
           key = key
@@ -389,12 +396,16 @@ filter the raster
 `USER_SHAPEFILE` (for `sf` shapefiles).
 
 
-### Examples
+### User-defined shapefile
 
+You can load an sf shapefile with your area of interest and fetch fishing effort 
+for this area using `region_source = 'USER_SHAPEFILE'` and `region = [YOUR_SHAPE]`.
 We added a sample shapefile inside `gfwr` to show how `'USER_SHAPEFILE'` works:
 
 ```{r example_map_1}
 data("test_shape")
+
+test_shape
 
 get_raster(
   spatial_resolution = 'LOW',
@@ -402,16 +413,17 @@ get_raster(
   group_by = 'FLAG',
   start_date = '2021-01-01',
   end_date = '2021-02-01',
-  region = test_shape,
   region_source = 'USER_SHAPEFILE',
+  region = test_shape,
   key = key
   )
 ```
 
+### Fishing effort in preloaded EEZ, RFMOs and MPAs
+
 If you want raster data from a particular EEZ, you can use the `get_region_id()`
 function to get the EEZ id, and enter that code in the `region` argument
-of `get_raster()` instead of the region shapefile (ensuring you specify the 
-`region_source` as `'EEZ'`:
+of `get_raster()` instead of the region shapefile (with `region_source = "EEZ"`):
 
 ```{r example_map_2, eval= TRUE}
 # use EEZ function to get EEZ code of Cote d'Ivoire
@@ -469,9 +481,10 @@ get_raster(spatial_resolution = 'LOW',
            key = key)
 ```
 
-It is also possible to filter rasters to one of the five regional fisheries 
-management organizations (RFMO) that manage tuna and tuna-like species. These 
-include `"ICCAT"`, `"IATTC"`,`"IOTC"`, `"CCSBT"` and `"WCPFC"`.
+It is also possible to filter rasters to regional fisheries management 
+organizations (RFMO) like `"ICCAT"`, `"IATTC"`, `"IOTC"`, `"CCSBT"` and
+`"WCPFC"`.
+
 
 ```{r example_map_5, eval=T}
 get_raster(spatial_resolution = 'LOW',
@@ -484,6 +497,8 @@ get_raster(spatial_resolution = 'LOW',
            key = key)
 ```
 
+> *Note*: For a complete list of MPAs, RFMOs and EEZ, check the function `get_regions()`
+
 The `get_region_id()` function also works in reverse. If a region id is passed as
 a `numeric` to the function as the `region_name`, the corresponding region label
 or iso3 code can be returned. This is especially useful when events are 
@@ -492,7 +507,7 @@ returned with regions.
 ```{r example_region_id}
 # using same example as above
 get_event(event_type = 'FISHING',
-          vessels = ten_usa_trawlers$vesselId,
+          vessels = twenty_usa_trawlers$vesselId,
           start_date = "2020-01-01",
           end_date = "2020-02-01",
           key = key
