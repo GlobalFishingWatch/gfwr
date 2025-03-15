@@ -211,8 +211,8 @@ get_event(event_type = 'ENCOUNTER',
 
 > *Note*: We do not recommend trying too large downloads, such as all 
 encounters for all vessels over a long period of time. This will possibly 
-return time out (524) errors. Our API team is working on a bulk download solution 
-for the future.
+return time out (524) errors. Our API team is working on another API specific 
+for large downloads in the future.
 
 ### Events in a specific area
 
