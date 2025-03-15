@@ -1,3 +1,23 @@
+# gfwr 2.0.3
+
+Improvements to documentation of some parameters. 
+
+- `get_event()` can receive a string of several `vesselIds` (not twenty as 
+previously stated). However, requests that are too long in character length will
+fail with error HTTP `422: Unprocessable entity`. This means around 2,000 
+`vesselIDs` can be sent per request. 
+- RFMO documentation was improved to clarify that we have the complete list of 
+RFMOs #194
+
+Minor bug fixes: 
+
+- `geartypes` and `shiptypes` will be unnested only when they are returned in the 
+responses -this was causing an error reported in #193
+- MPA, EEZ, RFMO ids are no longer enforced to be numeric, this was causing 
+minor breaks for some alphanumeric ids. 
+
+
+
 # gfwr 2.0.2 
 
 Minor updates in documentation, parameter reordering and improving descriptions. 
