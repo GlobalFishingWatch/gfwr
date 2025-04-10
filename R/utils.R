@@ -43,7 +43,7 @@ make_char <- function(col) {
 #' @name make_datetime
 #' @keywords internal
 make_datetime <- function(x) {
-  as.POSIXct(as.character(x), format = '%Y-%m-%dT%H:%M:%S', tz = 'UTC')
+  as.POSIXct(as.character(x), format = "%Y-%m-%dT%H:%M:%S", tz = "UTC")
 }
 
 #' Helper function to parse error message data
@@ -59,7 +59,7 @@ parse_response_error <- function(resp) {
   body <- httr2::resp_body_raw(resp)
   messages <- body$messages
   if (length(messages[[1]]) > 1) {
-    messages <- purrr::map_chr(messages, purrr::pluck, 'detail')
+    messages <- purrr::map_chr(messages, purrr::pluck, "detail")
   }
   messages
 }
@@ -81,7 +81,7 @@ gfw_api_request <- function(endpoint, key) {
     httr2::req_headers(Authorization = paste("Bearer",
                                              key,
                                              sep = " "),
-                       `Content-Type` = 'application/json') %>%
+                       `Content-Type` = "application/json") %>%
     httr2::req_user_agent(gfw_user_agent()) %>%
     #httr2::req_error(body = parse_response_error) %>%
     httr2::req_perform() %>%
@@ -108,7 +108,7 @@ gfw_api_request <- function(endpoint, key) {
         httr2::req_headers(Authorization = paste("Bearer",
                                                  key,
                                                  sep = " "),
-                           `Content-Type` = 'application/json') %>%
+                           `Content-Type` = "application/json") %>%
         httr2::req_user_agent(gfw_user_agent()) %>%
         #httr2::req_error(body = parse_response_error) %>%
         httr2::req_perform() %>%
@@ -129,7 +129,7 @@ gfw_api_request <- function(endpoint, key) {
 
 #' List of available regions
 #' @name get_regions
-#' @param region_source string, source of region data ('EEZ', 'MPA', 'RFMO')
+#' @param region_source string, source of region data ("EEZ", "MPA", "RFMO')
 #' @param key string, API token
 #' @export
 #' @return dataframe, all region ids and names for specified region type
@@ -145,10 +145,10 @@ gfw_api_request <- function(endpoint, key) {
 #' get_regions(region_source = "EEZ")
 #' get_regions(region_source = "RFMO")
 #' get_regions(region_source = "MPA")
-get_regions <- function(region_source = 'EEZ',
+get_regions <- function(region_source = "EEZ",
                         key = gfw_auth()) {
 
-  if (!toupper(region_source) %in% c('EEZ','MPA','RFMO')) {
+  if (!toupper(region_source) %in% c("EEZ", "MPA", "RFMO")) {
     stop('Enter a valid region source ("EEZ", "MPA", or "RFMO"')
   } else {
     result <- get_endpoint(dataset_type = region_source) %>%
@@ -163,13 +163,13 @@ get_regions <- function(region_source = 'EEZ',
   }
 }
 
-#' Function to pull numeric code using region name
+#' Function to pull region code using region name and viceversa
 #' @name get_region_id
-#' @param region_name string or numeric, EEZ/MPA/RFMO name or id
-#' @param region_source string, source of region data ('EEZ', 'MPA', 'RFMO')
-#' @param key string, API token
-#' @export
-#' @return a tibble with label, EEZ code and EEZ name for matching EEZs
+#' @param region Character or numeric EEZ MPA or RFMO name or id.
+#' @param region_source Character, source of region data, "EEZ", "MPA" or "RFMO".
+#' @param key Character, API token. Defaults to gfw_auth().
+#' @return The corresponding code, region names or iso code for the EEZ, MPA or
+#' RFMO label
 #' @importFrom dplyr filter
 #' @importFrom dplyr bind_rows
 #' @importFrom httr2 req_headers
@@ -177,14 +177,23 @@ get_regions <- function(region_source = 'EEZ',
 #' @importFrom httr2 req_error
 #' @importFrom httr2 req_user_agent
 #' @importFrom httr2 resp_body_json
+#'
+#' @export
 #' @examples
 #' \dontrun{
-#' get_region_id(region_name = "COL", region_source = "EEZ")
-#' get_region_id(region_name = "Nazca", region_source = "MPA")
-#' get_region_id(region_name = "IOTC", region_source = "RFMO")
+#' get_region_id(region = "COL", region_source = "EEZ")
+#' get_region_id(region = "Colombia", region_source = "EEZ")
+#' get_region_id(region = "Nazca", region_source = "MPA")
+#' get_region_id(region = "IOTC", region_source = "RFMO")
+#' get_region_id(region = 8456, region_source = "EEZ")
+#' get_region_id(region = "", region_source = "EEZ")
+#' get_region_id(region = NA, region_source = "EEZ")
+#' get_region_id(region = NA, region_source = "MPA")
 #' }
-
-get_region_id <- function(region_name, region_source = 'EEZ', key = gfw_auth()) {
+get_region_id <- function(region = NULL,
+                          region_source = "EEZ",
+                          key = gfw_auth()) {
+  if (!region_source %in% c("EEZ", "MPA", "RFMO")) stop("Enter valid region source")
 
   result <- get_endpoint(dataset_type = region_source) %>%
     httr2::req_headers(Authorization = paste("Bearer", key, sep = " ")) %>%
@@ -192,41 +201,44 @@ get_region_id <- function(region_name, region_source = 'EEZ', key = gfw_auth()) 
     #httr2::req_error(body = parse_response_error) %>%
     httr2::req_perform(.) %>%
     httr2::resp_body_json(.) %>%
-    dplyr::bind_rows()
+    dplyr::bind_rows() %>%
+    dplyr::relocate("id")
+
+  if (is.na(region) | region == "")
+    return(tidyr::tibble(id = NA, label = NA, iso3 = NA, NAME = NA, RFB = NA) %>% dplyr::select(tidyr::all_of(names(result))))
+
 
   # EEZ names
-  if (region_source == "EEZ" & is.character(region_name)) {
+  if (region_source == "EEZ" & is.character(region)) {
     result %>%
-      dplyr::filter(agrepl(region_name, .$label) | agrepl(paste0('^',region_name), .$iso3))
+    dplyr::filter(agrepl(region, .$label) |
+                    agrepl(paste0("^",region), .$iso3))
   }
   # EEZ ids
-  else if (region_source == "EEZ" & is.numeric(region_name)) {
+  else if (region_source == "EEZ" & is.numeric(region)) {
     result %>%
-      dplyr::filter(id == {{ region_name }})
+      dplyr::filter(id == {{ region }})
   }
   # MPA names
-  else if (region_source == "MPA" & is.character(region_name)) {
+  else if (region_source == "MPA" & is.character(region)) {
     result %>%
-      dplyr::filter(agrepl(region_name, .$label))
+      dplyr::filter(agrepl(region, .$label))
   }
   # MPA ids
-  else if (region_source == "MPA" & is.numeric(region_name)) {
+  else if (region_source == "MPA" & is.numeric(region)) {
     result %>%
-      dplyr::filter(id == {{ region_name }})
+      dplyr::filter(id == {{ region }})
   }
   # RFMO names
-  else if (region_source == "RFMO" & is.character(region_name)) {
+  else if (region_source == "RFMO" & is.character(region)) {
     result %>%
-      dplyr::filter(agrepl(region_name, .$label))
+      dplyr::filter(agrepl(region, .$label))
   }
   # RFMO ids
-  else if (region_source == "RFMO" & is.numeric(region_name)) {
-    result %>%
-      dplyr::filter(id == {{ region_name }})
-  } else {
-    stop('Enter a valid region source')
+  else if (region_source == "RFMO" & is.numeric(region)) {
+    stop("RFMO codes are characters")
   }
-}
+  }
 
 #' Transforms a vector to a named vector for httr2
 #'
@@ -265,11 +277,11 @@ vector_to_array <- function(x, type = "vessel") {
 #' @export
 #' @keywords internal
 
-sf_to_geojson <- function(sf_shape, endpoint = 'raster') {
+sf_to_geojson <- function(sf_shape, endpoint = "raster") {
   geoj <- geojsonsf::sf_geojson(sf_shape)
-  if (endpoint == 'raster') {
+  if (endpoint == "raster") {
     geoj_tagged <- paste0('{"geojson":', geoj,'}')
-  } else if (endpoint == 'event') {
+  } else if (endpoint == "event") {
     geoj_tagged <- paste0('"geometry":', geoj)
   } else {
     stop('Incorrect endpoint argument')

@@ -428,7 +428,7 @@ of `get_raster()` instead of the region shapefile (with `region_source = "EEZ"`)
 
 ```{r example_map_2, eval= TRUE}
 # use EEZ function to get EEZ code of Cote d'Ivoire
-code_eez <- get_region_id(region_name = 'CIV', region_source = 'EEZ', key = key)
+code_eez <- get_region_id(region = 'CIV', region_source = 'EEZ', key = key)
 
 get_raster(spatial_resolution = 'LOW',
            temporal_resolution = 'YEARLY',
@@ -444,7 +444,7 @@ You could search for just one word in the name of the EEZ and then decide which
 one you want:
 
 ```{r example_map_3, eval = TRUE}
-(get_region_id(region_name = 'France', region_source = 'EEZ', key = key))
+(get_region_id(region = 'France', region_source = 'EEZ', key = key))
 ```
 
 
@@ -468,10 +468,10 @@ in this case the Phoenix Island Protected Area (PIPA)
 
 ```{r example_map_4, eval= TRUE}
 # use region id function to get MPA code of Phoenix Island Protected Area
-code_mpa <- get_region_id(region_name = 'Phoenix',
+code_mpa <- get_region_id(region = 'Phoenix',
                           region_source = 'MPA',
                           key = key)
-
+code_mpa
 get_raster(spatial_resolution = 'LOW',
            temporal_resolution = 'YEARLY',
            group_by = 'FLAG',
@@ -501,28 +501,31 @@ get_raster(spatial_resolution = 'LOW',
 > *Note*: For a complete list of MPAs, RFMOs and EEZ, check the function `get_regions()`
 
 The `get_region_id()` function also works in reverse. If a region id is passed as
-a `numeric` to the function as the `region_name`, the corresponding region label
+a `numeric` to the function as the `region`, the corresponding region label
 or iso3 code can be returned. This is especially useful when events are 
 returned with regions.
 
 ```{r example_region_id}
 # using same example as above
-get_event(event_type = 'FISHING',
+fishing_events <- get_event(event_type = 'FISHING',
           vessels = twenty_usa_trawlers$vesselId,
           start_date = "2020-01-01",
-          end_date = "2020-02-01",
-          key = key
+          end_date = "2020-02-01"
           ) %>% 
   # extract EEZ id code
   dplyr::mutate(eez = as.character(
     purrr::map(purrr::map(regions, purrr::pluck, 'eez'),
                paste0, collapse = ','))) %>%
-  dplyr::select(eventId, eventType, start, end, lat, lon, eez) %>%
-  dplyr::rowwise() %>%
-  dplyr::mutate(eez_name = get_region_id(region_name = as.numeric(eez),
-                                         region_source = 'EEZ',
-                                         key = key)$label) %>% 
+  dplyr::select(eez, eventId, eventType, start, end, lat, lon) 
+
+# Apply get_region_id to the numeric vector to extract the labels
+fishing_events %>% mutate(
+  eez_name =
+purrr::map_df(as.numeric(fishing_events$eez),
+           ~get_region_id(region = .x,
+                          region_source ='EEZ'))$label) %>% 
   dplyr::select(-start, -end)
+  
 ```
 
 ### When your API request times out
