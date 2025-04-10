@@ -1,4 +1,4 @@
-#' Base function to get raster from API and convert response to data frame
+#' Base function to get fishing effort from API and convert response to data frame
 #'
 #' @param spatial_resolution Raster spatial resolution. Can be "LOW" = 0.1 degree
 #'  or "HIGH" = 0.01 degree
@@ -27,6 +27,9 @@
 #' @importFrom httr2 req_headers
 #' @importFrom httr2 req_error
 #' @importFrom httr2 req_perform
+#' @importFrom lubridate interval
+#' @importFrom lubridate date
+#' @importFrom lubridate days
 #' @importFrom utils unzip
 #' @importFrom rjson toJSON
 #' @importFrom methods is
@@ -85,9 +88,20 @@ get_raster <- function(spatial_resolution = NULL,
                        key = gfw_auth(),
                        print_request = FALSE) {
   date_range <- paste(start_date, end_date, sep = ",")
+  data <- "AIS"
+  if (lubridate::interval(
+    start = lubridate::date(start_date),
+    end = lubridate::date(end_date))/lubridate::days() > 366)
+    stop("the start and end dates should be apart 366 days or less")
+
+
+  if (data == "AIS") dataset_type = "raster"
+  if (data == "SAR") dataset_type = "sar-presence"
+  if (data == "infra") dataset_type = "public-fixed-infrastructure-filtered"
+
   # Endpoint
   endpoint <- get_endpoint(
-    dataset_type = "raster",
+    dataset_type = dataset_type,
     `spatial-resolution` = spatial_resolution,
     `temporal-resolution` = temporal_resolution,
     `filters[0]` = filter_by,
