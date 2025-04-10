@@ -169,6 +169,7 @@ get_event <- function(event_type,
                       quiet = FALSE,
                       print_request = FALSE,
                       ...) {
+  event_type <- toupper(event_type)
   # API endpoint specific parameters from ...
   args <- list(...)
   for (i in seq_len(length(args))) {
