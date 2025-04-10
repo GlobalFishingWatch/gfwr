@@ -150,6 +150,10 @@ eez_fish_all_df <- eez_fish_df %>%
 Now we can use `ggplot2` to plot the data.
 
 ```{r ita_plot, fig.width=8, fig.height=6}
+#| fig.alt: >
+#|   A map of apparent fishing effort in the Italian EEZ. 
+#|   The scale is logarithmic and the fishing effort is concentrated around ports
+#|   along the Adriatic and the Tyrrhenian Seas and the southern coast of Sicily
 eez_fish_all_df %>% 
   filter(fishing_hours >= 1) %>%
   ggplot() +
@@ -192,6 +196,8 @@ iotc_fish_df
 This time, instead of aggregating all activity, let's plot the activity of a specific gear type:
 
 ```{r iotc_raster, fig.width=8, fig.height=6}
+#| fig.alt: >
+#|   A map of apparent fishing hours in the IOTC RFMO by drifting longlines. 
 iotc_p1 <- iotc_fish_df %>% 
   filter(geartype == 'drifting_longlines') %>% 
   filter(`Apparent Fishing Hours` >= 1) %>% 
@@ -266,6 +272,9 @@ enc_bbox <- st_bbox(encounters_sf_df)
 Now let's add the encounters layer to our previous map of drifting longline effort in the IOTC and use the bounding box to restrict the plot to the area with encounters.
 
 ```{r iotc_plot_1, fig.width=8, fig.height=6}
+#| fig.alt: >
+#|   A map of apparent fishing hours in the IOTC by drifting longlines and 
+#|   fishing vessels encounters
 iotc_p1 +
   geom_sf(data = encounters_sf_df, 
           aes(color = eventType), 
@@ -295,6 +304,9 @@ my_shp <- tibble(
 Plot the `sf` object to confirm it was created successfully.
 
 ```{r plot_shp, fig.width=8, fig.height=6}
+#| fig.alt: >
+#|  A world map with all countries and a red bounding box in the area surrounding 
+#|  Ecuador, Peru and the north of Chile. 
 ggplot() +
   geom_sf(data = ne_countries(returnclass = "sf", scale = "small")) +
   geom_sf(
@@ -371,6 +383,10 @@ my_events_sf <- my_port_events_df %>%
 Finally, let's plot the fishing effort raster and overlay the loitering events and port visits. 
 
 ```{r loitering_ports_fishing_map, fig.width=8, fig.height=6}
+#| fig.alt: >
+#|  Apparent fishing hours in the area of interest around Ecuador, Peru and the 
+#|  north of Chile, in yellow, red dots indicating loitering events and blue dots
+#|  indicating port visits.
 my_raster_all_df %>% 
   filter(fishing_hours > 1) %>% 
   ggplot() +

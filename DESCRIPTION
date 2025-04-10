@@ -23,6 +23,7 @@ Imports:
     geojsonsf,
     httr2,
     jsonlite,
+    lubridate,
     magrittr,
     purrr,
     readr,

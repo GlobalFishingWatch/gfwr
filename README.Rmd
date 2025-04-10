@@ -28,6 +28,9 @@ knitr::opts_chunk$set(
 April 30th, 2024, this is the official API version. For latest API releases, 
 please check our [API release notes](https://globalfishingwatch.org/our-apis/documentation#api-release-notes)
 
+> A __Python package__ to communicate with Global Fishing Watch APIs will be released 
+in April 2025. Check the [gfw-api-python-client](https://github.com/GlobalFishingWatch/gfw-api-python-client) repository.
+
 
 The `gfwr` R package is a simple wrapper for the Global Fishing Watch (GFW) [APIs](https://globalfishingwatch.org/our-apis/documentation#introduction). It 
 provides convenient functions to freely pull GFW data directly into R in tidy formats.
@@ -57,7 +60,8 @@ You can install the most recent version of `gfwr` using:
 if (!require("remotes"))
   install.packages("remotes")
 
-remotes::install_github("GlobalFishingWatch/gfwr")
+remotes::install_github("GlobalFishingWatch/gfwr",
+                        dependencies = TRUE)
 ```
 
 `gfwr` is also in the rOpenSci 
@@ -399,7 +403,7 @@ filter the raster
 
 ### User-defined shapefile
 
-You can load an sf shapefile with your area of interest and fetch fishing effort 
+You can load an `sf` shapefile with your area of interest and fetch fishing effort 
 for this area using `region_source = 'USER_SHAPEFILE'` and `region = [YOUR_SHAPE]`.
 We added a sample shapefile inside `gfwr` to show how `'USER_SHAPEFILE'` works:
 
@@ -556,10 +560,3 @@ finished but resulted in an error or if it's been >30 minutes since the last
  report was generated using `get_raster()`. For more information, see the 
  [Get last report generated endpoint](https://globalfishingwatch.org/our-apis/documentation#get-last-report-generated) 
  documentation on the GFW API page.
-
-
-## Contributing
-
-We welcome all contributions to improve the package! Please read our
-[Contribution Guide](https://github.com/GlobalFishingWatch/gfwr/blob/main/Contributing.md)
-and reach out!
