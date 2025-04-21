@@ -1,6 +1,19 @@
 # gfwr 2.0.3
 
-Improvements to documentation of some parameters. 
+No  breaking changes 
+
+## Bug fixes
+
+- `geartypes` and `shiptypes` will be unnested only when they are returned in the 
+responses--this was causing an error reported in #193
+- `get_region_id()`:
+  - MPA, EEZ, RFMO ids are no longer enforced to be numeric, 
+this was causing errors for character and alphanumeric ids in RFMOS and MPAs
+  - `get_region_id()` can now process empty id strings (`""`) and return `NA` 
+  tibbles instead of returning an error, this allows to process events happening
+  in the high-seas (#201)
+
+## Documentation improvements
 
 - `get_event()` can receive a string of several `vesselIds` (not twenty as 
 previously stated). However, requests that are too long in character length will
@@ -8,14 +21,8 @@ fail with error HTTP `422: Unprocessable entity`. This means around 2,000
 `vesselIDs` can be sent per request. 
 - RFMO documentation was improved to clarify that we have the complete list of 
 RFMOs #194
-
-Minor bug fixes: 
-
-- `geartypes` and `shiptypes` will be unnested only when they are returned in the 
-responses -this was causing an error reported in #193
-- MPA, EEZ, RFMO ids are no longer enforced to be numeric, this was causing 
-minor breaks for some alphanumeric ids. 
-
+- The readme has more subsections for easier reference and explicit calls to 
+`gfw_auth()` are no longer suggested.
 
 
 # gfwr 2.0.2 

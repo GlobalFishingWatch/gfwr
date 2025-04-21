@@ -41,11 +41,7 @@ library(gfwr)
 devtools::load_all()
 ```
 
-Next, load your API key into your environment with the `gfw_auth()` function (see the [Authorization](https://github.com/GlobalFishingWatch/gfwr?tab=readme-ov-file#authorization) section of the `gfwr` README) 
-
-```{r api_key}
-gfw_key <- gfw_auth()
-```
+Make sure your API key is set up in your `.Renviron` file (see the [Authorization](#authorization) section of the `gfwr` README)
 
 For this vignette, we'll also use some `tidyverse` packages for data wrangling and plotting, as well as `sf` for creating and manipulating spatial data and `rnaturalearth` to add reference data to our maps.
 
@@ -97,20 +93,21 @@ The `gfwr` function `get_raster()` provides aggregated gridded (e.g. raster) dat
 The list of available regions for each type, and their `label` and `id`, can be accessed with the `get_regions()` function.
 
 ```{r eez_region_codes}
-eez_regions <- get_regions(region_source = 'EEZ', key = gfw_key)
+eez_regions <- get_regions(region_source = 'EEZ')
 ```
 
 ```{r eez_region_codes_head}
 eez_regions
 ```
 
-`gfwr` also includes the `get_region_id()` function to get the `label` and `id` for a specific region using the `region` argument. For EEZs, the `region` corresponds to the ISO3 code. Note that, for some countries, the ISO3 code will return multiple regions. For RFMOs, `region` corresponds to the RFMO abbreviation (e.g. `"ICCAT"`) and for MPAs it refers to the full name of the MPA. The `get_region_id()` function also works in reverse. If a region `id` is passed as a `numeric` to the function as the `region`, the corresponding region `label` can be returned. This is especially useful when events are returned with region ids and you want the more descriptive label. See [here](https://globalfishingwatch.org/faqs/reference-layer-sources/) for more information about the regions used by GFW.
+`gfwr` also includes the `get_region_id()` function to get the `label` and `id` for a specific region using the `region_name` argument. 
+For EEZs, the `region_name` corresponds to the ISO3 code. Note that, for some countries, the ISO3 code will return multiple regions. For RFMOs, `region_name` corresponds to the RFMO abbreviation (e.g. `"ICCAT"`) and for MPAs it refers to the full name of the MPA. The `get_region_id()` function also works in reverse. If a region `id` is passed as a `numeric` to the function as the `region_name`, the corresponding region `label` can be returned. This is especially useful when events are returned with region ids and you want the more descriptive label. See [here](https://globalfishingwatch.org/faqs/reference-layer-sources/) for more information about the regions used by GFW.
 
 Let's start by making a map of apparent fishing effort in the Italian EEZ. The `get_raster()` function requires we provide the `id` of a specific region (or a shapefile, but more on that later). We could look up the Italian EEZ `id` in the `eez_regions` table we just created, but let's use `get_region_id()`.
 
 ```{r code_eez}
 # Use get_region_id function to get EEZ code for Italy
-ita_eez_code <- get_region_id(region = "ITA", region_source = "EEZ", key = gfw_auth())
+ita_eez_code <- get_region_id(region_name = "ITA", region_source = "EEZ")
 ```
 
 ```{r code_eez2, echo=FALSE}

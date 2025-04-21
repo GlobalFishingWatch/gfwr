@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_raster.R
 \name{get_raster}
 \alias{get_raster}
-\title{Base function to get raster from API and convert response to data frame}
+\title{Retrieve apparent fishing effort and convert response to tibble}
 \usage{
 get_raster(
   spatial_resolution = NULL,
@@ -18,78 +18,77 @@ get_raster(
 )
 }
 \arguments{
-\item{spatial_resolution}{Raster spatial resolution. Can be "LOW" = 0.1 degree
-or "HIGH" = 0.01 degree}
+\item{spatial_resolution}{Raster spatial resolution. Can be \code{"LOW"} (0.1 degree)
+or \code{"HIGH"} (0.01 degree).}
 
-\item{temporal_resolution}{Raster temporal resolution. Can be 'HOURLY',
-'DAILY', 'MONTHLY', 'YEARLY'}
+\item{temporal_resolution}{Raster temporal resolution. Can be \code{"HOURLY"},
+\code{"DAILY"}, \code{"MONTHLY"}, \code{"YEARLY"}.}
 
 \item{start_date}{Required. Start of date range to search events, in
-YYYY-MM-DD format and including this date}
+YYYY-MM-DD format and including this date.}
 
 \item{end_date}{Required. End of date range to search events, in
-YYYY-MM-DD format and excluding this date}
+YYYY-MM-DD format and excluding this date.}
 
-\item{region_source}{Required. Source of the region: 'EEZ','MPA', 'RFMO' or
-'USER_SHAPEFILE'}
+\item{region_source}{Required. Source of the region: \code{"EEZ"}, \code{"MPA"},
+\code{"RFMO"} or \code{"USER_SHAPEFILE"}.}
 
-\item{region}{Required. If \code{region_source} is set to "EEZ", "MPA" or "RFMO", GFW region
-code (see \code{get_region_id()}) if \code{region_source = "USER_SHAPEFILE"}, \code{sf}
-shapefile with the area of interest.}
+\item{region}{Required. If \code{region_source} is set to \code{"EEZ"}, \code{"MPA"} or
+\code{"RFMO"}, GFW region code (see \code{\link[=get_region_id]{get_region_id()}}). If
+\code{region_source = "USER_SHAPEFILE"}, \code{sf} shapefile with the area of interest.}
 
-\item{group_by}{Optional. Parameter to group by. Can be 'VESSEL_ID', 'FLAG', 'GEARTYPE', 'FLAGANDGEARTYPE' or 'MMSI'.}
+\item{group_by}{Optional. Parameter to group by. Can be \code{"VESSEL_ID"}, \code{"FLAG"},
+\code{"GEARTYPE"}, \code{"FLAGANDGEARTYPE"} or \code{"MMSI"}.}
 
-\item{filter_by}{Fields to filter AIS-based fishing effort after
-\code{group_by}. Possible options are \code{flag}, \code{geartype} and \code{vessel_id}. You can
-aggregate results using \code{group_by}, for example \code{group_by = 'FLAG'}, and then
-filter results using \code{filter_by = "flag IN ('ESP')"}.}
+\item{filter_by}{Fields to filter AIS-based apparent fishing effort. Possible
+options are \code{flag}, \code{geartype} and \code{vessel_id}. Receives SQL expressions like
+\code{filter_by = "flag IN ('ESP')"}.}
 
-\item{key}{Authorization token. Can be obtained with \code{gfw_auth()} function}
+\item{key}{Character, API token. Defaults to \code{\link[=gfw_auth]{gfw_auth()}}.}
 
 \item{print_request}{Boolean. Whether to print the request, for debugging
-purposes. When contacting the GFW team it will be useful to send this string}
+purposes. When contacting the GFW team it will be useful to send this string.}
 }
 \description{
-Base function to get raster from API and convert response to data frame
+Retrieve apparent fishing effort and convert response to tibble
 }
 \examples{
 \dontrun{
 library(gfwr)
 # using region codes
-code_eez <- get_region_id(region_name = 'CIV', region_source = 'EEZ',
-key = gfw_auth())
-get_raster(spatial_resolution = 'LOW',
-           temporal_resolution = 'YEARLY',
-           group_by = 'FLAG',
+code_eez <- get_region_id(region_name = "CIV", region_source = "EEZ")
+get_raster(spatial_resolution = "LOW",
+           temporal_resolution = "YEARLY",
+           group_by = "FLAG",
            start_date = "2021-01-01",
-           end_date = "2021-10-01",
+           end_date = "2022-01-01",
            region = code_eez$id,
-           region_source = 'EEZ',
+           region_source = "EEZ",
            key = gfw_auth(),
            print_request = TRUE)
-code_mpa <- get_region_id(region_name = 'Galapagos', region_source = 'MPA')
-get_raster(spatial_resolution = 'LOW',
-           temporal_resolution = 'MONTHLY',
-           group_by = 'FLAG',
+code_mpa <- get_region_id(region_name = "Galapagos", region_source = "MPA")
+get_raster(spatial_resolution = "LOW",
+           temporal_resolution = "MONTHLY",
+           group_by = "FLAG",
            start_date = "2022-01-01",
            end_date = "2023-01-01",
            region = code_mpa$id[3],
-           region_source = 'MPA')
-code_rfmo <- get_region_id(region_name = 'IATTC', region_source = 'RFMO')
-get_raster(spatial_resolution = 'LOW',
-           temporal_resolution = 'MONTHLY',
+           region_source = "MPA")
+code_rfmo <- get_region_id(region_name = "IATTC", region_source = "RFMO")
+get_raster(spatial_resolution = "LOW",
+           temporal_resolution = "MONTHLY",
            start_date = "2022-01-01",
            end_date = "2023-01-01",
            region = code_rfmo$id[1],
-           region_source = 'RFMO')
+           region_source = "RFMO")
 #using a sf from disk /loading a test sf object
 data(test_shape)
-get_raster(spatial_resolution = 'LOW',
-            temporal_resolution = 'YEARLY',
-            start_date = '2021-01-01',
-            end_date = '2021-10-01',
+get_raster(spatial_resolution = "LOW",
+            temporal_resolution = "YEARLY",
+            start_date = "2021-01-01",
+            end_date = "2021-10-01",
             region = test_shape,
-            region_source = 'USER_SHAPEFILE',
+            region_source = "USER_SHAPEFILE",
             key = gfw_auth(),
             print_request = TRUE)
 }

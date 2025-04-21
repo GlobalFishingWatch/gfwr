@@ -1,11 +1,11 @@
-#' Base function to get vessel information from API and convert response to data frame
+#' Base function to get vessel information from API and convert response to tibble
 #'
 #' @param query When `search_type = "search"`, a length-1 vector with the identity
 #' variable of interest, MMSI, IMO, call sign or ship name.
-#' @param where When `search_type = "search"`, an SQL expression to find the vessel of interest
+#' @param where When `search_type = "search"`, an SQL expression to find the vessel of interest.
 #' @param search_type Type of vessel search to perform. Can be `"search"` (the default)
-#' or `"id"`. (Note:`"advanced"` and `"basic"` are no longer in use as of gfwr 2.0.0.)
-#' @param ids When `search_type = "id"`, a vector with the `vesselId` of interest
+#' or `"id"`. (Note:`"advanced"` and `"basic"` are no longer in use as of gfwr 2.0.0.).
+#' @param ids When `search_type = "id"`, a vector with the `vesselId` of interest.
 #' @param includes Enhances the response with new information, defaults to include all.
 #' \describe{
 #' \item{`"OWNERSHIP"`}{returns ownership information}
@@ -13,21 +13,21 @@
 #' \item{`"MATCH_CRITERIA"`}{adds information about the reason why a vessel is returned}
 #' }
 #' @param match_fields Optional. Allows to filter by `matchFields` levels.
-#' Possible values: `"SEVERAL_FIELDS"`, `"NO_MATCH"`, `"ALL"`. Incompatible with `where`
+#' Possible values: `"SEVERAL_FIELDS"`, `"NO_MATCH"`, `"ALL"`. Incompatible with `where`.
 #' @param registries_info_data when `search_type == "id"`, gets all the registry
 #' objects, only the delta or the latest.
 #' \describe{
 #'  \item{`"NONE"`}{The API will return the most recent object only}
 #'  \item{`"DELTA"`}{The API will return only the objects when the vessel
 #'  changed one or more identity properties}
-#'  \item{`"ALL"`}{The registryInfo array will return the same number of objects that rows we have in the vessel database}
+#'  \item{`"ALL"`}{The `registryInfo` array will return all objects we have in the vessel database}
 #'  }
-#' @param key Authorization token. Can be obtained with `gfw_auth()` function (the default)
+#' @param key Character, API token. Defaults to [gfw_auth()].
 #' @param quiet Boolean. Whether to print the number of events returned by the
 #' request and progress. Default is FALSE.
 #' @param print_request Boolean. Whether to print the request, for debugging
-#' purposes. When contacting the GFW team it will be useful to send this string
-#' @param ... Other parameters, see API documentation
+#' purposes. When contacting the GFW team it will be useful to send this string.
+#' @param ... Other parameters, see API documentation.
 #' @importFrom httr2 req_headers
 #' @importFrom httr2 req_perform
 #' @importFrom httr2 req_user_agent

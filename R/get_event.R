@@ -1,5 +1,4 @@
-#'
-#' Base function to get events from API and convert response to data frame
+#' Get events from API and convert response to tibble
 #'
 #' @param event_type Type of event to get data of. A vector with any combination
 #' of "ENCOUNTER", "FISHING", "GAP", "LOITERING", "PORT_VISIT"
@@ -7,30 +6,30 @@
 #' and including this date
 #' @param end_date End of date range to search events, in YYYY-MM-DD format and
 #' excluding this date
-#' @param sort How to sort the events. By default, +start, which sorts the events
+#' @param sort How to sort the events. By default, `+start`, which sorts the events
 #' in ascending order (+) of the start dates of the events. Other possible values
-#' are -start, +end, -end.
-#' @param vessels A vector of `vesselIds`, obtained via the `get_vessel_info()`
-#' function. The maximum number of `vesselIds` depends on the character length of
-#' the whole request, the request will fail with error HTTP 422: Unprocessable
-#' entity when too many `vesselIds` are sent. This value is around 2,800
+#' are `-start`, `+end`, `-end`.
+#' @param vessels A vector of `vesselIds`, obtained via [get_vessel_info()]. The
+#' maximum number of `vesselIds` depends on the character length of
+#' the whole request, the request will fail with error `HTTP 422: Unprocessable
+#' entity` when too many `vesselIds` are sent. This value is around 2,800
 #' vessels, depending on the other parameters of the request.
-#' @param flags ISO3 code for the flag of the vessels. Null by default.
-#' @param vessel_types A vector of vessel types, any combination of: "FISHING",
-#' "CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL",
-#' "BUNKER_OR_TANKER", "CARGO"
+#' @param flags ISO3 code for the flag of the vessels. NULL by default.
+#' @param vessel_types A vector of vessel types, any combination of: `"FISHING"`,
+#' `"CARRIER"`, `"SUPPORT"`, `"PASSENGER"`, `"OTHER_NON_FISHING"`, `"SEISMIC_VESSEL"`,
+#' `"BUNKER_OR_TANKER"`, `"CARGO"`.
 #' @param region_source Optional. Source of the region ('EEZ','MPA', 'RFMO' or
 #' 'USER_SHAPEFILE').
 #' @param region Optional but required if a value for `region_source` is specified.
 #' If `region_source` is set to "EEZ", "MPA" or "RFMO", GFW region
-#' code (see `get_region_id()`) if `region_source = "USER_SHAPEFILE"`, `sf`
+#' code (see [get_region_id()]). If `region_source = "USER_SHAPEFILE"`, `sf`
 #' shapefile with the area of interest.
 #' @param duration Minimum duration that the event should have (in minutes). The
 #' default value is 1.
 #' @param encounter_types Only useful when `event_type = "ENCOUNTER"`. Filters for
 #' types of vessels during the encounter. A
-#' vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
-#' "FISHING-SUPPORT", "SUPPORT-FISHING"
+#' vector with any combination of: `"CARRIER-FISHING"`, `"FISHING-CARRIER"`,
+#' `"FISHING-SUPPORT"`, `"SUPPORT-FISHING"`.
 #' @param gap_intentional_disabling Logical. Only useful when `event_type = "GAP"`.
 #' Filters intentional gap events according to Global Fishing Watch algorithms.
 #' Check the [gaps API documentation](https://globalfishingwatch.org/our-apis/documentation#ais-off-event-aka-gap) for more details.
@@ -39,7 +38,7 @@
 #' are not available for download. See the
 #' [API documentation](https://globalfishingwatch.org/our-apis/documentation#confidence-levels-of-a-port-visit)
 #' for more details
-#' @param key Authorization token. Can be obtained with `gfw_auth()` function
+#' @param key Character, API token. Defaults to [gfw_auth()].
 #' @param quiet Boolean. Whether to print the number of events returned by the
 #' request
 #' @param print_request Boolean. Whether to print the request, for debugging
