@@ -39,15 +39,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gfwr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.3</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../articles/gfwr.html">Get started</a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -303,8 +300,8 @@ the previous search:</p>
 <span><span class="co"># <span style="color: #949494;"># A tibble: 2 × 16</span></span></span>
 <span><span class="co">#   start               end                 eventId          eventType   lat   lon</span></span>
 <span><span class="co">#   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">1</span> 2020-09-14 <span style="color: #949494;">08:30:00</span> 2020-09-14 <span style="color: #949494;">11:50:00</span> da911addfabd3ce… encounter  8.01 -<span style="color: #BB0000;">20.8</span></span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">2</span> 2021-04-19 <span style="color: #949494;">09:40:00</span> 2021-04-19 <span style="color: #949494;">12:50:00</span> 5cdd7f497291e06… encounter  3.08 -<span style="color: #BB0000;">12.2</span></span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">1</span> 2021-04-19 <span style="color: #949494;">09:40:00</span> 2021-04-19 <span style="color: #949494;">12:50:00</span> 5cdd7f497291e06… encounter  3.08 -<span style="color: #BB0000;">12.2</span></span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">2</span> 2020-09-14 <span style="color: #949494;">08:30:00</span> 2020-09-14 <span style="color: #949494;">11:50:00</span> da911addfabd3ce… encounter  8.01 -<span style="color: #BB0000;">20.8</span></span></span>
 <span><span class="co"># <span style="color: #949494;"># ℹ 10 more variables: regions &lt;list&gt;, boundingBox &lt;list&gt;, distances &lt;list&gt;,</span></span></span>
 <span><span class="co"># <span style="color: #949494;">#   vesselId &lt;chr&gt;, vessel_name &lt;chr&gt;, vessel_ssvid &lt;chr&gt;, vessel_flag &lt;chr&gt;,</span></span></span>
 <span><span class="co"># <span style="color: #949494;">#   vessel_type &lt;chr&gt;, vessel_publicAuthorizations &lt;list&gt;, event_info &lt;list&gt;</span></span></span></code></pre></div>
@@ -342,12 +339,13 @@ transmission</li>
 </ul>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mmsi_search</span><span class="op">$</span><span class="va">registryInfo</span></span>
-<span><span class="co"># <span style="color: #949494;"># A tibble: 1 × 16</span></span></span>
+<span><span class="co"># <span style="color: #949494;"># A tibble: 2 × 16</span></span></span>
 <span><span class="co">#   index recordId        sourceCode ssvid flag  shipname nShipname callsign imo  </span></span>
 <span><span class="co">#   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">1</span>     1 e0c9823749264a… <span style="color: #949494;">&lt;chr [6]&gt;</span>  2242… ESP   AGURTZA… AGURTZAB… EBSJ     8733…</span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">1</span>     1 e0c9823749264a… <span style="color: #949494;">&lt;chr [7]&gt;</span>  2242… ESP   AGURTZA… AGURTZAB… EBSJ     8733…</span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">2</span>     1 e0c9823749264a… <span style="color: #949494;">&lt;chr [7]&gt;</span>  2242… ESP   AGURTZA… AGURTZAB… EBSJ     8733…</span></span>
 <span><span class="co"># <span style="color: #949494;"># ℹ 7 more variables: transmissionDateFrom &lt;chr&gt;, transmissionDateTo &lt;chr&gt;,</span></span></span>
-<span><span class="co"># <span style="color: #949494;">#   geartypes &lt;chr&gt;, lengthM &lt;dbl&gt;, tonnageGt &lt;int&gt;, vesselInfoReference &lt;chr&gt;,</span></span></span>
+<span><span class="co"># <span style="color: #949494;">#   geartypes &lt;chr&gt;, lengthM &lt;dbl&gt;, tonnageGt &lt;dbl&gt;, vesselInfoReference &lt;chr&gt;,</span></span></span>
 <span><span class="co"># <span style="color: #949494;">#   extraFields &lt;list&gt;</span></span></span></code></pre></div>
 <ul>
 <li>
@@ -392,7 +390,7 @@ history:</p>
 <span><span class="co"># <span style="color: #949494;"># A tibble: 1 × 14</span></span></span>
 <span><span class="co">#   index vesselId   ssvid shipname nShipname flag  callsign imo   messagesCounter</span></span>
 <span><span class="co">#   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">1</span>     1 8e930bac5… 7010… ATLANTI… ATLANTIC… ARG   LW3233   8615…         7<span style="text-decoration: underline;">978</span>834</span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">1</span>     1 8e930bac5… 7010… ATLANTI… ATLANTIC… ARG   LW3233   8615…         8<span style="text-decoration: underline;">019</span>662</span></span>
 <span><span class="co"># <span style="color: #949494;"># ℹ 5 more variables: positionsCounter &lt;int&gt;, sourceCode &lt;list&gt;,</span></span></span>
 <span><span class="co"># <span style="color: #949494;">#   matchFields &lt;chr&gt;, transmissionDateFrom &lt;chr&gt;, transmissionDateTo &lt;chr&gt;</span></span></span>
 <span><span class="co">#check registry info:</span></span>
@@ -401,7 +399,7 @@ history:</p>
 <span><span class="co"># <span style="color: #949494;"># A tibble: 1 × 17</span></span></span>
 <span><span class="co">#   transmissionDateFrom transmissionDateTo  index recordId sourceCode ssvid flag </span></span>
 <span><span class="co">#   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">1</span> 2012-01-04T05:00:00Z 2025-01-31T18:31:4…     1 4550252… <span style="color: #949494;">&lt;chr [1]&gt;</span>  7010… ARG  </span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">1</span> 2012-01-04T05:00:00Z 2025-02-28T23:58:1…     1 4550252… <span style="color: #949494;">&lt;chr [2]&gt;</span>  7010… ARG  </span></span>
 <span><span class="co"># <span style="color: #949494;"># ℹ 10 more variables: shipname &lt;chr&gt;, nShipname &lt;chr&gt;, callsign &lt;chr&gt;,</span></span></span>
 <span><span class="co"># <span style="color: #949494;">#   imo &lt;chr&gt;, latestVesselInfo &lt;lgl&gt;, geartypes &lt;chr&gt;, lengthM &lt;dbl&gt;,</span></span></span>
 <span><span class="co"># <span style="color: #949494;">#   tonnageGt &lt;int&gt;, vesselInfoReference &lt;chr&gt;, extraFields &lt;list&gt;</span></span></span></code></pre></div>
@@ -427,9 +425,9 @@ on AIS, but the history is easy to reconstruct:</p>
 <span><span class="co"># <span style="color: #949494;"># A tibble: 1 × 17</span></span></span>
 <span><span class="co">#   index recordId        sourceCode ssvid flag  shipname nShipname callsign imo  </span></span>
 <span><span class="co">#   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">1</span>     1 bdd48f4144f4fd… <span style="color: #949494;">&lt;chr [5]&gt;</span>  4122… CHN   HAOYANG… HAOYANG77 BAWB     9038…</span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">1</span>     1 bdd48f4144f4fd… <span style="color: #949494;">&lt;chr [6]&gt;</span>  4122… JPN   HAOYANG… HAOYANG77 BAWB     9038…</span></span>
 <span><span class="co"># <span style="color: #949494;"># ℹ 8 more variables: latestVesselInfo &lt;lgl&gt;, transmissionDateFrom &lt;chr&gt;,</span></span></span>
-<span><span class="co"># <span style="color: #949494;">#   transmissionDateTo &lt;chr&gt;, geartypes &lt;chr&gt;, lengthM &lt;int&gt;, tonnageGt &lt;dbl&gt;,</span></span></span>
+<span><span class="co"># <span style="color: #949494;">#   transmissionDateTo &lt;chr&gt;, geartypes &lt;chr&gt;, lengthM &lt;dbl&gt;, tonnageGt &lt;dbl&gt;,</span></span></span>
 <span><span class="co"># <span style="color: #949494;">#   vesselInfoReference &lt;chr&gt;, extraFields &lt;list&gt;</span></span></span></code></pre></div>
 <p>However, sometimes a vessel found in AIS has no registry information
 and the registry fields come back empty. It is also possible that a

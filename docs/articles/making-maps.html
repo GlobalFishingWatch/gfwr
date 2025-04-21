@@ -39,15 +39,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gfwr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.3</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../articles/gfwr.html">Get started</a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -130,16 +127,14 @@ as how to use a custom region provided by the user.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/GlobalFishingWatch/gfwr" class="external-link">gfwr</a></span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">gfwr</span></span></span></code></pre>
-<p>Next, load your API key into your environment with the
-<code><a href="../reference/gfw_auth.html">gfw_auth()</a></code> function (see the <a href="https://github.com/GlobalFishingWatch/gfwr?tab=readme-ov-file#authorization" class="external-link">Authorization</a>
-section of the <code>gfwr</code> README)</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">gfw_key</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Make sure your API key is set up in your <code>.Renviron</code> file
+(see the <a href="#authorization">Authorization</a> section of the
+<code>gfwr</code> README)</p>
 <p>For this vignette, we’ll also use some <code>tidyverse</code>
 packages for data wrangling and plotting, as well as <code>sf</code> for
 creating and manipulating spatial data and <code>rnaturalearth</code> to
 add reference data to our maps.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
@@ -150,7 +145,7 @@ add reference data to our maps.</p>
 <p>To make our maps a little nicer, let’s define a custom
 <code>ggplot2</code> theme and a color palette for our heatmaps of
 apparent fishing effort.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Map theme with dark background</span></span>
 <span><span class="va">map_theme</span> <span class="op">&lt;-</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
@@ -169,7 +164,7 @@ apparent fishing effort.</p>
 <span><span class="co"># Palette for fishing activity</span></span>
 <span><span class="va">map_effort_light</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#ffffff"</span>, <span class="st">"#eeff00"</span>, <span class="st">"#3b9088"</span>,<span class="st">"#0c276c"</span><span class="op">)</span></span></code></pre></div>
 <p>We’ll also define a common date range to use for querying data.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">start_date</span> <span class="op">&lt;-</span> <span class="st">'2021-01-01'</span></span>
 <span><span class="va">end_date</span> <span class="op">&lt;-</span> <span class="st">'2021-03-31'</span></span></code></pre></div>
 </div>
@@ -187,9 +182,9 @@ Area (MPA), or Regional Fisheries Management Organization (RFMO).</p>
 <p>The list of available regions for each type, and their
 <code>label</code> and <code>id</code>, can be accessed with the
 <code><a href="../reference/get_regions.html">get_regions()</a></code> function.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">eez_regions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_regions.html">get_regions</a></span><span class="op">(</span>region_source <span class="op">=</span> <span class="st">'EEZ'</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">eez_regions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_regions.html">get_regions</a></span><span class="op">(</span>region_source <span class="op">=</span> <span class="st">'EEZ'</span>, key <span class="op">=</span> <span class="va">gfw_key</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">eez_regions</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 282 × 3</span></span></span>
 <span><span class="co">#&gt;       id label                                                         iso3 </span></span>
@@ -225,9 +220,9 @@ EEZ. The <code><a href="../reference/get_raster.html">get_raster()</a></code> fu
 later). We could look up the Italian EEZ <code>id</code> in the
 <code>eez_regions</code> table we just created, but let’s use
 <code><a href="../reference/get_region_id.html">get_region_id()</a></code>.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Use get_region_id function to get EEZ code for Italy</span></span>
-<span><span class="va">ita_eez_code</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_region_id.html">get_region_id</a></span><span class="op">(</span>region_name <span class="op">=</span> <span class="st">"ITA"</span>, region_source <span class="op">=</span> <span class="st">"EEZ"</span>, key <span class="op">=</span> <span class="fu"><a href="../reference/gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">ita_eez_code</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_region_id.html">get_region_id</a></span><span class="op">(</span>region_name <span class="op">=</span> <span class="st">"ITA"</span>, region_source <span class="op">=</span> <span class="st">"EEZ"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
 <span><span class="co">#&gt;      id label iso3 </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
@@ -239,7 +234,7 @@ the documentation for <code><a href="../reference/get_raster.html">get_raster()<
 APIs</a> for more info about these parameter options.</p>
 <p>In this case, let’s request data during our time range at 100th
 degree resolution and grouped by flag State:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Download data for the Italian EEZ</span></span>
 <span><span class="va">eez_fish_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_raster.html">get_raster</a></span><span class="op">(</span></span>
 <span>  spatial_resolution <span class="op">=</span> <span class="st">"HIGH"</span>,</span>
@@ -253,27 +248,27 @@ degree resolution and grouped by flag State:</p>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 69,412 × 6</span></span></span>
 <span><span class="co">#&gt;      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  43.7  13.6         <span style="text-decoration: underline;">2</span>021 ITA              3                     6.76</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  42.2  15.7         <span style="text-decoration: underline;">2</span>021 ITA              9                     8.14</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  40.9  13.9         <span style="text-decoration: underline;">2</span>021 ITA             10                    21.1 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  41.9  16.6         <span style="text-decoration: underline;">2</span>021 ITA              2                     2.03</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  43.7  14.1         <span style="text-decoration: underline;">2</span>021 ITA              3                     6.46</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  41.0  18.1         <span style="text-decoration: underline;">2</span>021 ITA              2                     1.57</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  42.4  14.9         <span style="text-decoration: underline;">2</span>021 ITA              3                     5.56</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  45.2  12.4         <span style="text-decoration: underline;">2</span>021 ITA              1                     0.17</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  41.9  11.9         <span style="text-decoration: underline;">2</span>021 ITA              1                     1.28</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  37.4  12.6         <span style="text-decoration: underline;">2</span>021 ITA              5                     6.03</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  42.8 14.2          <span style="text-decoration: underline;">2</span>021 ITA             10                    32.8 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  44.0 13.2          <span style="text-decoration: underline;">2</span>021 ITA              4                     7.18</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  41.9 12.0          <span style="text-decoration: underline;">2</span>021 ITA              6                     8.9 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  42.1 16.1          <span style="text-decoration: underline;">2</span>021 ITA              3                     2.69</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  40.8 14.0          <span style="text-decoration: underline;">2</span>021 ITA              6                    42.8 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  41.9 16.3          <span style="text-decoration: underline;">2</span>021 ITA              2                     6.3 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  42.1 15.8          <span style="text-decoration: underline;">2</span>021 ITA              6                     7.03</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  42.3 15.8          <span style="text-decoration: underline;">2</span>021 ITA              6                     7.86</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  41.3 13.0          <span style="text-decoration: underline;">2</span>021 ITA              7                    12.3 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  39.1  9.19         <span style="text-decoration: underline;">2</span>021 ITA              1                     1.03</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 69,402 more rows</span></span></span></code></pre>
 <p>Because the data includes fishing by all flag states, to make a map
 of all activity, we first need to summarize activity by grid cell.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">eez_fish_all_df</span> <span class="op">&lt;-</span> <span class="va">eez_fish_df</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Lat</span>, <span class="va">Lon</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>fishing_hours <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">`Apparent Fishing Hours`</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; `summarise()` has grouped output by 'Lat'. You can override using the `.groups`</span></span>
 <span><span class="co">#&gt; argument.</span></span></code></pre></div>
 <p>Now we can use <code>ggplot2</code> to plot the data.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">eez_fish_all_df</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">fishing_hours</span> <span class="op">&gt;=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
@@ -292,11 +287,11 @@ of all activity, we first need to summarize activity by grid cell.</p>
 <span>       subtitle <span class="op">=</span> <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"{start_date} to {end_date}"</span><span class="op">)</span>,</span>
 <span>       fill <span class="op">=</span> <span class="st">"Fishing hours"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="va">map_theme</span></span></code></pre></div>
-<p><img src="making-maps_files/figure-html/ita_plot-1.png" width="90%" style="display: block; margin: auto;"></p>
+<p><img src="making-maps_files/figure-html/ita_plot-1.png" alt="A map of apparent fishing effort in the Italian EEZ.  The scale is logarithmic and the fishing effort is concentrated around ports along the Adriatic and the Tyrrhenian Seas and the southern coast of Sicily" width="90%" style="display: block; margin: auto;"></p>
 <p>As another example, let’s request low resolution apparent fishing
 effort data within the jurisdiction of the Indian Ocean Tuna Commission
 (IOTC), grouped yearly by gear type:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Download data for the IOTC</span></span>
 <span><span class="va">iotc_fish_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_raster.html">get_raster</a></span><span class="op">(</span></span>
 <span>  spatial_resolution <span class="op">=</span> <span class="st">"LOW"</span>,</span>
@@ -310,21 +305,21 @@ effort data within the jurisdiction of the Indian Ocean Tuna Commission
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 98,457 × 6</span></span></span>
 <span><span class="co">#&gt;      Lat   Lon `Time Range` geartype         `Vessel IDs` Apparent Fishing Hou…¹</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> -<span style="color: #BB0000;">11.8</span>  63.6         <span style="text-decoration: underline;">2</span>021 drifting_longli…            7                  16.0 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   7.7  59.1         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   4.31</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  -<span style="color: #BB0000;">6</span>    46.6         <span style="text-decoration: underline;">2</span>021 drifting_longli…            5                  14.3 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> -<span style="color: #BB0000;">20.6</span>  88.4         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   1.68</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   0.9  55.6         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   3.05</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  -<span style="color: #BB0000;">7.3</span>  80.8         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   7.17</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> -<span style="color: #BB0000;">34.5</span>  86.9         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   4.86</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  -<span style="color: #BB0000;">3.5</span>  52.6         <span style="text-decoration: underline;">2</span>021 tuna_purse_sein…            1                   2.85</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  -<span style="color: #BB0000;">9.9</span>  60.6         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   9.9 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">22.3</span>  53.6         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   1.77</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> -<span style="color: #BB0000;">38.4</span>  22.3         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   1.08</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  -<span style="color: #BB0000;">7.6</span>  47.8         <span style="text-decoration: underline;">2</span>021 drifting_longli…            8                  40.8 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  -<span style="color: #BB0000;">8</span>    79.8         <span style="text-decoration: underline;">2</span>021 drifting_longli…            2                   5.72</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  -<span style="color: #BB0000;">9</span>    65.6         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   0.27</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  -<span style="color: #BB0000;">7.1</span>  40.9         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   0.45</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  -<span style="color: #BB0000;">7.9</span>  54           <span style="text-decoration: underline;">2</span>021 drifting_longli…            3                   7.89</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  26.1  52.6         <span style="text-decoration: underline;">2</span>021 fishing                     1                   9.61</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> -<span style="color: #BB0000;">36.2</span>  42.9         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   2.51</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  -<span style="color: #BB0000;">5.2</span>  47.4         <span style="text-decoration: underline;">2</span>021 drifting_longli…            6                  16.8 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  -<span style="color: #BB0000;">7.2</span>  45.7         <span style="text-decoration: underline;">2</span>021 drifting_longli…            6                  18.0 </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 98,447 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ abbreviated name: ¹​`Apparent Fishing Hours`</span></span></span></code></pre>
 <p>This time, instead of aggregating all activity, let’s plot the
 activity of a specific gear type:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">iotc_p1</span> <span class="op">&lt;-</span> <span class="va">iotc_fish_df</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">geartype</span> <span class="op">==</span> <span class="st">'drifting_longlines'</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">`Apparent Fishing Hours`</span> <span class="op">&gt;=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -347,7 +342,7 @@ activity of a specific gear type:</p>
 <span>  <span class="va">map_theme</span></span>
 <span> </span>
 <span><span class="va">iotc_p1</span> </span></code></pre></div>
-<p><img src="making-maps_files/figure-html/iotc_raster-1.png" width="90%" style="display: block; margin: auto;"></p>
+<p><img src="making-maps_files/figure-html/iotc_raster-1.png" alt="A map of apparent fishing hours in the IOTC RFMO by drifting longlines. " width="90%" style="display: block; margin: auto;"></p>
 <div class="section level3">
 <h3 id="when-your-api-request-times-out">When your API request times out<a class="anchor" aria-label="anchor" href="#when-your-api-request-times-out"></a>
 </h3>
@@ -403,7 +398,7 @@ vessels. We’ll restrict events to those within the jurisdiction of the
 Indian Ocean Tuna Commission (IOTC) using the <code>region</code> and
 <code>region_source</code> arguments like we did in the previous
 example.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># using same example as above</span></span>
 <span><span class="va">encounters_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_event.html">get_event</a></span><span class="op">(</span>event_type <span class="op">=</span> <span class="st">"ENCOUNTER"</span>,</span>
 <span>                           encounter_types <span class="op">=</span> <span class="st">"CARRIER-FISHING"</span>,</span>
@@ -411,14 +406,14 @@ example.</p>
 <span>                           end_date <span class="op">=</span> <span class="va">end_date</span>,</span>
 <span>                           region <span class="op">=</span> <span class="st">"IOTC"</span>,</span>
 <span>                           region_source <span class="op">=</span> <span class="st">"RFMO"</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; [1] "Downloading 175 events from GFW"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "Downloading 146 events from GFW"</span></span></code></pre></div>
 <p>Encounters events have two rows per event to represent both vessels.
 Because each row shares the same event ID (<code>eventId</code>), we can
 extract the <code>eventId</code> and select one row per
 <code>eventId</code> to remove duplicate positions. We’ll also use the
 <code>lon</code> and <code>lat</code> coordinates to create a
 <code>sf</code> object for each encounter event.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">encounters_sf_df</span> <span class="op">&lt;-</span> <span class="va">encounters_df</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html" class="external-link">separate</a></span><span class="op">(</span><span class="va">eventId</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"eventId"</span>,<span class="st">"vessel_number"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">vessel_number</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -426,12 +421,12 @@ extract the <code>eventId</code> and select one row per
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">eventId</span>, <span class="va">eventType</span>, <span class="va">geometry</span><span class="op">)</span></span></code></pre></div>
 <p>To assist with plotting, let’s get the bounding box of the encounter
 events.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">enc_bbox</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span><span class="va">encounters_sf_df</span><span class="op">)</span></span></code></pre></div>
 <p>Now let’s add the encounters layer to our previous map of drifting
 longline effort in the IOTC and use the bounding box to restrict the
 plot to the area with encounters.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">iotc_p1</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">encounters_sf_df</span>, </span>
 <span>          <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">eventType</span><span class="op">)</span>, </span>
@@ -442,7 +437,7 @@ plot to the area with encounters.</p>
 <span>       color <span class="op">=</span> <span class="st">'Event type'</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will</span></span>
 <span><span class="co">#&gt; replace the existing one.</span></span></code></pre></div>
-<p><img src="making-maps_files/figure-html/iotc_plot_1-1.png" width="90%" style="display: block; margin: auto;"></p>
+<p><img src="making-maps_files/figure-html/iotc_plot_1-1.png" alt="A map of apparent fishing hours in the IOTC by drifting longlines and  fishing vessels encounters" width="90%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="making-maps-for-custom-regions">Making maps for custom regions<a class="anchor" aria-label="anchor" href="#making-maps-for-custom-regions"></a>
@@ -455,7 +450,7 @@ object to the <code>region</code> argument.</p>
 <p>To demonstrate this, we’ll first create a tibble of coordinates
 defining an arbitrary polygon and convert to an <code>sf</code>
 object.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_shp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  lon <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">96</span>,<span class="op">-</span><span class="fl">96</span>,<span class="op">-</span><span class="fl">66</span>,<span class="op">-</span><span class="fl">66</span>,<span class="op">-</span><span class="fl">96</span><span class="op">)</span>,</span>
 <span>  lat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">24</span>,<span class="fl">4</span>,<span class="fl">4</span>,<span class="op">-</span><span class="fl">24</span>,<span class="op">-</span><span class="fl">24</span><span class="op">)</span></span>
@@ -465,7 +460,7 @@ object.</p>
 <span>  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_cast.html" class="external-link">st_cast</a></span><span class="op">(</span><span class="st">"POLYGON"</span><span class="op">)</span></span></code></pre></div>
 <p>Plot the <code>sf</code> object to confirm it was created
 successfully.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://docs.ropensci.org/rnaturalearth/reference/ne_countries.html" class="external-link">ne_countries</a></span><span class="op">(</span>returnclass <span class="op">=</span> <span class="st">"sf"</span>, scale <span class="op">=</span> <span class="st">"small"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span></span>
@@ -473,15 +468,15 @@ successfully.</p>
 <span>    fill <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="va">map_theme</span></span></code></pre></div>
-<p><img src="making-maps_files/figure-html/plot_shp-1.png" width="90%" style="display: block; margin: auto;"></p>
+<p><img src="making-maps_files/figure-html/plot_shp-1.png" alt="A world map with all countries and a red bounding box in the area surrounding  Ecuador, Peru and the north of Chile. " width="90%" style="display: block; margin: auto;"></p>
 <p>Let’s create a <code>sf</code> bounding box object for our region to
 use for plotting later. Although our shape is a simple rectangle in this
 example, this is helpful when using more complex regions.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_shp_bbox</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span><span class="va">my_shp</span><span class="op">)</span></span></code></pre></div>
 <p>Now we’re ready to request data in our custom region from
 <code><a href="../reference/get_raster.html">get_raster()</a></code> and <code><a href="../reference/get_event.html">get_event()</a></code>.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_raster_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_raster.html">get_raster</a></span><span class="op">(</span></span>
 <span>  spatial_resolution <span class="op">=</span> <span class="st">"LOW"</span>,</span>
 <span>  temporal_resolution <span class="op">=</span> <span class="st">"YEARLY"</span>,</span>
@@ -493,7 +488,7 @@ example, this is helpful when using more complex regions.</p>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p>For events, we’ll request high-confidence port visits by fishing
 vessels</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_port_events_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_event.html">get_event</a></span><span class="op">(</span>event_type <span class="op">=</span> <span class="st">"PORT_VISIT"</span>,</span>
 <span>                          confidences <span class="op">=</span> <span class="fl">4</span>,</span>
 <span>                          vessel_types <span class="op">=</span> <span class="st">"FISHING"</span>,</span>
@@ -501,9 +496,9 @@ vessels</p>
 <span>                          end_date <span class="op">=</span> <span class="va">end_date</span>,</span>
 <span>                          region <span class="op">=</span> <span class="va">my_shp</span>,</span>
 <span>                          region_source <span class="op">=</span> <span class="st">"USER_SHAPEFILE"</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; [1] "Downloading 4127 events from GFW"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "Downloading 4129 events from GFW"</span></span></code></pre></div>
 <p>and loitering events by refrigerated cargo vessels</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_loitering_events_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_event.html">get_event</a></span><span class="op">(</span>event_type <span class="op">=</span> <span class="st">"LOITERING"</span>,</span>
 <span>                                    vessel_types <span class="op">=</span> <span class="st">"CARRIER"</span>,</span>
 <span>                                    start_date <span class="op">=</span> <span class="va">start_date</span>,</span>
@@ -513,7 +508,7 @@ vessels</p>
 <span><span class="co">#&gt; [1] "Downloading 50 events from GFW"</span></span></code></pre></div>
 <p>As before, let’s summarize the raster to plot all fishing activity by
 fishing vessels</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_raster_all_df</span> <span class="op">&lt;-</span> <span class="va">my_raster_df</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Lat</span>, <span class="va">Lon</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>fishing_hours <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">`Apparent Fishing Hours`</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span></span>
@@ -521,7 +516,7 @@ fishing vessels</p>
 <span><span class="co">#&gt; argument.</span></span></code></pre></div>
 <p>and combine our two event datasets and create <code>sf</code> objects
 for each event.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_events_sf</span> <span class="op">&lt;-</span> <span class="va">my_port_events_df</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">eventId</span>, <span class="va">lon</span>, <span class="va">lat</span>, <span class="va">eventType</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span></span>
@@ -532,7 +527,7 @@ for each event.</p>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">eventId</span>, <span class="va">eventType</span>, <span class="va">geometry</span><span class="op">)</span></span></code></pre></div>
 <p>Finally, let’s plot the fishing effort raster and overlay the
 loitering events and port visits.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_raster_all_df</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">fishing_hours</span> <span class="op">&gt;</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
@@ -556,7 +551,7 @@ loitering events and port visits.</p>
 <span>    color <span class="op">=</span> <span class="st">'Event type'</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="va">map_theme</span></span></code></pre></div>
-<p><img src="making-maps_files/figure-html/loitering_ports_fishing_map-1.png" width="90%" style="display: block; margin: auto;"></p>
+<p><img src="making-maps_files/figure-html/loitering_ports_fishing_map-1.png" alt="Apparent fishing hours in the area of interest around Ecuador, Peru and the  north of Chile, in yellow, red dots indicating loitering events and blue dots indicating port visits." width="90%" style="display: block; margin: auto;"></p>
 </div>
   </div>
 
