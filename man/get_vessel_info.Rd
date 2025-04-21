@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_vessel_info.R
 \name{get_vessel_info}
 \alias{get_vessel_info}
-\title{Base function to get vessel information from API and convert response to data frame}
+\title{Base function to get vessel information from API and convert response to tibble}
 \usage{
 get_vessel_info(
   query = NULL,
@@ -22,12 +22,12 @@ get_vessel_info(
 \item{query}{When \code{search_type = "search"}, a length-1 vector with the identity
 variable of interest, MMSI, IMO, call sign or ship name.}
 
-\item{where}{When \code{search_type = "search"}, an SQL expression to find the vessel of interest}
+\item{where}{When \code{search_type = "search"}, an SQL expression to find the vessel of interest.}
 
 \item{search_type}{Type of vessel search to perform. Can be \code{"search"} (the default)
-or \code{"id"}. (Note:\code{"advanced"} and \code{"basic"} are no longer in use as of gfwr 2.0.0.)}
+or \code{"id"}. (Note:\code{"advanced"} and \code{"basic"} are no longer in use as of gfwr 2.0.0.).}
 
-\item{ids}{When \code{search_type = "id"}, a vector with the \code{vesselId} of interest}
+\item{ids}{When \code{search_type = "id"}, a vector with the \code{vesselId} of interest.}
 
 \item{includes}{Enhances the response with new information, defaults to include all.
 \describe{
@@ -37,7 +37,7 @@ or \code{"id"}. (Note:\code{"advanced"} and \code{"basic"} are no longer in use 
 }}
 
 \item{match_fields}{Optional. Allows to filter by \code{matchFields} levels.
-Possible values: \code{"SEVERAL_FIELDS"}, \code{"NO_MATCH"}, \code{"ALL"}. Incompatible with \code{where}}
+Possible values: \code{"SEVERAL_FIELDS"}, \code{"NO_MATCH"}, \code{"ALL"}. Incompatible with \code{where}.}
 
 \item{registries_info_data}{when \code{search_type == "id"}, gets all the registry
 objects, only the delta or the latest.
@@ -45,21 +45,21 @@ objects, only the delta or the latest.
 \item{\code{"NONE"}}{The API will return the most recent object only}
 \item{\code{"DELTA"}}{The API will return only the objects when the vessel
 changed one or more identity properties}
-\item{\code{"ALL"}}{The registryInfo array will return the same number of objects that rows we have in the vessel database}
+\item{\code{"ALL"}}{The \code{registryInfo} array will return all objects we have in the vessel database}
 }}
 
-\item{key}{Authorization token. Can be obtained with \code{gfw_auth()} function (the default)}
+\item{key}{Character, API token. Defaults to \code{\link[=gfw_auth]{gfw_auth()}}.}
 
 \item{quiet}{Boolean. Whether to print the number of events returned by the
 request and progress. Default is FALSE.}
 
 \item{print_request}{Boolean. Whether to print the request, for debugging
-purposes. When contacting the GFW team it will be useful to send this string}
+purposes. When contacting the GFW team it will be useful to send this string.}
 
-\item{...}{Other parameters, see API documentation}
+\item{...}{Other parameters, see API documentation.}
 }
 \description{
-Base function to get vessel information from API and convert response to data frame
+Base function to get vessel information from API and convert response to tibble
 }
 \details{
 When \code{search_type = "search"} the search takes basic identity features like

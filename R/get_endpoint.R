@@ -38,7 +38,9 @@ get_endpoint <- function(dataset_type,
     'LOITERING' = "public-global-loitering-events:latest",
     'FISHING' = "public-global-fishing-events:latest",
     'GAP' = "public-global-gaps-events:latest",
-    'raster' = "public-global-fishing-effort:latest"
+    'raster' = "public-global-fishing-effort:latest",
+    'sar-presence' = "public-global-sar-presence:latest",
+    'sar-infra' = "public-fixed-infrastructure-filtered:latest"
   )
 
   base <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/")
@@ -57,7 +59,7 @@ get_endpoint <- function(dataset_type,
       httr2::req_url_path_append('events') %>%
       httr2::req_url_query(!!!args)
 
-  } else if (dataset_type == 'raster') {
+  } else if (dataset_type %in% c('raster', 'sar-presence')) {
 
     args <- c(`datasets[0]` = dataset, args)
     endpoint <- base %>%

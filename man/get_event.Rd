@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_event.R
 \name{get_event}
 \alias{get_event}
-\title{Base function to get events from API and convert response to data frame}
+\title{Get events from API and convert response to tibble}
 \usage{
 get_event(
   event_type,
@@ -34,28 +34,27 @@ and including this date}
 \item{end_date}{End of date range to search events, in YYYY-MM-DD format and
 excluding this date}
 
-\item{sort}{How to sort the events. By default, +start, which sorts the events
+\item{sort}{How to sort the events. By default, \code{+start}, which sorts the events
 in ascending order (+) of the start dates of the events. Other possible values
-are -start, +end, -end.}
+are \code{-start}, \code{+end}, \code{-end}.}
 
-\item{vessels}{A vector of \code{vesselIds}, obtained via the \code{get_vessel_info()}
-function. The maximum number of \code{vesselIds} depends on the character length of
-the whole request, the request will fail with error HTTP 422: Unprocessable
-entity when too many \code{vesselIds} are sent. This value is around 2,800
+\item{vessels}{A vector of \code{vesselIds}, obtained via \code{\link[=get_vessel_info]{get_vessel_info()}}. The
+maximum number of \code{vesselIds} depends on the character length of
+the whole request, the request will fail with error \verb{HTTP 422: Unprocessable entity} when too many \code{vesselIds} are sent. This value is around 2,800
 vessels, depending on the other parameters of the request.}
 
-\item{flags}{ISO3 code for the flag of the vessels. Null by default.}
+\item{flags}{ISO3 code for the flag of the vessels. NULL by default.}
 
-\item{vessel_types}{A vector of vessel types, any combination of: "FISHING",
-"CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL",
-"BUNKER_OR_TANKER", "CARGO"}
+\item{vessel_types}{A vector of vessel types, any combination of: \code{"FISHING"},
+\code{"CARRIER"}, \code{"SUPPORT"}, \code{"PASSENGER"}, \code{"OTHER_NON_FISHING"}, \code{"SEISMIC_VESSEL"},
+\code{"BUNKER_OR_TANKER"}, \code{"CARGO"}.}
 
-\item{region_source}{Source of the region ('EEZ','MPA', 'RFMO' or
-'USER_SHAPEFILE'). Null by default but required if a value for region is
-specified.}
+\item{region_source}{Optional. Source of the region ('EEZ','MPA', 'RFMO' or
+'USER_SHAPEFILE').}
 
-\item{region}{If \code{region_source} is set to "EEZ", "MPA" or "RFMO", GFW region
-code (see \code{get_region_id()}) if \code{region_source = "USER_SHAPEFILE"}, \code{sf}
+\item{region}{Optional but required if a value for \code{region_source} is specified.
+If \code{region_source} is set to "EEZ", "MPA" or "RFMO", GFW region
+code (see \code{\link[=get_region_id]{get_region_id()}}). If \code{region_source = "USER_SHAPEFILE"}, \code{sf}
 shapefile with the area of interest.}
 
 \item{duration}{Minimum duration that the event should have (in minutes). The
@@ -63,8 +62,8 @@ default value is 1.}
 
 \item{encounter_types}{Only useful when \code{event_type = "ENCOUNTER"}. Filters for
 types of vessels during the encounter. A
-vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
-"FISHING-SUPPORT", "SUPPORT-FISHING"}
+vector with any combination of: \code{"CARRIER-FISHING"}, \code{"FISHING-CARRIER"},
+\code{"FISHING-SUPPORT"}, \code{"SUPPORT-FISHING"}.}
 
 \item{gap_intentional_disabling}{Logical. Only useful when \code{event_type = "GAP"}.
 Filters intentional gap events according to Global Fishing Watch algorithms.
@@ -76,7 +75,7 @@ are not available for download. See the
 \href{https://globalfishingwatch.org/our-apis/documentation#confidence-levels-of-a-port-visit}{API documentation}
 for more details}
 
-\item{key}{Authorization token. Can be obtained with \code{gfw_auth()} function}
+\item{key}{Character, API token. Defaults to \code{\link[=gfw_auth]{gfw_auth()}}.}
 
 \item{quiet}{Boolean. Whether to print the number of events returned by the
 request}
@@ -87,7 +86,7 @@ purposes. When contacting the GFW team it will be useful to send this string}
 \item{...}{Other arguments}
 }
 \description{
-Base function to get events from API and convert response to data frame
+Get events from API and convert response to tibble
 }
 \details{
 There are currently four available event types and these events are provided
