@@ -4,7 +4,7 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, include = FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   eval = TRUE,
@@ -28,6 +28,8 @@ knitr::opts_chunk$set(
 April 30th, 2024, this is the official API version. For latest API releases, 
 please check our [API release notes](https://globalfishingwatch.org/our-apis/documentation#api-release-notes)
 
+> A __Python package__ to communicate with Global Fishing Watch APIs was released in April 2025. Check the [gfw-api-python-client](https://github.com/GlobalFishingWatch/gfw-api-python-client) repository.
+
 
 The `gfwr` R package is a simple wrapper for the Global Fishing Watch (GFW) [APIs](https://globalfishingwatch.org/our-apis/documentation#introduction). It 
 provides convenient functions to freely pull GFW data directly into R in tidy formats.
@@ -40,31 +42,33 @@ information
 * [Events API](https://globalfishingwatch.org/our-apis/documentation#events-api):
 encounters, loitering, port visits, AIS-disabling events and fishing events 
 based on AIS data
-* [Gridded fishing effort (4Wings API)](https://globalfishingwatch.org/our-apis/documentation#map-visualization-4wings-api):
+* [Gridded apparent fishing effort (4Wings API)](https://globalfishingwatch.org/our-apis/documentation#map-visualization-4wings-api):
 apparent fishing effort based on AIS data
 
 
 > **Note**:
 > See the [Terms of Use](https://globalfishingwatch.org/our-apis/documentation#reference-data) 
-page for GFW APIs for information on our API licenses and rate limits.
+page for Global Fishing Watch APIs for information on our API licenses and rate limits.
+
 
 ## Installation
 
 You can install the most recent version of `gfwr` using:
 
-```{r, eval = FALSE}
+```{r install_instructions, eval = FALSE}
 # Check/install remotes
 if (!require("remotes"))
   install.packages("remotes")
 
-remotes::install_github("GlobalFishingWatch/gfwr")
+remotes::install_github("GlobalFishingWatch/gfwr",
+                        dependencies = TRUE)
 ```
 
 `gfwr` is also in the rOpenSci 
 [R-universe](https://globalfishingwatch.r-universe.dev/gfwr#), and can be 
 installed like this: 
 
-```{r eval = FALSE}
+```{r r-universe, eval = FALSE}
 install.packages("gfwr", 
                  repos = c("https://globalfishingwatch.r-universe.dev",
                            "https://cran.r-project.org"))
@@ -73,7 +77,7 @@ install.packages("gfwr",
 Once everything is installed, you can load and use `gfwr` in your scripts with 
 `library(gfwr)`
 
-```{r, eval = FALSE}
+```{r load, eval = FALSE}
 library(gfwr)
 ```
 
@@ -89,29 +93,36 @@ this token to your `.Renviron` file using `usethis::edit_r_environ()` and adding
 a variable named `GFW_TOKEN` to the file (`GFW_TOKEN="PASTE_YOUR_TOKEN_HERE"`).
 Save the `.Renviron` file and restart the R session to make the edit effective.
 
-Then use the `gfw_auth()` helper function to inform the key on your function 
-calls. You can use `gfw_auth()` directly or save the information to an object in
-your R workspace every time and pass it to subsequent `gfwr` functions.
 
-So you can do:
+`gfwr` functions are set to use `key = gfw_auth()` by default so in general you shouldn't need to refer to the key in your function calls. 
 
-```{r auth, eval = TRUE}
+If the token configuration was not done properly you will see the following error: 
+
+```r
+Error in `httr2::req_perform()`:
+! HTTP 401 Unauthorized.
+```
+
+ 
+In case you need to specify the key you can use `gfw_auth()` to save an object
+
+```r
 key <- gfw_auth()
 ```
 
-or this
+or fetch the key directly from the `.Renviron` file 
 
-```{r sys_getenv, eval = F}
+```r
 key <- Sys.getenv("GFW_TOKEN")
 ```
 
-> **Note**:
-> `gfwr` functions are set to use `key = gfw_auth()` by default.
+The examples in the package documentation will omit an explicit call to key.
+
 
 ## Vessels API
 
 The `get_vessel_info()` function allows you to get vessel identity details from
-the [GFW Vessels API](https://globalfishingwatch.org/our-apis/documentation#introduction-vessels-api).
+the [Vessels API](https://globalfishingwatch.org/our-apis/documentation#introduction-vessels-api).
 
 There are two search types: `search`, and `id`.
 
@@ -125,7 +136,7 @@ There are two search types: `search`, and `id`.
   + `includes` adds information from public registries. Options are
   "MATCH_CRITERIA", "OWNERSHIP" and "AUTHORIZATIONS"
 
-### Examples
+### Basic search by identity markers `(search_type = "search")`
 
 To get information of a vessel using its MMSI, IMO number, callsign or name, the 
 search can be done directly using the number or the string. For example, to look 
@@ -133,25 +144,27 @@ for a vessel with `MMSI = 224224000`:
 
 ```{r example_vessel_info_1, eval = TRUE}
 get_vessel_info(query = 224224000,
-                search_type = "search",
-                key = key)
+                search_type = "search")
 ```
 
-To do more specific searches (`imo = '8300949'`), combine different fields 
-(`imo = '8300949' AND ssvid = '214182732'`) and do fuzzy matching 
+### Complex searches using `where`
+
+To do more specific searches (e.g. `"imo = '8300949'"`), combine different fields 
+(`"imo = '8300949' AND ssvid = '214182732'"`) and do fuzzy matching 
 (`"shipname LIKE '%GABU REEFE%' OR imo = '8300949'"`), use parameter `where` 
 instead of `query`:
 
 ```{r example_vessel_info_2, eval = TRUE}
 get_vessel_info(where = "shipname LIKE '%GABU REEFE%' OR imo = '8300949'",
-                search_type = "search",
-                key = key)
+                search_type = "search")
 ```
 
-* The `id` search allows the user to specify a vector of `vesselId`s
+### Search by vessel ID
+
+To search by `vesselId`, use parameter `ids` and specify `search_type = "id"`.
 
 > **Note**:
-> `vesselId` is an internal ID generated by GFW to connect data accross APIs
+> `vesselId` is an internal ID generated by Global Fishing Watch to connect data accross APIs
 and involves a combination of vessel and tracking data information. It can be
 retrieved using `get_vessel_info()` and fetching the vector of responses inside
 `$selfReportedInfo$vesselId`. See the
@@ -159,25 +172,22 @@ retrieved using `get_vessel_info()` and fetching the vector of responses inside
 for more information.
 
 
-To search by `vesselId`, use parameter `ids` and specify `search_type = "id"`:
+#### Single vessel IDs
 
 ```{r example_vessel_info_3, eval = TRUE}
 get_vessel_info(ids = "8c7304226-6c71-edbe-0b63-c246734b3c01",
-                search_type = "id",
-                key = key)
+                search_type = "id")
 ```
 
+#### Multiple vessel IDs
 To specify more than one `vesselId`, you can submit a vector:
 
 ```{r example_vessel_info_4, eval = TRUE}
 get_vessel_info(ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01",
                         "6583c51e3-3626-5638-866a-f47c3bc7ef7c",
                         "71e7da672-2451-17da-b239-857831602eca"),
-                search_type = 'id',
-                key = key)
+                search_type = "id")
 ```
-
-This is useful especially because a vessel can have different `vesselId`s in time. 
 
 __Check the function documentation for examples with the other function arguments and
 [our dedicated vignette](https://globalfishingwatch.github.io/gfwr/articles/identity)
@@ -188,7 +198,7 @@ for more information about vessel identity markers and the outputs retrieved.__
 
 The `get_event()` function allows you to get data on specific vessel activities 
 from the 
-[GFW Events API](https://globalfishingwatch.org/our-apis/documentation#events-api).
+[Events API](https://globalfishingwatch.org/our-apis/documentation#events-api).
 Event types include apparent fishing events, potential transshipment events 
 (two-vessel encounters and loitering by refrigerated carrier vessels), port 
 visits, and AIS-disabling events ("gaps").
@@ -202,17 +212,16 @@ response will return results for all vessels.
 
 
 ```{r example_event_type_3, eval = TRUE}
-get_event(event_type = 'ENCOUNTER',
+get_event(event_type = "ENCOUNTER",
           start_date = "2020-01-01",
-          end_date = "2020-01-02",
-          key = key
-          )
+          end_date = "2020-01-02")
 ```
 
 > *Note*: We do not recommend trying too large downloads, such as all 
 encounters for all vessels over a long period of time. This will possibly 
-return time out (524) errors. Our API team is working on a bulk download solution 
-for the future.
+return time out (524) errors. Our API team is working on another API specific 
+for large downloads in the future.
+
 
 ### Events in a specific area
 
@@ -222,16 +231,18 @@ information about parameters `region` and `region_source`
 
 ```{r events_shapefile}
  # fishing events in user shapefile
-test_polygon <- sf::st_bbox(c(xmin = -70, xmax = -40, ymin = -10, ymax = 5),
+test_polygon <- sf::st_bbox(c(xmin = -70,
+                              xmax = -40,
+                              ymin = -10,
+                              ymax = 5),
   crs = 4326) |>
   sf::st_as_sfc() |>
   sf::st_as_sf()
-get_event(event_type = 'FISHING',
+get_event(event_type = "FISHING",
                start_date = "2020-10-01",
                end_date = "2020-10-31",
                region = test_polygon,
-               region_source = 'USER_SHAPEFILE',
-               key = gfw_auth())
+               region_source = "USER_SHAPEFILE")
 ```
 
 
@@ -246,7 +257,7 @@ input, so you always need to use `get_vessel_info()` first to extract
 
 
 ```{r example_id_event, eval = TRUE}
-vessel_info <- get_vessel_info(query = 224224000, key = key)
+vessel_info <- get_vessel_info(query = 224224000)
 vessel_info$selfReportedInfo
 ```
 
@@ -259,22 +270,20 @@ of your interest:
 id <- vessel_info$selfReportedInfo$vesselId
 id
 
-get_event(event_type = 'PORT_VISIT',
+get_event(event_type = "PORT_VISIT",
           vessels = id[1],
-          confidences = 4,
-          key = key
+          confidences = 4
           )
 ```
 
-But to get the whole event history, you can also use the whole vector of 
-`vesselId` for that vessel:
+But to get the whole event history, it's better to use the whole vector of 
+`vesselId` for that vessel. Notice how the following request provides more results than the previous one: 
 
 
 ```{r event_onevessel_allvesselids, eval = TRUE}
-get_event(event_type = 'PORT_VISIT',
+get_event(event_type = "PORT_VISIT",
           vessels = id, #using the whole vector of vesselIds
-          confidences = 4,
-          key = key
+          confidences = 4
           )
 ```
 
@@ -308,13 +317,12 @@ events for a list of USA-flagged trawlers:
 usa_trawlers <- get_vessel_info(
   where = "flag='USA' AND geartypes='TRAWLERS'",
   search_type = "search",
-  key = key,
   quiet = TRUE 
-)
-  # Set quiet = FALSE if you want an estimate progress of the download
+  )
+# Set quiet = TRUE if you want the output to return silently
 ```
 
-This list returns `r nrow(usa_trawlers$selfReportedInfo)` `vesselIds` belonging
+This list returns `r length(unique(usa_trawlers$selfReportedInfo$vesselId))` `vesselIds` belonging
 to `r nrow(usa_trawlers$dataset)` vessels. 
 
 ```{r usa_trawlers_id}
@@ -330,7 +338,8 @@ dataset.
 
 > *Note*: `get_event()` can receive several `vesselIds` at a time but will fail 
 when the character length of the whole request is too long (~100,000 characters).
-This means it will fail with error __HTTP 422: Unprocessable entity__ when too many `vesselIds` are requested, this value can be around 2,800 `vesselIds` depending 
+This means it will fail with error __HTTP 422: Unprocessable entity__ when too 
+many `vesselIds` are requested, this value can be around 2,800 `vesselIds` depending 
 on the other parameters of the search.
 
 For this example, we will send the `vesselIds` corresponding to the first twenty 
@@ -342,18 +351,18 @@ each_USA_trawler <- usa_trawlers$selfReportedInfo[, c("index", "vesselId")]
 (twenty_usa_trawlers <- each_USA_trawler %>% filter(index <= 20))
 ```
 
-There are `r nrow(twenty_usa_trawlers)` `vesselIds` corresponding to those 20 vessels.
+There are `r length(unique(twenty_usa_trawlers$vesselId))` 
+`vesselIds` corresponding to those 20 vessels.
 
 Let's pass the vector of `vesselIds` to Events API. Now get the list of fishing
 events for these trawlers in January, 2020:
 
 ```{r example_event_type_4b, eval=T}
-events <- get_event(event_type = 'FISHING',
-                    vessels = twenty_usa_trawlers$vesselId,
-                    start_date = "2020-01-01", 
-                    end_date = "2020-02-01", 
-                    key = key)
-events
+fishing_events <- get_event(event_type = "FISHING",
+                            vessels = twenty_usa_trawlers$vesselId,
+                            start_date = "2020-01-01",
+                            end_date = "2020-02-01")
+fishing_events
 ```
 
 The columns starting by `vessel` hold the vessel-related information for each 
@@ -361,23 +370,22 @@ event: `vesselId`, `vessel_name`, `ssvid` (MMSI), `flag`, `vessel type` and
 public authorizations.
 
 ```{r unnest_vessel}
-events %>% 
+fishing_events %>% 
   dplyr::select(starts_with("vessel"))
 ```
 
 When no events are available, the `get_event()` function returns nothing.
 
 ```{r example_event_type_4c, eval=T}
-get_event(event_type = 'FISHING',
+get_event(event_type = "FISHING",
           vessels = twenty_usa_trawlers$vesselId[2],
           start_date = "2020-01-01",
-          end_date = "2020-01-01",
-          key = key
+          end_date = "2020-01-01"
           )
 ```
 
 
-## Fishing effort API
+## Apparent fishing effort API
 
 The `get_raster()` function gets a raster from the [4Wings API](https://globalfishingwatch.org/our-apis/documentation#map-visualization-4wings-api)
 and converts the response to a data frame. In order to use it, you should specify:
@@ -397,9 +405,9 @@ filter the raster
 
 ### User-defined shapefile
 
-You can load an sf shapefile with your area of interest and fetch fishing effort 
-for this area using `region_source = 'USER_SHAPEFILE'` and `region = [YOUR_SHAPE]`.
-We added a sample shapefile inside `gfwr` to show how `'USER_SHAPEFILE'` works:
+You can load an `sf` shapefile with your area of interest and fetch apparent fishing effort 
+for this area using `region_source = "USER_SHAPEFILE"` and `region = [YOUR_SHAPE]`.
+We added a sample shapefile inside `gfwr` to show how `"USER_SHAPEFILE"` works:
 
 ```{r example_map_1}
 data("test_shape")
@@ -407,42 +415,42 @@ data("test_shape")
 test_shape
 
 get_raster(
-  spatial_resolution = 'LOW',
-  temporal_resolution = 'YEARLY',
-  group_by = 'FLAG',
-  start_date = '2021-01-01',
-  end_date = '2021-02-01',
-  region_source = 'USER_SHAPEFILE',
-  region = test_shape,
-  key = key
+  spatial_resolution = "LOW",
+  temporal_resolution = "YEARLY",
+  group_by = "FLAG",
+  start_date = "2021-01-01",
+  end_date = "2021-02-01",
+  region_source = "USER_SHAPEFILE",
+  region = test_shape
   )
 ```
 
-### Fishing effort in preloaded EEZ, RFMOs and MPAs
+### Apparent fishing effort in preloaded EEZ, RFMOs and MPAs
+
+#### EEZ
 
 If you want raster data from a particular EEZ, you can use the `get_region_id()`
-function to get the EEZ id, and enter that code in the `region` argument
+function to get the EEZ id, and enter that code in the `region_name` argument
 of `get_raster()` instead of the region shapefile (with `region_source = "EEZ"`):
 
 ```{r example_map_2, eval= TRUE}
 # use EEZ function to get EEZ code of Cote d'Ivoire
-code_eez <- get_region_id(region_name = 'CIV', region_source = 'EEZ', key = key)
+code_eez <- get_region_id(region_name = "CIV", region_source = "EEZ")
 
-get_raster(spatial_resolution = 'LOW',
-           temporal_resolution = 'YEARLY',
-           group_by = 'FLAG',
+get_raster(spatial_resolution = "LOW",
+           temporal_resolution = "YEARLY",
+           group_by = "FLAG",
            start_date = "2021-01-01",
            end_date = "2021-10-01",
            region = code_eez$id,
-           region_source = 'EEZ',
-           key = key)
+           region_source = "EEZ")
 ```
 
 You could search for just one word in the name of the EEZ and then decide which
 one you want:
 
 ```{r example_map_3, eval = TRUE}
-(get_region_id(region_name = 'France', region_source = 'EEZ', key = key))
+(get_region_id(region_name = "France", region_source = "EEZ"))
 ```
 
 
@@ -450,83 +458,62 @@ From the results above, let's say we're interested in the French Exclusive
 Economic Zone, `5677`
 
 ```{r fr_eez, eval = TRUE}
-get_raster(spatial_resolution = 'LOW',
-           temporal_resolution = 'YEARLY',
-           group_by = 'FLAG',
+get_raster(spatial_resolution = "LOW",
+           temporal_resolution = "YEARLY",
+           group_by = "FLAG",
            start_date = "2021-01-01",
            end_date = "2021-10-01",
            region = 5677,
-           region_source = 'EEZ',
-           key = key)
+           region_source = "EEZ"
+           )
 ```
 
+#### Marine Protected Areas (MPAs)
 
 A similar approach can be used to search for a specific Marine Protected Area,
 in this case the Phoenix Island Protected Area (PIPA)
 
 ```{r example_map_4, eval= TRUE}
 # use region id function to get MPA code of Phoenix Island Protected Area
-code_mpa <- get_region_id(region_name = 'Phoenix',
-                          region_source = 'MPA',
-                          key = key)
-
-get_raster(spatial_resolution = 'LOW',
-           temporal_resolution = 'YEARLY',
-           group_by = 'FLAG',
+code_mpa <- get_region_id(region_name = "Phoenix",
+                          region_source = "MPA")
+code_mpa
+get_raster(spatial_resolution = "LOW",
+           temporal_resolution = "YEARLY",
+           group_by = "FLAG",
            start_date = "2015-01-01",
            end_date = "2015-06-01",
            region = code_mpa$id[1],
-           region_source = 'MPA',
-           key = key)
+           region_source = "MPA")
 ```
 
-It is also possible to filter rasters to one of the five regional fisheries 
-management organizations (RFMO) that manage tuna and tuna-like species. These 
-include `"ICCAT"`, `"IATTC"`,`"IOTC"`, `"CCSBT"` and `"WCPFC"`.
+#### Regional Fisheries Management Organizations (RFMOs)
+
+It is also possible to filter rasters to regional fisheries management 
+organizations (RFMO) like `"ICCAT"`, `"IATTC"`, `"IOTC"`, `"CCSBT"` and
+`"WCPFC"`.
+
 
 ```{r example_map_5, eval=T}
-get_raster(spatial_resolution = 'LOW',
-           temporal_resolution = 'DAILY',
-           group_by = 'FLAG',
+get_raster(spatial_resolution = "LOW",
+           temporal_resolution = "DAILY",
+           group_by = "FLAG",
            start_date = "2021-01-01",
            end_date = "2021-01-04",
-           region = 'ICCAT',
-           region_source = 'RFMO',
-           key = key)
+           region = "ICCAT",
+           region_source = "RFMO")
 ```
 
-The `get_region_id()` function also works in reverse. If a region id is passed as
-a `numeric` to the function as the `region_name`, the corresponding region label
-or iso3 code can be returned. This is especially useful when events are 
-returned with regions.
+> *Note*: For a complete list of MPAs, RFMOs and EEZ, check the function `get_regions()`
 
-```{r example_region_id}
-# using same example as above
-get_event(event_type = 'FISHING',
-          vessels = twenty_usa_trawlers$vesselId,
-          start_date = "2020-01-01",
-          end_date = "2020-02-01",
-          key = key
-          ) %>% 
-  # extract EEZ id code
-  dplyr::mutate(eez = as.character(
-    purrr::map(purrr::map(regions, purrr::pluck, 'eez'),
-               paste0, collapse = ','))) %>%
-  dplyr::select(eventId, eventType, start, end, lat, lon, eez) %>%
-  dplyr::rowwise() %>%
-  dplyr::mutate(eez_name = get_region_id(region_name = as.numeric(eez),
-                                         region_source = 'EEZ',
-                                         key = key)$label) %>% 
-  dplyr::select(-start, -end)
-```
 
 ### When your API request times out
 
 For API performance reasons, the `get_raster()` function restricts individual 
 queries to a single year of data. However, even with this restriction, it is 
 possible for API request to time out before it completes. When this occurs, the
-initial `get_raster()` call will return an HTTP 524 error, and subsequent API 
-requests using any `gfwr` `get_` function will return an HTTP 429 error until 
+initial `get_raster()` call will return an `HTTP 524 error`, and subsequent API 
+requests using any `gfwr` `get_` function will return an `HTTP 429 error` until 
 the original request completes:
 
 >
@@ -547,11 +534,40 @@ finished successfully. You will receive an error message if the request
 finished but resulted in an error or if it's been >30 minutes since the last
  report was generated using `get_raster()`. For more information, see the 
  [Get last report generated endpoint](https://globalfishingwatch.org/our-apis/documentation#get-last-report-generated) 
- documentation on the GFW API page.
+ documentation on the Global Fishing Watch API page.
+
+## Reverse region id search 
+
+The `get_region_id()` function also works in reverse. If a region id is passed as
+a `numeric` to the function as the `region_name`, the corresponding region label
+or iso3 code can be returned. This is especially useful when events are 
+returned with regions.
+
+Using the same example with twenty trawlers fishing events, `fishing_events`, 
+you can see the `eez` information is returned as the code `5696`, as characters.
+
+```{r example_region_id}
+fishing_events <- get_event(event_type = "FISHING",
+                            vessels = twenty_usa_trawlers$vesselId,
+                            start_date = "2020-01-01",
+                            end_date = "2020-02-01") %>%
+  # extract EEZ id code
+  dplyr::mutate(eez = as.character(
+    purrr::map(purrr::map(regions, purrr::pluck, "eez"),
+               paste0, collapse = ","))) %>%
+  dplyr::select(eez, eventId, eventType, start, end, lat, lon) 
+
+fishing_events
+```
 
 
-## Contributing
+We can apply `get_region_id()` to the numeric vector to extract the labels:
 
-We welcome all contributions to improve the package! Please read our
-[Contribution Guide](https://github.com/GlobalFishingWatch/gfwr/blob/main/Contributing.md)
-and reach out!
+```{r example_region_id_cont}
+fishing_events %>% 
+  mutate(eez_name = purrr::map_df(as.numeric(fishing_events$eez),
+                                  ~get_region_id(region_name = .x,
+                                                 region_source = "EEZ"))$label) %>% 
+  dplyr::select(-start, -end)
+  
+```

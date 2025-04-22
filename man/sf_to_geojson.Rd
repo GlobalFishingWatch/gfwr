@@ -12,7 +12,7 @@ sf_to_geojson(sf_shape, endpoint = "raster")
 \item{endpoint}{The GFW endpoint destination for the geojson ("raster" or "event")}
 }
 \value{
-A correctly-formatted geojson to be used in \code{get_raster()} or \code{get_event()}
+A correctly-formatted geojson to be used in \code{\link[=get_raster]{get_raster()}} or \code{\link[=get_event]{get_event()}}
 }
 \description{
 Formats an sf shapefile to a formatted geojson

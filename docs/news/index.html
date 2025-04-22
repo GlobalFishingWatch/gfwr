@@ -17,15 +17,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">gfwr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.3</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li>
-  <a href="../articles/gfwr.html">Get started</a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -63,6 +60,28 @@
       <small>Source: <a href="https://github.com/GlobalFishingWatch/gfwr/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="2.0.3" id="gfwr-203">gfwr 2.0.3<a class="anchor" aria-label="anchor" href="#gfwr-203"></a></h2>
+<p>No breaking changes</p>
+<div class="section level3">
+<h3 id="bug-fixes-2-0-3">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-2-0-3"></a></h3>
+<ul><li>
+<code>geartypes</code> and <code>shiptypes</code> will be unnested only when they are returned in the responses–this was causing an error reported in <a href="https://github.com/GlobalFishingWatch/gfwr/issues/193" class="external-link">#193</a></li>
+<li>
+<code><a href="../reference/get_region_id.html">get_region_id()</a></code>:
+<ul><li>MPA, EEZ, RFMO ids are no longer enforced to be numeric, this was causing errors for character and alphanumeric ids in RFMOS and MPAs</li>
+<li>
+<code><a href="../reference/get_region_id.html">get_region_id()</a></code> can now process empty id strings (<code>""</code>) and return <code>NA</code> tibbles instead of returning an error, this allows to process events happening in the high-seas (<a href="https://github.com/GlobalFishingWatch/gfwr/issues/201" class="external-link">#201</a>)</li>
+</ul></li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-improvements-2-0-3">Documentation improvements<a class="anchor" aria-label="anchor" href="#documentation-improvements-2-0-3"></a></h3>
+<ul><li>
+<code><a href="../reference/get_event.html">get_event()</a></code> can receive a string of several <code>vesselIds</code> (not twenty as previously stated). However, requests that are too long in character length will fail with error HTTP <code>422: Unprocessable entity</code>. This means around 2,000 <code>vesselIDs</code> can be sent per request.</li>
+<li>RFMO documentation was improved to clarify that we have the complete list of RFMOs <a href="https://github.com/GlobalFishingWatch/gfwr/issues/194" class="external-link">#194</a></li>
+<li>The readme has more subsections for easier reference and explicit calls to <code><a href="../reference/gfw_auth.html">gfw_auth()</a></code> are no longer suggested.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="2.0.2" id="gfwr-202">gfwr 2.0.2<a class="anchor" aria-label="anchor" href="#gfwr-202"></a></h2>
 <p>Minor updates in documentation, parameter reordering and improving descriptions. No breaking changes.</p>
