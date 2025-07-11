@@ -81,7 +81,7 @@ get_region_id <- function(region_name = NULL,
     dplyr::relocate("id")
 
   if (is.na(region_name) | region_name == "")
-    return(tidyr::tibble(id = NA, label = NA, iso3 = NA, NAME = NA, RFB = NA) %>%
+    return(tidyr::tibble(id = NA, label = NA, iso3 = NA, GEONAME = NA, NAME = NA, RFB = NA) %>%
              dplyr::select(tidyr::all_of(names(result))))
 
 
