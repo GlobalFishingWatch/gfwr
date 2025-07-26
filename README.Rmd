@@ -544,7 +544,8 @@ or iso3 code can be returned. This is especially useful when events are
 returned with regions.
 
 Using the same example with twenty trawlers fishing events, `fishing_events`, 
-you can see the `eez` information is returned as the code `5696`, as characters.
+you can see the `eez` information is returned as the numeric code in the `"eez"` 
+column.
 
 ```{r example_region_id}
 fishing_events <- get_event(event_type = "FISHING",
@@ -568,6 +569,6 @@ fishing_events %>%
   mutate(eez_name = purrr::map_df(as.numeric(fishing_events$eez),
                                   ~get_region_id(region_name = .x,
                                                  region_source = "EEZ"))$label) %>% 
-  dplyr::select(-start, -end)
+  dplyr::relocate(eez, eez_name)
   
 ```

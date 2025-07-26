@@ -11,7 +11,7 @@ A shapefile with a single polygon.
 test_shape
 }
 \description{
-An sf shapefile to show as an example of user-defined GeoJSON in get_event()
-and get_raster()
+An sf shapefile to show as an example of user-defined GeoJSON in \code{\link[=get_event]{get_event()}}
+and \code{\link[=get_raster]{get_raster()}}
 }
 \keyword{datasets}
