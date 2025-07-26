@@ -1,3 +1,15 @@
+# gfwr 2.0.4
+
+July 25 2025
+
+- No breaking changes 
+
+- Adds a new dataset, `marine_regions`, an in-package version of the modified 
+Marine Regions v12 table to retrieve IDs when `region_source = "EEZ"`. 
+- Fixes issue #208 with `marine_regions`. This should not pose any breaking change
+on the user side.
+- Improves documentation for `filter_by` in `get_raster()` (#209)
+
 # gfwr 2.0.3
 
 No  breaking changes 
