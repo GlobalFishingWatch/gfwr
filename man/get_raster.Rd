@@ -41,7 +41,7 @@ YYYY-MM-DD format and excluding this date.}
 \code{"GEARTYPE"}, \code{"FLAGANDGEARTYPE"} or \code{"MMSI"}.}
 
 \item{filter_by}{Fields to filter AIS-based apparent fishing effort. Possible
-options are \code{flag}, \code{geartype} and \code{vessel_id}. Receives SQL expressions like
+options are \code{flag}, \code{shipname}, \code{geartype} and \code{id} (to filter for vessel ids). Receives SQL expressions like
 \code{filter_by = "flag IN ('ESP')"}.}
 
 \item{key}{Character, API token. Defaults to \code{\link[=gfw_auth]{gfw_auth()}}.}
