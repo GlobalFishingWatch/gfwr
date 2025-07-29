@@ -14,6 +14,9 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 badge](https://globalfishingwatch.r-universe.dev/badges/:registry)](https://github.com/r-universe/globalfishingwatch/actions/workflows/sync.yml)
 <!-- badges: end -->
 
+> [!CAUTION]
+> **Posted: July 29th 2025. Temporary delay in data updates**. API and data improvements are scheduled for the week of **4 August 2025**. During this time, our Packages and APIs may not show the latest data. Full updates will resume shortly.
+
 > **Important**  
 > This version of `gfwr` gives access to Global Fishing Watch API
 > [version
