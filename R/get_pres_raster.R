@@ -77,7 +77,7 @@
 #'             key = gfw_auth(),
 #'             print_request = TRUE)
 #' }
-get_raster <- function(spatial_resolution = NULL,
+get_pres_raster <- function(spatial_resolution = NULL,
                        temporal_resolution = NULL,
                        start_date = "2023-01-01",
                        end_date = "2023-12-31",
@@ -88,7 +88,7 @@ get_raster <- function(spatial_resolution = NULL,
                        key = gfw_auth(),
                        print_request = FALSE) {
   date_range <- paste(start_date, end_date, sep = ",")
-  data <- "AIS"
+  data <- "AISpres"
   if (lubridate::interval(
     start = lubridate::date(start_date),
     end = lubridate::date(end_date))/lubridate::days() > 366)
