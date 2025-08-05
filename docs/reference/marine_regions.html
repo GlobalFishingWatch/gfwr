@@ -91,10 +91,15 @@ sovereignty over the territory (<code>ISO_SOV1</code>) or the territories that o
 Joint regime areas, or claim Overlapping claims areas (<code>ISO_SOV1</code>, <code>ISO_SOV2</code>,
 <code>ISO_SOV3</code>).</p>
 <p>The table <code>marine_regions</code> unifies all these ISO markers into a single column without
-modifying the original data, in a reproducible way.</p>
-<p>Likewise, <code>marine_regions</code> also derives a <code>name</code> column from the different
-names and <code>GEONAME</code> columns present in the original dataset.</p>
-<p>The logic for this synthesis can be found in the <code>data-raw/marine_regions.R</code> file.</p>
+modifying the original data, in a reproducible way.</p><ul><li><p>Joint regime and overlapping claims with no ISO receive an <code>NA</code>: <code>iso = NA</code></p></li>
+<li><p>Territories within the 200NM with an ISO receive it: <code>iso = ISO_TER1</code></p></li>
+<li><p>Overlapping claims with an ISO receive it: <code>iso = ISO_TER1</code></p></li>
+<li><p>Territories within the 200NM and no ISO receive the ISO of their mainland: <code>iso = ISO_SOV1</code></p></li>
+</ul><p>Likewise, <code>marine_regions</code> also derives a <code>name</code> column from the different
+names and <code>GEONAME</code> columns present in the original dataset.</p><ul><li><p>Countries and territories within the 200NM EEZs receive their name: <code>name = TERRITORY1</code></p></li>
+<li><p>Overlapping claims with a name receive their name: <code>name = TERRITORY1</code></p></li>
+<li><p>Joint regimes and overlapping claims with no name receive their <code>GEONAME</code>: <code>name = GEONAME</code></p></li>
+</ul><p>The code implementing this synthesis can be found in the <code>data-raw/marine_regions.R</code> file.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

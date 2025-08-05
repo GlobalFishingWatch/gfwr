@@ -222,16 +222,16 @@ degree resolution and grouped by flag State:</p>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 69,557 × 6</span></span></span>
 <span><span class="co">#&gt;      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  42.8 14.2          <span style="text-decoration: underline;">2</span>021 ITA              9                    36.9 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  44.0 13.2          <span style="text-decoration: underline;">2</span>021 ITA              5                     8.3 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  41.9 12.0          <span style="text-decoration: underline;">2</span>021 ITA              7                     9.13</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  42.1 16.1          <span style="text-decoration: underline;">2</span>021 ITA              4                     4.83</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  40.8 14.0          <span style="text-decoration: underline;">2</span>021 ITA              7                    22.4 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  42.1 15.8          <span style="text-decoration: underline;">2</span>021 ITA              4                     5.97</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  41.9 16.3          <span style="text-decoration: underline;">2</span>021 ITA              2                     6.3 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  42.3 15.8          <span style="text-decoration: underline;">2</span>021 ITA              6                     6.76</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  41.3 13.0          <span style="text-decoration: underline;">2</span>021 ITA              5                    11.0 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  39.1  9.19         <span style="text-decoration: underline;">2</span>021 ITA              1                     1.03</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  43.7  13.6         <span style="text-decoration: underline;">2</span>021 ITA              3                     4.92</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  42.2  15.7         <span style="text-decoration: underline;">2</span>021 ITA             10                     9.23</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  40.9  13.9         <span style="text-decoration: underline;">2</span>021 ITA              9                    21.2 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  41.9  16.6         <span style="text-decoration: underline;">2</span>021 ITA              2                     3.14</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  36.1  13           <span style="text-decoration: underline;">2</span>021 ITA              1                     1.12</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  41.0  18.1         <span style="text-decoration: underline;">2</span>021 ITA              2                     2.82</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  43.7  14.1         <span style="text-decoration: underline;">2</span>021 ITA              3                     6.46</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  42.4  14.9         <span style="text-decoration: underline;">2</span>021 ITA              3                     5.56</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  45.2  12.4         <span style="text-decoration: underline;">2</span>021 ITA              1                     0.17</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  42.3  10.6         <span style="text-decoration: underline;">2</span>021 ITA              1                     0.77</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 69,547 more rows</span></span></span></code></pre>
 <p>Because the data includes fishing by all flag states, to make a map
 of all activity, we first need to summarize activity by grid cell.</p>
@@ -287,8 +287,8 @@ effort data within the jurisdiction of the Indian Ocean Tuna Commission
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  -<span style="color: #BB0000;">7.9</span>  54           <span style="text-decoration: underline;">2</span>021 drifting_longli…            4                   7.33</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  26.1  52.6         <span style="text-decoration: underline;">2</span>021 fishing                     2                  11.5 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> -<span style="color: #BB0000;">36.2</span>  42.9         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   2.51</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  -<span style="color: #BB0000;">5.2</span>  47.4         <span style="text-decoration: underline;">2</span>021 drifting_longli…            6                  16.0 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  -<span style="color: #BB0000;">7.2</span>  45.7         <span style="text-decoration: underline;">2</span>021 drifting_longli…            6                  15.7 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  -<span style="color: #BB0000;">7.2</span>  45.7         <span style="text-decoration: underline;">2</span>021 drifting_longli…            6                  15.7 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  -<span style="color: #BB0000;">5.2</span>  47.4         <span style="text-decoration: underline;">2</span>021 drifting_longli…            6                  16.0 </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 106,044 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ abbreviated name: ¹​`Apparent Fishing Hours`</span></span></span></code></pre>
 <p>This time, instead of aggregating all activity, let’s plot the
