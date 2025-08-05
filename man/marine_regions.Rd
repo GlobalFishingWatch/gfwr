@@ -45,11 +45,22 @@ Joint regime areas, or claim Overlapping claims areas (\code{ISO_SOV1}, \code{IS
 
 The table \code{marine_regions} unifies all these ISO markers into a single column without
 modifying the original data, in a reproducible way.
+\itemize{
+\item Joint regime and overlapping claims with no ISO receive an \code{NA}: \code{iso = NA}
+\item Territories within the 200NM with an ISO receive it: \code{iso = ISO_TER1}
+\item Overlapping claims with an ISO receive it: \code{iso = ISO_TER1}
+\item Territories within the 200NM and no ISO receive the ISO of their mainland: \code{iso = ISO_SOV1}
+}
 
 Likewise, \code{marine_regions} also derives a \code{name} column from the different
 names and \code{GEONAME} columns present in the original dataset.
+\itemize{
+\item Countries and territories within the 200NM EEZs receive their name: \code{name = TERRITORY1}
+\item Overlapping claims with a name receive their name: \code{name = TERRITORY1}
+\item Joint regimes and overlapping claims with no name receive their \code{GEONAME}: \code{name = GEONAME}
+}
 
-The logic for this synthesis can be found in the \code{data-raw/marine_regions.R} file.
+The code implementing this synthesis can be found in the \code{data-raw/marine_regions.R} file.
 }
 \references{
 Flanders Marine Institute (2023). Maritime Boundaries Geodatabase: Maritime Boundaries and Exclusive Economic Zones (200NM), version 12. Available online at https://www.marineregions.org/. https://doi.org/10.14284/632

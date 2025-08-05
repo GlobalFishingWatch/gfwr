@@ -1,6 +1,6 @@
 # gfwr 2.0.4
 
-July 25 2025
+Aug 5 2025
 
 - No breaking changes 
 

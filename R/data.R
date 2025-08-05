@@ -34,10 +34,19 @@
 #' The table `marine_regions` unifies all these ISO markers into a single column without
 #' modifying the original data, in a reproducible way.
 #'
+#' - Joint regime and overlapping claims with no ISO receive an `NA`: `iso = NA`
+#' - Territories within the 200NM with an ISO receive it: `iso = ISO_TER1`
+#' - Overlapping claims with an ISO receive it: `iso = ISO_TER1`
+#' - Territories within the 200NM and no ISO receive the ISO of their mainland: `iso = ISO_SOV1`
+#'
 #' Likewise, `marine_regions` also derives a `name` column from the different
 #' names and `GEONAME` columns present in the original dataset.
 #'
-#' The logic for this synthesis can be found in the `data-raw/marine_regions.R` file.
+#' - Countries and territories within the 200NM EEZs receive their name: `name = TERRITORY1`
+#' - Overlapping claims with a name receive their name: `name = TERRITORY1`
+#' - Joint regimes and overlapping claims with no name receive their `GEONAME`: `name = GEONAME`
+#'
+#' The code implementing this synthesis can be found in the `data-raw/marine_regions.R` file.
 #'
 #'
 #' @source Marine Regions https://www.marineregions.org/. https://doi.org/10.14284/632

@@ -16,7 +16,7 @@ mr_name <- mr %>% mutate(name = case_when(
   POL_TYPE == "Joint regime" ~ GEONAME,
   # Overlapping claims that are named keep their name
   POL_TYPE %in% c("Overlapping claim") & stringr::str_detect(string = mr$GEONAME, "claim ") ~ TERRITORY1,
-  # Overlapping claims that are not named are named overlapping claims
+  # Overlapping claims that are not named keep their GEONAME ("Overlapping claim...")
   POL_TYPE %in% c("Overlapping claim") & stringr::str_detect(string = mr$GEONAME, "claim:") ~ GEONAME,
   # Areas belonging to the EEZ of a main country keep their name
   POL_TYPE == "200NM" ~ TERRITORY1)) %>% relocate(name)
