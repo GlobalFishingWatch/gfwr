@@ -88,18 +88,13 @@ get_pres_raster <- function(spatial_resolution = NULL,
                        key = gfw_auth(),
                        print_request = FALSE) {
   date_range <- paste(start_date, end_date, sep = ",")
-  data <- "AISpres"
+  data <- "presence"
   if (lubridate::interval(
     start = lubridate::date(start_date),
     end = lubridate::date(end_date))/lubridate::days() > 366)
     stop("the start and end dates should be apart 366 days or less")
 
-
-  if (data == "AIS") dataset_type = "raster"
-  ## New
-  if (data == "AISpres") dataset_type = "raster_pres"
-  if (data == "SAR") dataset_type = "sar-presence"
-  if (data == "INFRA") dataset_type = "public-fixed-infrastructure-filtered"
+  if (data == "presence") dataset_type = "raster-pres"
 
   # Endpoint
   endpoint <- get_endpoint(
