@@ -4,96 +4,70 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Making maps with `gfwr` • gfwr</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Making maps with `gfwr`">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]--><!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-WXTMN69');</script><!-- End Google Tag Manager -->
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Making maps with `gfwr`">
+<!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-WXTMN69');</script><!-- End Google Tag Manager -->
 </head>
-<body data-spy="scroll" data-target="#toc">
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     <!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WXTMN69" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
-    <div class="container template-article">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">gfwr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.3</span>
-      </span>
-    </div>
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
+    <!-- inserted before the package title in the header ->
+    <a class="navbar-brand me-2" href="../index.html">gfwr</a>
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Articles
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.4</small>
 
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/identity.html">Using `get_vessel_info()`: the basics of vessel identity in `gfwr`</a>
-    </li>
-    <li>
-      <a href="../articles/making-maps.html">Making maps with `gfwr`</a>
-    </li>
+    <!-- inserted before the navbar links -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="active nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="../articles/identity.html">Using get_vessel_info(): the basics of vessel identity in Global Fishing Watch and gfwr</a></li>
+    <li><a class="dropdown-item" href="../articles/making-maps.html">Making maps with `gfwr`</a></li>
   </ul>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/GlobalFishingWatch/gfwr/" class="external-link">
-    <span class="fab fa-github fa-lg"></span>
-
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
+</form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/GlobalFishingWatch/gfwr/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
-<!--/.nav-collapse -->
+
+    <!-- inserted after the navbar links -->
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
+</nav><div class="container template-article">
 
 
 
-      </header><div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Making maps with <code>gfwr</code>
-</h1>
+
+<div class="row">
+  <main id="main" class="col-md-9"><div class="page-header">
+      <img src="../logo.png" class="logo" alt=""><h1>Making maps with `gfwr`</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/GlobalFishingWatch/gfwr/blob/HEAD/vignettes/articles/making-maps.Rmd" class="external-link"><code>vignettes/articles/making-maps.Rmd</code></a></small>
-      <div class="hidden name"><code>making-maps.Rmd</code></div>
-
+      <div class="d-none name"><code>making-maps.Rmd</code></div>
     </div>
 
     
@@ -186,20 +160,20 @@ Area (MPA), or Regional Fisheries Management Organization (RFMO).</p>
 <code class="sourceCode R"><span><span class="va">eez_regions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_regions.html">get_regions</a></span><span class="op">(</span>region_source <span class="op">=</span> <span class="st">'EEZ'</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">eez_regions</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 282 × 3</span></span></span>
-<span><span class="co">#&gt;       id label                                                         iso3 </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">5</span>675 Estonia                                                       EST  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> <span style="text-decoration: underline;">48</span>944 Mayotte                                                       FRA  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> <span style="text-decoration: underline;">50</span>170 Overlapping claim Qatar / Saudi Arabia / United Arab Emirates QAT  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">8</span>475 Cameroon                                                      CMR  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">5</span>676 Finland                                                       FIN  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">8</span>340 Bassas da India                                               FRA  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">8</span>435 Faeroe                                                        DNK  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">8</span>488 Gilbert Islands                                               KIR  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> <span style="text-decoration: underline;">48</span>971 Overlapping claim: Venezuela / Colombia / Dominican Republic  COL  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">8</span>474 Nigeria                                                       NGA  </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 272 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 285 × 5</span></span></span>
+<span><span class="co">#&gt;    iso   label                          id GEONAME                      POL_TYPE</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> ASM   American Samoa               <span style="text-decoration: underline;">8</span>444 United States Exclusive Eco… 200NM   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> SHN   Ascension                    <span style="text-decoration: underline;">8</span>379 British Exclusive Economic … 200NM   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> COK   Cook Islands                 <span style="text-decoration: underline;">8</span>446 New Zealand Exclusive Econo… 200NM   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> FLK   Falkland / Malvinas Islands  <span style="text-decoration: underline;">8</span>389 Overlapping claim Falkland … Overlap…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> PYF   French Polynesia             <span style="text-decoration: underline;">8</span>440 French Exclusive Economic Z… 200NM   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> PCN   Pitcairn                     <span style="text-decoration: underline;">8</span>439 British Exclusive Economic … 200NM   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> SHN   Saint Helena                 <span style="text-decoration: underline;">8</span>380 British Exclusive Economic … 200NM   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> WSM   Samoa                        <span style="text-decoration: underline;">8</span>445 Samoan Exclusive Economic Z… 200NM   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> TON   Tonga                        <span style="text-decoration: underline;">8</span>448 Tongan Exclusive Economic Z… 200NM   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> SHN   Tristan da Cunha             <span style="text-decoration: underline;">8</span>382 British Exclusive Economic … 200NM   </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 275 more rows</span></span></span></code></pre></div>
 <p><code>gfwr</code> also includes the <code><a href="../reference/get_region_id.html">get_region_id()</a></code>
 function to get the <code>label</code> and <code>id</code> for a
 specific region using the <code>region_name</code> argument. For EEZs,
@@ -223,10 +197,10 @@ later). We could look up the Italian EEZ <code>id</code> in the
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Use get_region_id function to get EEZ code for Italy</span></span>
 <span><span class="va">ita_eez_code</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_region_id.html">get_region_id</a></span><span class="op">(</span>region_name <span class="op">=</span> <span class="st">"ITA"</span>, region_source <span class="op">=</span> <span class="st">"EEZ"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
-<span><span class="co">#&gt;      id label iso3 </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">5</span>682 Italy ITA</span></span></code></pre>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
+<span><span class="co">#&gt;   iso3  label    id GEONAME                         POL_TYPE</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ITA   Italy  <span style="text-decoration: underline;">5</span>682 Italian Exclusive Economic Zone 200NM</span></span></code></pre>
 <p>The <code><a href="../reference/get_raster.html">get_raster()</a></code> function allows users to specify
 multiple criteria to customize the data they download, including the
 date range, spatial and temporal resolution, and grouping variables. See
@@ -245,20 +219,20 @@ degree resolution and grouped by flag State:</p>
 <span>  region <span class="op">=</span> <span class="va">ita_eez_code</span><span class="op">$</span><span class="va">id</span>,</span>
 <span>  region_source <span class="op">=</span> <span class="st">"EEZ"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 69,412 × 6</span></span></span>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 69,557 × 6</span></span></span>
 <span><span class="co">#&gt;      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  42.8 14.2          <span style="text-decoration: underline;">2</span>021 ITA             10                    32.8 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  44.0 13.2          <span style="text-decoration: underline;">2</span>021 ITA              4                     7.18</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  41.9 12.0          <span style="text-decoration: underline;">2</span>021 ITA              6                     8.9 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  42.1 16.1          <span style="text-decoration: underline;">2</span>021 ITA              3                     2.69</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  40.8 14.0          <span style="text-decoration: underline;">2</span>021 ITA              6                    42.8 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  41.9 16.3          <span style="text-decoration: underline;">2</span>021 ITA              2                     6.3 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  42.1 15.8          <span style="text-decoration: underline;">2</span>021 ITA              6                     7.03</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  42.3 15.8          <span style="text-decoration: underline;">2</span>021 ITA              6                     7.86</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  41.3 13.0          <span style="text-decoration: underline;">2</span>021 ITA              7                    12.3 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  39.1  9.19         <span style="text-decoration: underline;">2</span>021 ITA              1                     1.03</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 69,402 more rows</span></span></span></code></pre>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  43.7  13.6         <span style="text-decoration: underline;">2</span>021 ITA              3                     4.92</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  42.2  15.7         <span style="text-decoration: underline;">2</span>021 ITA             10                     9.23</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  40.9  13.9         <span style="text-decoration: underline;">2</span>021 ITA              9                    21.2 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  41.9  16.6         <span style="text-decoration: underline;">2</span>021 ITA              2                     3.14</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  36.1  13           <span style="text-decoration: underline;">2</span>021 ITA              1                     1.12</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  41.0  18.1         <span style="text-decoration: underline;">2</span>021 ITA              2                     2.82</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  43.7  14.1         <span style="text-decoration: underline;">2</span>021 ITA              3                     6.46</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  42.4  14.9         <span style="text-decoration: underline;">2</span>021 ITA              3                     5.56</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  45.2  12.4         <span style="text-decoration: underline;">2</span>021 ITA              1                     0.17</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  42.3  10.6         <span style="text-decoration: underline;">2</span>021 ITA              1                     0.77</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 69,547 more rows</span></span></span></code></pre>
 <p>Because the data includes fishing by all flag states, to make a map
 of all activity, we first need to summarize activity by grid cell.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
@@ -302,20 +276,20 @@ effort data within the jurisdiction of the Indian Ocean Tuna Commission
 <span>  region <span class="op">=</span> <span class="st">"IOTC"</span>,</span>
 <span>  region_source <span class="op">=</span> <span class="st">"RFMO"</span></span>
 <span>  <span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 98,457 × 6</span></span></span>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 106,054 × 6</span></span></span>
 <span><span class="co">#&gt;      Lat   Lon `Time Range` geartype         `Vessel IDs` Apparent Fishing Hou…¹</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> -<span style="color: #BB0000;">38.4</span>  22.3         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   1.08</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  -<span style="color: #BB0000;">7.6</span>  47.8         <span style="text-decoration: underline;">2</span>021 drifting_longli…            8                  40.8 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  -<span style="color: #BB0000;">8</span>    79.8         <span style="text-decoration: underline;">2</span>021 drifting_longli…            2                   5.72</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  -<span style="color: #BB0000;">7.6</span>  47.8         <span style="text-decoration: underline;">2</span>021 drifting_longli…            8                  38.2 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  -<span style="color: #BB0000;">8</span>    79.8         <span style="text-decoration: underline;">2</span>021 drifting_longli…            2                   5.72</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> -<span style="color: #BB0000;">36.4</span> 137.          <span style="text-decoration: underline;">2</span>021 inconclusive                5                  19.0 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  -<span style="color: #BB0000;">9</span>    65.6         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   0.27</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  -<span style="color: #BB0000;">7.1</span>  40.9         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   0.45</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  -<span style="color: #BB0000;">7.9</span>  54           <span style="text-decoration: underline;">2</span>021 drifting_longli…            3                   7.89</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  26.1  52.6         <span style="text-decoration: underline;">2</span>021 fishing                     1                   9.61</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  -<span style="color: #BB0000;">7.1</span>  40.9         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   1.49</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  -<span style="color: #BB0000;">7.9</span>  54           <span style="text-decoration: underline;">2</span>021 drifting_longli…            4                   7.33</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  26.1  52.6         <span style="text-decoration: underline;">2</span>021 fishing                     2                  11.5 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> -<span style="color: #BB0000;">36.2</span>  42.9         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   2.51</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  -<span style="color: #BB0000;">5.2</span>  47.4         <span style="text-decoration: underline;">2</span>021 drifting_longli…            6                  16.8 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  -<span style="color: #BB0000;">7.2</span>  45.7         <span style="text-decoration: underline;">2</span>021 drifting_longli…            6                  18.0 </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 98,447 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  -<span style="color: #BB0000;">7.2</span>  45.7         <span style="text-decoration: underline;">2</span>021 drifting_longli…            6                  15.7 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  -<span style="color: #BB0000;">5.2</span>  47.4         <span style="text-decoration: underline;">2</span>021 drifting_longli…            6                  16.0 </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 106,044 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ abbreviated name: ¹​`Apparent Fishing Hours`</span></span></span></code></pre>
 <p>This time, instead of aggregating all activity, let’s plot the
 activity of a specific gear type:</p>
@@ -406,7 +380,7 @@ example.</p>
 <span>                           end_date <span class="op">=</span> <span class="va">end_date</span>,</span>
 <span>                           region <span class="op">=</span> <span class="st">"IOTC"</span>,</span>
 <span>                           region_source <span class="op">=</span> <span class="st">"RFMO"</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; [1] "Downloading 146 events from GFW"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "Downloading 182 events from GFW"</span></span></code></pre></div>
 <p>Encounters events have two rows per event to represent both vessels.
 Because each row shares the same event ID (<code>eventId</code>), we can
 extract the <code>eventId</code> and select one row per
@@ -496,7 +470,7 @@ vessels</p>
 <span>                          end_date <span class="op">=</span> <span class="va">end_date</span>,</span>
 <span>                          region <span class="op">=</span> <span class="va">my_shp</span>,</span>
 <span>                          region_source <span class="op">=</span> <span class="st">"USER_SHAPEFILE"</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; [1] "Downloading 4129 events from GFW"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "Downloading 4119 events from GFW"</span></span></code></pre></div>
 <p>and loitering events by refrigerated cargo vessels</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_loitering_events_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_event.html">get_event</a></span><span class="op">(</span>event_type <span class="op">=</span> <span class="st">"LOITERING"</span>,</span>
@@ -553,29 +527,22 @@ loitering events and port visits.</p>
 <span>  <span class="va">map_theme</span></span></code></pre></div>
 <p><img src="making-maps_files/figure-html/loitering_ports_fishing_map-1.png" alt="Apparent fishing hours in the area of interest around Ecuador, Peru and the  north of Chile, in yellow, red dots indicating loitering events and blue dots indicating port visits." width="90%" style="display: block; margin: auto;"></p>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-
-      </div>
-
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
 
-      <footer><div class="copyright">
-  <p></p>
-<p>Developed by Tyler Clavelle, Rocío Joo, Nate Miller, Andrea Sánchez-Tapia.</p>
+    <footer><div class="pkgdown-footer-left">
+  <p>Developed by Tyler Clavelle, Rocío Joo, Nate Miller, Andrea Sánchez-Tapia.</p>
 </div>
 
-<div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+<div class="pkgdown-footer-right">
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
-
 
 
 

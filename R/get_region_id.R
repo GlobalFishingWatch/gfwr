@@ -33,7 +33,11 @@ get_regions <- function(region_source = "EEZ",
       httr2::req_perform(.) %>%
       httr2::resp_body_json(.) %>%
       dplyr::bind_rows()
-
+    if (region_source == "EEZ") {
+      result <- marine_regions %>%
+        dplyr::rename(id = MRGID,
+               label = name)
+    }
     return(result)
   }
 }
@@ -79,9 +83,15 @@ get_region_id <- function(region_name = NULL,
     httr2::resp_body_json(.) %>%
     dplyr::bind_rows() %>%
     dplyr::relocate("id")
+  if (region_source == "EEZ") {
+    result <- marine_regions %>%
+      dplyr::rename(id = MRGID,
+                    label = name,
+                    iso3 = iso)
+  }
 
   if (is.na(region_name) | region_name == "")
-    return(tidyr::tibble(id = NA, label = NA, iso3 = NA, NAME = NA, RFB = NA) %>%
+    return(tidyr::tibble(id = NA, label = NA, iso3 = NA, GEONAME = NA, NAME = NA, RFB = NA, POL_TYPE = NA) %>%
              dplyr::select(tidyr::all_of(names(result))))
 
 

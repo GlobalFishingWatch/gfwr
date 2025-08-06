@@ -7,3 +7,4 @@ gfwr.Rcheck/
 gfwr*.tar.gz
 gfwr*.tgz
 inst/doc
+data-raw/World_EEZ_v12_20231025_gpkg

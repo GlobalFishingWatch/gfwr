@@ -1,6 +1,6 @@
 Package: gfwr
 Title: Access data from Global Fishing Watch APIs
-Version: 2.0.3
+Version: 2.0.4
 Authors@R: c(
     person("Tyler", "Clavelle", , "tyler@globalfishingwatch.org", role = c("aut"),
            comment = c(ORCID = "0000-0002-2155-2459")),
@@ -47,5 +47,5 @@ Suggests:
 URL: https://github.com/GlobalFishingWatch/gfwr, https://globalfishingwatch.github.io/gfwr/
 BugReports: https://github.com/GlobalFishingWatch/gfwr/issues
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5)
 LazyData: true

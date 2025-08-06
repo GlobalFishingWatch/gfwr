@@ -16,7 +16,7 @@
 #' @param group_by Optional. Parameter to group by. Can be `"VESSEL_ID"`, `"FLAG"`,
 #' `"GEARTYPE"`, `"FLAGANDGEARTYPE"` or `"MMSI"`.
 #' @param filter_by Fields to filter AIS-based apparent fishing effort. Possible
-#' options are `flag`, `geartype` and `vessel_id`. Receives SQL expressions like
+#' options are `flag`, `shipname`, `geartype` and `id` (to filter for vessel ids). Receives SQL expressions like
 #' `filter_by = "flag IN ('ESP')"`.
 #' @param key Character, API token. Defaults to [gfw_auth()].
 #' @param print_request Boolean. Whether to print the request, for debugging
