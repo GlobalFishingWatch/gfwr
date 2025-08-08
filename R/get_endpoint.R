@@ -12,6 +12,7 @@
 get_endpoint <- function(dataset_type,
                          ...) {
 
+
   # API endpoint specific parameters from ...
   args <- list(...)
   for (i in seq_len(length(args))) {
@@ -30,7 +31,6 @@ get_endpoint <- function(dataset_type,
   }
 
 
-
   # API datasets to pass to param list
   api_datasets <- c(
     'PORT_VISIT' = "public-global-port-visits-c2-events:latest",
@@ -45,11 +45,12 @@ get_endpoint <- function(dataset_type,
   )
 
   base <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/")
-
+  print(dataset_type)
   # Get dataset ID for selected API
   if (!dataset_type %in% c('EEZ', 'MPA', 'RFMO')) {
     dataset <- api_datasets[[dataset_type]]
   }
+
 
   # Modify base URL with query parameters
   if (dataset_type %in% c("PORT_VISIT", 'FISHING', 'ENCOUNTER','LOITERING', "GAP")) {
