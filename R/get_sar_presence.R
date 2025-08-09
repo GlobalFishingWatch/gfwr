@@ -1,4 +1,4 @@
-#' Retrieve vessel presence from AIS data and convert response to tibble
+#' Retrieve vessel presence detected using SAR and convert response to tibble
 #'
 #' @param spatial_resolution Raster spatial resolution. Can be `"LOW"` (0.1 degree)
 #'  or `"HIGH"` (0.01 degree).
@@ -42,7 +42,7 @@
 #' library(gfwr)
 #' # using region codes
 #' code_eez <- get_region_id(region_name = "CIV", region_source = "EEZ")
-#' get_ais_presence(spatial_resolution = "LOW",
+#' get_sar_presence(spatial_resolution = "LOW",
 #'            temporal_resolution = "YEARLY",
 #'            group_by = "FLAG",
 #'            start_date = "2021-01-01",
@@ -52,7 +52,7 @@
 #'            key = gfw_auth(),
 #'            print_request = TRUE)
 #' code_mpa <- get_region_id(region_name = "Galapagos", region_source = "MPA")
-#' get_ais_presence(spatial_resolution = "LOW",
+#' get_sar_presence(spatial_resolution = "LOW",
 #'            temporal_resolution = "MONTHLY",
 #'            group_by = "FLAG",
 #'            start_date = "2022-01-01",
@@ -60,7 +60,7 @@
 #'            region = code_mpa$id[3],
 #'            region_source = "MPA")
 #' code_rfmo <- get_region_id(region_name = "IATTC", region_source = "RFMO")
-#' get_raster(spatial_resolution = "LOW",
+#' get_sar_presence(spatial_resolution = "LOW",
 #'            temporal_resolution = "MONTHLY",
 #'            start_date = "2022-01-01",
 #'            end_date = "2023-01-01",
@@ -68,7 +68,7 @@
 #'            region_source = "RFMO")
 #' #using a sf from disk /loading a test sf object
 #' data(test_shape)
-#' get_ais_presence(spatial_resolution = "LOW",
+#' get_sar_presence(spatial_resolution = "LOW",
 #'             temporal_resolution = "YEARLY",
 #'             start_date = "2021-01-01",
 #'             end_date = "2021-10-01",
@@ -77,7 +77,7 @@
 #'             key = gfw_auth(),
 #'             print_request = TRUE)
 #' }
-get_ais_presence <- function(
+get_sar_presence <- function(
          spatial_resolution = NULL,
          temporal_resolution = NULL,
          start_date = NULL,
@@ -89,8 +89,8 @@ get_ais_presence <- function(
          key = gfw_auth(),
          print_request = FALSE)
 {
-  ais_presence <- get_raster(
-    api_data = "AISpres",
+  sar_presence <- get_raster(
+    api_data = "SAR",
     spatial_resolution = spatial_resolution,
     temporal_resolution = temporal_resolution,
     start_date = start_date,
@@ -101,5 +101,5 @@ get_ais_presence <- function(
     filter_by = filter_by,
     key = gfw_auth(),
     print_request = print_request)
-  return(ais_presence)
+  return(sar_presence)
 }

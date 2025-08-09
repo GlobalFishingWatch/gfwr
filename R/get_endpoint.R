@@ -45,7 +45,6 @@ get_endpoint <- function(dataset_type,
   )
 
   base <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/")
-  print(dataset_type)
   # Get dataset ID for selected API
   if (!dataset_type %in% c('EEZ', 'MPA', 'RFMO')) {
     dataset <- api_datasets[[dataset_type]]

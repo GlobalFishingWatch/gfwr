@@ -1,3 +1,7 @@
+#' ##############################
+#' ## This has to be corrected ##
+#' ##############################
+#'
 #' Retrieve apparent fishing effort and convert response to tibble
 #'
 #' @param spatial_resolution Raster spatial resolution. Can be `"LOW"` (0.1 degree)
@@ -97,10 +101,10 @@ get_raster <- function(api_data = "AIS",
 
 
   if (data == "AIS") dataset_type = "raster"
-  ## New
   if (data == "AISpres") dataset_type = "raster-pres"
   if (data == "SAR") dataset_type = "sar-presence"
   if (data == "INFRA") dataset_type = "public-fixed-infrastructure-filtered"
+  #if (data == "SARinfra") dataset_type = "sar-infra"
 
   # Endpoint
   endpoint <- get_endpoint(
