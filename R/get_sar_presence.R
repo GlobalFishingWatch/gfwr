@@ -74,7 +74,6 @@
 #'             end_date = "2021-10-01",
 #'             region = test_shape,
 #'             region_source = "USER_SHAPEFILE",
-#'             key = gfw_auth(),
 #'             print_request = TRUE)
 #' }
 get_sar_presence <- function(
@@ -87,10 +86,9 @@ get_sar_presence <- function(
          group_by = NULL,
          filter_by = NULL,
          key = gfw_auth(),
-         print_request = FALSE)
-{
+         print_request = FALSE) {
   sar_presence <- get_raster(
-    api_data = "SAR",
+    api_endpoint = "SAR",
     spatial_resolution = spatial_resolution,
     temporal_resolution = temporal_resolution,
     start_date = start_date,

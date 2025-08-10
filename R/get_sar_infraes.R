@@ -49,7 +49,6 @@
 #'            end_date = "2022-01-01",
 #'            region = code_eez$id,
 #'            region_source = "EEZ",
-#'            key = gfw_auth(),
 #'            print_request = TRUE)
 #' code_mpa <- get_region_id(region_name = "Galapagos", region_source = "MPA")
 #' get_sar_infraes(spatial_resolution = "LOW",
@@ -95,7 +94,7 @@ get_sar_infraes <- function(
          print_request = FALSE)
 {
   sar_infraes <- get_raster(
-    api_data = "SARinfra",
+    api_endpoint = "SARinfra",
     spatial_resolution = spatial_resolution,
     temporal_resolution = temporal_resolution,
     start_date = start_date,

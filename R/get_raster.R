@@ -4,6 +4,7 @@
 #'
 #' Retrieve apparent fishing effort and convert response to tibble
 #'
+#' @param api_endpoint API endpoint
 #' @param spatial_resolution Raster spatial resolution. Can be `"LOW"` (0.1 degree)
 #'  or `"HIGH"` (0.01 degree).
 #' @param temporal_resolution Raster temporal resolution. Can be `"HOURLY"`,
@@ -81,7 +82,7 @@
 #'             key = gfw_auth(),
 #'             print_request = TRUE)
 #' }
-get_raster <- function(api_data = "AIS",
+get_raster <- function(api_endpoint = "AIS",
                        spatial_resolution = NULL,
                        temporal_resolution = NULL,
                        start_date = "2023-01-01",
@@ -93,7 +94,7 @@ get_raster <- function(api_data = "AIS",
                        key = gfw_auth(),
                        print_request = FALSE) {
   date_range <- paste(start_date, end_date, sep = ",")
-  data <- api_data
+  data <- api_endpoint
   if (lubridate::interval(
     start = lubridate::date(start_date),
     end = lubridate::date(end_date))/lubridate::days() > 366)

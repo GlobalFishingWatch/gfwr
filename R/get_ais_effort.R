@@ -49,7 +49,6 @@
 #'            end_date = "2022-01-01",
 #'            region = code_eez$id,
 #'            region_source = "EEZ",
-#'            key = gfw_auth(),
 #'            print_request = TRUE)
 #' code_mpa <- get_region_id(region_name = "Galapagos", region_source = "MPA")
 #' get_ais_effort(spatial_resolution = "LOW",
@@ -74,7 +73,6 @@
 #'             end_date = "2021-10-01",
 #'             region = test_shape,
 #'             region_source = "USER_SHAPEFILE",
-#'             key = gfw_auth(),
 #'             print_request = TRUE)
 #' }
 get_ais_effort <- function(
@@ -90,7 +88,7 @@ get_ais_effort <- function(
          print_request = FALSE)
 {
   ais_effort <- get_raster(
-    api_data = "AIS",
+    api_endpoint = "AIS",
     spatial_resolution = spatial_resolution,
     temporal_resolution = temporal_resolution,
     start_date = start_date,

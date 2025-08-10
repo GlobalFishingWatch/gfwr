@@ -59,9 +59,9 @@
 #'            end_date = "2023-01-01",
 #'            region = code_mpa$id[3],
 #'            region_source = "MPA")
-#' code_rfmo <- get_region_id(region_name = "IATTC", region_source = "RFMO")
-#' get_raster(spatial_resolution = "LOW",
-#'            temporal_resolution = "MONTHLY",
+#' code_rfmo <- get_region_id(region_name = "GFCM", region_source = "RFMO")
+#' get_ais_presence(spatial_resolution = "LOW",
+#'            temporal_resolution = "YEARLY",
 #'            start_date = "2022-01-01",
 #'            end_date = "2023-01-01",
 #'            region = code_rfmo$id[1],
@@ -90,7 +90,7 @@ get_ais_presence <- function(
          print_request = FALSE)
 {
   ais_presence <- get_raster(
-    api_data = "AISpres",
+    api_endpoint = "AISpres",
     spatial_resolution = spatial_resolution,
     temporal_resolution = temporal_resolution,
     start_date = start_date,
