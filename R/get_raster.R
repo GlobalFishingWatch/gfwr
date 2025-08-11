@@ -1,5 +1,10 @@
+#' ##############################
+#' ## This has to be corrected ##
+#' ##############################
+#'
 #' Retrieve apparent fishing effort and convert response to tibble
 #'
+#' @param api_endpoint API endpoint
 #' @param spatial_resolution Raster spatial resolution. Can be `"LOW"` (0.1 degree)
 #'  or `"HIGH"` (0.01 degree).
 #' @param temporal_resolution Raster temporal resolution. Can be `"HOURLY"`,
@@ -77,7 +82,8 @@
 #'             key = gfw_auth(),
 #'             print_request = TRUE)
 #' }
-get_raster <- function(spatial_resolution = NULL,
+get_raster <- function(api_endpoint = "AIS",
+                       spatial_resolution = NULL,
                        temporal_resolution = NULL,
                        start_date = "2023-01-01",
                        end_date = "2023-12-31",
@@ -88,7 +94,7 @@ get_raster <- function(spatial_resolution = NULL,
                        key = gfw_auth(),
                        print_request = FALSE) {
   date_range <- paste(start_date, end_date, sep = ",")
-  data <- "AIS"
+  data <- api_endpoint
   if (lubridate::interval(
     start = lubridate::date(start_date),
     end = lubridate::date(end_date))/lubridate::days() > 366)
@@ -96,8 +102,10 @@ get_raster <- function(spatial_resolution = NULL,
 
 
   if (data == "AIS") dataset_type = "raster"
+  if (data == "AISpres") dataset_type = "raster-pres"
   if (data == "SAR") dataset_type = "sar-presence"
   if (data == "INFRA") dataset_type = "public-fixed-infrastructure-filtered"
+  #if (data == "SARinfra") dataset_type = "sar-infra"
 
   # Endpoint
   endpoint <- get_endpoint(

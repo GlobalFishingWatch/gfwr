@@ -12,6 +12,7 @@
 get_endpoint <- function(dataset_type,
                          ...) {
 
+
   # API endpoint specific parameters from ...
   args <- list(...)
   for (i in seq_len(length(args))) {
@@ -30,7 +31,6 @@ get_endpoint <- function(dataset_type,
   }
 
 
-
   # API datasets to pass to param list
   api_datasets <- c(
     'PORT_VISIT' = "public-global-port-visits-c2-events:latest",
@@ -39,16 +39,17 @@ get_endpoint <- function(dataset_type,
     'FISHING' = "public-global-fishing-events:latest",
     'GAP' = "public-global-gaps-events:latest",
     'raster' = "public-global-fishing-effort:latest",
+    'raster-pres' = "public-global-presence:latest", ## New
     'sar-presence' = "public-global-sar-presence:latest",
     'sar-infra' = "public-fixed-infrastructure-filtered:latest"
   )
 
   base <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/")
-
   # Get dataset ID for selected API
   if (!dataset_type %in% c('EEZ', 'MPA', 'RFMO')) {
     dataset <- api_datasets[[dataset_type]]
   }
+
 
   # Modify base URL with query parameters
   if (dataset_type %in% c("PORT_VISIT", 'FISHING', 'ENCOUNTER','LOITERING', "GAP")) {
@@ -59,7 +60,7 @@ get_endpoint <- function(dataset_type,
       httr2::req_url_path_append('events') %>%
       httr2::req_url_query(!!!args)
 
-  } else if (dataset_type %in% c('raster', 'sar-presence')) {
+  } else if (dataset_type %in% c('raster', 'raster-pres', 'sar-presence')) {
 
     args <- c(`datasets[0]` = dataset, args)
     endpoint <- base %>%
