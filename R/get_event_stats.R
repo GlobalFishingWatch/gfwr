@@ -136,6 +136,11 @@ get_event_stats <- function(event_type,
     encounter_types <- list("encounterTypes" = encounter_types)
     body_args <- c(body_args, encounter_types)
   }
+  # flags
+  if (!is.null(flags)) {
+    flags <- list("flags" = flags)
+    body_args <- c(body_args, flags)
+  }
   # duration
   if (!is.null(duration)) {
     duration <- list(duration = jsonlite::unbox(duration))
@@ -149,7 +154,7 @@ get_event_stats <- function(event_type,
     'FISHING' = "public-global-fishing-events:latest",
     'GAP' = "public-global-gaps-events:latest",
     'LOITERING' = "public-global-loitering-events:latest",
-    'PORT_VISIT' = "public-global-port-visits-c2-events:latest"
+    'PORT VISIT' = "public-global-port-visits-c2-events:latest"
   )
 
   # Modify base URL with query parameters
@@ -230,7 +235,7 @@ get_event_stats <- function(event_type,
 
     #
     if (quiet == FALSE) {
-      print(paste("There are", df_out$numEvents, "events for ", df_out$numVessels, " vessels from ", df_out$numFlags, "flag(s) in the selected area in the Global Fishing Watch database"))
+      print(paste("There are", df_out$numEvents, tolower(event_type), "events for ", df_out$numVessels, " vessels from ", df_out$numFlags, "flag(s) in the selected area in the Global Fishing Watch database"))
     }
   } else {
     if (quiet == FALSE) {
