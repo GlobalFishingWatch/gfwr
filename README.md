@@ -15,9 +15,8 @@ badge](https://globalfishingwatch.r-universe.dev/badges/:registry)](https://gith
 <!-- badges: end -->
 
 > [!CAUTION]  
-> **Posted: Aug 5th 2025. Temporary delay in data updates**. We started
-> a migration process that impacts API and data. During the following 2
-> to 3 weeks, our Packages and APIs may not show the latest data.
+> **Posted: Aug 26th 2025. Data update finished** The data delay announcement 
+> posted on Aug 5th is no longer in place. **Our packages and API are showing the latest data**.
 
 > **Important**  
 > This version of `gfwr` gives access to Global Fishing Watch API
