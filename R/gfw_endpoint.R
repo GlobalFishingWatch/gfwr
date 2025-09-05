@@ -9,7 +9,7 @@
 #' @importFrom httr2 req_url_query
 #' @keywords internal
 
-get_endpoint <- function(dataset_type,
+gfw_endpoint <- function(dataset_type,
                          ...) {
 
 
@@ -98,7 +98,7 @@ get_endpoint <- function(dataset_type,
 #' @keywords internal
 #' @param ... Other arguments that would depend on the dataset type.
 
-get_identity_endpoint <- function(dataset_type,
+gfw_identity_endpoint <- function(dataset_type,
                                   search_type,
                                   ids,
                                   ...) {

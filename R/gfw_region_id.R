@@ -13,20 +13,20 @@
 #' @importFrom httr2 req_error
 #' @importFrom httr2 req_user_agent
 #' @importFrom httr2 resp_body_json
-#' @seealso [get_region_id()]
+#' @seealso [gfw_region_id()]
 #' @examples
 #' \dontrun{
-#' get_regions(region_source = "EEZ")
-#' get_regions(region_source = "RFMO")
-#' get_regions(region_source = "MPA")
+#' gfw_regions(region_source = "EEZ")
+#' gfw_regions(region_source = "RFMO")
+#' gfw_regions(region_source = "MPA")
 #' }
-get_regions <- function(region_source = "EEZ",
+gfw_regions <- function(region_source = "EEZ",
                         key = gfw_auth()) {
 
   if (!toupper(region_source) %in% c("EEZ", "MPA", "RFMO")) {
     stop('Enter a valid region source ("EEZ", "MPA", or "RFMO"')
   } else {
-    result <- get_endpoint(dataset_type = region_source) %>%
+    result <- gfw_endpoint(dataset_type = region_source) %>%
       httr2::req_headers(Authorization = paste("Bearer", key, sep = " ")) %>%
       httr2::req_user_agent(gfw_user_agent()) %>%
       # httr2::req_error(body = parse_response_error) %>%
@@ -43,11 +43,11 @@ get_regions <- function(region_source = "EEZ",
 }
 
 #' Function to pull region code using region name and viceversa
-#' @name get_region_id
+#' @name gfw_region_id
 #' @param region_name Character or numeric EEZ MPA or RFMO name or id.
 #' @param region_source Character, source of region data, `"EEZ"`, `"MPA"` or `"RFMO"`.
 #' @param key Character, API token. Defaults to `gfw_auth()`.
-#' @return For `get_region_id()`, the corresponding code, region names or iso code
+#' @return For `gfw_region_id()`, the corresponding code, region names or iso code
 #' for the EEZ, MPA or RFMO label
 #' @importFrom dplyr filter
 #' @importFrom dplyr bind_rows
@@ -56,26 +56,26 @@ get_regions <- function(region_source = "EEZ",
 #' @importFrom httr2 req_error
 #' @importFrom httr2 req_user_agent
 #' @importFrom httr2 resp_body_json
-#' @seealso [get_regions()]
+#' @seealso [gfw_regions()]
 #' @export
 #' @examples
 #' \dontrun{
-#' get_region_id(region_name = "COL", region_source = "EEZ")
-#' get_region_id(region_name = "Colombia", region_source = "EEZ")
-#' get_region_id(region_name = "Nazca", region_source = "MPA")
-#' get_region_id(region_name = "IOTC", region_source = "RFMO")
-#' get_region_id(region_name = 8456, region_source = "EEZ")
+#' gfw_region_id(region_name = "COL", region_source = "EEZ")
+#' gfw_region_id(region_name = "Colombia", region_source = "EEZ")
+#' gfw_region_id(region_name = "Nazca", region_source = "MPA")
+#' gfw_region_id(region_name = "IOTC", region_source = "RFMO")
+#' gfw_region_id(region_name = 8456, region_source = "EEZ")
 #' # Handling empty strings (high-seas)
-#' get_region_id(region_name = "", region_source = "EEZ")
-#' get_region_id(region_name = NA, region_source = "EEZ")
-#' get_region_id(region_name = NA, region_source = "MPA")
+#' gfw_region_id(region_name = "", region_source = "EEZ")
+#' gfw_region_id(region_name = NA, region_source = "EEZ")
+#' gfw_region_id(region_name = NA, region_source = "MPA")
 #' }
-get_region_id <- function(region_name = NULL,
+gfw_region_id <- function(region_name = NULL,
                           region_source = "EEZ",
                           key = gfw_auth()) {
   if (!region_source %in% c("EEZ", "MPA", "RFMO")) stop("Enter valid region source")
 
-  result <- get_endpoint(dataset_type = region_source) %>%
+  result <- gfw_endpoint(dataset_type = region_source) %>%
     httr2::req_headers(Authorization = paste("Bearer", key, sep = " ")) %>%
     httr2::req_user_agent(gfw_user_agent()) %>%
     #httr2::req_error(body = parse_response_error) %>%

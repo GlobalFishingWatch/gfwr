@@ -46,29 +46,37 @@
 #' @examples
 #' \dontrun{
 #' library(gfwr)
+#'
 #' # Simple searches, using includes
-#' get_vessel_info(query = 224224000, search_type = "search",
-#' key = gfw_auth())
+#'
+#' gfw_vessel_info(query = 224224000, search_type = "search")
+#'
 #' # Advanced search with where instead of query:
-#' get_vessel_info(where = "ssvid = '441618000' OR imo = '9047271'",
-#' search_type = "search", key = gfw_auth())
+#'
+#' gfw_vessel_info(where = "ssvid = '441618000' OR imo = '9047271'",
+#' search_type = "search")
+#'
 #'  # Vessel id search
-#'  get_vessel_info(search_type = "id",
+#'
+#'  gfw_vessel_info(search_type = "id",
 #'  ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01",
-#'  "6583c51e3-3626-5638-866a-f47c3bc7ef7c"), key = gfw_auth())
-#'  all <- get_vessel_info(search_type = "id",
+#'  "6583c51e3-3626-5638-866a-f47c3bc7ef7c"))
+#'
+#'  all <- gfw_vessel_info(search_type = "id",
 #'  ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
-#'  registries_info_data = c("ALL"), key = gfw_auth())
-#'  none <- get_vessel_info(search_type = "id",
+#'  registries_info_data = c("ALL"))
+#'
+#'  none <- gfw_vessel_info(search_type = "id",
 #'  ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
-#'  registries_info_data = c("NONE"), key = gfw_auth())
-#'  delta <- get_vessel_info(search_type = "id",
+#'  registries_info_data = c("NONE"))
+#'
+#'  delta <- gfw_vessel_info(search_type = "id",
 #'  ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
-#'  registries_info_data = c("DELTA"),
-#'  key = gfw_auth())
+#'  registries_info_data = c("DELTA"))
+#'
 #'  }
 #' @export
-get_vessel_info <- function(query = NULL,
+gfw_vessel_info <- function(query = NULL,
                             where = NULL,
                             search_type = "search",
                             ids = NULL,
@@ -87,7 +95,7 @@ get_vessel_info <- function(query = NULL,
     search_type <- "search"
   }
 
-  #endpoint <- get_identity_endpoint(
+  #endpoint <- gfw_identity_endpoint(
     #search_type = search_type,
     #includes = includes,
     #limit = 99999,

@@ -1,7 +1,7 @@
 #' A sample shapefile
 #'
-#' An sf shapefile to show as an example of user-defined GeoJSON in [get_event()]
-#' and [get_raster()]
+#' An sf shapefile to show as an example of user-defined GeoJSON in [gfw_event()],
+#' [gfw_ais_fishing_hours()], [gfw_ais_presence()], and [gfw_sar_presence()]
 #'
 #' @format A shapefile with a single polygon.
 "test_shape"
@@ -9,7 +9,7 @@
 #' Simplified Marine Regions v12 dataset
 #'
 #'A tibble with the ISO codes and names derived from
-#' Marine Regions v12, to be used by [get_regions()] and [get_region_id()] to
+#' Marine Regions v12, to be used by [gfw_regions()] and [gfw_region_id()] to
 #' extract numeric EEZ codes (`MRGID`)
 #'
 #' @details
@@ -22,7 +22,7 @@
 #' is necessary to retrieve apparent fishing effort data and all event types
 #' from other `gfwr` functions when `region_source = "EEZ"`
 #'
-#' Functions [get_region_id()] and [get_regions()] facilitate fetching region ids
+#' Functions [gfw_region_id()] and [gfw_regions()] facilitate fetching region ids
 #' from ISO codes and region names.
 #'
 #' However, the original Marine Region dataset includes several columns that can
@@ -56,7 +56,8 @@
 #' \describe{
 #'   \item{`iso`}{ISO Code derived from the different ISO code columns in the Maritime Boundaries Geodatabase v12}
 #'   \item{`name`}{Territory name derived from the different Name and Geoname columns in the Maritime Boundaries Geodatabase v12}
-#'   \item{`MRGID`}{Original numeric id for EEZs from the Marine Boundaries Geodatabase v12. This numeric code should be used in the `region` argument when using functions [get_raster()] and [get_event()], when `region_source = "EEZ"`.}
+#'   \item{`MRGID`}{Original numeric id for EEZs from the Marine Boundaries Geodatabase v12. This numeric code should be used in the `region` argument when using functions
+#'   [gfw_ais_fishing_hours()], [gfw_ais_presence()], and [gfw_sar_presence()] and [gfw_event()], when `region_source = "EEZ"`.}
 #'   \item{`GEONAME`}{Original GEONAME field from the Maritime Boundaries Geodatabase v12}
 #'   \item{`POL_TYPE`}{Original POLygon TYPE from the Maritime Boundaries Geodatabase v12. Possible value are "200NM", "Overlapping claim" and "Joint regime"}
 #'  }

@@ -1,35 +1,35 @@
-
+#' Get events stats from API and convert response to tibble
 #'
-#' Base function to get events stats from API and convert response to data frame
-#'
-#' @param vessels A vector of vesselIds, obtained via the `get_vessel_info()` function
 #' @param event_type Type of event to get data of. A vector with any combination
 #' of "ENCOUNTER", "FISHING", "GAP", "LOITERING", "PORT_VISIT"
-#' @param encounter_types Only useful when event_type = "ENCOUNTER".
-#' Filters for types of vessels during the encounter. A
-#' vector with any combination of: "CARRIER-FISHING", "FISHING-CARRIER",
-#' "FISHING-SUPPORT", "SUPPORT-FISHING"
-#' @param start_date Start of date range to search events, in YYYY-MM-DD format and including this date
-#' @param end_date End of date range to search events, in YYYY-MM-DD format and excluding this date
-#' @param confidences Only useful when event_type = "PORT_VISIT". Confidence
-#' levels (1-4) of events.
-#' @param region_source Optional but mandatory if using the argument region.
-#' Source of the region. If 'EEZ','MPA', 'RFMO',
-#' then the value for the argument region must be the code for that region.
-#' If 'USER_SHAPEFILE', then region has to be an sf object
-#' @param region GFW region code (such as an EEZ, MPA or RFMO code) or a
-#' formatted geojson shape. See Details about formatting the geojson.
-#' @param duration minimum duration of the event in minutes. The default value is 1.
+#' @param start_date Start of date range to search events, in YYYY-MM-DD format
+#' and including this date
+#' @param end_date End of date range to search events, in YYYY-MM-DD format and
+#' __excluding this date__
 #' @param interval Time series granularity. Must be a string. Possible values: 'HOUR', 'DAY', 'MONTH', 'YEAR'.
+#' @param vessels A vector of vesselIds, obtained via [gfw_vessel_info()]
 #' @param flags ISO3 code for the flag of the vessels. Null by default.
-#' @param key Authorization token. Can be obtained with gfw_auth() function
+#' @param vessel_types A vector of vessel types, any combination of: `"FISHING"`,
+#' `"CARRIER"`, `"SUPPORT"`, `"PASSENGER"`, `"OTHER_NON_FISHING"`, `"SEISMIC_VESSEL"`,
+#' `"BUNKER_OR_TANKER"`, `"CARGO"`
+#' @param region_source Optional. Source of the region ('EEZ','MPA', 'RFMO' or
+#' 'USER_SHAPEFILE').
+#' @param region Optional but required if a value for `region_source` is specified.
+#' If `region_source` is set to "EEZ", "MPA" or "RFMO", GFW region
+#' code (see [gfw_region_id()]). If `region_source = "USER_SHAPEFILE"`, `sf`
+#' shapefile with the area of interest.
+#' @param duration minimum duration of the event in minutes. The default value is 1.
+#' @param encounter_types Only useful when `event_type = "ENCOUNTER"`. Filters for
+#' types of vessels during the encounter. A
+#' vector with any combination of: `"CARRIER-FISHING"`, `"FISHING-CARRIER"`,
+#' `"FISHING-SUPPORT"`, `"SUPPORT-FISHING"`.
+#' @param confidences Only useful when event_type = "PORT_VISIT". Confidence
+#' levels (2-4) of events.
+#' @param key Character, API token. Defaults to [gfw_auth()].
 #' @param quiet Boolean. Whether to print the number of events returned by the
 #' request
 #' @param print_request Boolean. Whether to print the request, for debugging
 #' purposes. When contacting the GFW team it will be useful to send this string
-#' @param vessel_types Optional. A vector of vessel types, any combination of:
-#' "FISHING", "CARRIER", "SUPPORT", "PASSENGER", "OTHER_NON_FISHING", "SEISMIC_VESSEL",
-#' "BUNKER_OR_TANKER", "CARGO"
 #' @param ... Other arguments
 #'
 #' @importFrom dplyr mutate
@@ -53,31 +53,20 @@
 #' details about the various event types, see the
 #' [GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#data-caveat).
 #'
-#' The user-defined geojson has to be surrounded by a geojson tag,
-#' that can be created using a simple paste:
-#'
-#' ```
-#' geojson_tagged <- paste0('{"geojson":', your_geojson,'}').
-#' ```
-#'
-#' If you have an __sf__ shapefile, you can also use function [sf_to_geojson()]
-#' to obtain the correctly-formatted geojson.
-#'
 #' @examples
 #' \dontrun{
 #' library(gfwr)
 #'  # stats for encounters involving Russian carriers in given time range
-#' get_event_stats(event_type = 'ENCOUNTER',
+#' gfw_event_stats(event_type = 'ENCOUNTER',
 #' encounter_types = c("CARRIER-FISHING","FISHING-CARRIER"),
 #' vessel_types = 'CARRIER',
 #' start_date = "2018-01-01",
 #' end_date = "2023-01-31",
 #' flags = 'RUS',
 #' duration = 60,
-#' interval = "YEAR",
-#' key = gfw_auth())
+#' interval = "YEAR")
 #'  # port visits stats in a region (Senegal)
-#'  get_event_stats(event_type = 'PORT_VISIT',
+#'  gfw_event_stats(event_type = 'PORT_VISIT',
 #' start_date = "2018-01-01",
 #' end_date = "2019-01-31",
 #' confidences = c('3','4'),
@@ -87,7 +76,7 @@
 #' }
 #' @export
 
-get_event_stats <- function(event_type,
+gfw_event_stats <- function(event_type,
                             start_date = "2012-01-01",
                             end_date = "2024-12-31",
                             interval = NULL,
@@ -154,7 +143,7 @@ get_event_stats <- function(event_type,
     'FISHING' = "public-global-fishing-events:latest",
     'GAP' = "public-global-gaps-events:latest",
     'LOITERING' = "public-global-loitering-events:latest",
-    'PORT VISIT' = "public-global-port-visits-c2-events:latest"
+    'PORT_VISIT' = "public-global-port-visits-c2-events:latest"
   )
 
   # Modify base URL with query parameters
