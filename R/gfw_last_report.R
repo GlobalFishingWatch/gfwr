@@ -1,7 +1,7 @@
 #'
 #' Base function to get status of last report generated
 #'
-#' @name get_last_report
+#' @name gfw_last_report
 #' @param key Authorization token. Can be obtained with `gfw_auth()` function
 #' @importFrom httr2 request
 #' @importFrom httr2 req_headers
@@ -16,22 +16,22 @@
 #' @export
 #'
 #' @description
-#' Function to check the status of the last API request sent with get_raster().
+#' Function to check the status of the last API request sent with [gfw_ais_fishing_hours()].
 #'
 #' @details
-#' The `get_last_report()` function will tell you if the APIs are still processing your request and
+#' The [gfw_last_report()] function will tell you if the APIs are still processing your request and
 #' will download the results if the request has finished successfully. You will receive an error message
 #' if the request finished but resulted in an error or if it's been >30 minutes since the last report was
-#' generated using `get_raster()`.
+#' generated using [gfw_ais_fishing_hours()].
 #'
 #' For more information, see the https://globalfishingwatch.org/our-apis/documentation#get-last-report-generated.
 #'
 #' @examples
 #' \dontrun{
-#' get_last_report(key = gfw_auth())
+#' gfw_last_report(key = gfw_auth())
 #' }
 #'
-get_last_report <- function(key = gfw_auth()) {
+gfw_last_report <- function(key = gfw_auth()) {
 
   # Format request
   endpoint <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/4wings/last-report") %>%

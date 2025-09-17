@@ -17,7 +17,7 @@ NULL
 #' Get user API token from .Renviron
 #' @name gfw_auth
 #' @export
-gfw_auth <- function(){
+gfw_auth <- function() {
   # Define authorization token
   key <- Sys.getenv("GFW_TOKEN")
   return(key)
@@ -27,7 +27,7 @@ gfw_auth <- function(){
 #' @name gfw_user_agent
 #' @export
 #' @keywords internal
-gfw_user_agent <- function(){
+gfw_user_agent <- function() {
   # Define user agent version
   return("gfwr/2.0.0 (https://github.com/GlobalFishingWatch/gfwr)")
 }
@@ -153,14 +153,8 @@ vector_to_array <- function(x, type = "vessel") {
 #'
 #' @param sf_shape The sf shapefile to transform
 #' @param endpoint The GFW endpoint destination for the geojson ("raster" or "event")
-#' @returns A correctly-formatted geojson to be used in [get_raster()] or [get_event()]
+#' @returns A correctly-formatted geojson to be used in [gfw_ais_fishing_hours()] or [gfw_event()]
 #' @importFrom geojsonsf sf_geojson
-#' @examples
-#' library(gfwr)
-#' data(test_shape)
-#' substr(sf_to_geojson(test_shape), 1, 20)
-#' substr(sf_to_geojson(test_shape, endpoint = "event"), 1, 20)
-#' @export
 #' @keywords internal
 
 sf_to_geojson <- function(sf_shape, endpoint = "raster") {

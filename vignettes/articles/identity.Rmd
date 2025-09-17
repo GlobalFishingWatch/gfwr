@@ -1,8 +1,8 @@
 ---
-title: "Using get_vessel_info(): the basics of vessel identity in Global Fishing Watch and gfwr"
+title: "Using gfw_vessel_info(): the basics of vessel identity in Global Fishing Watch and gfwr"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Using get_vessel_info(): the basics of vessel identity in Global Fishing Watch and gfwr}
+  %\VignetteIndexEntry{Using gfw_vessel_info(): the basics of vessel identity in Global Fishing Watch and gfwr}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -28,13 +28,13 @@ library(dplyr)
 library(tidyr)
 ```
 
-This vignette explains the use of `get_vessel_info()` as a key function to 
+This vignette explains the use of `gfw_vessel_info()` as a key function to 
 understand vessel identity and to use all the other Global Fishing Watch API 
 endpoints.
 
 We discuss basic identity markers, why Vessel ID was created, the structure of 
-the `get_vessel_info()` response and how to get __`vesselId`__ for use in the 
-functions `get_event()` and `get_event_stats()`. 
+the `gfw_vessel_info()` response and how to get __`vesselId`__ for use in the 
+functions `gfw_event()` and `gfw_event_stats()`. 
 
 
 ## Automatic Identification System (AIS) 
@@ -46,7 +46,7 @@ and satellite receivers can also receive these messages and monitor vessel
 movements. 
 AIS is at the core of Global Fishing Watch analysis pipelines, including the 
 AIS-based fishing effort calculation displayed on our map and available through 
-function `get_raster()` in `gfwr`.
+function `gfw_ais_fishing_hours()` in `gfwr`.
 
 AIS messages include identity information about the vessel, such as ship name, 
 call sign, and International Maritime Organization (IMO) number, as well as an 
@@ -98,13 +98,13 @@ Each __`vesselId`__ is associated to a single MMSI at a specific period of
 time, and refers to a single vessel.
 
 On the other side, a single vessel can have several __`vesselId`__ in time, and 
-this is why simple calls to `get_vessel_info()` can return tables that have many
+this is why simple calls to `gfw_vessel_info()` can return tables that have many
 `vesselIds` and different identity markers in time.
 
 
 ## Basic and advanced searches
 
-The function `get_vessel_info()` allows a user to run a basic query using MMSI, 
+The function `gfw_vessel_info()` allows a user to run a basic query using MMSI, 
 callsign, shipname or IMO number but it also allows for complex searches, using 
 a combination of these to retrieve the vessel of interest more accurately:
 
@@ -112,15 +112,15 @@ __Do a simple search using "query" and search_type = "search" (which is the
 default so it can be omitted from the function call)__
 
 ```{r search, eval = FALSE}
-get_vessel_info(query = 224224000, search_type = "search")
+gfw_vessel_info(query = 224224000, search_type = "search")
 ```
 
 __Do complex search or fuzzy matching using `"where"` and `search_type = "search"`__
 
 ```{r, eval= FALSE}
-get_vessel_info(where = "imo = '8300949'")
-get_vessel_info(where = "imo = '8300949' AND ssvid = '214182732'")
-get_vessel_info(where = "shipname LIKE '%GABU REEFE%' OR imo = '8300949'")
+gfw_vessel_info(where = "imo = '8300949'")
+gfw_vessel_info(where = "imo = '8300949' AND ssvid = '214182732'")
+gfw_vessel_info(where = "shipname LIKE '%GABU REEFE%' OR imo = '8300949'")
 ```
 
 
@@ -133,7 +133,7 @@ function call. Instead, the function returns all the `vesselIds` belonging to th
 same vessel.
 
 > **Note**:
-> The same logic does not apply to `get_event()`: calls to `get_event()` using a 
+> The same logic does not apply to `gfw_event()`: calls to `gfw_event()` using a 
 single `vesselId` will return events only for the requested `vesselId`.
 
 
@@ -145,7 +145,7 @@ number or the string. For example, to look for a vessel with `MMSI = 224224000`,
 the number is enough:
 
 ```{r example_vessel_info_1}
-mmsi_search <- get_vessel_info(224224000)
+mmsi_search <- gfw_vessel_info(224224000)
 ```
 
 The response from the API is a list with seven elements: 
@@ -212,7 +212,7 @@ Let's find encounter events for all the `vesselIds` from the previous search:
 ```{r}
 id <- mmsi_search$selfReportedInfo$vesselId
 id
-events <- get_event(event_type = "ENCOUNTER", vessels = id) 
+events <- gfw_event(event_type = "ENCOUNTER", vessels = id) 
 events
 ```
 
@@ -267,7 +267,7 @@ Here are two examples with registry and AIS data not overlapping in time.
 This vessel has a single `vesselId` throughout its entire history:
 
 ```{r one AIS}
-one_vesselId <- get_vessel_info(where = "ssvid='701024000'")
+one_vesselId <- gfw_vessel_info(where = "ssvid='701024000'")
 
 #see AIS-based identities
 one_vesselId$selfReportedInfo
@@ -280,7 +280,7 @@ This other vessel has had more than one `vesselId` based on AIS, but the history
 is easy to reconstruct:
 
 ```{r remedy002}
-multiple_vesselIds <- get_vessel_info(where = "ssvid='412217989'") 
+multiple_vesselIds <- gfw_vessel_info(where = "ssvid='412217989'") 
 # see AIS-based identities:
 multiple_vesselIds$selfReportedInfo %>%
   relocate(transmissionDateFrom, transmissionDateTo) 

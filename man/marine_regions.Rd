@@ -9,7 +9,8 @@ A tibble with 285 rows and 5 columns
 \describe{
 \item{\code{iso}}{ISO Code derived from the different ISO code columns in the Maritime Boundaries Geodatabase v12}
 \item{\code{name}}{Territory name derived from the different Name and Geoname columns in the Maritime Boundaries Geodatabase v12}
-\item{\code{MRGID}}{Original numeric id for EEZs from the Marine Boundaries Geodatabase v12. This numeric code should be used in the \code{region} argument when using functions \code{\link[=get_raster]{get_raster()}} and \code{\link[=get_event]{get_event()}}, when \code{region_source = "EEZ"}.}
+\item{\code{MRGID}}{Original numeric id for EEZs from the Marine Boundaries Geodatabase v12. This numeric code should be used in the \code{region} argument when using functions
+\code{\link[=gfw_ais_fishing_hours]{gfw_ais_fishing_hours()}}, \code{\link[=gfw_ais_presence]{gfw_ais_presence()}}, and \code{\link[=gfw_sar_presence]{gfw_sar_presence()}} and \code{\link[=gfw_event]{gfw_event()}}, when \code{region_source = "EEZ"}.}
 \item{\code{GEONAME}}{Original GEONAME field from the Maritime Boundaries Geodatabase v12}
 \item{\code{POL_TYPE}}{Original POLygon TYPE from the Maritime Boundaries Geodatabase v12. Possible value are "200NM", "Overlapping claim" and "Joint regime"}
 }
@@ -22,7 +23,7 @@ marine_regions
 }
 \description{
 A tibble with the ISO codes and names derived from
-Marine Regions v12, to be used by \code{\link[=get_regions]{get_regions()}} and \code{\link[=get_region_id]{get_region_id()}} to
+Marine Regions v12, to be used by \code{\link[=gfw_regions]{gfw_regions()}} and \code{\link[=gfw_region_id]{gfw_region_id()}} to
 extract numeric EEZ codes (\code{MRGID})
 }
 \details{
@@ -34,7 +35,7 @@ identifier for each one of the polygons comprising Marine Regions. \code{MRGID}
 is necessary to retrieve apparent fishing effort data and all event types
 from other \code{gfwr} functions when \code{region_source = "EEZ"}
 
-Functions \code{\link[=get_region_id]{get_region_id()}} and \code{\link[=get_regions]{get_regions()}} facilitate fetching region ids
+Functions \code{\link[=gfw_region_id]{gfw_region_id()}} and \code{\link[=gfw_regions]{gfw_regions()}} facilitate fetching region ids
 from ISO codes and region names.
 
 However, the original Marine Region dataset includes several columns that can

@@ -5,11 +5,11 @@
 #' @param start_date Start of date range to search events, in YYYY-MM-DD format
 #' and including this date
 #' @param end_date End of date range to search events, in YYYY-MM-DD format and
-#' excluding this date
+#' __excluding this date__
 #' @param sort How to sort the events. By default, `+start`, which sorts the events
 #' in ascending order (+) of the start dates of the events. Other possible values
 #' are `-start`, `+end`, `-end`.
-#' @param vessels A vector of `vesselIds`, obtained via [get_vessel_info()]. The
+#' @param vessels A vector of `vesselIds`, obtained via [gfw_vessel_info()]. The
 #' maximum number of `vesselIds` depends on the character length of
 #' the whole request, the request will fail with error `HTTP 422: Unprocessable
 #' entity` when too many `vesselIds` are sent. This value is around 2,800
@@ -22,7 +22,7 @@
 #' 'USER_SHAPEFILE').
 #' @param region Optional but required if a value for `region_source` is specified.
 #' If `region_source` is set to "EEZ", "MPA" or "RFMO", GFW region
-#' code (see [get_region_id()]). If `region_source = "USER_SHAPEFILE"`, `sf`
+#' code (see [gfw_region_id()]). If `region_source = "USER_SHAPEFILE"`, `sf`
 #' shapefile with the area of interest.
 #' @param duration Minimum duration that the event should have (in minutes). The
 #' default value is 1.
@@ -34,7 +34,7 @@
 #' Filters intentional gap events according to Global Fishing Watch algorithms.
 #' Check the [gaps API documentation](https://globalfishingwatch.org/our-apis/documentation#ais-off-event-aka-gap) for more details.
 #' @param confidences Only useful when `event_type = "PORT_VISIT"`. Confidence
-#' levels of port visits. Low-confidence port visits (confidence 1)
+#' levels of port visits. Possible values: 2, 3, or 4. Low-confidence port visits (confidence 1)
 #' are not available for download. See the
 #' [API documentation](https://globalfishingwatch.org/our-apis/documentation#confidence-levels-of-a-port-visit)
 #' for more details
@@ -84,52 +84,52 @@
 #' \dontrun{
 #' library(gfwr)
 #' # port visits
-#' get_event(event_type = "PORT_VISIT",
+#' gfw_event(event_type = "PORT_VISIT",
 #'           vessels = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
 #'           start_date = "2017-01-26",
 #'           end_date = "2017-12-31",
 #'           confidence = c(3, 4), # only for port visits
 #'           key = gfw_auth())
 #'  #encounters
-#'  get_event(event_type = "ENCOUNTER",
+#'  gfw_event(event_type = "ENCOUNTER",
 #'  vessels = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
 #'   start_date = "2012-01-30",
 #'   end_date = "2024-02-04",
 #'   key = gfw_auth())
 #'  # fishing
-#'  get_event(event_type = "FISHING",
+#'  gfw_event(event_type = "FISHING",
 #'  vessels = c("9b3e9019d-d67f-005a-9593-b66b997559e5"),
 #'   start_date = "2017-01-26",
 #'   end_date = "2023-02-04",
 #'   key = gfw_auth())
 #'  # GAPS
-#'  get_event(event_type = "GAP",
+#'  gfw_event(event_type = "GAP",
 #'  vessels = c("e0c9823749264a129d6b47a7aabce377",
 #'   "8c7304226-6c71-edbe-0b63-c246734b3c01"),
 #'   start_date = "2017-01-26",
 #'   end_date = "2023-02-04",
 #'   key = gfw_auth())
 #'  # loitering
-#'  get_event(event_type = "LOITERING",
+#'  gfw_event(event_type = "LOITERING",
 #'  vessels = c("e0c9823749264a129d6b47a7aabce377",
 #'   "8c7304226-6c71-edbe-0b63-c246734b3c01"),
 #'   start_date = "2017-01-26",
 #'   end_date = "2023-02-04",
 #'   key = gfw_auth())
 #'  # encounter type
-#'  get_event(event_type = "ENCOUNTER",
+#'  gfw_event(event_type = "ENCOUNTER",
 #'  encounter_types = "CARRIER-FISHING",
 #'  start_date = "2020-01-01",
 #'  end_date = "2020-01-31",
 #'  key = gfw_auth())
 #'  # vessel types
-#'  get_event(event_type = "ENCOUNTER",
+#'  gfw_event(event_type = "ENCOUNTER",
 #'  vessel_types = c("CARRIER", "FISHING"),
 #'  start_date = "2020-01-01",
 #'  end_date = "2020-01-31",
 #'  key = gfw_auth())
 #' # fishing events in Senegal EEZ
-#'get_event(event_type = 'FISHING',
+#'gfw_event(event_type = 'FISHING',
 #'               start_date = "2020-10-01",
 #'               end_date = "2020-12-31",
 #'               region = 8371,
@@ -142,7 +142,7 @@
 #'  crs = 4326) |>
 #'  sf::st_as_sfc() |>
 #'  sf::st_as_sf()
-#'get_event(event_type = 'FISHING',
+#'gfw_event(event_type = 'FISHING',
 #'               start_date = "2022-01-01",
 #'               end_date = "2024-01-01",
 #'               region = test_polygon,
@@ -151,7 +151,7 @@
 #'               }
 #' @export
 
-get_event <- function(event_type,
+gfw_event <- function(event_type,
                       start_date = "2012-01-01",
                       end_date = "2024-12-31",
                       sort = "+start",

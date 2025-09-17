@@ -21,13 +21,13 @@ knitr::opts_chunk$set(
 
 A powerful feature of `gfwr` is the ability to get data for making custom maps 
 of human activity at sea, such as apparent fishing effort, at-sea transshipment,
-and port visits. The `get_raster()` function provides gridded (e.g. raster) data
+and port visits. The `gfw_ais_fishing_hours()` function provides gridded (e.g. raster) data
 from GFW's [4Wings Map Visualization API](https://globalfishingwatch.org/our-apis/documentation#map-visualization-4wings-api) 
-and is useful for making heatmaps, while the `get_event()` function supplies 
+and is useful for making heatmaps, while the `gfw_event()` function supplies 
 vector data (mostly point locations) from the GFW [Events API](https://globalfishingwatch.org/our-apis/documentation#events-api) for 
 individual vessel events. 
 
-> This vignette demonstrates how to use and combine multiple `gfwr` functions to make a variety of maps of fishing vessel activity. Specifically, this vignette will show how to use the `get_raster()` function to make heatmaps of apparent fishing effort, and the `get_event()` function to visualize the locations of specific events. It will demonstrate how to request data for specific regions using `gfwr`'s built-in options, as well as how to use a custom region provided by the user.
+> This vignette demonstrates how to use and combine multiple `gfwr` functions to make a variety of maps of fishing vessel activity. Specifically, this vignette will show how to use the `gfw_ais_fishing_hours()` function to make heatmaps of apparent fishing effort, and the `gfw_event()` function to visualize the locations of specific events. It will demonstrate how to request data for specific regions using `gfwr`'s built-in options, as well as how to use a custom region provided by the user.
 
 ### Setup
 
@@ -86,41 +86,41 @@ end_date <- '2021-03-31'
 ```
 
 
-## Making heatmaps of apparent fishing effort with `get_raster()`
+## Making heatmaps of apparent fishing effort with `gfw_ais_fishing_hours()`
 
-The `gfwr` function `get_raster()` provides aggregated gridded (e.g. raster) data for AIS-based apparent fishing effort. It was designed to provide data for a specific region, offering users the ability to select from multiple built-in region types by specifying a specific Exclusive Economic Zone (EEZ), Marine Protected Area (MPA), or Regional Fisheries Management Organization (RFMO). 
+The `gfwr` function `gfw_ais_fishing_hours()` provides aggregated gridded (e.g. raster) data for AIS-based apparent fishing effort. It was designed to provide data for a specific region, offering users the ability to select from multiple built-in region types by specifying a specific Exclusive Economic Zone (EEZ), Marine Protected Area (MPA), or Regional Fisheries Management Organization (RFMO). 
 
-The list of available regions for each type, and their `label` and `id`, can be accessed with the `get_regions()` function.
+The list of available regions for each type, and their `label` and `id`, can be accessed with the `gfw_regions()` function.
 
 ```{r eez_region_codes}
-eez_regions <- get_regions(region_source = 'EEZ')
+eez_regions <- gfw_regions(region_source = 'EEZ')
 ```
 
 ```{r eez_region_codes_head}
 eez_regions
 ```
 
-`gfwr` also includes the `get_region_id()` function to get the `label` and `id` for a specific region using the `region_name` argument. 
-For EEZs, the `region_name` corresponds to the ISO3 code. Note that, for some countries, the ISO3 code will return multiple regions. For RFMOs, `region_name` corresponds to the RFMO abbreviation (e.g. `"ICCAT"`) and for MPAs it refers to the full name of the MPA. The `get_region_id()` function also works in reverse. If a region `id` is passed as a `numeric` to the function as the `region_name`, the corresponding region `label` can be returned. This is especially useful when events are returned with region ids and you want the more descriptive label. See [here](https://globalfishingwatch.org/faqs/reference-layer-sources/) for more information about the regions used by GFW.
+`gfwr` also includes the `gfw_region_id()` function to get the `label` and `id` for a specific region using the `region_name` argument. 
+For EEZs, the `region_name` corresponds to the ISO3 code. Note that, for some countries, the ISO3 code will return multiple regions. For RFMOs, `region_name` corresponds to the RFMO abbreviation (e.g. `"ICCAT"`) and for MPAs it refers to the full name of the MPA. The `gfw_region_id()` function also works in reverse. If a region `id` is passed as a `numeric` to the function as the `region_name`, the corresponding region `label` can be returned. This is especially useful when events are returned with region ids and you want the more descriptive label. See [here](https://globalfishingwatch.org/faqs/reference-layer-sources/) for more information about the regions used by GFW.
 
-Let's start by making a map of apparent fishing effort in the Italian EEZ. The `get_raster()` function requires we provide the `id` of a specific region (or a shapefile, but more on that later). We could look up the Italian EEZ `id` in the `eez_regions` table we just created, but let's use `get_region_id()`.
+Let's start by making a map of apparent fishing effort in the Italian EEZ. The `gfw_ais_fishing_hours()` function requires we provide the `id` of a specific region (or a shapefile, but more on that later). We could look up the Italian EEZ `id` in the `eez_regions` table we just created, but let's use `gfw_region_id()`.
 
 ```{r code_eez}
-# Use get_region_id function to get EEZ code for Italy
-ita_eez_code <- get_region_id(region_name = "ITA", region_source = "EEZ")
+# Use gfw_region_id function to get EEZ code for Italy
+ita_eez_code <- gfw_region_id(region_name = "ITA", region_source = "EEZ")
 ```
 
 ```{r code_eez2, echo=FALSE}
 ita_eez_code
 ```
 
-The `get_raster()` function allows users to specify multiple criteria to customize the data they download, including the date range, spatial and temporal resolution, and grouping variables. See the documentation for `get_raster()` or the [GFW APIs](https://globalfishingwatch.org/our-apis/documentation#report-url-parameters-for-both-post-and-get-requests) for more info about these parameter options.
+The `gfw_ais_fishing_hours()` function allows users to specify multiple criteria to customize the data they download, including the date range, spatial and temporal resolution, and grouping variables. See the documentation for `gfw_ais_fishing_hours()` or the [GFW APIs](https://globalfishingwatch.org/our-apis/documentation#report-url-parameters-for-both-post-and-get-requests) for more info about these parameter options.
 
 In this case, let's request data during our time range at 100th degree resolution and grouped by flag State:
 
-```{r get_raster}
+```{r gfw_ais_fishing_hours}
 # Download data for the Italian EEZ
-eez_fish_df <- get_raster(
+eez_fish_df <- gfw_ais_fishing_hours(
   spatial_resolution = "HIGH",
   temporal_resolution = "YEARLY",
   group_by = "FLAG",
@@ -175,7 +175,7 @@ As another example, let's request low resolution apparent fishing effort data wi
 
 ```{r iotc_fish_df}
 # Download data for the IOTC
-iotc_fish_df <- get_raster(
+iotc_fish_df <- gfw_ais_fishing_hours(
   spatial_resolution = "LOW",
   temporal_resolution = "YEARLY",
   group_by = "GEARTYPE",
@@ -221,28 +221,28 @@ iotc_p1
 
 ### When your API request times out
 
-For API performance reasons, the `get_raster()` function restricts individual queries to a single year of data. However, even with this restriction, it is possible for API request to time out before it completes. When this occurs, the initial `get_raster()` call will return an error, and subsequent API requests using any `gfwr` `get_` function will return an HTTP 429 error until the original request completes:  
+For API performance reasons, the `gfw_ais_fishing_hours()` function restricts individual queries to a single year of data. However, even with this restriction, it is possible for API request to time out before it completes. When this occurs, the initial `gfw_ais_fishing_hours()` call will return an error, and subsequent API requests using any `gfwr` `gfw_` function will return an HTTP 429 error until the original request completes:  
 
 >
 Error in `httr2::req_perform()`:
 ! HTTP 429 Too Many Requests.
 • Your application token is not currently enabled to perform more than one concurrent report. If you need to generate more than one report concurrently, contact us at apis@globalfishingwatch.org
 
-Although no data was received, the request is still being processed by the APIs and will become available when it completes. To account for this, `gfwr` includes the `get_last_report()` function, which let's users request the results of their last API request with `get_raster()`. 
+Although no data was received, the request is still being processed by the APIs and will become available when it completes. To account for this, `gfwr` includes the `gfw_last_report()` function, which let's users request the results of their last API request with `gfw_ais_fishing_hours()`. 
 
-The `get_last_report()` function will tell you if the APIs are still processing your request and will download the results if the request has finished successfully. You will receive an error message if the request finished but resulted in an error or if it's been >30 minutes since the last report was generated using `get_raster()`. For more information, see the [Get last report generated endpoint](https://globalfishingwatch.org/our-apis/documentation#get-last-report-generated) documentation on the GFW API page.
+The `gfw_last_report()` function will tell you if the APIs are still processing your request and will download the results if the request has finished successfully. You will receive an error message if the request finished but resulted in an error or if it's been >30 minutes since the last report was generated using `gfw_ais_fishing_hours()`. For more information, see the [Get last report generated endpoint](https://globalfishingwatch.org/our-apis/documentation#get-last-report-generated) documentation on the GFW API page.
 
 If you're struggling with this issue, we suggest breaking your request into smaller individual requests and then binding the results in R.
 
 ## Plotting vessel events 
 
-The `get_event()` function provides spatial data about the location of specific vessel activities. There are currently five available event types (`"FISHING"`,`"ENCOUNTER"`,`"LOITERING"`, `"PORT VISIT"`, and `"GAP"`) and the `vessel-types` argument allow users to request events for different categories of vessels (e.g. `"FISHING"`, `"CARRIER"`, `"CARGO"`, etc.). There are also a few event-specific arguments for specifying things like encounter types and confidence levels. For more details, see the `get_event()` function documentation and the [GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#data-caveat).
+The `gfw_event()` function provides spatial data about the location of specific vessel activities. There are currently five available event types (`"FISHING"`,`"ENCOUNTER"`,`"LOITERING"`, `"PORT VISIT"`, and `"GAP"`) and the `vessel-types` argument allow users to request events for different categories of vessels (e.g. `"FISHING"`, `"CARRIER"`, `"CARGO"`, etc.). There are also a few event-specific arguments for specifying things like encounter types and confidence levels. For more details, see the `gfw_event()` function documentation and the [GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#data-caveat).
 
-In this example, we will use `get_event()` to request encounter events between fishing vessels and refrigerated carrier vessels. We'll restrict events to those within the jurisdiction of the Indian Ocean Tuna Commission (IOTC) using the `region` and `region_source` arguments like we did in the previous example. 
+In this example, we will use `gfw_event()` to request encounter events between fishing vessels and refrigerated carrier vessels. We'll restrict events to those within the jurisdiction of the Indian Ocean Tuna Commission (IOTC) using the `region` and `region_source` arguments like we did in the previous example. 
 
 ```{r example_region_id, eval=T}
 # using same example as above
-encounters_df <- get_event(event_type = "ENCOUNTER",
+encounters_df <- gfw_event(event_type = "ENCOUNTER",
                            encounter_types = "CARRIER-FISHING",
                            start_date = start_date,
                            end_date = end_date,
@@ -284,7 +284,7 @@ iotc_p1 +
 
 ## Making maps for custom regions
 
-The `get_raster()` and `get_event()` functions also allow users to download data within a custom region by providing a GeoJSON polygon. To facilitate this, the `get_raster()` and `get_event()` functions allow users to pass a `sf` object to the `region` argument.
+The `gfw_ais_fishing_hours()` and `gfw_event()` functions also allow users to download data within a custom region by providing a GeoJSON polygon. To facilitate this, the `gfw_ais_fishing_hours()` and `gfw_event()` functions allow users to pass a `sf` object to the `region` argument.
 
 To demonstrate this, we'll first create a tibble of coordinates defining an arbitrary polygon and convert to an `sf` object. 
 
@@ -319,36 +319,34 @@ Let's create a `sf` bounding box object for our region to use for plotting later
 my_shp_bbox <- st_bbox(my_shp)
 ```
 
-Now we're ready to request data in our custom region from `get_raster()` and `get_event()`.
+Now we're ready to request data in our custom region from `gfw_ais_fishing_hours()` and `gfw_event()`.
 
 ```{r user_json_raster}
-my_raster_df <- get_raster(
-  spatial_resolution = "LOW",
-  temporal_resolution = "YEARLY",
-  group_by = "GEARTYPE",
-  start_date = start_date,
-  end_date = end_date,
-  region = my_shp,
-  region_source = "USER_SHAPEFILE"
-  )
+my_raster_df <- gfw_ais_fishing_hours(spatial_resolution = "LOW",
+                                      temporal_resolution = "YEARLY",
+                                      group_by = "GEARTYPE",
+                                      start_date = start_date,
+                                      end_date = end_date,
+                                      region = my_shp,
+                                      region_source = "USER_SHAPEFILE")
 ```
 
 For events, we'll request high-confidence port visits by fishing vessels
 
 ```{r user_json_events, eval=T}
-my_port_events_df <- get_event(event_type = "PORT_VISIT",
-                          confidences = 4,
-                          vessel_types = "FISHING",
-                          start_date = start_date,
-                          end_date = end_date,
-                          region = my_shp,
-                          region_source = "USER_SHAPEFILE") 
+my_port_events_df <- gfw_event(event_type = "PORT_VISIT",
+                               confidences = 4,
+                               vessel_types = "FISHING",
+                               start_date = start_date,
+                               end_date = end_date,
+                               region = my_shp,
+                               region_source = "USER_SHAPEFILE") 
 ```
 
 and loitering events by refrigerated cargo vessels
 
 ```{r user_loitering_events, eval=T}
-my_loitering_events_df <- get_event(event_type = "LOITERING",
+my_loitering_events_df <- gfw_event(event_type = "LOITERING",
                                     vessel_types = "CARRIER",
                                     start_date = start_date,
                                     end_date = end_date,

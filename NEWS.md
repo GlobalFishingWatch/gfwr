@@ -1,3 +1,37 @@
+# gfwr 3.0
+
+__October 3 2025__
+
+This is a major release of the package, with several changes and additions.  version of the package implements and reorganizes datasets into three functions that 
+replace `get_raster()`.
+
+- `gfw_ais_fishing_hours()`
+- `gfw_ais_presence()`
+- `gfw_sar_presence()`
+
+## Breaking changes
+
+- __Prefix change: All `gfwr` functions will be prefixed with `gfw_` to directly
+point to the package. This replaces the prefix `get_`.__ 
+This is an inconvenience but allows functions from the package to appear 
+together in searches and menus, and avoids possible confusion with other 
+functions starting with `"get"` in other R packages
+
+- In addition to the prefix change, `get_raster()` was __renamed__ to `gfw_ais_fishing_hours()`
+to avoid confusion with the incoming 4Wings datasets implemented in this version and to be consistent with the output of the model, which is expressed in (apparent) fishing hours.
+
+## New functions and endpoints 
+
+- `gfw_ais_presence()` implements our __Vessel presence__ layer
+- `gfw_sar_presence()` incorporates our __SAR Vessel detections__
+
+
+## Other
+
+- fixed `gfw_event_stats()` (previously `get_event_stats()`) filter by flag (#215) 
+
+
+
 # gfwr 2.0.4
 
 Aug 5 2025
