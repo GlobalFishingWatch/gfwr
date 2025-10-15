@@ -12,6 +12,6 @@ test_shape
 }
 \description{
 An sf shapefile to show as an example of user-defined GeoJSON in \code{\link[=gfw_event]{gfw_event()}},
-\code{\link[=gfw_ais_fishing_hours]{gfw_ais_fishing_hours()}}, \code{\link[=gfw_ais_presence]{gfw_ais_presence()}}, and \code{\link[=gfw_sar_presence]{gfw_sar_presence()}}
+\code{\link[=gfw_ais_fishing_hours]{gfw_ais_fishing_hours()}}, \code{\link[=gfw_ais_presence]{gfw_ais_presence()}}, and \code{\link[=gfw_sar_vessel_detections]{gfw_sar_vessel_detections()}}
 }
 \keyword{datasets}

@@ -429,12 +429,12 @@ gfw_ais_fishing_hours(spatial_resolution = "LOW",
 #### EEZ
 
 If you want raster data from a particular EEZ, you can use the `gfw_region_id()`
-function to get the EEZ id, and enter that code in the `region_name` argument
+function to get the EEZ id, and enter that code in the `region` argument
 of `gfw_ais_fishing_hours()` instead of the region shapefile (with `region_source = "EEZ"`):
 
 ```{r example_map_2, eval= TRUE}
 # use EEZ function to get EEZ code of Cote d'Ivoire
-code_eez <- gfw_region_id(region_name = "CIV", region_source = "EEZ")
+code_eez <- gfw_region_id(region = "CIV", region_source = "EEZ")
 
 gfw_ais_fishing_hours(spatial_resolution = "LOW",
                       temporal_resolution = "YEARLY",
@@ -449,7 +449,7 @@ You could search for just one word in the name of the EEZ and then decide which
 one you want:
 
 ```{r example_map_3, eval = TRUE}
-(gfw_region_id(region_name = "France", region_source = "EEZ"))
+(gfw_region_id(region = "France", region_source = "EEZ"))
 ```
 
 
@@ -473,7 +473,7 @@ in this case the Phoenix Island Protected Area (PIPA)
 
 ```{r example_map_4, eval= TRUE}
 # use region id function to get MPA code of Phoenix Island Protected Area
-code_mpa <- gfw_region_id(region_name = "Phoenix",
+code_mpa <- gfw_region_id(region = "Phoenix",
                           region_source = "MPA")
 code_mpa
 gfw_ais_fishing_hours(spatial_resolution = "LOW",
@@ -537,7 +537,7 @@ finished but resulted in an error or if it's been >30 minutes since the last
 ## Reverse region id search 
 
 The `gfw_region_id()` function also works in reverse. If a region id is passed as
-a `numeric` to the function as the `region_name`, the corresponding region label
+a `numeric` to the function as the `region`, the corresponding region label
 or iso3 code can be returned. This is especially useful when events are 
 returned with regions.
 
@@ -565,7 +565,7 @@ We can apply `gfw_region_id()` to the numeric vector to extract the labels:
 ```{r example_region_id_cont}
 fishing_events %>% 
   mutate(eez_name = purrr::map_df(as.numeric(fishing_events$eez),
-                                  ~gfw_region_id(region_name = .x,
+                                  ~gfw_region_id(region = .x,
                                                  region_source = "EEZ"))$label) %>% 
   dplyr::relocate(eez, eez_name)
   
