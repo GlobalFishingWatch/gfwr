@@ -1,26 +1,37 @@
 url: https://globalfishingwatch.github.io/gfwr/
 reference:
-- title: "Apparent fishing effort"
-  contents:
-  - get_raster
-  - get_last_report
 - title: "Vessel identity"
   contents:
-  - get_vessel_info
-- title: "Events"
-  desc: "Fishing, AIS disabling ('gaps'), encounter and loitering events"
+  - gfw_vessel_info
+- title: "AIS-based vessel presence and apparent fishing hours (formerly apparent fishing effort)"
   contents:
-  - get_event
-  - get_event_stats
+  - gfw_ais_presence
+  - gfw_ais_fishing_hours
+  - gfw_last_report
+- title: "Events"
+  desc: "AIS-based events: port visits, AIS disabling ('gaps'), encounter and loitering events"
+  contents:
+  - gfw_event
+  - gfw_event_stats
+- title: "SAR-based vessel detections"
+  contents:
+  - gfw_sar_vessel_detections
 - title: "Auxiliary functions"
   contents:
   - gfw_auth
-  - get_region_id
-  - get_regions
+  - gfw_region_id
+  - gfw_regions
 - title: "Datasets"
   contents:
   - marine_regions
   - test_shape
+articles:
+- title: Vignettes
+  navbar: ~
+  contents:
+  - articles/identity
+  - articles/gfw_vessel_presence
+  - articles/making-maps
 template:
   bootstrap: 5
   includes:
