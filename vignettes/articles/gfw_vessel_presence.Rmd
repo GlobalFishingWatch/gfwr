@@ -103,7 +103,7 @@ vp_senegal <- gfw_ais_presence(spatial_resolution = "LOW",
 vp_senegal
 ```
 
-Without grouping variables, the function will return a number of vessel IDs present (see our vessel identity vignette) and the total vessel presence hours for each cell (lat, lon). 
+Without grouping variables, the function will return a number of `vessel ID`s present (for a definition of `Vessel ID` see our [vessel identity vignette](https://globalfishingwatch.github.io/gfwr/articles/identity)) and the total vessel presence hours for each cell (lat, lon). 
 
 The `Time Range` column will be expressed in the temporal units of the temporal resolution selected. In this example, `MONTHLY` will create a Time Range expressed in months: `YYYY-MM`
 
@@ -136,9 +136,8 @@ vp_senegal_flag |> count(flag) |> arrange((desc(n)))
 
 ```
 
-__Note__ that these results are grouped at the `Vessel ID` scale, which is not the same as the number of vessels. 
-Check our [Vessel identity vignette](/articles/identity) for more information
-
+__Note__ that these results are grouped by `Vessel ID`, which is not the same as grouping by number of vessels. 
+Check our [vessel identity vignette](https://globalfishingwatch.github.io/gfwr/articles/identity) for more information.
 
 
 Grouping by MMSI will group the results at the MMSI scale, which can correspond to individual vessels, but this is not always the case. 
@@ -155,7 +154,7 @@ vp_senegal_MMSI
 ```
 
 
-Finally, grouping by `Vessel ID` returns all the details about the vessel identity of the vessels present in the area: 
+Finally, grouping by `Vessel ID` returns all the details about the vessel identity of the vessels `Vessel ID`s present in the area: 
 
 ```{r}
 vp_senegal_vesselID <- gfw_ais_presence(spatial_resolution = "LOW",

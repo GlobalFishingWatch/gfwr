@@ -24,9 +24,7 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 > **Important**  
-> This version of `gfwr` gives access to Global Fishing Watch API [version 3](https://globalfishingwatch.org/our-apis/documentation#version-3-api). Starting
-April 30th, 2024, this is the official API version. For latest API releases, 
-please check our [API release notes](https://globalfishingwatch.org/our-apis/documentation#api-release-notes)
+> For latest API releases, please check our [API release notes](https://globalfishingwatch.org/our-apis/documentation#api-release-notes)
 
 > A __Python package__ to communicate with Global Fishing Watch APIs was released in April 2025. Check the [gfw-api-python-client](https://github.com/GlobalFishingWatch/gfw-api-python-client) repository.
 
