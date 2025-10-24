@@ -15,6 +15,11 @@ badge](https://globalfishingwatch.r-universe.dev/badges/:registry)](https://gith
 <!-- badges: end -->
 
 > **Important**  
+> This is a major release of the package, with several breaking changes in 
+function names and two new endpoints: AIS vessel presence and SAR vessel detections. 
+Please take a look at the [changelog](https://globalfishingwatch.github.io/gfwr/news/index.html#gfwr-300).
+> Several improvements are on the way in subsequent minor releases, please log any feedback in the issues.
+
 > For latest API releases, please check our [API release
 > notes](https://globalfishingwatch.org/our-apis/documentation#api-release-notes)
 
