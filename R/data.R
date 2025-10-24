@@ -1,7 +1,7 @@
 #' A sample shapefile
 #'
 #' An sf shapefile to show as an example of user-defined GeoJSON in [gfw_event()],
-#' [gfw_ais_fishing_hours()], [gfw_ais_presence()], and [gfw_sar_presence()]
+#' [gfw_ais_fishing_hours()], [gfw_ais_presence()], and [gfw_sar_vessel_detections()]
 #'
 #' @format A shapefile with a single polygon.
 "test_shape"
@@ -57,7 +57,7 @@
 #'   \item{`iso`}{ISO Code derived from the different ISO code columns in the Maritime Boundaries Geodatabase v12}
 #'   \item{`name`}{Territory name derived from the different Name and Geoname columns in the Maritime Boundaries Geodatabase v12}
 #'   \item{`MRGID`}{Original numeric id for EEZs from the Marine Boundaries Geodatabase v12. This numeric code should be used in the `region` argument when using functions
-#'   [gfw_ais_fishing_hours()], [gfw_ais_presence()], and [gfw_sar_presence()] and [gfw_event()], when `region_source = "EEZ"`.}
+#'   [gfw_ais_fishing_hours()], [gfw_ais_presence()], and [gfw_sar_vessel_detections()] and [gfw_event()], when `region_source = "EEZ"`.}
 #'   \item{`GEONAME`}{Original GEONAME field from the Maritime Boundaries Geodatabase v12}
 #'   \item{`POL_TYPE`}{Original POLygon TYPE from the Maritime Boundaries Geodatabase v12. Possible value are "200NM", "Overlapping claim" and "Joint regime"}
 #'  }

@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Using get_vessel_info(): the basics of vessel identity in Global Fishing Watch and gfwr • gfwr</title>
+<title>Using gfw_vessel_info(): the basics of vessel identity in Global Fishing Watch and gfwr • gfwr</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -15,21 +15,19 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Using get_vessel_info(): the basics of vessel identity in Global Fishing Watch and gfwr">
-<!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-WXTMN69');</script><!-- End Google Tag Manager -->
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Using gfw_vessel_info(): the basics of vessel identity in Global Fishing Watch and gfwr">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
-    <!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WXTMN69" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+
 
     <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
-    <!-- inserted before the package title in the header ->
+
     <a class="navbar-brand me-2" href="../index.html">gfwr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.0</small>
 
-    <!-- inserted before the navbar links -->
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -40,7 +38,8 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/identity.html">Using get_vessel_info(): the basics of vessel identity in Global Fishing Watch and gfwr</a></li>
+<li><a class="dropdown-item" href="../articles/identity.html">Using gfw_vessel_info(): the basics of vessel identity in Global Fishing Watch and gfwr</a></li>
+    <li><a class="dropdown-item" href="../articles/gfw_vessel_presence.html">Exploring the vessel presence layer in `gfwr`</a></li>
     <li><a class="dropdown-item" href="../articles/making-maps.html">Making maps with `gfwr`</a></li>
   </ul>
 </li>
@@ -54,7 +53,7 @@
       </ul>
 </div>
 
-    <!-- inserted after the navbar links -->
+
   </div>
 </nav><div class="container template-article">
 
@@ -63,7 +62,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Using get_vessel_info(): the basics of vessel identity in Global Fishing Watch and gfwr</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Using gfw_vessel_info(): the basics of vessel identity in Global Fishing Watch and gfwr</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/GlobalFishingWatch/gfwr/blob/HEAD/vignettes/articles/identity.Rmd" class="external-link"><code>vignettes/articles/identity.Rmd</code></a></small>
@@ -77,13 +76,13 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span></code></pre></div>
-<p>This vignette explains the use of <code><a href="../reference/get_vessel_info.html">get_vessel_info()</a></code> as a
+<p>This vignette explains the use of <code><a href="../reference/gfw_vessel_info.html">gfw_vessel_info()</a></code> as a
 key function to understand vessel identity and to use all the other
 Global Fishing Watch API endpoints.</p>
 <p>We discuss basic identity markers, why Vessel ID was created, the
-structure of the <code><a href="../reference/get_vessel_info.html">get_vessel_info()</a></code> response and how to get
+structure of the <code><a href="../reference/gfw_vessel_info.html">gfw_vessel_info()</a></code> response and how to get
 <strong><code>vesselId</code></strong> for use in the functions
-<code><a href="../reference/get_event.html">get_event()</a></code> and <code><a href="../reference/get_event_stats.html">get_event_stats()</a></code>.</p>
+<code><a href="../reference/gfw_event.html">gfw_event()</a></code> and <code><a href="../reference/gfw_event_stats.html">gfw_event_stats()</a></code>.</p>
 <div class="section level3">
 <h3 id="automatic-identification-system-ais">Automatic Identification System (AIS)<a class="anchor" aria-label="anchor" href="#automatic-identification-system-ais"></a>
 </h3>
@@ -94,7 +93,7 @@ presence, but terrestrial and satellite receivers can also receive these
 messages and monitor vessel movements. AIS is at the core of Global
 Fishing Watch analysis pipelines, including the AIS-based fishing effort
 calculation displayed on our map and available through function
-<code><a href="../reference/get_raster.html">get_raster()</a></code> in <code>gfwr</code>.</p>
+<code><a href="../reference/gfw_ais_fishing_hours.html">gfw_ais_fishing_hours()</a></code> in <code>gfwr</code>.</p>
 <p>AIS messages include identity information about the vessel, such as
 ship name, call sign, and International Maritime Organization (IMO)
 number, as well as an identifier known as the Maritime Mobile Service
@@ -146,13 +145,13 @@ and shipname transmitted in AIS messages. Each
 a specific period of time, and refers to a single vessel.</p>
 <p>On the other side, a single vessel can have several
 <strong><code>vesselId</code></strong> in time, and this is why simple
-calls to <code><a href="../reference/get_vessel_info.html">get_vessel_info()</a></code> can return tables that have many
+calls to <code><a href="../reference/gfw_vessel_info.html">gfw_vessel_info()</a></code> can return tables that have many
 <code>vesselIds</code> and different identity markers in time.</p>
 </div>
 <div class="section level3">
 <h3 id="basic-and-advanced-searches">Basic and advanced searches<a class="anchor" aria-label="anchor" href="#basic-and-advanced-searches"></a>
 </h3>
-<p>The function <code><a href="../reference/get_vessel_info.html">get_vessel_info()</a></code> allows a user to run a
+<p>The function <code><a href="../reference/gfw_vessel_info.html">gfw_vessel_info()</a></code> allows a user to run a
 basic query using MMSI, callsign, shipname or IMO number but it also
 allows for complex searches, using a combination of these to retrieve
 the vessel of interest more accurately:</p>
@@ -160,14 +159,14 @@ the vessel of interest more accurately:</p>
 (which is the default so it can be omitted from the function
 call)</strong></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_vessel_info.html">get_vessel_info</a></span><span class="op">(</span>query <span class="op">=</span> <span class="fl">224224000</span>, search_type <span class="op">=</span> <span class="st">"search"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/gfw_vessel_info.html">gfw_vessel_info</a></span><span class="op">(</span>query <span class="op">=</span> <span class="fl">224224000</span>, search_type <span class="op">=</span> <span class="st">"search"</span><span class="op">)</span></span></code></pre></div>
 <p><strong>Do complex search or fuzzy matching using
 <code>"where"</code> and
 <code>search_type = "search"</code></strong></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/get_vessel_info.html">get_vessel_info</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"imo = '8300949'"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/get_vessel_info.html">get_vessel_info</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"imo = '8300949' AND ssvid = '214182732'"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/get_vessel_info.html">get_vessel_info</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"shipname LIKE '%GABU REEFE%' OR imo = '8300949'"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/gfw_vessel_info.html">gfw_vessel_info</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"imo = '8300949'"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/gfw_vessel_info.html">gfw_vessel_info</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"imo = '8300949' AND ssvid = '214182732'"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/gfw_vessel_info.html">gfw_vessel_info</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"shipname LIKE '%GABU REEFE%' OR imo = '8300949'"</span><span class="op">)</span></span></code></pre></div>
 <p>Importantly, <strong>the response will return all the information it
 has for the vessel that matches the combination of identity markers
 requested, not only the ones requested</strong>.</p>
@@ -176,7 +175,7 @@ requested in the function call. Instead, the function returns all the
 <code>vesselIds</code> belonging to the same vessel.</p>
 <blockquote>
 <p><strong>Note</strong>: The same logic does not apply to
-<code><a href="../reference/get_event.html">get_event()</a></code>: calls to <code><a href="../reference/get_event.html">get_event()</a></code> using a
+<code><a href="../reference/gfw_event.html">gfw_event()</a></code>: calls to <code><a href="../reference/gfw_event.html">gfw_event()</a></code> using a
 single <code>vesselId</code> will return events only for the requested
 <code>vesselId</code>.</p>
 </blockquote>
@@ -189,7 +188,7 @@ using its MMSI, IMO number, callsign or name, the search can be done
 directly using the number or the string. For example, to look for a
 vessel with <code>MMSI = 224224000</code>, the number is enough:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mmsi_search</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_vessel_info.html">get_vessel_info</a></span><span class="op">(</span><span class="fl">224224000</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">mmsi_search</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gfw_vessel_info.html">gfw_vessel_info</a></span><span class="op">(</span><span class="fl">224224000</span><span class="op">)</span></span>
 <span><span class="co"># 1 total vessels</span></span></code></pre></div>
 <p>The response from the API is a list with seven elements:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -267,14 +266,14 @@ the previous search:</p>
 <span><span class="va">id</span></span>
 <span><span class="co"># [1] "6632c9eb8-8009-abdb-baf9-b67d65f20510"</span></span>
 <span><span class="co"># [2] "3c99c326d-dd2e-175d-626f-a3c488a4342b"</span></span>
-<span><span class="va">events</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_event.html">get_event</a></span><span class="op">(</span>event_type <span class="op">=</span> <span class="st">"ENCOUNTER"</span>, vessels <span class="op">=</span> <span class="va">id</span><span class="op">)</span> </span>
+<span><span class="va">events</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gfw_event.html">gfw_event</a></span><span class="op">(</span>event_type <span class="op">=</span> <span class="st">"ENCOUNTER"</span>, vessels <span class="op">=</span> <span class="va">id</span><span class="op">)</span> </span>
 <span><span class="co"># [1] "Downloading 2 events from GFW"</span></span>
 <span><span class="va">events</span></span>
 <span><span class="co"># <span style="color: #949494;"># A tibble: 2 × 17</span></span></span>
 <span><span class="co">#   start               end                 eventId          eventType   lat   lon</span></span>
 <span><span class="co">#   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">1</span> 2020-09-14 <span style="color: #949494;">08:30:00</span> 2020-09-14 <span style="color: #949494;">11:50:00</span> da911addfabd3ce… encounter  8.01 -<span style="color: #BB0000;">20.8</span></span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">2</span> 2021-04-19 <span style="color: #949494;">09:40:00</span> 2021-04-19 <span style="color: #949494;">12:50:00</span> 5cdd7f497291e06… encounter  3.08 -<span style="color: #BB0000;">12.2</span></span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">1</span> 2021-04-19 <span style="color: #949494;">09:40:00</span> 2021-04-19 <span style="color: #949494;">12:50:00</span> 5cdd7f497291e06… encounter  3.08 -<span style="color: #BB0000;">12.2</span></span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">2</span> 2020-09-14 <span style="color: #949494;">08:30:00</span> 2020-09-14 <span style="color: #949494;">11:50:00</span> da911addfabd3ce… encounter  8.01 -<span style="color: #BB0000;">20.8</span></span></span>
 <span><span class="co"># <span style="color: #949494;"># ℹ 11 more variables: regions &lt;list&gt;, boundingBox &lt;list&gt;, distances &lt;list&gt;,</span></span></span>
 <span><span class="co"># <span style="color: #949494;">#   vesselId &lt;chr&gt;, vessel_name &lt;chr&gt;, vessel_ssvid &lt;chr&gt;, vessel_flag &lt;chr&gt;,</span></span></span>
 <span><span class="co"># <span style="color: #949494;">#   vessel_type &lt;chr&gt;, vessel_publicAuthorizations &lt;list&gt;,</span></span></span>
@@ -355,7 +354,7 @@ with registry and AIS data not overlapping in time.</p>
 <p>This vessel has a single <code>vesselId</code> throughout its entire
 history:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">one_vesselId</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_vessel_info.html">get_vessel_info</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"ssvid='701024000'"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">one_vesselId</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gfw_vessel_info.html">gfw_vessel_info</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"ssvid='701024000'"</span><span class="op">)</span></span>
 <span><span class="co"># 1 total vessels</span></span>
 <span></span>
 <span><span class="co">#see AIS-based identities</span></span>
@@ -363,7 +362,7 @@ history:</p>
 <span><span class="co"># <span style="color: #949494;"># A tibble: 1 × 14</span></span></span>
 <span><span class="co">#   index vesselId   ssvid shipname nShipname flag  callsign imo   messagesCounter</span></span>
 <span><span class="co">#   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">1</span>     1 8e930bac5… 7010… ATLANTI… ATLANTIC… ARG   LW3233   8615…         8<span style="text-decoration: underline;">146</span>660</span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">1</span>     1 8e930bac5… 7010… ATLANTI… ATLANTIC… ARG   LW3233   8615…         8<span style="text-decoration: underline;">330</span>827</span></span>
 <span><span class="co"># <span style="color: #949494;"># ℹ 5 more variables: positionsCounter &lt;int&gt;, sourceCode &lt;list&gt;,</span></span></span>
 <span><span class="co"># <span style="color: #949494;">#   matchFields &lt;chr&gt;, transmissionDateFrom &lt;chr&gt;, transmissionDateTo &lt;chr&gt;</span></span></span>
 <span><span class="co">#check registry info:</span></span>
@@ -372,14 +371,14 @@ history:</p>
 <span><span class="co"># <span style="color: #949494;"># A tibble: 1 × 17</span></span></span>
 <span><span class="co">#   transmissionDateFrom transmissionDateTo  index recordId sourceCode ssvid flag </span></span>
 <span><span class="co">#   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">1</span> 2012-01-04T05:00:00Z 2025-05-31T21:10:5…     1 4550252… <span style="color: #949494;">&lt;chr [2]&gt;</span>  7010… ARG  </span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">1</span> 2012-01-04T05:00:00Z 2025-08-31T23:57:1…     1 4550252… <span style="color: #949494;">&lt;chr [2]&gt;</span>  7010… ARG  </span></span>
 <span><span class="co"># <span style="color: #949494;"># ℹ 10 more variables: shipname &lt;chr&gt;, nShipname &lt;chr&gt;, callsign &lt;chr&gt;,</span></span></span>
 <span><span class="co"># <span style="color: #949494;">#   imo &lt;chr&gt;, latestVesselInfo &lt;lgl&gt;, geartypes &lt;chr&gt;, lengthM &lt;dbl&gt;,</span></span></span>
 <span><span class="co"># <span style="color: #949494;">#   tonnageGt &lt;int&gt;, vesselInfoReference &lt;chr&gt;, extraFields &lt;list&gt;</span></span></span></code></pre></div>
 <p>This other vessel has had more than one <code>vesselId</code> based
 on AIS, but the history is easy to reconstruct:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">multiple_vesselIds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_vessel_info.html">get_vessel_info</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"ssvid='412217989'"</span><span class="op">)</span> </span>
+<code class="sourceCode R"><span><span class="va">multiple_vesselIds</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gfw_vessel_info.html">gfw_vessel_info</a></span><span class="op">(</span>where <span class="op">=</span> <span class="st">"ssvid='412217989'"</span><span class="op">)</span> </span>
 <span><span class="co"># 1 total vessels</span></span>
 <span><span class="co"># see AIS-based identities:</span></span>
 <span><span class="va">multiple_vesselIds</span><span class="op">$</span><span class="va">selfReportedInfo</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -425,7 +424,7 @@ for a more detailed account of Global Fishing Watch identity work.</li>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Tyler Clavelle, Rocío Joo, Nate Miller, Andrea Sánchez-Tapia.</p>
+  <p>Developed by Andrea Sánchez-Tapia, Tyler Clavelle, Rocío Joo, Nate Miller, Jorge Cornejo-Donoso.</p>
 </div>
 
 <div class="pkgdown-footer-right">
@@ -437,7 +436,7 @@ for a more detailed account of Global Fishing Watch identity work.</li>
 
 
 
-  <!-- inserted at the end of the body -->
+
 
   </body>
 </html>

@@ -42,7 +42,7 @@
 #' library(gfwr)
 #' # using region codes
 #' code_eez <- gfw_region_id(region_name = "CIV", region_source = "EEZ")
-#' gfw_sar_presence(spatial_resolution = "LOW",
+#' gfw_sar_vessel_detections(spatial_resolution = "LOW",
 #'            temporal_resolution = "YEARLY",
 #'            group_by = "FLAG",
 #'            start_date = "2021-01-01",
@@ -52,7 +52,7 @@
 #'            key = gfw_auth(),
 #'            print_request = TRUE)
 #' code_mpa <- gfw_region_id(region_name = "Galapagos", region_source = "MPA")
-#' gfw_sar_presence(spatial_resolution = "LOW",
+#' gfw_sar_vessel_detections(spatial_resolution = "LOW",
 #'            temporal_resolution = "MONTHLY",
 #'            group_by = "FLAG",
 #'            start_date = "2022-01-01",
@@ -60,7 +60,7 @@
 #'            region = code_mpa$id[3],
 #'            region_source = "MPA")
 #' code_rfmo <- gfw_region_id(region_name = "IATTC", region_source = "RFMO")
-#' gfw_sar_presence(spatial_resolution = "LOW",
+#' gfw_sar_vessel_detections(spatial_resolution = "LOW",
 #'            temporal_resolution = "MONTHLY",
 #'            start_date = "2022-01-01",
 #'            end_date = "2023-01-01",
@@ -68,7 +68,7 @@
 #'            region_source = "RFMO")
 #' #using a sf from disk /loading a test sf object
 #' data(test_shape)
-#' gfw_sar_presence(spatial_resolution = "LOW",
+#' gfw_sar_vessel_detections(spatial_resolution = "LOW",
 #'             temporal_resolution = "YEARLY",
 #'             start_date = "2021-01-01",
 #'             end_date = "2021-10-01",
@@ -76,17 +76,16 @@
 #'             region_source = "USER_SHAPEFILE",
 #'             print_request = TRUE)
 #' }
-gfw_sar_presence <- function(
-         spatial_resolution = NULL,
-         temporal_resolution = NULL,
-         start_date = NULL,
-         end_date = NULL,
-         region_source = NULL,
-         region = NULL,
-         group_by = NULL,
-         filter_by = NULL,
-         key = gfw_auth(),
-         print_request = FALSE) {
+gfw_sar_vessel_detections <- function(spatial_resolution = NULL,
+                                  temporal_resolution = NULL,
+                                  start_date = NULL,
+                                  end_date = NULL,
+                                  region_source = NULL,
+                                  region = NULL,
+                                  group_by = NULL,
+                                  filter_by = NULL,
+                                  key = gfw_auth(),
+                                  print_request = FALSE) {
 
    sar_presence <- gfw_4wings(api_endpoint = "SAR",
                              spatial_resolution = spatial_resolution,

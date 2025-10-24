@@ -297,6 +297,5 @@ gfw_vessel_info <- function(query = NULL,
     combinedSourcesInfo = combinedSourcesInfo,
     selfReportedInfo = selfReportedInfo)
 
-  output$selfReportedInfo <- output$selfReportedInfo
   return(output)
 }

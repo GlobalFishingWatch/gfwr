@@ -1,0 +1,309 @@
+---
+title: "Exploring the vessel presence layer in `gfwr`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Exploring the vessel presence layer in `gfwr`}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.align = 'center',
+  out.width = "90%"
+  # fig.width = 6
+)
+```
+
+## Overview
+
+The `gfw_ais_presence()` function provides gridded vessel presence data from Global Fishing Watch's [4Wings Map Visualization API](https://globalfishingwatch.org/our-apis/documentation#map-visualization-4wings-api). 
+Global Fishing Watch's vessel presence layer includes all vessel types, fishing 
+or not, and summarizes their presence in hours, based on the data transmitted by 
+their AIS transponders. 
+
+In this vignette we will explore several ways to call this function, and the filters that have been implemented in our APIs to support the exploration of this layer. 
+
+
+## Setup
+
+To get started, first load the `gfwr` package and some of the packages we will use
+
+```{r setup, eval = F}
+library(gfwr)
+```
+
+```{r load, eval = T, echo = F}
+devtools::load_all()
+```
+
+
+```{r other_packages, message = FALSE}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(glue)
+```
+
+We will fetch data for January-March 2024. __Remember the date intervals in `gfwr` include the start of the interval and *exclude the last date* of the interval__:
+
+```{r dates}
+start_date <- '2024-01-01' # will be included
+end_date <- '2024-04-01'   # will be excluded. search will be up to 2024-03-31
+```
+
+
+
+## Handling pre-built regions: MPAs, RFMOs, and EEZs
+
+
+`gfw_ais_presence()` was designed to provide data for a specific region, offering users the ability to select from multiple built-in region types by specifying a specific Exclusive Economic Zone (EEZ), Marine Protected Area (MPA), or Regional Fisheries Management Organization (RFMO).
+
+> __Note:__ The use of a region is mandatory, as the API is not designed to handle global requests
+
+
+The list of available regions for each type, and their `label` and `id`, can be accessed with the `gfw_regions()` function.
+
+```{r eez_region_codes}
+eez_regions <- gfw_regions(region_source = 'EEZ')
+eez_regions
+```
+
+`gfwr` also includes the `gfw_region_id()` function to get the `label` and `id` for a specific region using the `region` argument. 
+For EEZs, `region` corresponds to the name or the country or the ISO3 code. Note that, for some countries, the name will return multiple regions. For RFMOs, `region` corresponds to the RFMO abbreviation (e.g. `"ICCAT"`) and for MPAs it refers to the name of the MPA. 
+
+To fetch the numeric code of the Senegal EEZ, let's use `gfw_region_id()`
+
+```{r code_eez}
+# Use gfw_region_id function to get EEZ code for Senegal
+senegal_eez_code <- gfw_region_id(region = "Senegal", region_source = "EEZ")
+senegal_eez_code
+```
+
+The results show the EEZ and a Joint regime area. We will pick the EEZ code, `8371`. 
+
+
+## Calling the function
+
+The `gfw_ais_presence()` function allows users to specify multiple criteria to customize the data they download, including the date range, spatial and temporal resolution, and grouping variables. See the documentation for `gfw_ais_presence()` or the [GFW APIs](https://globalfishingwatch.org/our-apis/documentation#report-url-parameters-for-both-post-and-get-requests) for more info about these parameter options.
+
+Spatial resolution can be LOW = 0.1 degree or HIGH = 0.01 degree, 
+
+```{r}
+vp_senegal <- gfw_ais_presence(spatial_resolution = "LOW",
+                               temporal_resolution = "MONTHLY",
+                               start_date = start_date,
+                               end_date = end_date,
+                               region_source = "EEZ",
+                               region = 8371)
+vp_senegal
+```
+
+Without grouping variables, the function will return a number of `vessel ID`s present (for a definition of `Vessel ID` see our [vessel identity vignette](https://globalfishingwatch.github.io/gfwr/articles/identity)) and the total vessel presence hours for each cell (lat, lon). 
+
+The `Time Range` column will be expressed in the temporal units of the temporal resolution selected. In this example, `MONTHLY` will create a Time Range expressed in months: `YYYY-MM`
+
+Explore other temporal resolution and how the results vary.
+
+```{r}
+vp_senegal <- gfw_ais_presence(spatial_resolution = "LOW",
+                               temporal_resolution = "YEARLY",
+                               start_date = start_date,
+                               end_date = end_date,
+                               region_source = "EEZ",
+                               region = 8371)
+vp_senegal
+```
+
+## Grouping variables
+
+The outputs of `gfw_ais_presence()` can be grouped by `FLAG`, `GEARTYPE`, `FLAGANDGEARTYPE`, `MMSI` or `VESSEL_ID`. 
+This will create extra grouping columns, and the number of vessel presence hours will be expressed accordingly. 
+
+```{r}
+vp_senegal_flag <- gfw_ais_presence(spatial_resolution = "LOW",
+                                    temporal_resolution = "MONTHLY",
+                                    group_by = "FLAG",
+                                    start_date = start_date,
+                                    end_date = end_date,
+                                    region_source = "EEZ",
+                                    region = 8371)
+vp_senegal_flag |> count(flag) |> arrange((desc(n)))
+
+```
+
+__Note__ that these results are grouped by `Vessel ID`, which is not the same as grouping by number of vessels. 
+Check our [vessel identity vignette](https://globalfishingwatch.github.io/gfwr/articles/identity) for more information.
+
+
+Grouping by MMSI will group the results at the MMSI scale, which can correspond to individual vessels, but this is not always the case. 
+
+```{r}
+vp_senegal_MMSI <- gfw_ais_presence(spatial_resolution = "LOW",
+                                    temporal_resolution = "MONTHLY",
+                                    group_by = "MMSI",
+                                    start_date = start_date,
+                                    end_date = end_date,
+                                    region_source = "EEZ",
+                                    region = 8371)
+vp_senegal_MMSI
+```
+
+
+Finally, grouping by `Vessel ID` returns all the details about the vessel identity of the vessels `Vessel ID`s present in the area: 
+
+```{r}
+vp_senegal_vesselID <- gfw_ais_presence(spatial_resolution = "LOW",
+                                        temporal_resolution = "MONTHLY",
+                                        group_by = "VESSEL_ID",
+                                        start_date = start_date,
+                                        end_date = end_date,
+                                        region_source = "EEZ",
+                                        region = 8371)
+vp_senegal_vesselID |> count(`Gear Type`)
+vp_senegal_vesselID |> count(`Vessel Type`)
+```
+
+The columns include `r paste(names(vp_senegal_vesselID), collapse = ", ")`.
+This is an important option to understand which vessels are active in an area, and their characteristics. 
+
+
+<!--
+## Filter options
+
+### Speed classes 
+
+`gfw_ais_vessel_presence()` supports filtering the vessels by speed range (in knots) in the following categories : 
+
+- <2 – Less than 2 knots
+- 2-4 – 2 to 4 knots
+- 4-6 – 4 to 6 knots
+- 6-10 – 6 to 10 knots
+- 10-15 – 10 to 15 knots
+- 15-25 – 15 to 25 knots
+- \>25 – Greater than 25 knots
+    
+```{r gfw_speed, eval = FALSE}
+eez_vessel_presence_speed <- gfw_ais_presence(
+  spatial_resolution = "LOW",
+  temporal_resolution = "YEARLY",
+  group_by = "FLAG",
+  filter_by = "speed = '<2'",
+  start_date = start_date,
+  end_date = end_date,
+  region = 8371,
+  region_source = "EEZ"
+  )
+```
+
+
+```{r advanced_gfw_speed, eval = FALSE, echo = FALSE}
+speed_categories <- c("<2",
+                      "2-4",
+                      "4-6",
+                      "6-10",
+                      "10-15",
+                      "15-25",
+                      ">25"
+                      )
+sp <- paste0("speed ='" , speed_categories, "'")
+vp_all_speeds <- purrr::map(sp,
+                            ~gfw_ais_presence(
+                              spatial_resolution = "LOW",
+                              temporal_resolution = "MONTHLY",
+                              group_by = "FLAGANDGEARTYPE",
+                              filter_by = .x,
+                              start_date = start_date,
+                              end_date = end_date,
+                              region = id$id, 
+                              region_source = "EEZ"
+                            ))
+vp_all_speeds <- purrr::map2(vp_all_speeds, speed_categories, 
+           ~mutate(.x, speed = .y)) |> 
+  bind_rows()
+vp_all_speeds <- vp_all_speeds |> mutate(speed = as.factor(speed))
+vp_all_speeds |>   
+ggplot() +
+  geom_tile(aes(x = Lon,
+                y = Lat,
+                fill = `Vessel Presence Hours`)) +
+  geom_sf(data = ne_countries(returnclass = "sf", scale = "medium")) +
+  coord_sf(xlim = c(min(eez_vessel_presence_speed$Lon),max(eez_vessel_presence_speed$Lon)),
+           ylim = c(min(eez_vessel_presence_speed$Lat),max(eez_vessel_presence_speed$Lat))) +
+  scale_fill_gradientn(
+    trans = 'log10',
+    colors = map_effort_light, 
+    na.value = NA,
+    labels = scales::comma) +
+  facet_wrap(peed) +
+  labs(title = "Vessel Presence hours in the Senegalese EEZ",
+       subtitle = glue("{start_date} to {end_date}"),
+       fill = "Fishing hours") +
+  map_theme
+```
+-->
+
+## Mapping vessel presence with ggplot2
+
+Before mapping let's define a theme using `ggplot2`
+
+```{r theme}
+# Map theme with dark background
+map_theme <- ggplot2::theme_minimal() + 
+  ggplot2::theme(
+    panel.border = element_blank(), 
+    legend.position = "bottom", legend.box = "vertical", 
+    legend.key.height = unit(3, "mm"), 
+    legend.key.width = unit(20, "mm"),
+    legend.text = element_text(color = "#848b9b", size = 8), 
+    legend.title = element_text(face = "bold", color = "#363c4c", size = 8, hjust = 0.5), 
+    plot.title = element_text(face = "bold", color = "#363c4c", size = 10), 
+    plot.subtitle = element_text(color = "#363c4c", size = 10), 
+    axis.title = element_blank(), 
+    axis.text = element_text(color = "#848b9b", size = 6)
+    )
+
+# Palette for fishing activity
+map_effort_light <- c("#ffffff", "#eeff00", "#3b9088","#0c276c")
+```
+
+
+And let's map the original vessel presence dataset for January-March 2024: 
+
+
+```{r eez_df}
+vp_senegal
+```
+
+
+We can use `ggplot2` and `geom_tile` to plot the data.
+
+```{r sen_plot, fig.width=8, fig.height=6}
+#| fig.alt: >
+#|   A map of Vessel Presence in the Senegalese EEZ. 
+#|   The scale is logarithmic
+vp_senegal |> 
+  ggplot() +
+  geom_tile(aes(x = Lon,
+                y = Lat,
+                fill = `Vessel Presence Hours`)) +
+  geom_sf(data = ne_countries(returnclass = "sf", scale = "medium")) +
+  coord_sf(xlim = c(min(vp_senegal$Lon), max(vp_senegal$Lon)),
+           ylim = c(min(vp_senegal$Lat), max(vp_senegal$Lat))) +
+  scale_fill_gradientn(
+    trans = 'log10',
+    colors = map_effort_light, 
+    na.value = NA,
+    labels = scales::comma) +
+  labs(title = "Vessel Presence hours in the Senegalese EEZ",
+       subtitle = glue("{start_date} to {end_date}"),
+       fill = "Vessel presence hours (log)") +
+  map_theme
+```
+
+
+

@@ -36,7 +36,7 @@ gfw_regions <- function(region_source = "EEZ",
     if (region_source == "EEZ") {
       result <- marine_regions %>%
         dplyr::rename(id = MRGID,
-               label = name)
+                      label = name)
     }
     return(result)
   }
@@ -44,7 +44,7 @@ gfw_regions <- function(region_source = "EEZ",
 
 #' Function to pull region code using region name and viceversa
 #' @name gfw_region_id
-#' @param region_name Character or numeric EEZ MPA or RFMO name or id.
+#' @param region Character or numeric EEZ MPA or RFMO name or id.
 #' @param region_source Character, source of region data, `"EEZ"`, `"MPA"` or `"RFMO"`.
 #' @param key Character, API token. Defaults to `gfw_auth()`.
 #' @return For `gfw_region_id()`, the corresponding code, region names or iso code
@@ -60,17 +60,17 @@ gfw_regions <- function(region_source = "EEZ",
 #' @export
 #' @examples
 #' \dontrun{
-#' gfw_region_id(region_name = "COL", region_source = "EEZ")
-#' gfw_region_id(region_name = "Colombia", region_source = "EEZ")
-#' gfw_region_id(region_name = "Nazca", region_source = "MPA")
-#' gfw_region_id(region_name = "IOTC", region_source = "RFMO")
-#' gfw_region_id(region_name = 8456, region_source = "EEZ")
+#' gfw_region_id(region = "COL", region_source = "EEZ")
+#' gfw_region_id(region = "Colombia", region_source = "EEZ")
+#' gfw_region_id(region = "Nazca", region_source = "MPA")
+#' gfw_region_id(region = "IOTC", region_source = "RFMO")
+#' gfw_region_id(region = 8456, region_source = "EEZ")
 #' # Handling empty strings (high-seas)
-#' gfw_region_id(region_name = "", region_source = "EEZ")
-#' gfw_region_id(region_name = NA, region_source = "EEZ")
-#' gfw_region_id(region_name = NA, region_source = "MPA")
+#' gfw_region_id(region = "", region_source = "EEZ")
+#' gfw_region_id(region = NA, region_source = "EEZ")
+#' gfw_region_id(region = NA, region_source = "MPA")
 #' }
-gfw_region_id <- function(region_name = NULL,
+gfw_region_id <- function(region = NULL,
                           region_source = "EEZ",
                           key = gfw_auth()) {
   if (!region_source %in% c("EEZ", "MPA", "RFMO")) stop("Enter valid region source")
@@ -90,39 +90,39 @@ gfw_region_id <- function(region_name = NULL,
                     iso3 = iso)
   }
 
-  if (is.na(region_name) | region_name == "")
+  if (is.na(region) | region == "")
     return(tidyr::tibble(id = NA, label = NA, iso3 = NA, GEONAME = NA, NAME = NA, RFB = NA, POL_TYPE = NA) %>%
              dplyr::select(tidyr::all_of(names(result))))
 
 
   # EEZ names
-  if (region_source == "EEZ" & is.character(region_name)) {
+  if (region_source == "EEZ" & is.character(region)) {
     result %>%
-      dplyr::filter(agrepl(region_name, .$label) |
-                      agrepl(paste0("^",region_name), .$iso3))
+      dplyr::filter(agrepl(region, .$label) |
+                      agrepl(paste0("^",region), .$iso3))
   }
   # EEZ ids
-  else if (region_source == "EEZ" & is.numeric(region_name)) {
+  else if (region_source == "EEZ" & is.numeric(region)) {
     result %>%
-      dplyr::filter(id == {{ region_name }})
+      dplyr::filter(id == {{ region }})
   }
   # MPA names
-  else if (region_source == "MPA" & is.character(region_name)) {
+  else if (region_source == "MPA" & is.character(region)) {
     result %>%
-      dplyr::filter(agrepl(region_name, .$label))
+      dplyr::filter(agrepl(region, .$label))
   }
   # MPA ids
-  else if (region_source == "MPA" & is.numeric(region_name)) {
+  else if (region_source == "MPA" & is.numeric(region)) {
     result %>%
-      dplyr::filter(id == {{ region_name }})
+      dplyr::filter(id == {{ region }})
   }
   # RFMO names
-  else if (region_source == "RFMO" & is.character(region_name)) {
+  else if (region_source == "RFMO" & is.character(region)) {
     result %>%
-      dplyr::filter(agrepl(region_name, .$label))
+      dplyr::filter(agrepl(region, .$label))
   }
   # RFMO ids
-  else if (region_source == "RFMO" & is.numeric(region_name)) {
+  else if (region_source == "RFMO" & is.numeric(region)) {
     stop("RFMO codes are characters")
   }
 }

@@ -4,10 +4,10 @@
 \alias{gfw_region_id}
 \title{Function to pull region code using region name and viceversa}
 \usage{
-gfw_region_id(region_name = NULL, region_source = "EEZ", key = gfw_auth())
+gfw_region_id(region = NULL, region_source = "EEZ", key = gfw_auth())
 }
 \arguments{
-\item{region_name}{Character or numeric EEZ MPA or RFMO name or id.}
+\item{region}{Character or numeric EEZ MPA or RFMO name or id.}
 
 \item{region_source}{Character, source of region data, \code{"EEZ"}, \code{"MPA"} or \code{"RFMO"}.}
 
@@ -22,15 +22,15 @@ Function to pull region code using region name and viceversa
 }
 \examples{
 \dontrun{
-gfw_region_id(region_name = "COL", region_source = "EEZ")
-gfw_region_id(region_name = "Colombia", region_source = "EEZ")
-gfw_region_id(region_name = "Nazca", region_source = "MPA")
-gfw_region_id(region_name = "IOTC", region_source = "RFMO")
-gfw_region_id(region_name = 8456, region_source = "EEZ")
+gfw_region_id(region = "COL", region_source = "EEZ")
+gfw_region_id(region = "Colombia", region_source = "EEZ")
+gfw_region_id(region = "Nazca", region_source = "MPA")
+gfw_region_id(region = "IOTC", region_source = "RFMO")
+gfw_region_id(region = 8456, region_source = "EEZ")
 # Handling empty strings (high-seas)
-gfw_region_id(region_name = "", region_source = "EEZ")
-gfw_region_id(region_name = NA, region_source = "EEZ")
-gfw_region_id(region_name = NA, region_source = "MPA")
+gfw_region_id(region = "", region_source = "EEZ")
+gfw_region_id(region = NA, region_source = "EEZ")
+gfw_region_id(region = NA, region_source = "MPA")
 }
 }
 \seealso{

@@ -30,9 +30,6 @@
 #' types of vessels during the encounter. A
 #' vector with any combination of: `"CARRIER-FISHING"`, `"FISHING-CARRIER"`,
 #' `"FISHING-SUPPORT"`, `"SUPPORT-FISHING"`.
-#' @param gap_intentional_disabling Logical. Only useful when `event_type = "GAP"`.
-#' Filters intentional gap events according to Global Fishing Watch algorithms.
-#' Check the [gaps API documentation](https://globalfishingwatch.org/our-apis/documentation#ais-off-event-aka-gap) for more details.
 #' @param confidences Only useful when `event_type = "PORT_VISIT"`. Confidence
 #' levels of port visits. Possible values: 2, 3, or 4. Low-confidence port visits (confidence 1)
 #' are not available for download. See the
@@ -162,7 +159,6 @@ gfw_event <- function(event_type,
                       region = NULL,
                       duration = 1,
                       encounter_types = NULL,
-                      gap_intentional_disabling = NULL,
                       confidences = c(2, 3, 4),
                       key = gfw_auth(),
                       quiet = FALSE,
@@ -220,12 +216,6 @@ gfw_event <- function(event_type,
   if (!is.null(duration)) {
     duration <- list(duration = jsonlite::unbox(duration))
     body_args <- c(body_args, duration)
-  }
-  # gap_intentional_disabling
-  if (!is.null(gap_intentional_disabling)) {
-    gap_intentional_disabling <-
-      list("gapIntentionalDisabling" = gap_intentional_disabling)
-    body_args <- c(body_args, gap_intentional_disabling)
   }
 
   base <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/")

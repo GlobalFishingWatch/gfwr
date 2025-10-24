@@ -16,7 +16,6 @@ gfw_event(
   region = NULL,
   duration = 1,
   encounter_types = NULL,
-  gap_intentional_disabling = NULL,
   confidences = c(2, 3, 4),
   key = gfw_auth(),
   quiet = FALSE,
@@ -64,10 +63,6 @@ default value is 1.}
 types of vessels during the encounter. A
 vector with any combination of: \code{"CARRIER-FISHING"}, \code{"FISHING-CARRIER"},
 \code{"FISHING-SUPPORT"}, \code{"SUPPORT-FISHING"}.}
-
-\item{gap_intentional_disabling}{Logical. Only useful when \code{event_type = "GAP"}.
-Filters intentional gap events according to Global Fishing Watch algorithms.
-Check the \href{https://globalfishingwatch.org/our-apis/documentation#ais-off-event-aka-gap}{gaps API documentation} for more details.}
 
 \item{confidences}{Only useful when \code{event_type = "PORT_VISIT"}. Confidence
 levels of port visits. Possible values: 2, 3, or 4. Low-confidence port visits (confidence 1)

@@ -1,32 +1,38 @@
 url: https://globalfishingwatch.github.io/gfwr/
-reference:
-- title: "Apparent fishing effort"
+template:
+  bootstrap: 5
+
+articles:
+- title: Vignettes
+  navbar: ~
   contents:
-  - get_raster
-  - get_last_report
+  - articles/identity
+  - articles/gfw_vessel_presence
+  - articles/making-maps
+
+reference:
 - title: "Vessel identity"
   contents:
-  - get_vessel_info
-- title: "Events"
-  desc: "Fishing, AIS disabling ('gaps'), encounter and loitering events"
+  - gfw_vessel_info
+- title: "AIS-based vessel presence and apparent fishing hours (formerly apparent fishing effort)"
   contents:
-  - get_event
-  - get_event_stats
+  - gfw_ais_presence
+  - gfw_ais_fishing_hours
+  - gfw_last_report
+- title: "Events"
+  desc: "AIS-based events: port visits, AIS disabling ('gaps'), encounter and loitering events"
+  contents:
+  - gfw_event
+  - gfw_event_stats
+- title: "SAR-based vessel detections"
+  contents:
+  - gfw_sar_vessel_detections
 - title: "Auxiliary functions"
   contents:
   - gfw_auth
-  - get_region_id
-  - get_regions
+  - gfw_region_id
+  - gfw_regions
 - title: "Datasets"
   contents:
   - marine_regions
   - test_shape
-template:
-  bootstrap: 5
-  includes:
-    in_header: <!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-WXTMN69');</script><!-- End Google Tag Manager -->
-    before_body: <!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WXTMN69"height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><!-- End Google Tag Manager (noscript) -->
-    after_body: <!-- inserted at the end of the body -->
-    before_title: <!-- inserted before the package title in the header ->
-    before_navbar: <!-- inserted before the navbar links -->
-    after_navbar: <!-- inserted after the navbar links -->
