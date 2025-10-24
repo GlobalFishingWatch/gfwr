@@ -16,20 +16,18 @@
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Making maps with `gfwr`">
-<!-- Google Tag Manager --><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-WXTMN69');</script><!-- End Google Tag Manager -->
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
-    <!-- Google Tag Manager (noscript) --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WXTMN69" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+
 
     <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
-    <!-- inserted before the package title in the header ->
+
     <a class="navbar-brand me-2" href="../index.html">gfwr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.0.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.0</small>
 
-    <!-- inserted before the navbar links -->
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -40,7 +38,8 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/identity.html">Using get_vessel_info(): the basics of vessel identity in Global Fishing Watch and gfwr</a></li>
+<li><a class="dropdown-item" href="../articles/identity.html">Using gfw_vessel_info(): the basics of vessel identity in Global Fishing Watch and gfwr</a></li>
+    <li><a class="dropdown-item" href="../articles/gfw_vessel_presence.html">Exploring the vessel presence layer in `gfwr`</a></li>
     <li><a class="dropdown-item" href="../articles/making-maps.html">Making maps with `gfwr`</a></li>
   </ul>
 </li>
@@ -54,7 +53,7 @@
       </ul>
 </div>
 
-    <!-- inserted after the navbar links -->
+
   </div>
 </nav><div class="container template-article">
 
@@ -78,21 +77,21 @@
 <p>A powerful feature of <code>gfwr</code> is the ability to get data
 for making custom maps of human activity at sea, such as apparent
 fishing effort, at-sea transshipment, and port visits. The
-<code><a href="../reference/get_raster.html">get_raster()</a></code> function provides gridded (e.g. raster) data
-from GFW’s <a href="https://globalfishingwatch.org/our-apis/documentation#map-visualization-4wings-api" class="external-link">4Wings
+<code><a href="../reference/gfw_ais_fishing_hours.html">gfw_ais_fishing_hours()</a></code> function provides gridded
+(e.g. raster) data from GFW’s <a href="https://globalfishingwatch.org/our-apis/documentation#map-visualization-4wings-api" class="external-link">4Wings
 Map Visualization API</a> and is useful for making heatmaps, while the
-<code><a href="../reference/get_event.html">get_event()</a></code> function supplies vector data (mostly point
+<code><a href="../reference/gfw_event.html">gfw_event()</a></code> function supplies vector data (mostly point
 locations) from the GFW <a href="https://globalfishingwatch.org/our-apis/documentation#events-api" class="external-link">Events
 API</a> for individual vessel events.</p>
 <blockquote>
 <p>This vignette demonstrates how to use and combine multiple
 <code>gfwr</code> functions to make a variety of maps of fishing vessel
 activity. Specifically, this vignette will show how to use the
-<code><a href="../reference/get_raster.html">get_raster()</a></code> function to make heatmaps of apparent fishing
-effort, and the <code><a href="../reference/get_event.html">get_event()</a></code> function to visualize the
-locations of specific events. It will demonstrate how to request data
-for specific regions using <code>gfwr</code>’s built-in options, as well
-as how to use a custom region provided by the user.</p>
+<code><a href="../reference/gfw_ais_fishing_hours.html">gfw_ais_fishing_hours()</a></code> function to make heatmaps of
+apparent fishing effort, and the <code><a href="../reference/gfw_event.html">gfw_event()</a></code> function to
+visualize the locations of specific events. It will demonstrate how to
+request data for specific regions using <code>gfwr</code>’s built-in
+options, as well as how to use a custom region provided by the user.</p>
 </blockquote>
 <div class="section level3">
 <h3 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
@@ -144,20 +143,20 @@ apparent fishing effort.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="making-heatmaps-of-apparent-fishing-effort-with-get_raster">Making heatmaps of apparent fishing effort with
-<code>get_raster()</code><a class="anchor" aria-label="anchor" href="#making-heatmaps-of-apparent-fishing-effort-with-get_raster"></a>
+<h2 id="making-heatmaps-of-apparent-fishing-effort-with-gfw_ais_fishing_hours">Making heatmaps of apparent fishing effort with
+<code>gfw_ais_fishing_hours()</code><a class="anchor" aria-label="anchor" href="#making-heatmaps-of-apparent-fishing-effort-with-gfw_ais_fishing_hours"></a>
 </h2>
-<p>The <code>gfwr</code> function <code><a href="../reference/get_raster.html">get_raster()</a></code> provides
-aggregated gridded (e.g. raster) data for AIS-based apparent fishing
-effort. It was designed to provide data for a specific region, offering
-users the ability to select from multiple built-in region types by
-specifying a specific Exclusive Economic Zone (EEZ), Marine Protected
+<p>The <code>gfwr</code> function <code><a href="../reference/gfw_ais_fishing_hours.html">gfw_ais_fishing_hours()</a></code>
+provides aggregated gridded (e.g. raster) data for AIS-based apparent
+fishing effort. It was designed to provide data for a specific region,
+offering users the ability to select from multiple built-in region types
+by specifying a specific Exclusive Economic Zone (EEZ), Marine Protected
 Area (MPA), or Regional Fisheries Management Organization (RFMO).</p>
 <p>The list of available regions for each type, and their
 <code>label</code> and <code>id</code>, can be accessed with the
-<code><a href="../reference/get_regions.html">get_regions()</a></code> function.</p>
+<code><a href="../reference/gfw_regions.html">gfw_regions()</a></code> function.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">eez_regions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_regions.html">get_regions</a></span><span class="op">(</span>region_source <span class="op">=</span> <span class="st">'EEZ'</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">eez_regions</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gfw_regions.html">gfw_regions</a></span><span class="op">(</span>region_source <span class="op">=</span> <span class="st">'EEZ'</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">eez_regions</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 285 × 5</span></span></span>
@@ -174,43 +173,43 @@ Area (MPA), or Regional Fisheries Management Organization (RFMO).</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> TON   Tonga                        <span style="text-decoration: underline;">8</span>448 Tongan Exclusive Economic Z… 200NM   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> SHN   Tristan da Cunha             <span style="text-decoration: underline;">8</span>382 British Exclusive Economic … 200NM   </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 275 more rows</span></span></span></code></pre></div>
-<p><code>gfwr</code> also includes the <code><a href="../reference/get_region_id.html">get_region_id()</a></code>
+<p><code>gfwr</code> also includes the <code><a href="../reference/gfw_region_id.html">gfw_region_id()</a></code>
 function to get the <code>label</code> and <code>id</code> for a
-specific region using the <code>region_name</code> argument. For EEZs,
-the <code>region_name</code> corresponds to the ISO3 code. Note that,
-for some countries, the ISO3 code will return multiple regions. For
-RFMOs, <code>region_name</code> corresponds to the RFMO abbreviation
+specific region using the <code>region</code> argument. For EEZs, the
+<code>region</code> corresponds to the ISO3 code. Note that, for some
+countries, the ISO3 code will return multiple regions. For RFMOs,
+<code>region</code> corresponds to the RFMO abbreviation
 (e.g. <code>"ICCAT"</code>) and for MPAs it refers to the full name of
-the MPA. The <code><a href="../reference/get_region_id.html">get_region_id()</a></code> function also works in
+the MPA. The <code><a href="../reference/gfw_region_id.html">gfw_region_id()</a></code> function also works in
 reverse. If a region <code>id</code> is passed as a <code>numeric</code>
-to the function as the <code>region_name</code>, the corresponding
-region <code>label</code> can be returned. This is especially useful
-when events are returned with region ids and you want the more
-descriptive label. See <a href="https://globalfishingwatch.org/faqs/reference-layer-sources/" class="external-link">here</a>
+to the function as the <code>region</code>, the corresponding region
+<code>label</code> can be returned. This is especially useful when
+events are returned with region ids and you want the more descriptive
+label. See <a href="https://globalfishingwatch.org/faqs/reference-layer-sources/" class="external-link">here</a>
 for more information about the regions used by GFW.</p>
 <p>Let’s start by making a map of apparent fishing effort in the Italian
-EEZ. The <code><a href="../reference/get_raster.html">get_raster()</a></code> function requires we provide the
-<code>id</code> of a specific region (or a shapefile, but more on that
-later). We could look up the Italian EEZ <code>id</code> in the
-<code>eez_regions</code> table we just created, but let’s use
-<code><a href="../reference/get_region_id.html">get_region_id()</a></code>.</p>
+EEZ. The <code><a href="../reference/gfw_ais_fishing_hours.html">gfw_ais_fishing_hours()</a></code> function requires we
+provide the <code>id</code> of a specific region (or a shapefile, but
+more on that later). We could look up the Italian EEZ <code>id</code> in
+the <code>eez_regions</code> table we just created, but let’s use
+<code><a href="../reference/gfw_region_id.html">gfw_region_id()</a></code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Use get_region_id function to get EEZ code for Italy</span></span>
-<span><span class="va">ita_eez_code</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_region_id.html">get_region_id</a></span><span class="op">(</span>region_name <span class="op">=</span> <span class="st">"ITA"</span>, region_source <span class="op">=</span> <span class="st">"EEZ"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Use gfw_region_id function to get EEZ code for Italy</span></span>
+<span><span class="va">ita_eez_code</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gfw_region_id.html">gfw_region_id</a></span><span class="op">(</span>region <span class="op">=</span> <span class="st">"ITA"</span>, region_source <span class="op">=</span> <span class="st">"EEZ"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
 <span><span class="co">#&gt;   iso3  label    id GEONAME                         POL_TYPE</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ITA   Italy  <span style="text-decoration: underline;">5</span>682 Italian Exclusive Economic Zone 200NM</span></span></code></pre>
-<p>The <code><a href="../reference/get_raster.html">get_raster()</a></code> function allows users to specify
-multiple criteria to customize the data they download, including the
-date range, spatial and temporal resolution, and grouping variables. See
-the documentation for <code><a href="../reference/get_raster.html">get_raster()</a></code> or the <a href="https://globalfishingwatch.org/our-apis/documentation#report-url-parameters-for-both-post-and-get-requests" class="external-link">GFW
+<p>The <code><a href="../reference/gfw_ais_fishing_hours.html">gfw_ais_fishing_hours()</a></code> function allows users to
+specify multiple criteria to customize the data they download, including
+the date range, spatial and temporal resolution, and grouping variables.
+See the documentation for <code><a href="../reference/gfw_ais_fishing_hours.html">gfw_ais_fishing_hours()</a></code> or the <a href="https://globalfishingwatch.org/our-apis/documentation#report-url-parameters-for-both-post-and-get-requests" class="external-link">GFW
 APIs</a> for more info about these parameter options.</p>
 <p>In this case, let’s request data during our time range at 100th
 degree resolution and grouped by flag State:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Download data for the Italian EEZ</span></span>
-<span><span class="va">eez_fish_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_raster.html">get_raster</a></span><span class="op">(</span></span>
+<span><span class="va">eez_fish_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gfw_ais_fishing_hours.html">gfw_ais_fishing_hours</a></span><span class="op">(</span></span>
 <span>  spatial_resolution <span class="op">=</span> <span class="st">"HIGH"</span>,</span>
 <span>  temporal_resolution <span class="op">=</span> <span class="st">"YEARLY"</span>,</span>
 <span>  group_by <span class="op">=</span> <span class="st">"FLAG"</span>,</span>
@@ -222,16 +221,16 @@ degree resolution and grouped by flag State:</p>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 69,557 × 6</span></span></span>
 <span><span class="co">#&gt;      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  43.7  13.6         <span style="text-decoration: underline;">2</span>021 ITA              3                     4.92</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  42.2  15.7         <span style="text-decoration: underline;">2</span>021 ITA             10                     9.23</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  40.9  13.9         <span style="text-decoration: underline;">2</span>021 ITA              9                    21.2 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  41.9  16.6         <span style="text-decoration: underline;">2</span>021 ITA              2                     3.14</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  36.1  13           <span style="text-decoration: underline;">2</span>021 ITA              1                     1.12</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  41.0  18.1         <span style="text-decoration: underline;">2</span>021 ITA              2                     2.82</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  43.7  14.1         <span style="text-decoration: underline;">2</span>021 ITA              3                     6.46</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  42.4  14.9         <span style="text-decoration: underline;">2</span>021 ITA              3                     5.56</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  45.2  12.4         <span style="text-decoration: underline;">2</span>021 ITA              1                     0.17</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  42.3  10.6         <span style="text-decoration: underline;">2</span>021 ITA              1                     0.77</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  42.8 14.2          <span style="text-decoration: underline;">2</span>021 ITA              9                    36.9 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  44.0 13.2          <span style="text-decoration: underline;">2</span>021 ITA              5                     8.3 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  41.9 12.0          <span style="text-decoration: underline;">2</span>021 ITA              7                     9.13</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  42.1 16.1          <span style="text-decoration: underline;">2</span>021 ITA              4                     4.83</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  40.8 14.0          <span style="text-decoration: underline;">2</span>021 ITA              7                    22.4 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  42.1 15.8          <span style="text-decoration: underline;">2</span>021 ITA              4                     5.97</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  41.9 16.3          <span style="text-decoration: underline;">2</span>021 ITA              2                     6.3 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  42.3 15.8          <span style="text-decoration: underline;">2</span>021 ITA              6                     6.76</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  41.3 13.0          <span style="text-decoration: underline;">2</span>021 ITA              5                    11.0 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  39.1  9.19         <span style="text-decoration: underline;">2</span>021 ITA              1                     1.03</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 69,547 more rows</span></span></span></code></pre>
 <p>Because the data includes fishing by all flag states, to make a map
 of all activity, we first need to summarize activity by grid cell.</p>
@@ -267,7 +266,7 @@ effort data within the jurisdiction of the Indian Ocean Tuna Commission
 (IOTC), grouped yearly by gear type:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Download data for the IOTC</span></span>
-<span><span class="va">iotc_fish_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_raster.html">get_raster</a></span><span class="op">(</span></span>
+<span><span class="va">iotc_fish_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gfw_ais_fishing_hours.html">gfw_ais_fishing_hours</a></span><span class="op">(</span></span>
 <span>  spatial_resolution <span class="op">=</span> <span class="st">"LOW"</span>,</span>
 <span>  temporal_resolution <span class="op">=</span> <span class="st">"YEARLY"</span>,</span>
 <span>  group_by <span class="op">=</span> <span class="st">"GEARTYPE"</span>,</span>
@@ -279,16 +278,16 @@ effort data within the jurisdiction of the Indian Ocean Tuna Commission
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 106,054 × 6</span></span></span>
 <span><span class="co">#&gt;      Lat   Lon `Time Range` geartype         `Vessel IDs` Apparent Fishing Hou…¹</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  -<span style="color: #BB0000;">7.6</span>  47.8         <span style="text-decoration: underline;">2</span>021 drifting_longli…            8                  38.2 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  -<span style="color: #BB0000;">8</span>    79.8         <span style="text-decoration: underline;">2</span>021 drifting_longli…            2                   5.72</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> -<span style="color: #BB0000;">36.4</span> 137.          <span style="text-decoration: underline;">2</span>021 inconclusive                5                  19.0 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  -<span style="color: #BB0000;">9</span>    65.6         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   0.27</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  -<span style="color: #BB0000;">7.1</span>  40.9         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   1.49</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  -<span style="color: #BB0000;">7.9</span>  54           <span style="text-decoration: underline;">2</span>021 drifting_longli…            4                   7.33</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  26.1  52.6         <span style="text-decoration: underline;">2</span>021 fishing                     2                  11.5 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> -<span style="color: #BB0000;">36.2</span>  42.9         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   2.51</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  -<span style="color: #BB0000;">7.2</span>  45.7         <span style="text-decoration: underline;">2</span>021 drifting_longli…            6                  15.7 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  -<span style="color: #BB0000;">5.2</span>  47.4         <span style="text-decoration: underline;">2</span>021 drifting_longli…            6                  16.0 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> -<span style="color: #BB0000;">19</span>    43.3         <span style="text-decoration: underline;">2</span>021 drifting_longli…            2                   9.82</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> -<span style="color: #BB0000;">20</span>    57.4         <span style="text-decoration: underline;">2</span>021 fishing                     1                   3.39</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> -<span style="color: #BB0000;">15.2</span> 115.          <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   2.96</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  -<span style="color: #BB0000;">5.6</span>  50.1         <span style="text-decoration: underline;">2</span>021 drifting_longli…            5                  10.1 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  18.4  71.6         <span style="text-decoration: underline;">2</span>021 drifting_longli…            2                  39.2 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  15.9  61.8         <span style="text-decoration: underline;">2</span>021 squid_jigger                2                   9.84</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> -<span style="color: #BB0000;">14.1</span>  61.2         <span style="text-decoration: underline;">2</span>021 set_longlines               3                  14.6 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  -<span style="color: #BB0000;">3.1</span>  57.3         <span style="text-decoration: underline;">2</span>021 drifting_longli…            1                   0.97</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  -<span style="color: #BB0000;">8.7</span>  86.5         <span style="text-decoration: underline;">2</span>021 drifting_longli…            4                   7.18</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  14.4  81.2         <span style="text-decoration: underline;">2</span>021 drifting_longli…            4                  26.2 </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 106,044 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ abbreviated name: ¹​`Apparent Fishing Hours`</span></span></span></code></pre>
 <p>This time, instead of aggregating all activity, let’s plot the
@@ -320,30 +319,31 @@ activity of a specific gear type:</p>
 <div class="section level3">
 <h3 id="when-your-api-request-times-out">When your API request times out<a class="anchor" aria-label="anchor" href="#when-your-api-request-times-out"></a>
 </h3>
-<p>For API performance reasons, the <code><a href="../reference/get_raster.html">get_raster()</a></code> function
-restricts individual queries to a single year of data. However, even
-with this restriction, it is possible for API request to time out before
-it completes. When this occurs, the initial <code><a href="../reference/get_raster.html">get_raster()</a></code>
-call will return an error, and subsequent API requests using any
-<code>gfwr</code> <code>get_</code> function will return an HTTP 429
-error until the original request completes:</p>
+<p>For API performance reasons, the <code><a href="../reference/gfw_ais_fishing_hours.html">gfw_ais_fishing_hours()</a></code>
+function restricts individual queries to a single year of data. However,
+even with this restriction, it is possible for API request to time out
+before it completes. When this occurs, the initial
+<code><a href="../reference/gfw_ais_fishing_hours.html">gfw_ais_fishing_hours()</a></code> call will return an error, and
+subsequent API requests using any <code>gfwr</code> <code>gfw_</code>
+function will return an HTTP 429 error until the original request
+completes:</p>
 <blockquote>
 <p>Error in <code><a href="https://httr2.r-lib.org/reference/req_perform.html" class="external-link">httr2::req_perform()</a></code>: ! HTTP 429 Too Many
 Requests. • Your application token is not currently enabled to perform
 more than one concurrent report. If you need to generate more than one
-report concurrently, contact us at <a href="mailto:apis@globalfishingwatch.org" class="email">apis@globalfishingwatch.org</a></p>
+report concurrently, contact us at apis@globalfishingwatch.org</p>
 </blockquote>
 <p>Although no data was received, the request is still being processed
 by the APIs and will become available when it completes. To account for
-this, <code>gfwr</code> includes the <code><a href="../reference/get_last_report.html">get_last_report()</a></code>
+this, <code>gfwr</code> includes the <code><a href="../reference/gfw_last_report.html">gfw_last_report()</a></code>
 function, which let’s users request the results of their last API
-request with <code><a href="../reference/get_raster.html">get_raster()</a></code>.</p>
-<p>The <code><a href="../reference/get_last_report.html">get_last_report()</a></code> function will tell you if the APIs
+request with <code><a href="../reference/gfw_ais_fishing_hours.html">gfw_ais_fishing_hours()</a></code>.</p>
+<p>The <code><a href="../reference/gfw_last_report.html">gfw_last_report()</a></code> function will tell you if the APIs
 are still processing your request and will download the results if the
 request has finished successfully. You will receive an error message if
 the request finished but resulted in an error or if it’s been &gt;30
 minutes since the last report was generated using
-<code><a href="../reference/get_raster.html">get_raster()</a></code>. For more information, see the <a href="https://globalfishingwatch.org/our-apis/documentation#get-last-report-generated" class="external-link">Get
+<code><a href="../reference/gfw_ais_fishing_hours.html">gfw_ais_fishing_hours()</a></code>. For more information, see the <a href="https://globalfishingwatch.org/our-apis/documentation#get-last-report-generated" class="external-link">Get
 last report generated endpoint</a> documentation on the GFW API
 page.</p>
 <p>If you’re struggling with this issue, we suggest breaking your
@@ -354,7 +354,7 @@ R.</p>
 <div class="section level2">
 <h2 id="plotting-vessel-events">Plotting vessel events<a class="anchor" aria-label="anchor" href="#plotting-vessel-events"></a>
 </h2>
-<p>The <code><a href="../reference/get_event.html">get_event()</a></code> function provides spatial data about the
+<p>The <code><a href="../reference/gfw_event.html">gfw_event()</a></code> function provides spatial data about the
 location of specific vessel activities. There are currently five
 available event types
 (<code>"FISHING"</code>,<code>"ENCOUNTER"</code>,<code>"LOITERING"</code>,
@@ -364,9 +364,9 @@ different categories of vessels (e.g. <code>"FISHING"</code>,
 <code>"CARRIER"</code>, <code>"CARGO"</code>, etc.). There are also a
 few event-specific arguments for specifying things like encounter types
 and confidence levels. For more details, see the
-<code><a href="../reference/get_event.html">get_event()</a></code> function documentation and the <a href="https://globalfishingwatch.org/our-apis/documentation#data-caveat" class="external-link">GFW
+<code><a href="../reference/gfw_event.html">gfw_event()</a></code> function documentation and the <a href="https://globalfishingwatch.org/our-apis/documentation#data-caveat" class="external-link">GFW
 API documentation</a>.</p>
-<p>In this example, we will use <code><a href="../reference/get_event.html">get_event()</a></code> to request
+<p>In this example, we will use <code><a href="../reference/gfw_event.html">gfw_event()</a></code> to request
 encounter events between fishing vessels and refrigerated carrier
 vessels. We’ll restrict events to those within the jurisdiction of the
 Indian Ocean Tuna Commission (IOTC) using the <code>region</code> and
@@ -374,13 +374,13 @@ Indian Ocean Tuna Commission (IOTC) using the <code>region</code> and
 example.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># using same example as above</span></span>
-<span><span class="va">encounters_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_event.html">get_event</a></span><span class="op">(</span>event_type <span class="op">=</span> <span class="st">"ENCOUNTER"</span>,</span>
+<span><span class="va">encounters_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gfw_event.html">gfw_event</a></span><span class="op">(</span>event_type <span class="op">=</span> <span class="st">"ENCOUNTER"</span>,</span>
 <span>                           encounter_types <span class="op">=</span> <span class="st">"CARRIER-FISHING"</span>,</span>
 <span>                           start_date <span class="op">=</span> <span class="va">start_date</span>,</span>
 <span>                           end_date <span class="op">=</span> <span class="va">end_date</span>,</span>
 <span>                           region <span class="op">=</span> <span class="st">"IOTC"</span>,</span>
 <span>                           region_source <span class="op">=</span> <span class="st">"RFMO"</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; [1] "Downloading 182 events from GFW"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "Downloading 178 events from GFW"</span></span></code></pre></div>
 <p>Encounters events have two rows per event to represent both vessels.
 Because each row shares the same event ID (<code>eventId</code>), we can
 extract the <code>eventId</code> and select one row per
@@ -409,18 +409,19 @@ plot to the area with encounters.</p>
 <span>           ylim <span class="op">=</span> <span class="va">enc_bbox</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">4</span><span class="op">)</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">'Apparent fishing hours in the IOTC by drifting longlines and fishing vessel encounter events with carrier vessels'</span>,</span>
 <span>       color <span class="op">=</span> <span class="st">'Event type'</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Coordinate system already present. Adding new coordinate system, which will</span></span>
-<span><span class="co">#&gt; replace the existing one.</span></span></code></pre></div>
+<span><span class="co">#&gt; Coordinate system already present.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Adding new coordinate system, which will replace the existing one.</span></span></code></pre></div>
 <p><img src="making-maps_files/figure-html/iotc_plot_1-1.png" alt="A map of apparent fishing hours in the IOTC by drifting longlines and  fishing vessels encounters" width="90%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="making-maps-for-custom-regions">Making maps for custom regions<a class="anchor" aria-label="anchor" href="#making-maps-for-custom-regions"></a>
 </h2>
-<p>The <code><a href="../reference/get_raster.html">get_raster()</a></code> and <code><a href="../reference/get_event.html">get_event()</a></code> functions
-also allow users to download data within a custom region by providing a
-GeoJSON polygon. To facilitate this, the <code><a href="../reference/get_raster.html">get_raster()</a></code> and
-<code><a href="../reference/get_event.html">get_event()</a></code> functions allow users to pass a <code>sf</code>
-object to the <code>region</code> argument.</p>
+<p>The <code><a href="../reference/gfw_ais_fishing_hours.html">gfw_ais_fishing_hours()</a></code> and <code><a href="../reference/gfw_event.html">gfw_event()</a></code>
+functions also allow users to download data within a custom region by
+providing a GeoJSON polygon. To facilitate this, the
+<code><a href="../reference/gfw_ais_fishing_hours.html">gfw_ais_fishing_hours()</a></code> and <code><a href="../reference/gfw_event.html">gfw_event()</a></code>
+functions allow users to pass a <code>sf</code> object to the
+<code>region</code> argument.</p>
 <p>To demonstrate this, we’ll first create a tibble of coordinates
 defining an arbitrary polygon and convert to an <code>sf</code>
 object.</p>
@@ -449,31 +450,29 @@ example, this is helpful when using more complex regions.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_shp_bbox</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span><span class="va">my_shp</span><span class="op">)</span></span></code></pre></div>
 <p>Now we’re ready to request data in our custom region from
-<code><a href="../reference/get_raster.html">get_raster()</a></code> and <code><a href="../reference/get_event.html">get_event()</a></code>.</p>
+<code><a href="../reference/gfw_ais_fishing_hours.html">gfw_ais_fishing_hours()</a></code> and <code><a href="../reference/gfw_event.html">gfw_event()</a></code>.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">my_raster_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_raster.html">get_raster</a></span><span class="op">(</span></span>
-<span>  spatial_resolution <span class="op">=</span> <span class="st">"LOW"</span>,</span>
-<span>  temporal_resolution <span class="op">=</span> <span class="st">"YEARLY"</span>,</span>
-<span>  group_by <span class="op">=</span> <span class="st">"GEARTYPE"</span>,</span>
-<span>  start_date <span class="op">=</span> <span class="va">start_date</span>,</span>
-<span>  end_date <span class="op">=</span> <span class="va">end_date</span>,</span>
-<span>  region <span class="op">=</span> <span class="va">my_shp</span>,</span>
-<span>  region_source <span class="op">=</span> <span class="st">"USER_SHAPEFILE"</span></span>
-<span>  <span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">my_raster_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gfw_ais_fishing_hours.html">gfw_ais_fishing_hours</a></span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="st">"LOW"</span>,</span>
+<span>                                      temporal_resolution <span class="op">=</span> <span class="st">"YEARLY"</span>,</span>
+<span>                                      group_by <span class="op">=</span> <span class="st">"GEARTYPE"</span>,</span>
+<span>                                      start_date <span class="op">=</span> <span class="va">start_date</span>,</span>
+<span>                                      end_date <span class="op">=</span> <span class="va">end_date</span>,</span>
+<span>                                      region <span class="op">=</span> <span class="va">my_shp</span>,</span>
+<span>                                      region_source <span class="op">=</span> <span class="st">"USER_SHAPEFILE"</span><span class="op">)</span></span></code></pre></div>
 <p>For events, we’ll request high-confidence port visits by fishing
 vessels</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">my_port_events_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_event.html">get_event</a></span><span class="op">(</span>event_type <span class="op">=</span> <span class="st">"PORT_VISIT"</span>,</span>
-<span>                          confidences <span class="op">=</span> <span class="fl">4</span>,</span>
-<span>                          vessel_types <span class="op">=</span> <span class="st">"FISHING"</span>,</span>
-<span>                          start_date <span class="op">=</span> <span class="va">start_date</span>,</span>
-<span>                          end_date <span class="op">=</span> <span class="va">end_date</span>,</span>
-<span>                          region <span class="op">=</span> <span class="va">my_shp</span>,</span>
-<span>                          region_source <span class="op">=</span> <span class="st">"USER_SHAPEFILE"</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; [1] "Downloading 4119 events from GFW"</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">my_port_events_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gfw_event.html">gfw_event</a></span><span class="op">(</span>event_type <span class="op">=</span> <span class="st">"PORT_VISIT"</span>,</span>
+<span>                               confidences <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>                               vessel_types <span class="op">=</span> <span class="st">"FISHING"</span>,</span>
+<span>                               start_date <span class="op">=</span> <span class="va">start_date</span>,</span>
+<span>                               end_date <span class="op">=</span> <span class="va">end_date</span>,</span>
+<span>                               region <span class="op">=</span> <span class="va">my_shp</span>,</span>
+<span>                               region_source <span class="op">=</span> <span class="st">"USER_SHAPEFILE"</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; [1] "Downloading 4157 events from GFW"</span></span></code></pre></div>
 <p>and loitering events by refrigerated cargo vessels</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">my_loitering_events_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_event.html">get_event</a></span><span class="op">(</span>event_type <span class="op">=</span> <span class="st">"LOITERING"</span>,</span>
+<code class="sourceCode R"><span><span class="va">my_loitering_events_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gfw_event.html">gfw_event</a></span><span class="op">(</span>event_type <span class="op">=</span> <span class="st">"LOITERING"</span>,</span>
 <span>                                    vessel_types <span class="op">=</span> <span class="st">"CARRIER"</span>,</span>
 <span>                                    start_date <span class="op">=</span> <span class="va">start_date</span>,</span>
 <span>                                    end_date <span class="op">=</span> <span class="va">end_date</span>,</span>
@@ -534,7 +533,7 @@ loitering events and port visits.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Tyler Clavelle, Rocío Joo, Nate Miller, Andrea Sánchez-Tapia.</p>
+  <p>Developed by Andrea Sánchez-Tapia, Tyler Clavelle, Rocío Joo, Nate Miller, Jorge Cornejo-Donoso.</p>
 </div>
 
 <div class="pkgdown-footer-right">
@@ -546,7 +545,7 @@ loitering events and port visits.</p>
 
 
 
-  <!-- inserted at the end of the body -->
+
 
   </body>
 </html>
