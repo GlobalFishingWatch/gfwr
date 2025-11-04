@@ -34,6 +34,10 @@ gfw_regions <- function(region_source = "EEZ",
       httr2::resp_body_json(.) %>%
       dplyr::bind_rows()
     if (region_source == "EEZ") {
+
+      # Make data available
+      utils::data("marine_regions", package = "gfwr", envir = environment())
+
       result <- marine_regions %>%
         dplyr::rename(id = MRGID,
                       label = name)
@@ -84,6 +88,10 @@ gfw_region_id <- function(region = NULL,
     dplyr::bind_rows() %>%
     dplyr::relocate("id")
   if (region_source == "EEZ") {
+
+    # Make data available
+    utils::data("marine_regions", package = "gfwr", envir = environment())
+
     result <- marine_regions %>%
       dplyr::rename(id = MRGID,
                     label = name,
