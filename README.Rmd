@@ -23,9 +23,6 @@ knitr::opts_chunk$set(
 [![:registry status badge](https://globalfishingwatch.r-universe.dev/badges/:registry)](https://github.com/r-universe/globalfishingwatch/actions/workflows/sync.yml)
 <!-- badges: end -->
 
-> [!CAUTION]  
-> **Posted: Aug 5th 2025. Temporary delay in data updates**. We started a migration process that impacts API and data. During the following 2 to 3 weeks, our Packages and APIs may not show the latest data.
-
 > **Important**  
 > This version of `gfwr` gives access to Global Fishing Watch API [version 3](https://globalfishingwatch.org/our-apis/documentation#version-3-api). Starting
 April 30th, 2024, this is the official API version. For latest API releases, 
