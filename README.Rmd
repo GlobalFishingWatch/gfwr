@@ -21,6 +21,7 @@ knitr::opts_chunk$set(
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Licence](https://img.shields.io/badge/license-Apache%202-blue)](https://opensource.org/licenses/Apache-2.0)
 [![:registry status badge](https://globalfishingwatch.r-universe.dev/badges/:registry)](https://github.com/r-universe/globalfishingwatch/actions/workflows/sync.yml)
+[![Codecov test coverage](https://codecov.io/gh/GlobalFishingWatch/gfwr/graph/badge.svg)](https://app.codecov.io/gh/GlobalFishingWatch/gfwr)
 <!-- badges: end -->
 
 > **Important**  

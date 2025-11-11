@@ -1,3 +1,12 @@
+#' Global variables
+#'
+#' See \code{utils::\link[utils:globalVariables]{globalVariables}} for details.
+#'
+#' @name globalVariables
+#' @keywords internal
+#' @importFrom utils globalVariables
+NULL
+
 #' Pipe operator
 #'
 #' See \code{magrittr::\link[magrittr:pipe]{\%>\%}} for details.

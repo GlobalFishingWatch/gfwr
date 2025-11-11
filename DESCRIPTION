@@ -20,7 +20,7 @@ Description: This package connects to several Global Fishing Watch APIs to get v
 License: Apache License (>= 2)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Imports: 
     class,
     dplyr,
@@ -37,18 +37,25 @@ Imports:
     tibble,
     tidyr
 Suggests:
+    covr,
     devtools,
     ggplot2,
     glue,
     knitr,
+    lintr,
     qpdf,
     rmarkdown,
     rnaturalearth,
     rnaturalearthdata,
     scales,
-    sf
+    sf,
+    styler,
+    testthat (>= 3.0.0),
+    withr
 URL: https://github.com/GlobalFishingWatch/gfwr, https://globalfishingwatch.github.io/gfwr/
 BugReports: https://github.com/GlobalFishingWatch/gfwr/issues
 Depends: 
     R (>= 3.5)
 LazyData: true
+Config/testthat/edition: 3
+Config/testthat/parallel: true
