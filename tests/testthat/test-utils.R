@@ -15,7 +15,7 @@ test_that("gfw_auth reads token from environment", {
 test_that("gfw_user_agent returns correct user agent string", {
   ua <- gfw_user_agent()
   expect_type(ua, "character")
-  expect_match(ua, "gfwr/")
+  expect_match(ua, "^gfwr/", fixed = FALSE)
   expect_match(ua, "https://github.com/GlobalFishingWatch/gfwr")
 })
 
@@ -29,6 +29,11 @@ test_that("make_char converts single-element lists to character", {
 test_that("make_char leaves vectors unchanged", {
   expect_equal(make_char(c("a", "b")), c("a", "b"))
   expect_equal(make_char(1:3), 1:3)
+})
+
+test_that("make_char works with mixed types", {
+  result <- make_char(list("a", 1, TRUE))
+  expect_equal(result, c("a", "1", "TRUE"))
 })
 
 # make_datetime ---------------------------------------------------------------
@@ -57,9 +62,37 @@ test_that("vector_to_array works with numeric vectors", {
   expect_equal(unname(result), x)
 })
 
+# sf_to_geojson ---------------------------------------------------------------
+
+test_that("sf_to_geojson formats correctly for raster endpoint", {
+  data("test_shape", package = "gfwr", envir = environment())
+  result <- sf_to_geojson(test_shape, endpoint = "raster")
+  expect_type(result, "character")
+  expect_match(result, "^\\{\"geojson\":")
+})
+
+test_that("sf_to_geojson formats correctly for event endpoint", {
+  data("test_shape", package = "gfwr", envir = environment())
+  result <- sf_to_geojson(test_shape, endpoint = "event")
+  expect_type(result, "character")
+  expect_match(result, "^\"geometry\":")
+})
+
+test_that("sf_to_geojson throws for invalid endpoint", {
+  data("test_shape", package = "gfwr", envir = environment())
+  expect_error(sf_to_geojson(test_shape, endpoint = "invalid"), "Incorrect endpoint argument")
+})
+
 # pipe ------------------------------------------------------------------------
 
 test_that("pipe operator from magrittr is available", {
   result <- 1 %>% sum()
   expect_equal(result, 1)
+})
+
+# globalVariables -------------------------------------------------------------
+
+test_that("globalVariables calls do not error", {
+  expect_silent(globalVariables(c(".")))
+  expect_silent(globalVariables(c("iso", "name")))
 })
