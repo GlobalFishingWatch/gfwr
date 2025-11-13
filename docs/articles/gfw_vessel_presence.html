@@ -176,20 +176,20 @@ APIs</a> for more info about these parameter options.</p>
 <span>                               region_source <span class="op">=</span> <span class="st">"EEZ"</span>,</span>
 <span>                               region <span class="op">=</span> <span class="fl">8371</span><span class="op">)</span></span>
 <span><span class="va">vp_senegal</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4,169 × 5</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4,177 × 5</span></span></span>
 <span><span class="co">#&gt;      Lat   Lon `Time Range` `Vessel IDs` `Vessel Presence Hours`</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  14.5 -<span style="color: #BB0000;">18</span>   2024-02                64                     111</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  11.6 -<span style="color: #BB0000;">18.1</span> 2024-01                20                      21</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  11.4 -<span style="color: #BB0000;">19.3</span> 2024-01                11                      11</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  14.2 -<span style="color: #BB0000;">20</span>   2024-01                 3                       3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  13.8 -<span style="color: #BB0000;">20</span>   2024-03                 3                       3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  13   -<span style="color: #BB0000;">17.5</span> 2024-01                25                      60</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  14.6 -<span style="color: #BB0000;">18.5</span> 2024-03                42                      51</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  15.4 -<span style="color: #BB0000;">18.5</span> 2024-02                37                      42</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  11.9 -<span style="color: #BB0000;">17.7</span> 2024-02                49                      55</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  11.8 -<span style="color: #BB0000;">18.9</span> 2024-02                11                      11</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4,159 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  12.6 -<span style="color: #BB0000;">19.8</span> 2024-01                 4                       6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  14.8 -<span style="color: #BB0000;">20.1</span> 2024-02                 1                       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  12.2 -<span style="color: #BB0000;">19</span>   2024-03                11                      13</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  12.5 -<span style="color: #BB0000;">19.3</span> 2024-02                 6                       6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  12.8 -<span style="color: #BB0000;">20.2</span> 2024-01                 1                       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  12.4 -<span style="color: #BB0000;">18.6</span> 2024-01                16                      17</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  14.3 -<span style="color: #BB0000;">17.9</span> 2024-02                77                      84</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  14.4 -<span style="color: #BB0000;">18.7</span> 2024-02                11                      11</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  15.3 -<span style="color: #BB0000;">18.3</span> 2024-02                34                      42</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  10.8 -<span style="color: #BB0000;">19.6</span> 2024-03                 6                       6</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4,167 more rows</span></span></span></code></pre></div>
 <p>Without grouping variables, the function will return a number of
 <code>vessel ID</code>s present (for a definition of
 <code>Vessel ID</code> see our <a href="https://globalfishingwatch.github.io/gfwr/articles/identity">vessel
@@ -208,20 +208,20 @@ units of the temporal resolution selected. In this example,
 <span>                               region_source <span class="op">=</span> <span class="st">"EEZ"</span>,</span>
 <span>                               region <span class="op">=</span> <span class="fl">8371</span><span class="op">)</span></span>
 <span><span class="va">vp_senegal</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,443 × 5</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,444 × 5</span></span></span>
 <span><span class="co">#&gt;      Lat   Lon `Time Range` `Vessel IDs` `Vessel Presence Hours`</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  13.9 -<span style="color: #BB0000;">18</span>           <span style="text-decoration: underline;">2</span>024          159                     189</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  11.4 -<span style="color: #BB0000;">19.9</span>         <span style="text-decoration: underline;">2</span>024           15                      19</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  12   -<span style="color: #BB0000;">18.5</span>         <span style="text-decoration: underline;">2</span>024           60                      71</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  15.8 -<span style="color: #BB0000;">19.5</span>         <span style="text-decoration: underline;">2</span>024           12                      15</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  13.1 -<span style="color: #BB0000;">19</span>           <span style="text-decoration: underline;">2</span>024            3                       3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  12.4 -<span style="color: #BB0000;">20</span>           <span style="text-decoration: underline;">2</span>024           13                      14</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  11.6 -<span style="color: #BB0000;">18.9</span>         <span style="text-decoration: underline;">2</span>024           37                      39</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  12.4 -<span style="color: #BB0000;">17.7</span>         <span style="text-decoration: underline;">2</span>024          186                     232</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  12.3 -<span style="color: #BB0000;">18.9</span>         <span style="text-decoration: underline;">2</span>024           25                      27</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  12.2 -<span style="color: #BB0000;">19.6</span>         <span style="text-decoration: underline;">2</span>024           12                      13</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,433 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  13.8 -<span style="color: #BB0000;">17.6</span>         <span style="text-decoration: underline;">2</span>024           24                    <span style="text-decoration: underline;">5</span>299</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  15.3 -<span style="color: #BB0000;">17.6</span>         <span style="text-decoration: underline;">2</span>024           56                      82</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  16   -<span style="color: #BB0000;">16.7</span>         <span style="text-decoration: underline;">2</span>024           16                      52</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  15.8 -<span style="color: #BB0000;">18.2</span>         <span style="text-decoration: underline;">2</span>024          106                     115</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  10.7 -<span style="color: #BB0000;">19.6</span>         <span style="text-decoration: underline;">2</span>024            5                       5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  16.1 -<span style="color: #BB0000;">18.3</span>         <span style="text-decoration: underline;">2</span>024           22                      22</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  11.2 -<span style="color: #BB0000;">19.5</span>         <span style="text-decoration: underline;">2</span>024           14                      16</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  14.6 -<span style="color: #BB0000;">18.9</span>         <span style="text-decoration: underline;">2</span>024           29                      34</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  11.6 -<span style="color: #BB0000;">18.6</span>         <span style="text-decoration: underline;">2</span>024           39                      44</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  12   -<span style="color: #BB0000;">17.9</span>         <span style="text-decoration: underline;">2</span>024          114                     141</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,434 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="grouping-variables">Grouping variables<a class="anchor" aria-label="anchor" href="#grouping-variables"></a>
@@ -243,16 +243,16 @@ expressed accordingly.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 84 × 2</span></span></span>
 <span><span class="co">#&gt;    flag      n</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> LBR    <span style="text-decoration: underline;">2</span>923</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> MHL    <span style="text-decoration: underline;">2</span>914</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> PAN    <span style="text-decoration: underline;">2</span>659</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> MLT    <span style="text-decoration: underline;">2</span>091</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> SGP    <span style="text-decoration: underline;">1</span>911</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> BHS    <span style="text-decoration: underline;">1</span>706</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> HKG    <span style="text-decoration: underline;">1</span>622</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> NOR    <span style="text-decoration: underline;">1</span>287</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> PRT    <span style="text-decoration: underline;">1</span>279</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> ATG    <span style="text-decoration: underline;">1</span>270</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> LBR    <span style="text-decoration: underline;">2</span>937</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> MHL    <span style="text-decoration: underline;">2</span>912</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> PAN    <span style="text-decoration: underline;">2</span>632</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> MLT    <span style="text-decoration: underline;">2</span>053</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> SGP    <span style="text-decoration: underline;">1</span>895</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> BHS    <span style="text-decoration: underline;">1</span>686</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> HKG    <span style="text-decoration: underline;">1</span>619</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> ATG    <span style="text-decoration: underline;">1</span>287</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> NOR    <span style="text-decoration: underline;">1</span>273</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> PRT    <span style="text-decoration: underline;">1</span>257</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 74 more rows</span></span></span></code></pre></div>
 <p><strong>Note</strong> that these results are grouped by
 <code>Vessel ID</code>, which is not the same as grouping by number of
@@ -269,24 +269,26 @@ correspond to individual vessels, but this is not always the case.</p>
 <span>                                    region_source <span class="op">=</span> <span class="st">"EEZ"</span>,</span>
 <span>                                    region <span class="op">=</span> <span class="fl">8371</span><span class="op">)</span></span>
 <span><span class="va">vp_senegal_MMSI</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 79,938 × 7</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 79,730 × 7</span></span></span>
 <span><span class="co">#&gt;      Lat   Lon `Time Range`      mmsi `Entry Timestamp`   `Exit Timestamp`   </span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  12.3 -<span style="color: #BB0000;">17.3</span> 2024-03      663<span style="text-decoration: underline;">195</span>000 2024-01-20 <span style="color: #949494;">19:00:00</span> 2024-03-07 <span style="color: #949494;">02:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  13.6 -<span style="color: #BB0000;">17.7</span> 2024-02      538<span style="text-decoration: underline;">007</span>653 2024-02-09 <span style="color: #949494;">13:00:00</span> 2024-03-09 <span style="color: #949494;">03:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  12.2 -<span style="color: #BB0000;">17.1</span> 2024-02      229<span style="text-decoration: underline;">291</span>000 2024-01-06 <span style="color: #949494;">21:00:00</span> 2024-02-24 <span style="color: #949494;">17:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  14.5 -<span style="color: #BB0000;">18.6</span> 2024-01      228<span style="text-decoration: underline;">032</span>600 2024-01-16 <span style="color: #949494;">23:00:00</span> 2024-01-17 <span style="color: #949494;">16:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  14.2 -<span style="color: #BB0000;">17.8</span> 2024-03      636<span style="text-decoration: underline;">023</span>564 2024-03-17 <span style="color: #949494;">03:00:00</span> 2024-03-17 <span style="color: #949494;">15:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  15.3 -<span style="color: #BB0000;">17.2</span> 2024-02      663<span style="text-decoration: underline;">179</span>000 2024-01-01 <span style="color: #949494;">00:00:00</span> 2024-03-31 <span style="color: #949494;">23:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  14.7 -<span style="color: #BB0000;">17.4</span> 2024-03      787<span style="text-decoration: underline;">777</span>888 2024-03-30 <span style="color: #949494;">10:00:00</span> 2024-03-31 <span style="color: #949494;">23:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  12.7 -<span style="color: #BB0000;">17.9</span> 2024-01      258<span style="text-decoration: underline;">491</span>000 2024-01-25 <span style="color: #949494;">13:00:00</span> 2024-01-26 <span style="color: #949494;">09:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  13.7 -<span style="color: #BB0000;">17</span>   2024-03      255<span style="text-decoration: underline;">915</span>614 2024-01-28 <span style="color: #949494;">09:00:00</span> 2024-03-07 <span style="color: #949494;">08:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  15.9 -<span style="color: #BB0000;">19</span>   2024-02      563<span style="text-decoration: underline;">106</span>700 2024-01-31 <span style="color: #949494;">03:00:00</span> 2024-02-01 <span style="color: #949494;">02:00:00</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 79,928 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  14.1 -<span style="color: #BB0000;">17.3</span> 2024-02      663<span style="text-decoration: underline;">092</span>000 2024-02-01 <span style="color: #949494;">08:00:00</span> 2024-02-13 <span style="color: #949494;">03:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  15.1 -<span style="color: #BB0000;">18.6</span> 2024-02      219<span style="text-decoration: underline;">495</span>000 2024-02-06 <span style="color: #949494;">17:00:00</span> 2024-02-07 <span style="color: #949494;">12:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  15.8 -<span style="color: #BB0000;">17.9</span> 2024-03      636<span style="text-decoration: underline;">017</span>895 2024-03-24 <span style="color: #949494;">20:00:00</span> 2024-03-25 <span style="color: #949494;">17:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  14.4 -<span style="color: #BB0000;">18.1</span> 2024-01      248<span style="text-decoration: underline;">906</span>000 2024-01-15 <span style="color: #949494;">16:00:00</span> 2024-01-16 <span style="color: #949494;">06:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  13.6 -<span style="color: #BB0000;">17.9</span> 2024-03      548<span style="text-decoration: underline;">691</span>000 2024-02-15 <span style="color: #949494;">11:00:00</span> 2024-03-19 <span style="color: #949494;">22:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  12.6 -<span style="color: #BB0000;">18.8</span> 2024-02      247<span style="text-decoration: underline;">212</span>660 2024-02-06 <span style="color: #949494;">10:00:00</span> 2024-02-07 <span style="color: #949494;">12:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  14.4 -<span style="color: #BB0000;">17.8</span> 2024-01      241<span style="text-decoration: underline;">031</span>000 2024-01-08 <span style="color: #949494;">05:00:00</span> 2024-01-09 <span style="color: #949494;">00:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  11.8 -<span style="color: #BB0000;">17.8</span> 2024-02      538<span style="text-decoration: underline;">003</span>349 2024-02-11 <span style="color: #949494;">19:00:00</span> 2024-03-04 <span style="color: #949494;">17:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  13.8 -<span style="color: #BB0000;">17.7</span> 2024-03      636<span style="text-decoration: underline;">015</span>035 2024-03-23 <span style="color: #949494;">09:00:00</span> 2024-03-24 <span style="color: #949494;">09:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  12   -<span style="color: #BB0000;">17.7</span> 2024-01      477<span style="text-decoration: underline;">282</span>900 2024-01-10 <span style="color: #949494;">05:00:00</span> 2024-03-26 <span style="color: #949494;">18:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 79,720 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: `Vessel Presence Hours` &lt;dbl&gt;</span></span></span></code></pre></div>
-<p>Finally, grouping by <code>Vessel ID</code> returns all the details
-about the vessel identity of the vessels <code>Vessel ID</code>s present
-in the area:</p>
+<p>Finally, grouping by <code>Vessel ID</code> not only returns the
+<code>Vessel ID</code>s of the active vessels in the area, it also
+returns all the identity details about the vessels. Knowing this can
+help a lot in workflows that need detailed information about vessel
+identity, gears, and characteristics.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vp_senegal_vesselID</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gfw_ais_presence.html">gfw_ais_presence</a></span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="st">"LOW"</span>,</span>
 <span>                                        temporal_resolution <span class="op">=</span> <span class="st">"MONTHLY"</span>,</span>
@@ -295,83 +297,72 @@ in the area:</p>
 <span>                                        end_date <span class="op">=</span> <span class="va">end_date</span>,</span>
 <span>                                        region_source <span class="op">=</span> <span class="st">"EEZ"</span>,</span>
 <span>                                        region <span class="op">=</span> <span class="fl">8371</span><span class="op">)</span></span>
-<span><span class="va">vp_senegal_vesselID</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">`Gear Type`</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 17 × 2</span></span></span>
-<span><span class="co">#&gt;    `Gear Type`             n</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> BUNKER                273</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> CARGO               <span style="text-decoration: underline;">40</span>193</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> CARRIER              <span style="text-decoration: underline;">2</span>028</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> DRIFTING_LONGLINES    347</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> FISHING               440</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> GEAR                   29</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> INCONCLUSIVE          391</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> OTHER               <span style="text-decoration: underline;">28</span>057</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> OTHER_PURSE_SEINES     82</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> PASSENGER            <span style="text-decoration: underline;">1</span>323</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> POLE_AND_LINE          18</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> PURSE_SEINES           37</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> PURSE_SEINE_SUPPORT    24</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> SEISMIC_VESSEL        402</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> SET_LONGLINES          45</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> TRAWLERS             <span style="text-decoration: underline;">5</span>868</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> TUNA_PURSE_SEINES     399</span></span>
-<span><span class="va">vp_senegal_vesselID</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">`Vessel Type`</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9 × 2</span></span></span>
-<span><span class="co">#&gt;   `Vessel Type`      n</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> BUNKER           273</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> CARGO          <span style="text-decoration: underline;">40</span>206</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> CARRIER         <span style="text-decoration: underline;">2</span>028</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> FISHING         <span style="text-decoration: underline;">7</span>636</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> GEAR              33</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> OTHER          <span style="text-decoration: underline;">28</span>024</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span> PASSENGER       <span style="text-decoration: underline;">1</span>330</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span> SEISMIC_VESSEL   402</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">9</span> SUPPORT           24</span></span></code></pre></div>
+<span><span class="va">vp_senegal_vesselID</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 79,748 × 16</span></span></span>
+<span><span class="co">#&gt;      Lat   Lon `Time Range` `Vessel ID`  Flag  `Vessel Name` `Entry Timestamp`  </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>             </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  13   -<span style="color: #BB0000;">17.7</span> 2024-02      8554d35e1-1… LBR   MSC VENICE    2024-01-21 <span style="color: #949494;">08:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  11.4 -<span style="color: #BB0000;">19.5</span> 2024-01      81ca5732d-d… PAN   PARAGON       2024-01-16 <span style="color: #949494;">14:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  12.2 -<span style="color: #BB0000;">17.1</span> 2024-03      364511e7e-e… CHN   TIANG EI HU   2024-01-04 <span style="color: #949494;">17:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  16.1 -<span style="color: #BB0000;">17.7</span> 2024-02      4d2a03fea-a… THA   ROJAREK NAREE 2024-02-04 <span style="color: #949494;">09:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  13   -<span style="color: #BB0000;">20.2</span> 2024-03      6ba5c0fe2-2… SGP   EAGLE VERACR… 2024-03-20 <span style="color: #949494;">07:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  14   -<span style="color: #BB0000;">19.2</span> 2024-01      45438c054-4… BHS   SONANGOL ETO… 2024-01-05 <span style="color: #949494;">18:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  14.6 -<span style="color: #BB0000;">17.6</span> 2024-02      d605e8598-8… PAN   MSC DYMPHNA   2024-01-07 <span style="color: #949494;">09:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  13.9 -<span style="color: #BB0000;">19.8</span> 2024-02      bd6e9d24c-c… SGP   BULK PENINSU… 2024-02-03 <span style="color: #949494;">16:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  12.1 -<span style="color: #BB0000;">17.5</span> 2024-01      e4e2f7187-7… SGP   FAIRCHEM INT… 2024-01-17 <span style="color: #949494;">14:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  12.6 -<span style="color: #BB0000;">17.8</span> 2024-03      cac43d123-3… HKG   COSCO KUNLUN… 2024-03-28 <span style="color: #949494;">07:00:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 79,738 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 9 more variables: `Exit Timestamp` &lt;dttm&gt;, `Gear Type` &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   `Vessel Type` &lt;chr&gt;, MMSI &lt;dbl&gt;, IMO &lt;dbl&gt;, CallSign &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   `First Transmission Date` &lt;dttm&gt;, `Last Transmission Date` &lt;dttm&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   `Vessel Presence Hours` &lt;dbl&gt;</span></span></span></code></pre></div>
 <p>The columns include Lat, Lon, Time Range, Vessel ID, Flag, Vessel
 Name, Entry Timestamp, Exit Timestamp, Gear Type, Vessel Type, MMSI,
 IMO, CallSign, First Transmission Date, Last Transmission Date, Vessel
-Presence Hours. This is an important option to understand which vessels
-are active in an area, and their characteristics.</p>
-<!--
-## Filter options
-
-### Speed classes 
-
-`gfw_ais_vessel_presence()` supports filtering the vessels by speed range (in knots) in the following categories : 
-
-- <2 – Less than 2 knots
-- 2-4 – 2 to 4 knots
-- 4-6 – 4 to 6 knots
-- 6-10 – 6 to 10 knots
-- 10-15 – 10 to 15 knots
-- 15-25 – 15 to 25 knots
-- \>25 – Greater than 25 knots
-    
-
-``` r
-eez_vessel_presence_speed <- gfw_ais_presence(
-  spatial_resolution = "LOW",
-  temporal_resolution = "YEARLY",
-  group_by = "FLAG",
-  filter_by = "speed = '<2'",
-  start_date = start_date,
-  end_date = end_date,
-  region = 8371,
-  region_source = "EEZ"
-  )
-```
-
-
-
--->
+Presence Hours.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">vp_senegal_vesselID</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">`Gear Type`</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 18 × 2</span></span></span>
+<span><span class="co">#&gt;    `Gear Type`             n</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> BUNKER                282</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> CARGO               <span style="text-decoration: underline;">40</span>061</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> CARRIER              <span style="text-decoration: underline;">2</span>040</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> DRIFTING_LONGLINES    346</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> FISHING               443</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> GEAR                   27</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> INCONCLUSIVE          388</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> OTHER               <span style="text-decoration: underline;">27</span>868</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> OTHER_PURSE_SEINES     82</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> PASSENGER            <span style="text-decoration: underline;">1</span>341</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> POLE_AND_LINE          16</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> PURSE_SEINES           34</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> PURSE_SEINE_SUPPORT    26</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> SEISMIC_VESSEL        403</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> SET_LONGLINES          46</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> TRAWLERS             <span style="text-decoration: underline;">5</span>835</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> TUNA_PURSE_SEINES     393</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">18</span> <span style="color: #BB0000;">NA</span>                    117</span></span>
+<span><span class="va">vp_senegal_vesselID</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">`Vessel Type`</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 2</span></span></span>
+<span><span class="co">#&gt;    `Vessel Type`      n</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> BUNKER           282</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> CARGO          <span style="text-decoration: underline;">40</span>074</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> CARRIER         <span style="text-decoration: underline;">2</span>040</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> FISHING         <span style="text-decoration: underline;">7</span>610</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> GEAR              31</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> OTHER          <span style="text-decoration: underline;">27</span>817</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> PASSENGER       <span style="text-decoration: underline;">1</span>348</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> SEISMIC_VESSEL   403</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> SUPPORT           26</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> <span style="color: #BB0000;">NA</span>               117</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="mapping-vessel-presence-with-ggplot2">Mapping vessel presence with ggplot2<a class="anchor" aria-label="anchor" href="#mapping-vessel-presence-with-ggplot2"></a>
 </h2>
 <p>Before mapping let’s define a theme using <code>ggplot2</code></p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Map theme with dark background</span></span>
 <span><span class="va">map_theme</span> <span class="op">&lt;-</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
@@ -391,25 +382,25 @@ eez_vessel_presence_speed <- gfw_ais_presence(
 <span><span class="va">map_effort_light</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#ffffff"</span>, <span class="st">"#eeff00"</span>, <span class="st">"#3b9088"</span>,<span class="st">"#0c276c"</span><span class="op">)</span></span></code></pre></div>
 <p>And let’s map the original vessel presence dataset for January-March
 2024:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vp_senegal</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,443 × 5</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,444 × 5</span></span></span>
 <span><span class="co">#&gt;      Lat   Lon `Time Range` `Vessel IDs` `Vessel Presence Hours`</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  13.9 -<span style="color: #BB0000;">18</span>           <span style="text-decoration: underline;">2</span>024          159                     189</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  11.4 -<span style="color: #BB0000;">19.9</span>         <span style="text-decoration: underline;">2</span>024           15                      19</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  12   -<span style="color: #BB0000;">18.5</span>         <span style="text-decoration: underline;">2</span>024           60                      71</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  15.8 -<span style="color: #BB0000;">19.5</span>         <span style="text-decoration: underline;">2</span>024           12                      15</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  13.1 -<span style="color: #BB0000;">19</span>           <span style="text-decoration: underline;">2</span>024            3                       3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  12.4 -<span style="color: #BB0000;">20</span>           <span style="text-decoration: underline;">2</span>024           13                      14</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  11.6 -<span style="color: #BB0000;">18.9</span>         <span style="text-decoration: underline;">2</span>024           37                      39</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  12.4 -<span style="color: #BB0000;">17.7</span>         <span style="text-decoration: underline;">2</span>024          186                     232</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  12.3 -<span style="color: #BB0000;">18.9</span>         <span style="text-decoration: underline;">2</span>024           25                      27</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  12.2 -<span style="color: #BB0000;">19.6</span>         <span style="text-decoration: underline;">2</span>024           12                      13</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,433 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  13.8 -<span style="color: #BB0000;">17.6</span>         <span style="text-decoration: underline;">2</span>024           24                    <span style="text-decoration: underline;">5</span>299</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  15.3 -<span style="color: #BB0000;">17.6</span>         <span style="text-decoration: underline;">2</span>024           56                      82</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  16   -<span style="color: #BB0000;">16.7</span>         <span style="text-decoration: underline;">2</span>024           16                      52</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  15.8 -<span style="color: #BB0000;">18.2</span>         <span style="text-decoration: underline;">2</span>024          106                     115</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  10.7 -<span style="color: #BB0000;">19.6</span>         <span style="text-decoration: underline;">2</span>024            5                       5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  16.1 -<span style="color: #BB0000;">18.3</span>         <span style="text-decoration: underline;">2</span>024           22                      22</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  11.2 -<span style="color: #BB0000;">19.5</span>         <span style="text-decoration: underline;">2</span>024           14                      16</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  14.6 -<span style="color: #BB0000;">18.9</span>         <span style="text-decoration: underline;">2</span>024           29                      34</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  11.6 -<span style="color: #BB0000;">18.6</span>         <span style="text-decoration: underline;">2</span>024           39                      44</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  12   -<span style="color: #BB0000;">17.9</span>         <span style="text-decoration: underline;">2</span>024          114                     141</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,434 more rows</span></span></span></code></pre></div>
 <p>We can use <code>ggplot2</code> and <code>geom_tile</code> to plot
 the data.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vp_senegal</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_tile</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Lon</span>,</span>
@@ -428,6 +419,152 @@ the data.</p>
 <span>       fill <span class="op">=</span> <span class="st">"Vessel presence hours (log)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="va">map_theme</span></span></code></pre></div>
 <p><img src="gfw_vessel_presence_files/figure-html/sen_plot-1.png" alt="A map of Vessel Presence in the Senegalese EEZ.  The scale is logarithmic" width="90%" style="display: block; margin: auto;"></p>
+</div>
+<div class="section level2">
+<h2 id="using-the-speed-filter">Using the speed filter<a class="anchor" aria-label="anchor" href="#using-the-speed-filter"></a>
+</h2>
+<p><code>gfw_ais_vessel_presence()</code> supports filtering the vessels
+by speed range (in knots) in the following categories :</p>
+<ul>
+<li>&lt;2 – Less than 2 knots</li>
+<li>2-4 – 2 to 4 knots</li>
+<li>4-6 – 4 to 6 knots</li>
+<li>6-10 – 6 to 10 knots</li>
+<li>10-15 – 10 to 15 knots</li>
+<li>15-25 – 15 to 25 knots</li>
+<li>&gt;25 – Greater than 25 knots</li>
+</ul>
+<p>The filter syntax is adding the category:
+<code>filter_by = "speed = '&lt;2'"</code></p>
+<p>Using the filter will subset the activity raster to the activity that
+happened in the speed range:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">eez_vessel_presence_speed</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gfw_ais_presence.html">gfw_ais_presence</a></span><span class="op">(</span></span>
+<span>  spatial_resolution <span class="op">=</span> <span class="st">"LOW"</span>,</span>
+<span>  temporal_resolution <span class="op">=</span> <span class="st">"MONTHLY"</span>,</span>
+<span>  group_by <span class="op">=</span> <span class="st">"FLAG"</span>,</span>
+<span>  filter_by <span class="op">=</span> <span class="st">"speed = '6-10'"</span>,</span>
+<span>  start_date <span class="op">=</span> <span class="va">start_date</span>,</span>
+<span>  end_date <span class="op">=</span> <span class="va">end_date</span>,</span>
+<span>  region <span class="op">=</span> <span class="fl">8371</span>,</span>
+<span>  region_source <span class="op">=</span> <span class="st">"EEZ"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="va">eez_vessel_presence_speed</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 9,403 × 6</span></span></span>
+<span><span class="co">#&gt;      Lat   Lon `Time Range` flag  `Vessel IDs` `Vessel Presence Hours`</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  14.3 -<span style="color: #BB0000;">18.8</span> 2024-02      HKG              1                       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  15.1 -<span style="color: #BB0000;">17.9</span> 2024-01      MHL              1                       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  15.3 -<span style="color: #BB0000;">17.8</span> 2024-03      LVA              1                       2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  14.8 -<span style="color: #BB0000;">18.5</span> 2024-03      MHL              1                       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  15   -<span style="color: #BB0000;">18.4</span> 2024-02      DEU              1                       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  15.1 -<span style="color: #BB0000;">18.1</span> 2024-01      LBR              1                       2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  12.8 -<span style="color: #BB0000;">17.3</span> 2024-03      GNB              1                       2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  15.3 -<span style="color: #BB0000;">18.7</span> 2024-03      VUT              1                       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  14.2 -<span style="color: #BB0000;">16.3</span> 2024-03      SLE              1                       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  15.7 -<span style="color: #BB0000;">17.7</span> 2024-03      LBR              1                       1</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 9,393 more rows</span></span></span></code></pre></div>
+<blockquote>
+<p>*Note: The output won’t have an indication of the speed filter that
+was used, so a recommendation is to add a column <code>speed</code> to
+the output before merging with other speed bins. This is also a reason
+why using logical clauses like
+<code>filter_by = "speed = '6-10' AND speed = '10-15'"</code> is not
+very useful if you want to be able to keep the bins apart.</p>
+</blockquote>
+<p>The speed filter will be a subset of the overall vessel presence</p>
+<p><img src="gfw_vessel_presence_files/figure-html/unnamed-chunk-3-1.png" width="90%" style="display: block; margin: auto;"><img src="gfw_vessel_presence_files/figure-html/unnamed-chunk-3-2.png" width="90%" style="display: block; margin: auto;"></p>
+<div class="section level3">
+<h3 id="retrieving-multiple-speed-classes">Retrieving multiple speed classes<a class="anchor" aria-label="anchor" href="#retrieving-multiple-speed-classes"></a>
+</h3>
+<p>To retrieve data binned in multiple (or all) speed classes, we can
+loop across the desired speed categories:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">speed_categories</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"&lt;2"</span>,</span>
+<span>                      <span class="st">"2-4"</span>,</span>
+<span>                      <span class="st">"4-6"</span>,</span>
+<span>                      <span class="st">"6-10"</span>,</span>
+<span>                      <span class="st">"10-15"</span>,</span>
+<span>                      <span class="st">"15-25"</span>,</span>
+<span>                      <span class="st">"&gt;25"</span></span>
+<span>                      <span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># we create the filters for each</span></span>
+<span><span class="va">sp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"speed ='"</span> , <span class="va">speed_categories</span>, <span class="st">"'"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">vp_all_speeds</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="va">sp</span>,</span>
+<span>                            <span class="op">~</span><span class="fu"><a href="../reference/gfw_ais_presence.html">gfw_ais_presence</a></span><span class="op">(</span></span>
+<span>                              spatial_resolution <span class="op">=</span> <span class="st">"LOW"</span>,</span>
+<span>                              temporal_resolution <span class="op">=</span> <span class="st">"DAILY"</span>,</span>
+<span>                              group_by <span class="op">=</span> <span class="st">"VESSEL_ID"</span>,</span>
+<span>                              filter_by <span class="op">=</span> <span class="va">.x</span>,</span>
+<span>                              start_date <span class="op">=</span> <span class="va">start_date</span>,</span>
+<span>                              end_date <span class="op">=</span> <span class="va">end_date</span>,</span>
+<span>                              region <span class="op">=</span> <span class="fl">8371</span>, </span>
+<span>                              region_source <span class="op">=</span> <span class="st">"EEZ"</span></span>
+<span>                            <span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># adding a speed column to help aggregate the data</span></span>
+<span><span class="va">vp_all_speeds</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">map2</a></span><span class="op">(</span><span class="va">vp_all_speeds</span>,</span>
+<span>                             <span class="va">speed_categories</span>, </span>
+<span>                             <span class="op">~</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">.x</span>, speed <span class="op">=</span> <span class="va">.y</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># reorganizing factor levels </span></span>
+<span><span class="va">vp_all_speeds</span> <span class="op">&lt;-</span> <span class="va">vp_all_speeds</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>speed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">speed</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>speed <span class="op">=</span> <span class="fu">forcats</span><span class="fu">::</span><span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_relevel.html" class="external-link">fct_relevel</a></span><span class="op">(</span><span class="va">speed</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"&lt;2"</span>,</span>
+<span>                      <span class="st">"2-4"</span>,</span>
+<span>                      <span class="st">"4-6"</span>,</span>
+<span>                      <span class="st">"6-10"</span>,</span>
+<span>                      <span class="st">"10-15"</span>,</span>
+<span>                      <span class="st">"15-25"</span>,</span>
+<span>                      <span class="st">"&gt;25"</span></span>
+<span>                      <span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  </span>
+<span><span class="va">vp_all_speeds</span> <span class="op">|&gt;</span>   </span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_tile</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Lon</span>,</span>
+<span>                y <span class="op">=</span> <span class="va">Lat</span>,</span>
+<span>                fill <span class="op">=</span> <span class="va">`Vessel Presence Hours`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://docs.ropensci.org/rnaturalearth/reference/ne_countries.html" class="external-link">ne_countries</a></span><span class="op">(</span>returnclass <span class="op">=</span> <span class="st">"sf"</span>, scale <span class="op">=</span> <span class="st">"medium"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">eez_vessel_presence_speed</span><span class="op">$</span><span class="va">Lon</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">eez_vessel_presence_speed</span><span class="op">$</span><span class="va">Lon</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>           ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">eez_vessel_presence_speed</span><span class="op">$</span><span class="va">Lat</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">eez_vessel_presence_speed</span><span class="op">$</span><span class="va">Lat</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_fill_gradientn</a></span><span class="op">(</span></span>
+<span>    trans <span class="op">=</span> <span class="st">'log10'</span>,</span>
+<span>    colors <span class="op">=</span> <span class="fu">viridis</span><span class="fu">::</span><span class="fu"><a href="https://sjmgarnier.github.io/viridisLite/reference/viridis.html" class="external-link">turbo</a></span><span class="op">(</span><span class="fl">6</span>, begin <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span>, </span>
+<span>    na.value <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>    labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" class="external-link">facet_grid</a></span><span class="op">(</span><span class="op">~</span><span class="va">speed</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Vessel Presence hours in the Senegalese EEZ, disaggregated by speed categories"</span>,</span>
+<span>       subtitle <span class="op">=</span> <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"{start_date} to {end_date}"</span><span class="op">)</span>,</span>
+<span>       fill <span class="op">=</span> <span class="st">"Presence hours (log10)"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="va">map_theme</span></span></code></pre></div>
+<p><img src="gfw_vessel_presence_files/figure-html/advanced_gfw_speed-1.png" width="90%" style="display: block; margin: auto;"></p>
+<p>Since the request retrieved the data grouped by
+<code>vessel ID</code>, we have gear types, vessel types and other
+identity markers that can help filter and refine the visualization.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">vp_all_speeds</span> <span class="op">|&gt;</span>   </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">`Vessel Type`</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"FISHING"</span>, <span class="st">"CARGO"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_tile</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Lon</span>,</span>
+<span>                y <span class="op">=</span> <span class="va">Lat</span>,</span>
+<span>                fill <span class="op">=</span> <span class="va">`Vessel Presence Hours`</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="https://docs.ropensci.org/rnaturalearth/reference/ne_countries.html" class="external-link">ne_countries</a></span><span class="op">(</span>returnclass <span class="op">=</span> <span class="st">"sf"</span>, scale <span class="op">=</span> <span class="st">"medium"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">eez_vessel_presence_speed</span><span class="op">$</span><span class="va">Lon</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">eez_vessel_presence_speed</span><span class="op">$</span><span class="va">Lon</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>           ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">eez_vessel_presence_speed</span><span class="op">$</span><span class="va">Lat</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">eez_vessel_presence_speed</span><span class="op">$</span><span class="va">Lat</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_fill_gradientn</a></span><span class="op">(</span></span>
+<span>    trans <span class="op">=</span> <span class="st">'log10'</span>,</span>
+<span>    colors <span class="op">=</span> <span class="fu">viridis</span><span class="fu">::</span><span class="fu"><a href="https://sjmgarnier.github.io/viridisLite/reference/viridis.html" class="external-link">turbo</a></span><span class="op">(</span><span class="fl">6</span>, begin <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span>, </span>
+<span>    na.value <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>    labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" class="external-link">facet_grid</a></span><span class="op">(</span><span class="va">`Vessel Type`</span><span class="op">~</span><span class="va">speed</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Vessel Presence hours in the Senegalese EEZ"</span>,</span>
+<span>       subtitle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Disaggregated by speed categories and cargo vs. fishing vessel types \n"</span>, <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"{start_date} to {end_date}"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>       fill <span class="op">=</span> <span class="st">"Presence hours (log10)"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="va">map_theme</span></span></code></pre></div>
+<p><img src="gfw_vessel_presence_files/figure-html/unnamed-chunk-4-1.png" width="90%" style="display: block; margin: auto;"></p>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

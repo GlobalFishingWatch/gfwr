@@ -99,9 +99,7 @@ YYYY-MM-DD format and excluding this date.</p></dd>
 
 
 <dt id="arg-filter-by">filter_by<a class="anchor" aria-label="anchor" href="#arg-filter-by"></a></dt>
-<dd><p>Fields to filter AIS-based apparent fishing effort. Possible
-options are <code>flag</code>, <code>shipname</code>, <code>geartype</code> and <code>id</code> (to filter for vessel ids). Receives SQL expressions like
-<code>filter_by = "flag IN ('ESP')"</code>.</p></dd>
+<dd><p>Fields to filter SAR vessel detections. See Details for possible options.</p></dd>
 
 
 <dt id="arg-key">key<a class="anchor" aria-label="anchor" href="#arg-key"></a></dt>
@@ -113,13 +111,22 @@ options are <code>flag</code>, <code>shipname</code>, <code>geartype</code> and 
 purposes. When contacting the GFW team it will be useful to send this string.</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>Possible filter options are:</p><ul><li><p><code>matched</code> – Whether detection matched with AIS data Example: <code>"matched='true'"</code> or <code>"matched='false'"</code></p></li>
+<li><p>flag – Vessel flag state (when matched with AIS). Example: <code>"flag in ('ESP', 'USA')"</code></p></li>
+<li><p><code>vessel_id</code> – Vessel identifier (when matched with AIS). See the identity vignette for details about Vessel ID.</p></li>
+<li><p><code>geartype</code> – Fishing gear type (when matched with AIS) → View <a href="https://globalfishingwatch.org/our-apis/documentation#gear-types-supported" class="external-link">supported gear types</a>. Example: <code>"geartype in ('tuna_purse_seines', 'driftnets')"</code></p></li>
+<li><p><code>neural_vessel_type</code> – AI classification based on neural network model. Values: &lt;= 0.1: "Likely non-fishing", &gt;= 0.9: "Likely fishing", 0.1 - 0.9: "Other/Unknown"</p></li>
+<li><p><code>shiptype</code> – Vessel type classification (when matched with AIS) → See <a href="https://globalfishingwatch.org/our-apis/documentation#vessel-types" class="external-link">Vessel types</a></p></li>
+</ul></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/GlobalFishingWatch/gfwr" class="external-link">gfwr</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># using region codes</span></span></span>
-<span class="r-in"><span><span class="va">code_eez</span> <span class="op">&lt;-</span> <span class="fu"><a href="gfw_region_id.html">gfw_region_id</a></span><span class="op">(</span>region_name <span class="op">=</span> <span class="st">"CIV"</span>, region_source <span class="op">=</span> <span class="st">"EEZ"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">code_eez</span> <span class="op">&lt;-</span> <span class="fu"><a href="gfw_region_id.html">gfw_region_id</a></span><span class="op">(</span>region <span class="op">=</span> <span class="st">"Chile"</span>, region_source <span class="op">=</span> <span class="st">"EEZ"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">gfw_sar_vessel_detections</span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="st">"LOW"</span>,</span></span>
 <span class="r-in"><span>           temporal_resolution <span class="op">=</span> <span class="st">"YEARLY"</span>,</span></span>
 <span class="r-in"><span>           group_by <span class="op">=</span> <span class="st">"FLAG"</span>,</span></span>
@@ -127,32 +134,77 @@ purposes. When contacting the GFW team it will be useful to send this string.</p
 <span class="r-in"><span>           end_date <span class="op">=</span> <span class="st">"2022-01-01"</span>,</span></span>
 <span class="r-in"><span>           region <span class="op">=</span> <span class="va">code_eez</span><span class="op">$</span><span class="va">id</span>,</span></span>
 <span class="r-in"><span>           region_source <span class="op">=</span> <span class="st">"EEZ"</span>,</span></span>
-<span class="r-in"><span>           key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>           print_request <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">code_mpa</span> <span class="op">&lt;-</span> <span class="fu"><a href="gfw_region_id.html">gfw_region_id</a></span><span class="op">(</span>region_name <span class="op">=</span> <span class="st">"Galapagos"</span>, region_source <span class="op">=</span> <span class="st">"MPA"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>           key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># filter by matched</span></span></span>
 <span class="r-in"><span><span class="fu">gfw_sar_vessel_detections</span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="st">"LOW"</span>,</span></span>
-<span class="r-in"><span>           temporal_resolution <span class="op">=</span> <span class="st">"MONTHLY"</span>,</span></span>
-<span class="r-in"><span>           group_by <span class="op">=</span> <span class="st">"FLAG"</span>,</span></span>
-<span class="r-in"><span>           start_date <span class="op">=</span> <span class="st">"2022-01-01"</span>,</span></span>
-<span class="r-in"><span>           end_date <span class="op">=</span> <span class="st">"2023-01-01"</span>,</span></span>
-<span class="r-in"><span>           region <span class="op">=</span> <span class="va">code_mpa</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>,</span></span>
-<span class="r-in"><span>           region_source <span class="op">=</span> <span class="st">"MPA"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">code_rfmo</span> <span class="op">&lt;-</span> <span class="fu"><a href="gfw_region_id.html">gfw_region_id</a></span><span class="op">(</span>region_name <span class="op">=</span> <span class="st">"IATTC"</span>, region_source <span class="op">=</span> <span class="st">"RFMO"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                          temporal_resolution <span class="op">=</span> <span class="st">"YEARLY"</span>,</span></span>
+<span class="r-in"><span>                          group_by <span class="op">=</span> <span class="st">"VESSEL_ID"</span>,</span></span>
+<span class="r-in"><span>                          filter_by <span class="op">=</span> <span class="st">"matched = 'true'"</span>,</span></span>
+<span class="r-in"><span>                          start_date <span class="op">=</span> <span class="st">"2021-01-01"</span>,</span></span>
+<span class="r-in"><span>                          end_date <span class="op">=</span> <span class="st">"2022-01-01"</span>,</span></span>
+<span class="r-in"><span>                          region <span class="op">=</span> <span class="va">code_eez</span><span class="op">$</span><span class="va">id</span>,</span></span>
+<span class="r-in"><span>                          region_source <span class="op">=</span> <span class="st">"EEZ"</span>,</span></span>
+<span class="r-in"><span>                          key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">## Unmatched vessels will have no id information:</span></span></span>
 <span class="r-in"><span><span class="fu">gfw_sar_vessel_detections</span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="st">"LOW"</span>,</span></span>
-<span class="r-in"><span>           temporal_resolution <span class="op">=</span> <span class="st">"MONTHLY"</span>,</span></span>
-<span class="r-in"><span>           start_date <span class="op">=</span> <span class="st">"2022-01-01"</span>,</span></span>
-<span class="r-in"><span>           end_date <span class="op">=</span> <span class="st">"2023-01-01"</span>,</span></span>
-<span class="r-in"><span>           region <span class="op">=</span> <span class="va">code_rfmo</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span></span>
-<span class="r-in"><span>           region_source <span class="op">=</span> <span class="st">"RFMO"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co">#using a sf from disk /loading a test sf object</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">test_shape</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                          temporal_resolution <span class="op">=</span> <span class="st">"YEARLY"</span>,</span></span>
+<span class="r-in"><span>                          group_by <span class="op">=</span> <span class="st">"VESSEL_ID"</span>,</span></span>
+<span class="r-in"><span>                          filter_by <span class="op">=</span> <span class="st">"matched = 'false'"</span>,</span></span>
+<span class="r-in"><span>                          start_date <span class="op">=</span> <span class="st">"2021-01-01"</span>,</span></span>
+<span class="r-in"><span>                          end_date <span class="op">=</span> <span class="st">"2022-01-01"</span>,</span></span>
+<span class="r-in"><span>                          region <span class="op">=</span> <span class="va">code_eez</span><span class="op">$</span><span class="va">id</span>,</span></span>
+<span class="r-in"><span>                          region_source <span class="op">=</span> <span class="st">"EEZ"</span>,</span></span>
+<span class="r-in"><span>                          key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Filter by flag</span></span></span>
 <span class="r-in"><span><span class="fu">gfw_sar_vessel_detections</span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="st">"LOW"</span>,</span></span>
-<span class="r-in"><span>            temporal_resolution <span class="op">=</span> <span class="st">"YEARLY"</span>,</span></span>
-<span class="r-in"><span>            start_date <span class="op">=</span> <span class="st">"2021-01-01"</span>,</span></span>
-<span class="r-in"><span>            end_date <span class="op">=</span> <span class="st">"2021-10-01"</span>,</span></span>
-<span class="r-in"><span>            region <span class="op">=</span> <span class="va">test_shape</span>,</span></span>
-<span class="r-in"><span>            region_source <span class="op">=</span> <span class="st">"USER_SHAPEFILE"</span>,</span></span>
-<span class="r-in"><span>            print_request <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                          temporal_resolution <span class="op">=</span> <span class="st">"YEARLY"</span>,</span></span>
+<span class="r-in"><span>                          group_by <span class="op">=</span> <span class="st">"VESSEL_ID"</span>,</span></span>
+<span class="r-in"><span>                          filter_by <span class="op">=</span> <span class="st">"flag IN ('PER', 'ECU')"</span>,</span></span>
+<span class="r-in"><span>                          start_date <span class="op">=</span> <span class="st">"2021-01-01"</span>,</span></span>
+<span class="r-in"><span>                          end_date <span class="op">=</span> <span class="st">"2022-01-01"</span>,</span></span>
+<span class="r-in"><span>                          region <span class="op">=</span> <span class="va">code_eez</span><span class="op">$</span><span class="va">id</span>,</span></span>
+<span class="r-in"><span>                          region_source <span class="op">=</span> <span class="st">"EEZ"</span>,</span></span>
+<span class="r-in"><span>                          key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Filter by vessel ID</span></span></span>
+<span class="r-in"><span><span class="fu">gfw_sar_vessel_detections</span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="st">"LOW"</span>,</span></span>
+<span class="r-in"><span>                          temporal_resolution <span class="op">=</span> <span class="st">"YEARLY"</span>,</span></span>
+<span class="r-in"><span>                          filter_by <span class="op">=</span> <span class="st">"vessel_id = '320335fcf-fbe5-54e0-9367-b36ae25b64b5'"</span>,</span></span>
+<span class="r-in"><span>                          start_date <span class="op">=</span> <span class="st">"2021-01-01"</span>,</span></span>
+<span class="r-in"><span>                          end_date <span class="op">=</span> <span class="st">"2022-01-01"</span>,</span></span>
+<span class="r-in"><span>                          region <span class="op">=</span> <span class="va">code_eez</span><span class="op">$</span><span class="va">id</span>,</span></span>
+<span class="r-in"><span>                          region_source <span class="op">=</span> <span class="st">"EEZ"</span>,</span></span>
+<span class="r-in"><span>                          key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Filter by geartype</span></span></span>
+<span class="r-in"><span><span class="fu">gfw_sar_vessel_detections</span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="st">"LOW"</span>,</span></span>
+<span class="r-in"><span>                          temporal_resolution <span class="op">=</span> <span class="st">"YEARLY"</span>,</span></span>
+<span class="r-in"><span>                          group_by <span class="op">=</span> <span class="st">"VESSEL_ID"</span>,</span></span>
+<span class="r-in"><span>                          filter_by <span class="op">=</span> <span class="st">"geartype IN ('tuna_purse_seines',</span></span></span>
+<span class="r-in"><span><span class="st">                           'driftnets')"</span>,</span></span>
+<span class="r-in"><span>                          start_date <span class="op">=</span> <span class="st">"2021-01-01"</span>,</span></span>
+<span class="r-in"><span>                          end_date <span class="op">=</span> <span class="st">"2022-01-01"</span>,</span></span>
+<span class="r-in"><span>                          region <span class="op">=</span> <span class="va">code_eez</span><span class="op">$</span><span class="va">id</span>,</span></span>
+<span class="r-in"><span>                          region_source <span class="op">=</span> <span class="st">"EEZ"</span>,</span></span>
+<span class="r-in"><span>                          key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Filter by neural_vessel_type</span></span></span>
+<span class="r-in"><span><span class="fu">gfw_sar_vessel_detections</span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="st">"LOW"</span>,</span></span>
+<span class="r-in"><span>                          temporal_resolution <span class="op">=</span> <span class="st">"YEARLY"</span>,</span></span>
+<span class="r-in"><span>                          filter_by <span class="op">=</span> <span class="st">"neural_vessel_type = '0.3'"</span>,</span></span>
+<span class="r-in"><span>                          start_date <span class="op">=</span> <span class="st">"2021-01-01"</span>,</span></span>
+<span class="r-in"><span>                          end_date <span class="op">=</span> <span class="st">"2022-01-01"</span>,</span></span>
+<span class="r-in"><span>                          region <span class="op">=</span> <span class="va">code_eez</span><span class="op">$</span><span class="va">id</span>,</span></span>
+<span class="r-in"><span>                          region_source <span class="op">=</span> <span class="st">"EEZ"</span>,</span></span>
+<span class="r-in"><span>                          key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Filter by shiptype (vessel type)</span></span></span>
+<span class="r-in"><span><span class="fu">gfw_sar_vessel_detections</span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="st">"LOW"</span>,</span></span>
+<span class="r-in"><span>                          temporal_resolution <span class="op">=</span> <span class="st">"YEARLY"</span>,</span></span>
+<span class="r-in"><span>                          filter_by <span class="op">=</span> <span class="st">"shiptype = 'CARGO'"</span>,</span></span>
+<span class="r-in"><span>                          start_date <span class="op">=</span> <span class="st">"2021-01-01"</span>,</span></span>
+<span class="r-in"><span>                          end_date <span class="op">=</span> <span class="st">"2022-01-01"</span>,</span></span>
+<span class="r-in"><span>                          region <span class="op">=</span> <span class="va">code_eez</span><span class="op">$</span><span class="va">id</span>,</span></span>
+<span class="r-in"><span>                          region_source <span class="op">=</span> <span class="st">"EEZ"</span>,</span></span>
+<span class="r-in"><span>                          key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
