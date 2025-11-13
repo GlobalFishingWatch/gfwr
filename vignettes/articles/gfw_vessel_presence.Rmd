@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r knitr, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -93,7 +93,7 @@ The `gfw_ais_presence()` function allows users to specify multiple criteria to c
 
 Spatial resolution can be LOW = 0.1 degree or HIGH = 0.01 degree, 
 
-```{r}
+```{r vp}
 vp_senegal <- gfw_ais_presence(spatial_resolution = "LOW",
                                temporal_resolution = "MONTHLY",
                                start_date = start_date,
@@ -109,7 +109,7 @@ The `Time Range` column will be expressed in the temporal units of the temporal 
 
 Explore other temporal resolution and how the results vary.
 
-```{r}
+```{r vp_time}
 vp_senegal <- gfw_ais_presence(spatial_resolution = "LOW",
                                temporal_resolution = "YEARLY",
                                start_date = start_date,
@@ -124,7 +124,7 @@ vp_senegal
 The outputs of `gfw_ais_presence()` can be grouped by `FLAG`, `GEARTYPE`, `FLAGANDGEARTYPE`, `MMSI` or `VESSEL_ID`. 
 This will create extra grouping columns, and the number of vessel presence hours will be expressed accordingly. 
 
-```{r}
+```{r group_flag}
 vp_senegal_flag <- gfw_ais_presence(spatial_resolution = "LOW",
                                     temporal_resolution = "MONTHLY",
                                     group_by = "FLAG",
@@ -142,7 +142,7 @@ Check our [vessel identity vignette](https://globalfishingwatch.github.io/gfwr/a
 
 Grouping by MMSI will group the results at the MMSI scale, which can correspond to individual vessels, but this is not always the case. 
 
-```{r}
+```{r group_mmsi}
 vp_senegal_MMSI <- gfw_ais_presence(spatial_resolution = "LOW",
                                     temporal_resolution = "MONTHLY",
                                     group_by = "MMSI",
@@ -154,9 +154,9 @@ vp_senegal_MMSI
 ```
 
 
-Finally, grouping by `Vessel ID` returns all the details about the vessel identity of the vessels `Vessel ID`s present in the area: 
+Finally, grouping by `Vessel ID` not only returns the `Vessel ID`s of the active vessels in the area, it also returns all the identity details about the vessels. Knowing this can help a lot in workflows that need detailed information about vessel identity, gears, and characteristics.
 
-```{r}
+```{r group_vesselid}
 vp_senegal_vesselID <- gfw_ais_presence(spatial_resolution = "LOW",
                                         temporal_resolution = "MONTHLY",
                                         group_by = "VESSEL_ID",
@@ -164,88 +164,16 @@ vp_senegal_vesselID <- gfw_ais_presence(spatial_resolution = "LOW",
                                         end_date = end_date,
                                         region_source = "EEZ",
                                         region = 8371)
+vp_senegal_vesselID
+```
+
+The columns include `r paste(names(vp_senegal_vesselID), collapse = ", ")`.
+ 
+```{r}
 vp_senegal_vesselID |> count(`Gear Type`)
 vp_senegal_vesselID |> count(`Vessel Type`)
 ```
 
-The columns include `r paste(names(vp_senegal_vesselID), collapse = ", ")`.
-This is an important option to understand which vessels are active in an area, and their characteristics. 
-
-
-<!--
-## Filter options
-
-### Speed classes 
-
-`gfw_ais_vessel_presence()` supports filtering the vessels by speed range (in knots) in the following categories : 
-
-- <2 – Less than 2 knots
-- 2-4 – 2 to 4 knots
-- 4-6 – 4 to 6 knots
-- 6-10 – 6 to 10 knots
-- 10-15 – 10 to 15 knots
-- 15-25 – 15 to 25 knots
-- \>25 – Greater than 25 knots
-    
-```{r gfw_speed, eval = FALSE}
-eez_vessel_presence_speed <- gfw_ais_presence(
-  spatial_resolution = "LOW",
-  temporal_resolution = "YEARLY",
-  group_by = "FLAG",
-  filter_by = "speed = '<2'",
-  start_date = start_date,
-  end_date = end_date,
-  region = 8371,
-  region_source = "EEZ"
-  )
-```
-
-
-```{r advanced_gfw_speed, eval = FALSE, echo = FALSE}
-speed_categories <- c("<2",
-                      "2-4",
-                      "4-6",
-                      "6-10",
-                      "10-15",
-                      "15-25",
-                      ">25"
-                      )
-sp <- paste0("speed ='" , speed_categories, "'")
-vp_all_speeds <- purrr::map(sp,
-                            ~gfw_ais_presence(
-                              spatial_resolution = "LOW",
-                              temporal_resolution = "MONTHLY",
-                              group_by = "FLAGANDGEARTYPE",
-                              filter_by = .x,
-                              start_date = start_date,
-                              end_date = end_date,
-                              region = id$id, 
-                              region_source = "EEZ"
-                            ))
-vp_all_speeds <- purrr::map2(vp_all_speeds, speed_categories, 
-           ~mutate(.x, speed = .y)) |> 
-  bind_rows()
-vp_all_speeds <- vp_all_speeds |> mutate(speed = as.factor(speed))
-vp_all_speeds |>   
-ggplot() +
-  geom_tile(aes(x = Lon,
-                y = Lat,
-                fill = `Vessel Presence Hours`)) +
-  geom_sf(data = ne_countries(returnclass = "sf", scale = "medium")) +
-  coord_sf(xlim = c(min(eez_vessel_presence_speed$Lon),max(eez_vessel_presence_speed$Lon)),
-           ylim = c(min(eez_vessel_presence_speed$Lat),max(eez_vessel_presence_speed$Lat))) +
-  scale_fill_gradientn(
-    trans = 'log10',
-    colors = map_effort_light, 
-    na.value = NA,
-    labels = scales::comma) +
-  facet_wrap(peed) +
-  labs(title = "Vessel Presence hours in the Senegalese EEZ",
-       subtitle = glue("{start_date} to {end_date}"),
-       fill = "Fishing hours") +
-  map_theme
-```
--->
 
 ## Mapping vessel presence with ggplot2
 
@@ -303,6 +231,177 @@ vp_senegal |>
        subtitle = glue("{start_date} to {end_date}"),
        fill = "Vessel presence hours (log)") +
   map_theme
+```
+
+
+
+## Using the speed filter
+
+`gfw_ais_vessel_presence()` supports filtering the vessels by speed range (in knots) in the following categories : 
+
+- <2 – Less than 2 knots
+- 2-4 – 2 to 4 knots
+- 4-6 – 4 to 6 knots
+- 6-10 – 6 to 10 knots
+- 10-15 – 10 to 15 knots
+- 15-25 – 15 to 25 knots
+- \>25 – Greater than 25 knots
+
+The filter syntax is adding the category: `filter_by = "speed = '<2'"`
+
+Using the filter will subset the activity raster to the activity that happened in the speed range: 
+    
+```{r gfw_speed}
+eez_vessel_presence_speed <- gfw_ais_presence(
+  spatial_resolution = "LOW",
+  temporal_resolution = "MONTHLY",
+  group_by = "FLAG",
+  filter_by = "speed = '6-10'",
+  start_date = start_date,
+  end_date = end_date,
+  region = 8371,
+  region_source = "EEZ"
+  )
+eez_vessel_presence_speed
+```
+
+> *Note: The output won't have an indication of the speed filter that was used, so a recommendation is to add a column `speed` to the output before merging with other speed bins. This is also a reason why using logical clauses like `filter_by = "speed = '6-10' AND speed = '10-15'"` is not very useful if you want to be able to keep the bins apart. 
+
+The speed filter will be a subset of the overall vessel presence
+
+```{r, echo = FALSE}
+sp_plot <- eez_vessel_presence_speed |> 
+ggplot() +
+  geom_tile(aes(x = Lon,
+                y = Lat,
+                fill = `Vessel Presence Hours`)) +
+  geom_sf(data = ne_countries(returnclass = "sf", scale = "medium")) +
+  coord_sf(xlim = c(min(vp_senegal$Lon), max(vp_senegal$Lon)),
+           ylim = c(min(vp_senegal$Lat), max(vp_senegal$Lat))) +
+  scale_fill_gradientn(
+    trans = 'log10',
+    colors = map_effort_light, 
+    na.value = NA,
+    labels = scales::comma) +
+  labs(title = "Vessel Presence hours in the Senegalese EEZ",
+       subtitle = glue("{start_date} to {end_date}"),
+       fill = "Vessel presence hours (log)") +
+  map_theme
+fl_plot <- vp_senegal_flag |> 
+ggplot() +
+  geom_tile(aes(x = Lon,
+                y = Lat,
+                fill = `Vessel Presence Hours`)) +
+  geom_sf(data = ne_countries(returnclass = "sf", scale = "medium")) +
+  coord_sf(xlim = c(min(vp_senegal$Lon), max(vp_senegal$Lon)),
+           ylim = c(min(vp_senegal$Lat), max(vp_senegal$Lat))) +
+  scale_fill_gradientn(
+    trans = 'log10',
+    colors = map_effort_light, 
+    na.value = NA,
+    labels = scales::comma) +
+  labs(title = "Speed = 6-10 knots",
+       subtitle = "",
+       fill = "Vessel presence hours (log)") +
+  map_theme
+```
+
+```{r, echo = FALSE}
+fl_plot 
+sp_plot
+```
+
+### Retrieving multiple speed classes
+
+To retrieve data binned in multiple (or all) speed classes, we can loop across the desired speed categories: 
+
+
+```{r advanced_gfw_speed}
+speed_categories <- as.factor(c("<2",
+                      "2-4",
+                      "4-6",
+                      "6-10",
+                      "10-15",
+                      "15-25",
+                      ">25"
+                      ))
+
+# we create the filters for each
+sp <- paste0("speed ='" , speed_categories, "'")
+
+vp_all_speeds <- purrr::map(sp,
+                            ~gfw_ais_presence(
+                              spatial_resolution = "LOW",
+                              temporal_resolution = "DAILY",
+                              group_by = "VESSEL_ID",
+                              filter_by = .x,
+                              start_date = start_date,
+                              end_date = end_date,
+                              region = 8371, 
+                              region_source = "EEZ"
+                            ))
+# adding a speed column to help aggregate the data
+vp_all_speeds <- purrr::map2(vp_all_speeds,
+                             speed_categories, 
+                             ~mutate(.x, speed = .y)) |> 
+  bind_rows()
+
+# reorganizing factor levels 
+vp_all_speeds <- vp_all_speeds |>
+  mutate(speed = as.factor(speed)) |> 
+  mutate(speed = forcats::fct_relevel(speed, c("<2",
+                      "2-4",
+                      "4-6",
+                      "6-10",
+                      "10-15",
+                      "15-25",
+                      ">25"
+                      )))
+  
+vp_all_speeds |>   
+ggplot() +
+  geom_tile(aes(x = Lon,
+                y = Lat,
+                fill = `Vessel Presence Hours`)) +
+  geom_sf(data = ne_countries(returnclass = "sf", scale = "medium")) +
+  coord_sf(xlim = c(min(eez_vessel_presence_speed$Lon),max(eez_vessel_presence_speed$Lon)),
+           ylim = c(min(eez_vessel_presence_speed$Lat),max(eez_vessel_presence_speed$Lat))) +
+  scale_fill_gradientn(
+    trans = 'log10',
+    colors = viridis::turbo(6, begin = 0.3), 
+    na.value = NA,
+    labels = scales::comma) +
+  facet_grid(~speed) +
+  labs(title = "Vessel Presence hours in the Senegalese EEZ, disaggregated by speed categories",
+       subtitle = glue("{start_date} to {end_date}"),
+       fill = "Presence hours (log10)") +
+  map_theme
+
+```
+
+Since the request retrieved the data grouped by `vessel ID`, we have gear types, vessel types and other identity markers that can help filter and refine the visualization. 
+
+```{r}
+vp_all_speeds |>   
+  filter(`Vessel Type` %in% c("FISHING", "CARGO")) |> 
+ggplot() +
+  geom_tile(aes(x = Lon,
+                y = Lat,
+                fill = `Vessel Presence Hours`)) +
+  geom_sf(data = ne_countries(returnclass = "sf", scale = "medium")) +
+  coord_sf(xlim = c(min(eez_vessel_presence_speed$Lon),max(eez_vessel_presence_speed$Lon)),
+           ylim = c(min(eez_vessel_presence_speed$Lat),max(eez_vessel_presence_speed$Lat))) +
+  scale_fill_gradientn(
+    trans = 'log10',
+    colors = viridis::turbo(6, begin = 0.3), 
+    na.value = NA,
+    labels = scales::comma) +
+  facet_grid(`Vessel Type`~speed) +
+  labs(title = "Vessel Presence hours in the Senegalese EEZ",
+       subtitle = paste("Disaggregated by speed categories and cargo vs. fishing vessel types \n", glue("{start_date} to {end_date}")),
+       fill = "Presence hours (log10)") +
+  map_theme
+
 ```
 
 

@@ -29,7 +29,7 @@ gfw_auth <- function() {
 #' @keywords internal
 gfw_user_agent <- function() {
   # Define user agent version
-  return("gfwr/2.0.0 (https://github.com/GlobalFishingWatch/gfwr)")
+  return("gfwr/3.0.0 (https://github.com/GlobalFishingWatch/gfwr)")
 }
 
 #' Basic function to make length 1 lists into characters

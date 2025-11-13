@@ -52,7 +52,7 @@ purposes. When contacting the GFW team it will be useful to send this string.}
 }
 \description{
 This is the basic internal function to retrieve 4wings datasets.
-It is used under the hood by \code{get_ais_} and \code{get_sar_} functions, which are
+It is used under the hood by \code{gfw_ais_} and \code{gfw_sar_} functions, which are
 split because the source data (AIS vs SAR) their documentation and parameters
 differ
 }

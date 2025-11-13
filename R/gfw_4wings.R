@@ -1,7 +1,7 @@
 #' Retrieve datasets from the 4 wings API
 #'
 #' This is the basic internal function to retrieve 4wings datasets.
-#' It is used under the hood by `get_ais_` and `get_sar_` functions, which are
+#' It is used under the hood by `gfw_ais_` and `gfw_sar_` functions, which are
 #' split because the source data (AIS vs SAR) their documentation and parameters
 #' differ
 #'

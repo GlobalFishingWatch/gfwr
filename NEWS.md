@@ -21,6 +21,7 @@ model, which is *expressed in (apparent) fishing hours*.
 - The parameter `region_name` was renamed to `region` for precision, since it accepts
 region names and ISO codes. (#196)
 
+
 ## New functions and endpoints 
 
 - `gfw_ais_presence()` implements the __AIS-based Vessel presence__ dynamic
@@ -39,9 +40,10 @@ This dataset aggregates the presence of all vessels (fishing and non-fishing), e
     - The vessel must have at least 14 satellite positions in the 12 hours prior to the gap
     See the [gap events documentation](https://globalfishingwatch.org/our-apis/documentation#ais-off-event-aka-gap) for more details behind these rules. 
     
-## Other
+## Bug fixes
 
 - fixed `gfw_event_stats()` (previously `get_event_stats()`) filter by flag (#215) 
+- fixed #224 and `marine_regions` dataset is available without attaching `gfwr` (thanks to @jaseeverett)
 
 # gfwr 2.0.4
 

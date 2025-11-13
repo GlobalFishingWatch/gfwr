@@ -13,3 +13,4 @@ data-raw
 ^data-raw$
 vignettes
 R/get_sar_infraes.R
+^vignettes/articles$
