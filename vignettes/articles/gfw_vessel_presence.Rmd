@@ -10,11 +10,9 @@ vignette: >
 ```{r knitr, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
   fig.align = 'center',
-  out.width = "90%"
-  # fig.width = 6
-)
+  fig.width = 8,
+  fig.height = 6)
 ```
 
 ## Overview
@@ -47,6 +45,10 @@ library(ggplot2)
 library(rnaturalearth)
 library(rnaturalearthdata)
 library(glue)
+library(viridis)
+library(forcats)
+library(biscale)
+library(patchwork)
 ```
 
 We will fetch data for January-March 2024. __Remember the date intervals in `gfwr` include the start of the interval and *exclude the last date* of the interval__:
@@ -169,7 +171,7 @@ vp_senegal_vesselID
 
 The columns include `r paste(names(vp_senegal_vesselID), collapse = ", ")`.
  
-```{r}
+```{r gears_vesseltypes}
 vp_senegal_vesselID |> count(`Gear Type`)
 vp_senegal_vesselID |> count(`Vessel Type`)
 ```
@@ -186,17 +188,16 @@ map_theme <- ggplot2::theme_minimal() +
     panel.border = element_blank(), 
     legend.position = "bottom", legend.box = "vertical", 
     legend.key.height = unit(3, "mm"), 
-    legend.key.width = unit(20, "mm"),
+    legend.key.width = unit(15, "mm"),
     legend.text = element_text(color = "#848b9b", size = 8), 
     legend.title = element_text(face = "bold", color = "#363c4c", size = 8, hjust = 0.5), 
     plot.title = element_text(face = "bold", color = "#363c4c", size = 10), 
     plot.subtitle = element_text(color = "#363c4c", size = 10), 
     axis.title = element_blank(), 
-    axis.text = element_text(color = "#848b9b", size = 6)
+    axis.text = element_text(color = "#848b9b", size = 8)
     )
 
-# Palette for fishing activity
-map_effort_light <- c("#ffffff", "#eeff00", "#3b9088","#0c276c")
+map_speed_light <- viridis::turbo(6, begin = 0.3)
 ```
 
 
@@ -210,7 +211,7 @@ vp_senegal
 
 We can use `ggplot2` and `geom_tile` to plot the data.
 
-```{r sen_plot, fig.width=8, fig.height=6}
+```{r sen_plot}
 #| fig.alt: >
 #|   A map of Vessel Presence in the Senegalese EEZ. 
 #|   The scale is logarithmic
@@ -224,7 +225,7 @@ vp_senegal |>
            ylim = c(min(vp_senegal$Lat), max(vp_senegal$Lat))) +
   scale_fill_gradientn(
     trans = 'log10',
-    colors = map_effort_light, 
+    colors = map_speed_light, 
     na.value = NA,
     labels = scales::comma) +
   labs(title = "Vessel Presence hours in the Senegalese EEZ",
@@ -265,11 +266,11 @@ eez_vessel_presence_speed <- gfw_ais_presence(
 eez_vessel_presence_speed
 ```
 
-> *Note: The output won't have an indication of the speed filter that was used, so a recommendation is to add a column `speed` to the output before merging with other speed bins. This is also a reason why using logical clauses like `filter_by = "speed = '6-10' AND speed = '10-15'"` is not very useful if you want to be able to keep the bins apart. 
+> *Note:* The output won't have an indication of the speed filter that was used, so a recommendation is to add a column `speed` to the output before merging with other speed bins. This is also a reason why using logical clauses like `filter_by = "speed = '6-10' AND speed = '10-15'"` is not very useful if you want to be able to keep the bins apart. 
 
 The speed filter will be a subset of the overall vessel presence
 
-```{r, echo = FALSE}
+```{r speed_plots, echo = FALSE}
 sp_plot <- eez_vessel_presence_speed |> 
 ggplot() +
   geom_tile(aes(x = Lon,
@@ -280,13 +281,14 @@ ggplot() +
            ylim = c(min(vp_senegal$Lat), max(vp_senegal$Lat))) +
   scale_fill_gradientn(
     trans = 'log10',
-    colors = map_effort_light, 
+    colors = map_speed_light, 
     na.value = NA,
     labels = scales::comma) +
-  labs(title = "Vessel Presence hours in the Senegalese EEZ",
-       subtitle = glue("{start_date} to {end_date}"),
+  labs(title = "Speed = 6-10 knots",
+       subtitle = "",
        fill = "Vessel presence hours (log)") +
   map_theme
+
 fl_plot <- vp_senegal_flag |> 
 ggplot() +
   geom_tile(aes(x = Lon,
@@ -297,11 +299,11 @@ ggplot() +
            ylim = c(min(vp_senegal$Lat), max(vp_senegal$Lat))) +
   scale_fill_gradientn(
     trans = 'log10',
-    colors = map_effort_light, 
+    colors = map_speed_light, 
     na.value = NA,
     labels = scales::comma) +
-  labs(title = "Speed = 6-10 knots",
-       subtitle = "",
+  labs(title = "Vessel Presence hours in the Senegalese EEZ",
+       subtitle = glue("{start_date} to {end_date}"),
        fill = "Vessel presence hours (log)") +
   map_theme
 ```
@@ -313,50 +315,49 @@ sp_plot
 
 ### Retrieving multiple speed classes
 
-To retrieve data binned in multiple (or all) speed classes, we can loop across the desired speed categories: 
+To retrieve data binned in multiple (or all) speed classes, we can loop across the desired speed categories.
+Let's make another example in the Mexico EEZ. 
 
 
 ```{r advanced_gfw_speed}
-speed_categories <- as.factor(c("<2",
+gfw_region_id("Mexico")$id
+speed_categories <- c("<2",
                       "2-4",
                       "4-6",
                       "6-10",
                       "10-15",
                       "15-25",
-                      ">25"
-                      ))
+                      ">25")
 
 # we create the filters for each
-sp <- paste0("speed ='" , speed_categories, "'")
+sp <- paste0("speed = '" , speed_categories, "'")
 
 vp_all_speeds <- purrr::map(sp,
-                            ~gfw_ais_presence(
-                              spatial_resolution = "LOW",
-                              temporal_resolution = "DAILY",
-                              group_by = "VESSEL_ID",
-                              filter_by = .x,
-                              start_date = start_date,
-                              end_date = end_date,
-                              region = 8371, 
-                              region_source = "EEZ"
-                            ))
+                           ~gfw_ais_presence(
+                             spatial_resolution = "LOW",
+                             temporal_resolution = "MONTHLY",
+                             group_by = "VESSEL_ID",
+                             filter_by = .x,
+                             start_date = start_date,
+                             end_date = end_date,
+                             region = 8429, 
+                             region_source = "EEZ"))
 # adding a speed column to help aggregate the data
 vp_all_speeds <- purrr::map2(vp_all_speeds,
                              speed_categories, 
-                             ~mutate(.x, speed = .y)) |> 
+                             ~mutate(.x, speed = .y)) |>
   bind_rows()
 
 # reorganizing factor levels 
 vp_all_speeds <- vp_all_speeds |>
   mutate(speed = as.factor(speed)) |> 
   mutate(speed = forcats::fct_relevel(speed, c("<2",
-                      "2-4",
-                      "4-6",
-                      "6-10",
-                      "10-15",
-                      "15-25",
-                      ">25"
-                      )))
+                                               "2-4",
+                                               "4-6",
+                                               "6-10",
+                                               "10-15",
+                                               "15-25",
+                                               ">25")))
   
 vp_all_speeds |>   
 ggplot() +
@@ -364,24 +365,28 @@ ggplot() +
                 y = Lat,
                 fill = `Vessel Presence Hours`)) +
   geom_sf(data = ne_countries(returnclass = "sf", scale = "medium")) +
-  coord_sf(xlim = c(min(eez_vessel_presence_speed$Lon),max(eez_vessel_presence_speed$Lon)),
-           ylim = c(min(eez_vessel_presence_speed$Lat),max(eez_vessel_presence_speed$Lat))) +
+  coord_sf(xlim = c(min(vp_all_speeds$Lon),
+                    max(vp_all_speeds$Lon)),
+           ylim = c(min(vp_all_speeds$Lat),
+                    max(vp_all_speeds$Lat))) +
   scale_fill_gradientn(
     trans = 'log10',
-    colors = viridis::turbo(6, begin = 0.3), 
+    colors = map_speed_light, 
     na.value = NA,
     labels = scales::comma) +
-  facet_grid(~speed) +
-  labs(title = "Vessel Presence hours in the Senegalese EEZ, disaggregated by speed categories",
+  facet_wrap(~speed) +
+  labs(title = "Vessel Presence hours by speed categories",
        subtitle = glue("{start_date} to {end_date}"),
        fill = "Presence hours (log10)") +
   map_theme
 
 ```
 
-Since the request retrieved the data grouped by `vessel ID`, we have gear types, vessel types and other identity markers that can help filter and refine the visualization. 
+Since the request retrieved the data grouped by `vessel ID`, we have gear types,
+vessel types and other identity markers that can help filter and refine the
+visualization. 
 
-```{r}
+```{r, fig.width=10}
 vp_all_speeds |>   
   filter(`Vessel Type` %in% c("FISHING", "CARGO")) |> 
 ggplot() +
@@ -389,20 +394,61 @@ ggplot() +
                 y = Lat,
                 fill = `Vessel Presence Hours`)) +
   geom_sf(data = ne_countries(returnclass = "sf", scale = "medium")) +
-  coord_sf(xlim = c(min(eez_vessel_presence_speed$Lon),max(eez_vessel_presence_speed$Lon)),
-           ylim = c(min(eez_vessel_presence_speed$Lat),max(eez_vessel_presence_speed$Lat))) +
+  coord_sf(xlim = c(min(vp_all_speeds$Lon),
+                    max(vp_all_speeds$Lon)),
+           ylim = c(min(vp_all_speeds$Lat),
+                    max(vp_all_speeds$Lat))) +
   scale_fill_gradientn(
     trans = 'log10',
-    colors = viridis::turbo(6, begin = 0.3), 
+    colors = map_speed_light, 
     na.value = NA,
     labels = scales::comma) +
-  facet_grid(`Vessel Type`~speed) +
-  labs(title = "Vessel Presence hours in the Senegalese EEZ",
-       subtitle = paste("Disaggregated by speed categories and cargo vs. fishing vessel types \n", glue("{start_date} to {end_date}")),
-       fill = "Presence hours (log10)") +
+  facet_grid(speed~`Vessel Type`) +
+  labs(title = "Vessel Presence hours in Mexico's EEZ",
+       subtitle = paste("Disaggregated by speed categories and cargo vs. fishing vessel types"),
+       fill = "Presence hours (log10)")  + 
   map_theme
-
 ```
 
+### Bivariate plots of speed and vessel presence hours
 
+Vessel presence and speed may be better visualized using a bivariate plot, to distinguish areas with different levels of vessel density from areas where vessels transit at high or low speeds. 
 
+```{r bivariate, message=FALSE, warning=FALSE}
+vp_all_speeds <- vp_all_speeds |> 
+  mutate(speed_nb = case_when(
+    speed == "<2" ~ 2, 
+    speed == "2-4" ~ 4, 
+    speed == "4-6" ~ 6, 
+    speed == "6-10" ~ 10, 
+    speed == "10-15" ~ 15, 
+    speed == "15-25" ~ 25, 
+    speed == ">25" ~ 50))
+
+biscale_speeds <- vp_all_speeds |> 
+  group_by(Lat, Lon, speed_nb) |> 
+  summarize(vessel_presence_hours = sum(`Vessel Presence Hours`)) |>
+  biscale::bi_class(x = vessel_presence_hours, 
+                    y = speed_nb, style = "quantile")
+
+speed_map <- biscale_speeds |> 
+ggplot() +
+  geom_tile(aes(x = Lon,
+                y = Lat,
+                fill = bi_class)) +
+  geom_sf(data = ne_countries(returnclass = "sf", scale = "medium")) +
+  coord_sf(xlim = c(min(biscale_speeds$Lon), 
+                    max(biscale_speeds$Lon)),
+           ylim = c(min(biscale_speeds$Lat),
+                    max(biscale_speeds$Lat))) +
+  bi_scale_fill(pal = "DkBlue2") + 
+  theme_minimal() +
+  theme(legend.position = "none")
+  p_legend <- bi_legend(pal = "DkBlue2",
+                      xlab = "Presence hours",
+                      ylab = "Speed",
+                      dim = 4,
+                      size = 12)
+p_combo <- (speed_map + p_legend) 
+p_combo
+```
