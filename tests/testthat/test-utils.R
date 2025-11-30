@@ -1,18 +1,28 @@
 # gfw_auth --------------------------------------------------------------------
 
-test_that("gfw_auth reads token from environment", {
+test_that("gfw_auth returns token from environment when set", {
   withr::with_envvar(c(GFW_TOKEN = "test-token"), {
     expect_equal(gfw_auth(), "test-token")
   })
+})
 
+test_that("gfw_auth returns empty string when token is unset or empty", {
   withr::with_envvar(c(GFW_TOKEN = ""), {
+    expect_equal(gfw_auth(), "")
+  })
+
+  withr::with_envvar(c(GFW_TOKEN = NULL), {
+    expect_equal(gfw_auth(), "")
+  })
+
+  withr::with_envvar(c(GFW_TOKEN = NA), {
     expect_equal(gfw_auth(), "")
   })
 })
 
 # gfw_user_agent --------------------------------------------------------------
 
-test_that("gfw_user_agent returns correct user agent string", {
+test_that("gfw_user_agent returns a correctly formatted user agent string", {
   ua <- gfw_user_agent()
   expect_type(ua, "character")
   expect_match(ua, "^gfwr/", fixed = FALSE)
@@ -26,23 +36,27 @@ test_that("make_char converts single-element lists to character", {
   expect_equal(make_char(list(1)), "1")
 })
 
-test_that("make_char leaves vectors unchanged", {
+test_that("make_char leaves multi-element lists unchanged", {
+  expect_equal(make_char(list(c("a", "b"))), list(c("a", "b")))
+})
+
+test_that("make_char leaves atomic vectors unchanged", {
   expect_equal(make_char(c("a", "b")), c("a", "b"))
   expect_equal(make_char(1:3), 1:3)
 })
 
-test_that("make_char works with mixed types", {
+test_that("make_char handles mixed-type lists correctly", {
   result <- make_char(list("a", 1, TRUE))
   expect_equal(result, c("a", "1", "TRUE"))
 })
 
 # make_datetime ---------------------------------------------------------------
 
-test_that("make_datetime converts ISO timestamps to POSIXct", {
+test_that("make_datetime converts ISO-8601 timestamps to UTC POSIXct", {
   x <- c("2024-01-01T00:00:00", "2024-12-31T23:59:59")
   dt <- make_datetime(x)
   expect_s3_class(dt, "POSIXct")
-  expect_equal(format(dt[1], "%Y-%m-%d"), "2024-01-01")
+  expect_equal(format(dt, "%Y-%m-%dT%H:%M:%S"), x)
   expect_equal(attr(dt, "tzone"), "UTC")
 })
 
@@ -62,20 +76,34 @@ test_that("vector_to_array works with numeric vectors", {
   expect_equal(unname(result), x)
 })
 
+test_that("vector_to_array works with single-element characters", {
+  x <- "a"
+  result <- vector_to_array(x, "event")
+  expect_named(result, c("event[0]"))
+  expect_equal(unname(result), x)
+})
+
+test_that("vector_to_array works with single-element numerics", {
+  x <- 1
+  result <- vector_to_array(x, "event")
+  expect_named(result, c("event[0]"))
+  expect_equal(unname(result), x)
+})
+
 # sf_to_geojson ---------------------------------------------------------------
 
 test_that("sf_to_geojson formats correctly for raster endpoint", {
   data("test_shape", package = "gfwr", envir = environment())
   result <- sf_to_geojson(test_shape, endpoint = "raster")
   expect_type(result, "character")
-  expect_match(result, "^\\{\"geojson\":")
+  expect_match(result, "^\\{\"geojson\":\\{", fixed = FALSE)
 })
 
 test_that("sf_to_geojson formats correctly for event endpoint", {
   data("test_shape", package = "gfwr", envir = environment())
   result <- sf_to_geojson(test_shape, endpoint = "event")
   expect_type(result, "character")
-  expect_match(result, "^\"geometry\":")
+  expect_match(result, "^\"geometry\":\\{", fixed = FALSE)
 })
 
 test_that("sf_to_geojson throws for invalid endpoint", {
@@ -83,7 +111,7 @@ test_that("sf_to_geojson throws for invalid endpoint", {
   expect_error(sf_to_geojson(test_shape, endpoint = "invalid"), "Incorrect endpoint argument")
 })
 
-# pipe ------------------------------------------------------------------------
+# pipe operator ---------------------------------------------------------------
 
 test_that("pipe operator from magrittr is available", {
   result <- 1 %>% sum()
@@ -92,7 +120,8 @@ test_that("pipe operator from magrittr is available", {
 
 # globalVariables -------------------------------------------------------------
 
-test_that("globalVariables calls do not error", {
+test_that("globalVariables registers names without error", {
   expect_silent(globalVariables(c(".")))
   expect_silent(globalVariables(c("iso", "name")))
+  expect_silent(globalVariables(c("id", "value", "data")))
 })
