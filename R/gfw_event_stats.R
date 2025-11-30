@@ -136,7 +136,7 @@ gfw_event_stats <- function(event_type,
     body_args <- c(body_args, duration)
   }
 
-  base <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/")
+  base <- httr2::request(gfw_base_url())
 
   api_datasets <- c(
     'ENCOUNTER' = "public-global-encounters-events:latest",

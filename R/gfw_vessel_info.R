@@ -112,7 +112,7 @@ gfw_vessel_info <- function(query = NULL,
   }
 
 
-  base <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/")
+  base <- httr2::request(gfw_base_url())
 
   # Only one dataset ID for selected API
   dataset <- "public-global-vessel-identity:latest"

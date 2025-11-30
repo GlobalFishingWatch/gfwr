@@ -1,3 +1,33 @@
+# gfw_base_url ----------------------------------------------------------------
+
+test_that("gfw_base_url returns trimmed environment value when set", {
+  withr::with_envvar(c(GFW_BASE_URL = "https://gateway.api.mocking.globalfishingwatch.org/v3/"), {
+    expect_equal(gfw_base_url(), "https://gateway.api.mocking.globalfishingwatch.org/v3/")
+  })
+
+  withr::with_envvar(c(GFW_BASE_URL = "  https://gateway.api.mocking.globalfishingwatch.org/v3/  "), {
+    expect_equal(gfw_base_url(), "https://gateway.api.mocking.globalfishingwatch.org/v3/")
+  })
+})
+
+test_that("gfw_base_url returns default URL when environment variable is empty or whitespace", {
+  withr::with_envvar(c(GFW_BASE_URL = ""), {
+    expect_equal(gfw_base_url(), "https://gateway.api.globalfishingwatch.org/v3/")
+  })
+
+  withr::with_envvar(c(GFW_BASE_URL = "   "), {
+    expect_equal(gfw_base_url(), "https://gateway.api.globalfishingwatch.org/v3/")
+  })
+
+  withr::with_envvar(c(GFW_BASE_URL = NULL), {
+    expect_equal(gfw_base_url(), "https://gateway.api.globalfishingwatch.org/v3/")
+  })
+
+  withr::with_envvar(c(GFW_BASE_URL = NA), {
+    expect_equal(gfw_base_url(), "https://gateway.api.globalfishingwatch.org/v3/")
+  })
+})
+
 # gfw_auth --------------------------------------------------------------------
 
 test_that("gfw_auth returns token from environment when set", {
