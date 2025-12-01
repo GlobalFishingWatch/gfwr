@@ -93,11 +93,12 @@ make_datetime <- function(x) {
 
 #' Parse a GFW API error response into a structured, user-friendly format
 #'
-#' This function extracts structured error information from an `httr2` response.
-#' It supports:
-#'
+#' This function extracts detailed, structured error information from an
+#' `httr2` response object. It supports:
 #' - JSON error bodies that follow the GFW API error schema
 #' - HTML error bodies (e.g., "413 Request Entity Too Large")
+#'
+#' @details Taken from httr2 docs: https://httr2.r-lib.org/articles/wrapping-apis.html
 #'
 #' @param resp An `httr2` response object.
 #'
@@ -106,6 +107,15 @@ make_datetime <- function(x) {
 #'   - `error`        – error name/description
 #'   - `messages`     – list of `{title, detail}` entries
 #'   - `formatted`    – pretty multi-line summary
+#'
+#' @examples
+#' \dontrun{
+#' resp <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/4wings/report") |>
+#'   httr2::req_headers(Authorization = paste("Bearer", "...")) |>
+#'   httr2::req_error(body = \(resp) parse_http_response_error(resp)$formatted)
+#'
+#' resp <- req |> httr2::req_perform()
+#' }
 #'
 #' @keywords internal
 #' @export
@@ -124,6 +134,7 @@ parse_response_error <- function(resp) {
       httr2::resp_body_json(resp, check_type = FALSE),
       error = function(e) NULL
     )
+
     if (is.list(resp_body_json)) {
       status_code <- resp_body_json$statusCode %||% status_code
       error <- resp_body_json$error %||% error

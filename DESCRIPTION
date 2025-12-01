@@ -25,6 +25,7 @@ Imports:
     class,
     dplyr,
     geojsonsf,
+    glue,
     httr2,
     jsonlite,
     lubridate,
@@ -35,12 +36,12 @@ Imports:
     rjson,
     rlang,
     tibble,
-    tidyr
+    tidyr,
+    xml2
 Suggests:
     covr,
     devtools,
     ggplot2,
-    glue,
     knitr,
     lintr,
     qpdf,

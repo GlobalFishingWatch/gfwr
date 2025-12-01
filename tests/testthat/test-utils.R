@@ -329,7 +329,7 @@ test_that("parse_response_error parses JSON 429 Too Many Requests", {
   })
 })
 
-test_that("parse_response_error arses HTML 413 Request Entity Too Large", {
+test_that("parse_response_error parses HTML 413 Request Entity Too Large", {
   with_gfw_mocked_envvar({
     mocked_url <- curl::curl_modify_url(gfw_base_url(), path = "/429")
 
