@@ -7,6 +7,23 @@
 #' @importFrom utils globalVariables
 NULL
 
+#' Null coalescing operator
+#'
+#' Returns the left-hand side if it is not `NULL`, otherwise returns the right-hand side.
+#'
+#' See \code{rlang::\link[rlang:%||%]{\%||%}} for details.
+#'
+#' @name %||%
+#' @rdname null-coalesce
+#' @keywords internal
+#' @export
+#' @importFrom rlang %||%
+#' @usage lhs \%||% rhs
+#' @param lhs A value that may be `NULL`.
+#' @param rhs A fallback value to return if `lhs` is `NULL`.
+#' @return `lhs` if it is not `NULL`; otherwise `rhs`.
+NULL
+
 #' Pipe operator
 #'
 #' See \code{magrittr::\link[magrittr:pipe]{\%>\%}} for details.
@@ -74,21 +91,117 @@ make_datetime <- function(x) {
   as.POSIXct(as.character(x), format = "%Y-%m-%dT%H:%M:%S", tz = "UTC")
 }
 
-#' Helper function to parse error message data
-#' and display appropriately to user
-#' @name parse_response_error
+#' Parse a GFW API error response into a structured, user-friendly format
+#'
+#' This function extracts structured error information from an `httr2` response.
+#' It supports:
+#'
+#' - JSON error bodies that follow the GFW API error schema
+#' - HTML error bodies (e.g., "413 Request Entity Too Large")
+#'
+#' @param resp An `httr2` response object.
+#'
+#' @return A list with:
+#'   - `status_code` – character string API/HTTP status code
+#'   - `error`        – error name/description
+#'   - `messages`     – list of `{title, detail}` entries
+#'   - `formatted`    – pretty multi-line summary
+#'
 #' @keywords internal
-#' @importFrom httr2 resp_body_json
-#' @importFrom purrr map_chr
-#' @importFrom purrr pluck
-#' @details Taken from httr2 docs: https://httr2.r-lib.org/articles/wrapping-apis.html#sending-data
+#' @export
 parse_response_error <- function(resp) {
-  body <- httr2::resp_body_raw(resp)
-  messages <- body$messages
-  if (length(messages[[1]]) > 1) {
-    messages <- purrr::map_chr(messages, purrr::pluck, "detail")
+  status_code <- httr2::resp_status(resp)
+  error <- httr2::resp_status_desc(resp)
+  messages <- list()
+
+  resp_content_type <- httr2::resp_content_type(resp)
+  zwsp <- "\u200B" # zero-width space for formatting
+
+  # Handle JSON error response bodies
+  is_json <- grepl("json", resp_content_type, ignore.case = TRUE)
+  if (is_json) {
+    resp_body_json <- tryCatch(
+      httr2::resp_body_json(resp, check_type = FALSE),
+      error = function(e) NULL
+    )
+    if (is.list(resp_body_json)) {
+      status_code <- resp_body_json$statusCode %||% status_code
+      error <- resp_body_json$error %||% error
+      messages <- resp_body_json$messages %||% list()
+    }
   }
-  messages
+
+  # Handle HTML error response bodies
+  resp_body_string <- tryCatch(
+    httr2::resp_body_string(resp, encoding = "UTF-8"),
+    error = function(e) ""
+  )
+
+  # Handle HTML error response bodies
+  is_html <- grepl("<(html|body|title|h1|h2)", resp_body_string, ignore.case = TRUE)
+  if (is_html) {
+    html_error <- NULL
+    html_title <- NULL
+    html_detail <- NULL
+    try(
+      {
+        resp_body_html <- xml2::read_html(resp_body_string)
+        html_error <- xml2::xml_text(xml2::xml_find_first(resp_body_html, "//title"))
+        html_title <- xml2::xml_text(xml2::xml_find_first(resp_body_html, "//h1"))
+        html_detail <- xml2::xml_text(xml2::xml_find_first(resp_body_html, "//h2"))
+      },
+      silent = TRUE
+    )
+    html_error <- html_error %||% html_title %||% error
+    html_error_parts <- unlist(strsplit(html_error, " ", fixed = TRUE))
+
+    status_code <- if (grepl("^\\d+$", html_error_parts[1])) html_error_parts[1] else status_code
+    error <- paste(html_error_parts[-1], collapse = " ")
+
+    messages <- list(
+      list(
+        title = html_title %||% error,
+        detail = html_detail %||% html_title %||% html_error
+      )
+    )
+  }
+
+  # Normalize error status code and description
+  status_code <- as.character(status_code)
+  error <- as.character(error)
+
+  # Normalize error response messages into list of lists with title and detail
+  messages <- messages %||% list()
+  messages <- purrr::map(messages, function(message) {
+    list(
+      title = as.character(message$title %||% NA_character_),
+      detail = as.character(message$detail %||% NA_character_)
+    )
+  })
+
+  # Format error response
+  formatted <- glue::glue("GFW API error ({status_code}): {error}")
+  if (length(messages) > 0) {
+    bullets <- purrr::map_chr(messages, function(message) {
+      glue::glue("{zwsp}{zwsp}{zwsp}{zwsp}- {message$title}: {message$detail}")
+    })
+
+    formatted <- c(
+      formatted,
+      glue::glue("{zwsp}{zwsp}Errors:"),
+      bullets
+    )
+  }
+
+  # Return structured error object
+  gfw_api_error <- list(
+    status_code = status_code,
+    error = error,
+    messages = messages,
+    formatted = formatted
+  )
+
+  return(gfw_api_error) # nolint: return_linter.
 }
 
 #' General function for GFW API requests, including handling of pagination.

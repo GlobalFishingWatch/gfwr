@@ -172,10 +172,229 @@ test_that("pipe operator from magrittr is available", {
   expect_equal(result, 1)
 })
 
+# null coalescing operator ----------------------------------------------------
+
+test_that("null coalescing operator from rlang is available", {
+  result <- NULL %||% 1
+  expect_equal(result, 1)
+})
+
 # globalVariables -------------------------------------------------------------
 
 test_that("globalVariables registers names without error", {
   expect_silent(globalVariables(c(".")))
   expect_silent(globalVariables(c("iso", "name")))
   expect_silent(globalVariables(c("id", "value", "data")))
+})
+
+
+# parse_response_error --------------------------------------------------------
+
+test_that("parse_response_error parses JSON 404 Not Found", {
+  with_gfw_mocked_envvar({
+    mocked_url <- curl::curl_modify_url(gfw_base_url(), path = "/404")
+
+    mocked_resp <- function(req) {
+      httr2::response_json(
+        status_code = 404,
+        url = mocked_url,
+        body = list(
+          statusCode = 404,
+          error = "Not Found",
+          messages = list(
+            list(
+              title = "Not Found",
+              detail = "Dataset with id public-global-fishing-effort:latest not found"
+            )
+          )
+        )
+      )
+    }
+
+    httr2::with_mocked_responses(mocked_resp, {
+      resp <- httr2::request(mocked_url) |>
+        req_error(is_error = \(.) FALSE) |>
+        httr2::req_perform()
+      gfw_api_error <- parse_response_error(resp)
+      expect_equal(gfw_api_error$status_code, "404")
+      expect_match(gfw_api_error$error, "Not Found")
+      expect_length(gfw_api_error$messages, 1)
+      expect_match(gfw_api_error$formatted[3], "Dataset with id public-global-fishing-effort:latest not found")
+    })
+  })
+})
+
+test_that("parse_response_error parses JSON 422 Unprocessable Entity", {
+  with_gfw_mocked_envvar({
+    mocked_url <- curl::curl_modify_url(gfw_base_url(), path = "/422")
+
+    mocked_resp <- function(req) {
+      httr2::response_json(
+        status_code = 422,
+        url = mocked_url,
+        body = list(
+          statusCode = 422,
+          error = "Unprocessable Entity",
+          messages = list(
+            list(
+              title = "Query",
+              detail = "Query param dataset is required"
+            )
+          )
+        )
+      )
+    }
+
+    httr2::with_mocked_responses(mocked_resp, {
+      resp <- httr2::request(mocked_url) |>
+        req_error(is_error = \(.) FALSE) |>
+        httr2::req_perform()
+      gfw_api_error <- parse_response_error(resp)
+      expect_equal(gfw_api_error$status_code, "422")
+      expect_match(gfw_api_error$error, "Unprocessable Entity")
+      expect_length(gfw_api_error$messages, 1)
+      expect_match(gfw_api_error$formatted[3], "Query param dataset is required")
+    })
+  })
+})
+
+test_that("parse_response_error parses JSON 403 Forbidden", {
+  with_gfw_mocked_envvar({
+    mocked_url <- curl::curl_modify_url(gfw_base_url(), path = "/403")
+
+    mocked_resp <- function(req) {
+      httr2::response_json(
+        status_code = 403,
+        url = mocked_url,
+        body = list(
+          statusCode = 403,
+          error = "Forbidden",
+          messages = list(
+            list(
+              title = "Forbidden",
+              detail = "Insufficient permissions for public-global-fishing-effort:latest datasets"
+            )
+          )
+        )
+      )
+    }
+
+    httr2::with_mocked_responses(mocked_resp, {
+      resp <- httr2::request(mocked_url) |>
+        req_error(is_error = \(.) FALSE) |>
+        httr2::req_perform()
+      gfw_api_error <- parse_response_error(resp)
+      expect_equal(gfw_api_error$status_code, "403")
+      expect_match(gfw_api_error$error, "Forbidden")
+      expect_length(gfw_api_error$messages, 1)
+      expect_match(
+        gfw_api_error$formatted[3],
+        "Insufficient permissions for public-global-fishing-effort:latest datasets"
+      )
+    })
+  })
+})
+
+test_that("parse_response_error parses JSON 429 Too Many Requests", {
+  with_gfw_mocked_envvar({
+    mocked_url <- curl::curl_modify_url(gfw_base_url(), path = "/429")
+
+    mocked_resp <- function(req) {
+      httr2::response_json(
+        status_code = 429,
+        url = mocked_url,
+        body = list(
+          statusCode = 429,
+          error = "Too Many Requests",
+          messages = list(
+            list(
+              title = "Too Many Requests",
+              detail = "You can only generate one report at the same time."
+            )
+          )
+        )
+      )
+    }
+
+    httr2::with_mocked_responses(mocked_resp, {
+      resp <- httr2::request(mocked_url) |>
+        req_error(is_error = \(.) FALSE) |>
+        httr2::req_perform()
+      gfw_api_error <- parse_response_error(resp)
+      expect_equal(gfw_api_error$status_code, "429")
+      expect_match(gfw_api_error$error, "Too Many Requests")
+      expect_length(gfw_api_error$messages, 1)
+      expect_match(gfw_api_error$formatted[3], "You can only generate one report at the same time.")
+    })
+  })
+})
+
+test_that("parse_response_error arses HTML 413 Request Entity Too Large", {
+  with_gfw_mocked_envvar({
+    mocked_url <- curl::curl_modify_url(gfw_base_url(), path = "/429")
+
+    mocked_resp <- function(req) {
+      httr2::response(
+        status_code = 200,
+        url = mocked_url,
+        headers = c("Content-Type" = "text/html"),
+        body = charToRaw(paste0(
+          "<html><head><title>413 Request Entity Too Large</title></head>",
+          "<body><h1>Error: Request Entity Too Large</h1>",
+          "<h2>Your client issued a request that was too large.</h2></body></html>",
+          sep = " "
+        ))
+      )
+    }
+
+    httr2::with_mocked_responses(mocked_resp, {
+      resp <- httr2::request(mocked_url) |>
+        req_error(is_error = \(.) FALSE) |>
+        httr2::req_perform()
+      gfw_api_error <- parse_response_error(resp)
+      expect_equal(gfw_api_error$status_code, "413")
+      expect_match(gfw_api_error$error, "Request Entity Too Large")
+      expect_length(gfw_api_error$messages, 1)
+      expect_match(gfw_api_error$formatted[3], "Your client issued a request that was too large")
+    })
+  })
+})
+
+test_that("parse_response_error parses multiple error messages", {
+  with_gfw_mocked_envvar({
+    mocked_url <- curl::curl_modify_url(gfw_base_url(), path = "/multi-messages")
+
+    mocked_resp <- function(req) {
+      httr2::response_json(
+        status_code = 422,
+        url = mocked_url,
+        body = list(
+          statusCode = 422,
+          error = "Unprocessable Entity",
+          messages = list(
+            list(
+              title = "Query",
+              detail = "Query param dataset is required"
+            ),
+            list(
+              title = "region-id",
+              detail = "region-id query param is required"
+            )
+          )
+        )
+      )
+    }
+
+    httr2::with_mocked_responses(mocked_resp, {
+      resp <- httr2::request(mocked_url) |>
+        req_error(is_error = \(.) FALSE) |>
+        httr2::req_perform()
+      gfw_api_error <- parse_response_error(resp)
+      expect_equal(gfw_api_error$status_code, "422")
+      expect_match(gfw_api_error$error, "Unprocessable Entity")
+      expect_length(gfw_api_error$messages, 2)
+      expect_match(gfw_api_error$formatted[3], "Query param dataset is required")
+      expect_match(gfw_api_error$formatted[4], "region-id query param is required")
+    })
+  })
 })
