@@ -7,23 +7,6 @@
 #' @importFrom utils globalVariables
 NULL
 
-#' Null coalescing operator
-#'
-#' Returns the left-hand side if it is not `NULL`, otherwise returns the right-hand side.
-#'
-#' See \code{rlang::\link[rlang:%||%]{\%||%}} for details.
-#'
-#' @name %||%
-#' @rdname null-coalesce
-#' @keywords internal
-#' @export
-#' @importFrom rlang %||%
-#' @usage lhs \%||% rhs
-#' @param lhs A value that may be `NULL`.
-#' @param rhs A fallback value to return if `lhs` is `NULL`.
-#' @return `lhs` if it is not `NULL`; otherwise `rhs`.
-NULL
-
 #' Pipe operator
 #'
 #' See \code{magrittr::\link[magrittr:pipe]{\%>\%}} for details.
