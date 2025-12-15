@@ -50,6 +50,7 @@ gfw_regions <- function(region_source = "EEZ",
 #' @name gfw_region_id
 #' @param region Character or numeric EEZ MPA or RFMO name or id.
 #' @param region_source Character, source of region data, `"EEZ"`, `"MPA"` or `"RFMO"`.
+#' @param region_name Deprecated, replaced by region.
 #' @param key Character, API token. Defaults to `gfw_auth()`.
 #' @return For `gfw_region_id()`, the corresponding code, region names or iso code
 #' for the EEZ, MPA or RFMO label
@@ -60,6 +61,8 @@ gfw_regions <- function(region_source = "EEZ",
 #' @importFrom httr2 req_error
 #' @importFrom httr2 req_user_agent
 #' @importFrom httr2 resp_body_json
+#' @importFrom lifecycle deprecated
+#' @importFrom lifecycle deprecate_warn
 #' @seealso [gfw_regions()]
 #' @export
 #' @examples
@@ -76,8 +79,18 @@ gfw_regions <- function(region_source = "EEZ",
 #' }
 gfw_region_id <- function(region = NULL,
                           region_source = "EEZ",
-                          key = gfw_auth()) {
-  if (!region_source %in% c("EEZ", "MPA", "RFMO")) stop("Enter valid region source")
+                          key = gfw_auth(),
+                          region_name = deprecated()) {
+  if (lifecycle::is_present(region_name)) {
+
+    # Signal the deprecation to the user
+    deprecate_warn("3.0", "gfwr::gfw_region_id(region_name = )", "gfwr::gfw_region_id(region = )")
+
+    # Deal with the deprecated argument for compatibility
+    region <- region_name
+  }
+
+    if (!region_source %in% c("EEZ", "MPA", "RFMO")) stop("Enter valid region source")
 
   result <- gfw_endpoint(dataset_type = region_source) %>%
     httr2::req_headers(Authorization = paste("Bearer", key, sep = " ")) %>%

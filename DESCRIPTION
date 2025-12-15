@@ -27,6 +27,7 @@ Imports:
     geojsonsf,
     httr2,
     jsonlite,
+    lifecycle,
     lubridate,
     magrittr,
     methods,

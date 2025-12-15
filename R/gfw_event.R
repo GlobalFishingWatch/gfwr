@@ -35,6 +35,7 @@
 #' are not available for download. See the
 #' [API documentation](https://globalfishingwatch.org/our-apis/documentation#confidence-levels-of-a-port-visit)
 #' for more details
+#' @param gap_intentional_disabling Deprecated. The APIs will return only high confidence gaps (Defaults = TRUE).
 #' @param key Character, API token. Defaults to [gfw_auth()].
 #' @param quiet Boolean. Whether to print the number of events returned by the
 #' request
@@ -163,7 +164,17 @@ gfw_event <- function(event_type,
                       key = gfw_auth(),
                       quiet = FALSE,
                       print_request = FALSE,
+                      gap_intentional_disabling = deprecated(),
                       ...) {
+    if (lifecycle::is_present(gap_intentional_disabling)) {
+
+      # Signal the deprecation to the user
+      deprecate_warn("3.0",
+                     "gfwr::gfw_event(gap_intentional_disabling = )",
+                     details = "Only intentional gaps are returned, equivalent to `gap_intentional_disabling = TRUE`")
+
+    }
+
   event_type <- toupper(event_type)
   # API endpoint specific parameters from ...
   args <- list(...)

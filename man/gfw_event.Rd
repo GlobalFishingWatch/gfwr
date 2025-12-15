@@ -20,6 +20,7 @@ gfw_event(
   key = gfw_auth(),
   quiet = FALSE,
   print_request = FALSE,
+  gap_intentional_disabling = deprecated(),
   ...
 )
 }
@@ -77,6 +78,8 @@ request}
 
 \item{print_request}{Boolean. Whether to print the request, for debugging
 purposes. When contacting the GFW team it will be useful to send this string}
+
+\item{gap_intentional_disabling}{Deprecated. The APIs will return only high confidence gaps (Defaults = TRUE).}
 
 \item{...}{Other arguments}
 }
