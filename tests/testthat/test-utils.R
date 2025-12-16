@@ -11,11 +11,7 @@ test_that("gfw_auth returns empty string when token is unset or empty", {
     expect_equal(gfw_auth(), "")
   })
 
-  withr::with_envvar(c(GFW_TOKEN = NULL), {
-    expect_equal(gfw_auth(), "")
-  })
-
-  withr::with_envvar(c(GFW_TOKEN = NA), {
+  withr::with_envvar(c(GFW_TOKEN = NA_character_), {
     expect_equal(gfw_auth(), "")
   })
 })
