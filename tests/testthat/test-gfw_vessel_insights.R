@@ -7,12 +7,7 @@ test_that("get_vessel_insights: missing includes triggers error", {
         includes = NULL,
         start_date = "2020-01-01",
         end_date = "2025-03-03",
-        vessels = list(
-          list(
-            dataset_id = "public-global-vessel-identity:latest",
-            vessel_id = "785101812-2127-e5d2-e8bf-7152c5259f5f"
-          )
-        )
+        vessels = c("785101812-2127-e5d2-e8bf-7152c5259f5f")
       ),
       regexp = "`includes` is required"
     )
@@ -26,12 +21,7 @@ test_that("get_vessel_insights: invalid includes triggers error", {
         includes = "INVALID-INCLUDE",
         start_date = "2020-01-01",
         end_date = "2025-03-03",
-        vessels = list(
-          list(
-            dataset_id = "public-global-vessel-identity:latest",
-            vessel_id = "785101812-2127-e5d2-e8bf-7152c5259f5f"
-          )
-        )
+        vessels = c("785101812-2127-e5d2-e8bf-7152c5259f5f")
       ),
       regexp = "Invalid `includes` value"
     )
@@ -48,12 +38,7 @@ test_that("get_vessel_insights: invalid start_date triggers error", {
         includes = "FISHING",
         start_date = "2020-01",
         end_date = "2025-03-03",
-        vessels = list(
-          list(
-            dataset_id = "public-global-vessel-identity:latest",
-            vessel_id = "785101812-2127-e5d2-e8bf-7152c5259f5f"
-          )
-        )
+        vessels = c("785101812-2127-e5d2-e8bf-7152c5259f5f")
       ),
       regexp = "must be in YYYY-MM-DD"
     )
@@ -67,12 +52,7 @@ test_that("get_vessel_insights: invalid end_date triggers error", {
         includes = "FISHING",
         start_date = "2020-01-01",
         end_date = "2025-03",
-        vessels = list(
-          list(
-            dataset_id = "public-global-vessel-identity:latest",
-            vessel_id = "785101812-2127-e5d2-e8bf-7152c5259f5f"
-          )
-        )
+        vessels = c("785101812-2127-e5d2-e8bf-7152c5259f5f")
       ),
       regexp = "must be in YYYY-MM-DD"
     )
@@ -86,14 +66,9 @@ test_that("get_vessel_insights: start_date > end_date triggers error", {
         includes = "FISHING",
         start_date = "2025-03-03",
         end_date = "2020-01-01",
-        vessels = list(
-          list(
-            dataset_id = "public-global-vessel-identity:latest",
-            vessel_id = "785101812-2127-e5d2-e8bf-7152c5259f5f"
-          )
-        )
+        vessels = c("785101812-2127-e5d2-e8bf-7152c5259f5f")
       ),
-      regexp = "must be <= `end_date`"
+      regexp = "must be less than or equal to `end_date`."
     )
   })
 })
@@ -115,40 +90,30 @@ test_that("get_vessel_insights: missing vessels triggers error", {
   })
 })
 
-test_that("get_vessel_insights: invalid vessels dataset_id triggers error", {
+test_that("get_vessel_insights: non-character vessels triggers error", {
   with_gfw_mocked_envvar({
     expect_error(
       get_vessel_insights(
         includes = "FISHING",
         start_date = "2020-01-01",
         end_date = "2025-03-03",
-        vessels = list(
-          list(
-            dataset_id = NULL,
-            vessel_id = "785101812-2127-e5d2-e8bf-7152c5259f5f"
-          )
-        )
+        vessels = c(1, NA, NULL, list(), c())
       ),
-      regexp = "must be a list with non-empty `dataset_id` and `vessel_id`"
+      regexp = "must be a non-empty character vector"
     )
   })
 })
 
-test_that("get_vessel_insights: invalid vessels vessel_id triggers error", {
+test_that("get_vessel_insights: empty or NA or NULL vessels trigger error", {
   with_gfw_mocked_envvar({
     expect_error(
       get_vessel_insights(
         includes = "FISHING",
         start_date = "2020-01-01",
         end_date = "2025-03-03",
-        vessels = list(
-          list(
-            dataset_id = "public-global-vessel-identity:latest",
-            vessel_id = NULL
-          )
-        )
+        vessels = c(" ", "", NA, NULL)
       ),
-      regexp = "must be a list with non-empty `dataset_id` and `vessel_id`"
+      regexp = "Invalid `vessels` value"
     )
   })
 })
@@ -161,31 +126,21 @@ test_that("get_vessel_insights: invalid key triggers error", {
       includes = "FISHING",
       start_date = "2020-01-01",
       end_date = "2025-03-03",
-      vessels = list(
-        list(
-          dataset_id = "public-global-vessel-identity:latest",
-          vessel_id = "785101812-2127-e5d2-e8bf-7152c5259f5f"
-        )
-      ),
-      key = NA
+      vessels = c("785101812-2127-e5d2-e8bf-7152c5259f5f"),
+      key = NA_character_
     ),
     regexp = "No API token found"
   )
 })
 
 test_that("get_vessel_insights: invalid key triggers error", {
-  withr::with_envvar(c(GFW_TOKEN = NA), {
+  withr::with_envvar(c(GFW_TOKEN = NA_character_), {
     expect_error(
       get_vessel_insights(
         includes = "FISHING",
         start_date = "2020-01-01",
         end_date = "2025-03-03",
-        vessels = list(
-          list(
-            dataset_id = "public-global-vessel-identity:latest",
-            vessel_id = "785101812-2127-e5d2-e8bf-7152c5259f5f"
-          )
-        )
+        vessels = c("785101812-2127-e5d2-e8bf-7152c5259f5f")
       ),
       regexp = "No API token found"
     )
@@ -198,7 +153,11 @@ test_that("get_vessel_insights: invalid key triggers error", {
 test_that("get_vessel_insights: returns vessel insights for multiple insight types", {
   with_gfw_mocked_envvar({
     mocked_url <- curl::curl_modify_url(gfw_base_url(), path = "insights/vessels")
+
     mocked_req_body <- with_gfw_json_fixture("insights/vessel_insight_request_body.json")
+    mocked_req_body$includes <- unlist(mocked_req_body$includes)
+    mocked_req_body$vessels <- unlist(mocked_req_body$vessels)
+
     mocked_resp_body <- with_gfw_json_fixture("insights/vessel_insight_item.json")
 
     mocked_resp <- function(req) {

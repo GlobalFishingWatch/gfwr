@@ -1,24 +1,10 @@
 {
-    "includes": [
-        "FISHING",
-        "GAP",
-        "VESSEL-IDENTITY-IUU-VESSEL-LIST",
-        "COVERAGE"
-    ],
-    "start_date": "2020-01-01",
-    "end_date": "2025-03-03",
-    "vessels": [
-        {
-            "dataset_id": "public-global-vessel-identity:latest",
-            "vessel_id": "785101812-2127-e5d2-e8bf-7152c5259f5f"
-        },
-        {
-            "dataset_id": "public-global-vessel-identity:latest",
-            "vessel_id": "2339c52c3-3a84-1603-f968-d8890f23e1ed"
-        },
-        {
-            "dataset_id": "public-global-vessel-identity:latest",
-            "vessel_id": "2d26aa452-2d4f-4cae-2ec4-377f85e88dcb"
-        }
-    ]
+  "includes": ["FISHING", "GAP", "VESSEL-IDENTITY-IUU-VESSEL-LIST", "COVERAGE"],
+  "start_date": "2020-01-01",
+  "end_date": "2025-03-03",
+  "vessels": [
+    "785101812-2127-e5d2-e8bf-7152c5259f5f",
+    "2339c52c3-3a84-1603-f968-d8890f23e1ed",
+    "2d26aa452-2d4f-4cae-2ec4-377f85e88dcb"
+  ]
 }

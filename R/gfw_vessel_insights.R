@@ -26,9 +26,9 @@
 #' `"YYYY-MM-DD"` format or Date. Example: `"2020-01-01"`.
 #' @param end_date Required. The end date for the insights period in
 #' `"YYYY-MM-DD"` format or Date. Example: `"2025-03-03"`.
-#' @param vessels Required. List of vessel identifiers to retrieve insights.
-#' Example: `list(list("vessel_id" = "785101812-2127-e5d2-e8bf-7152c5259f5f",
-#' "dataset_id" = "public-global-vessel-identity:latest"))`.
+#' @param vessels Required. Character vector of vessel IDs to retrieve insights for.
+#' Each vessel ID must be a non-empty character string.
+#' Example: `c("785101812-2127-e5d2-e8bf-7152c5259f5f", "2339c52c3-3a84-1603-f968-d8890f23e1ed")`.
 #' @param key Character, API token. Defaults to [gfw_auth()].
 #' @return List of vessel insights result.
 #' @examples
@@ -37,13 +37,11 @@
 #'
 #' get_vessel_insights(
 #'   includes = c("FISHING"),
-#'   startDate = "2020-01-01",
-#'   endDate = "2025-03-03",
-#'   vessels = list(
-#'     list(
-#'       dataset_id = "public-global-vessel-identity:latest",
-#'       vessel_id = "785101812-2127-e5d2-e8bf-7152c5259f5f"
-#'     )
+#'   start_date = "2020-01-01",
+#'   end_date = "2025-03-03",
+#'   vessels = c(
+#'     "785101812-2127-e5d2-e8bf-7152c5259f5f",
+#'     "2339c52c3-3a84-1603-f968-d8890f23e1ed"
 #'   )
 #' )
 #' }
@@ -52,77 +50,86 @@ get_vessel_insights <- function(includes = NULL,
                                 start_date = NULL,
                                 end_date = NULL,
                                 vessels = NULL,
-                                key = NULL) {
+                                key = gfw_auth()) {
   # Validate includes ---------------------------------------------------------
 
   allowed_includes <- c(
     "FISHING", "GAP", "COVERAGE", "VESSEL-IDENTITY-IUU-VESSEL-LIST"
   )
 
-  if (missing(includes) || length(includes) == 0) {
+  if (!is.character(includes) || length(includes) == 0) {
     rlang::abort("`includes` is required and must be a non-empty character vector.")
   }
-  includes <- toupper(as.character(includes))
+
+  includes <- trimws(toupper(includes))
   invalid_includes <- setdiff(includes, allowed_includes)
+
   if (length(invalid_includes) > 0) {
     invalid_includes_message <- glue::glue(
       "Invalid `includes` value(s): {paste(invalid_includes, collapse = ', ')}. ",
-      "Allowed value(s): {paste(allowed_includes, collapse = ', ')}"
+      "Allowed value(s): {paste(allowed_includes, collapse = ', ')}."
     )
     rlang::abort(invalid_includes_message)
   }
 
   # Validate dates ------------------------------------------------------------
-  parse_date <- function(d) {
-    if (inherits(d, "Date")) {
-      return(d)
+
+  parse_date <- function(x, name) {
+    if (inherits(x, "Date")) {
+      return(x)
     }
-    if (is.character(d)) {
-      dt <- tryCatch(lubridate::ymd(d, quiet = TRUE), error = function(e) NA)
-      return(dt)
+    if (is.character(x)) {
+      parsed <- suppressWarnings(lubridate::ymd(x))
+      if (!is.na(parsed)) {
+        return(parsed)
+      }
     }
-    return(NA) # fallback for unsupported types # nolint: return_linter.
+    invalid_date_message <- glue::glue(
+      "Invalid `{name}`: {x}. ",
+      "`{name}` must be in YYYY-MM-DD format or Date object."
+    )
+    rlang::abort(invalid_date_message)
   }
 
-  start_date <- parse_date(start_date)
-  end_date <- parse_date(end_date)
-  if (is.na(start_date) || is.na(end_date)) {
-    rlang::abort("`start_date` and `end_date` must be in YYYY-MM-DD format or Date objects.")
-  }
+  start_date <- parse_date(start_date, "start_date")
+  end_date <- parse_date(end_date, "end_date")
+
   if (start_date > end_date) {
-    rlang::abort("`start_date` must be <= `end_date`.")
+    rlang::abort("`start_date` must be less than or equal to `end_date`.")
   }
 
   # Validate vessels ----------------------------------------------------------
 
-  if (missing(vessels) || !is.list(vessels) || length(vessels) == 0) {
-    rlang::abort("`vessels` is required and must be a non-empty list of objects with `dataset_id` and `vessel_id`.")
+  if (!is.character(vessels) || length(vessels) == 0) {
+    rlang::abort("`vessels` is required and must be a non-empty character vector.")
   }
-  validate_vessel <- function(v) {
-    is.list(v) &&
-      !is.null(v$dataset_id) && nzchar(as.character(v$dataset_id)) &&
-      !is.null(v$vessel_id) && nzchar(as.character(v$vessel_id))
-  }
-  invalid_vessels <- purrr::discard(vessels, validate_vessel)
+
+  vessels <- trimws(vessels)
+  invalid_vessels <- vessels[is.na(vessels) | vessels == ""]
+
   if (length(invalid_vessels) > 0) {
-    rlang::abort("Each element of `vessels` must be a list with non-empty `dataset_id` and `vessel_id`.")
+    invalid_vessels_message <- glue::glue(
+      "Invalid `vessels` value(s): {paste(invalid_vessels, collapse = ', ')}. ",
+      "Each vessel ID must be a non-empty, non-NA character string."
+    )
+    rlang::abort(invalid_vessels_message)
   }
 
   # Validate key --------------------------------------------------------------
-  key <- key %||% gfw_auth()
   if (is.null(key) || identical(key, "") || is.na(key)) {
-    rlang::abort("No API token found. Set GFW_TOKEN or pass `key`.")
+    rlang::abort("No API token found. Set `GFW_TOKEN`` or pass `key`.")
   }
 
   # Build API request body ----------------------------------------------------
+  dataset_id <- "public-global-vessel-identity:latest"
   req_body <- list(
-    includes = unname(as.list(includes)),
+    includes = as.list(includes),
     startDate = format(start_date, "%Y-%m-%d"),
     endDate = format(end_date, "%Y-%m-%d"),
-    vessels = purrr::map(vessels, function(v) {
+    vessels = purrr::map(vessels, function(vessel_id) {
       list(
-        datasetId = as.character(v$dataset_id),
-        vesselId = as.character(v$vessel_id)
+        datasetId = dataset_id,
+        vesselId = vessel_id
       )
     })
   )

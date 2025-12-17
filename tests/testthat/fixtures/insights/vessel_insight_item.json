@@ -1,66 +1,60 @@
 {
-    "period": {
-        "startDate": "2020-01-01",
-        "endDate": "2025-03-03"
+  "period": {
+    "startDate": "2020-01-01",
+    "endDate": "2025-03-03"
+  },
+  "vesselIdsWithoutIdentity": null,
+  "gap": {
+    "datasets": ["public-global-gaps-events:v3.0"],
+    "historicalCounters": {
+      "events": 1,
+      "eventsGapOff": 1
     },
-    "vesselIdsWithoutIdentity": null,
-    "gap": {
-        "datasets": [
-            "public-global-gaps-events:v3.0"
-        ],
-        "historicalCounters": {
-            "events": 1,
-            "eventsGapOff": 1
-        },
-        "periodSelectedCounters": {
-            "events": 4,
-            "eventsGapOff": 4
-        },
-        "aisOff": [
-            "5c08c6e146315b98d8569dd253681ace",
-            "b058be4456f7d17f89f95643a1bfb375"
-        ]
+    "periodSelectedCounters": {
+      "events": 4,
+      "eventsGapOff": 4
     },
-    "coverage": {
-        "blocks": "53447",
-        "blocksWithPositions": "51355",
-        "percentage": 96.08584204913278
+    "aisOff": [
+      "5c08c6e146315b98d8569dd253681ace",
+      "b058be4456f7d17f89f95643a1bfb375"
+    ]
+  },
+  "coverage": {
+    "blocks": "53447",
+    "blocksWithPositions": "51355",
+    "percentage": 96.08584204913278
+  },
+  "apparentFishing": {
+    "datasets": ["public-global-fishing-events:v3.0"],
+    "historicalCounters": {
+      "events": 2546,
+      "eventsInRFMOWithoutKnownAuthorization": 0,
+      "eventsInNoTakeMPAs": 18
     },
-    "apparentFishing": {
-        "datasets": [
-            "public-global-fishing-events:v3.0"
-        ],
-        "historicalCounters": {
-            "events": 2546,
-            "eventsInRFMOWithoutKnownAuthorization": 0,
-            "eventsInNoTakeMPAs": 18
-        },
-        "periodSelectedCounters": {
-            "events": 2882,
-            "eventsInRFMOWithoutKnownAuthorization": 0,
-            "eventsInNoTakeMPAs": 19
-        },
-        "eventsInRfmoWithoutKnownAuthorization": [
-            "6a2c2930d7eead8ed729f17922ce9b40"
-        ],
-        "eventsInNoTakeMpas": [
-            "6a2c2930d7eead8ed729f17922ce9b40",
-            "28cb9b7899699dc362580e6c816f18d6"
-        ]
+    "periodSelectedCounters": {
+      "events": 2882,
+      "eventsInRFMOWithoutKnownAuthorization": 0,
+      "eventsInNoTakeMPAs": 19
     },
-    "vesselIdentity": {
-        "datasets": [
-            "public-global-vessel-identity:v3.0"
-        ],
-        "iuuVesselList": {
-            "valuesInThePeriod": [
-                {
-                    "from": "2020-01-01T00:00:00Z",
-                    "to": "2024-03-01T00:00:00Z"
-                }
-            ],
-            "totalTimesListed": 1,
-            "totalTimesListedInThePeriod": 0
+    "eventsInRfmoWithoutKnownAuthorization": [
+      "6a2c2930d7eead8ed729f17922ce9b40"
+    ],
+    "eventsInNoTakeMpas": [
+      "6a2c2930d7eead8ed729f17922ce9b40",
+      "28cb9b7899699dc362580e6c816f18d6"
+    ]
+  },
+  "vesselIdentity": {
+    "datasets": ["public-global-vessel-identity:v3.0"],
+    "iuuVesselList": {
+      "valuesInThePeriod": [
+        {
+          "from": "2020-01-01T00:00:00Z",
+          "to": "2024-03-01T00:00:00Z"
         }
+      ],
+      "totalTimesListed": 1,
+      "totalTimesListedInThePeriod": 0
     }
+  }
 }
