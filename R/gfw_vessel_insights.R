@@ -1,11 +1,33 @@
-#' Get vessels insights data
+#' Retrieve vessel insights for one or several vessel IDs
 #'
-#' Retrieves insights data for specified vessels to obtain vessel-level
-#' indicators such as:
-#' - apparent fishing inside no-take MPAs (`FISHING`)
-#' - AIS off / gap events (`GAP`)
-#' - AIS coverage metric (`COVERAGE`)
-#' - RFMO IUU list membership (`VESSEL-IDENTITY-IUU-VESSEL-LIST`)
+#' @description
+#' The Global Fishing Watch (GFW) Insights API provides a set of vessel-level
+#' analytical indicators ("vessel insights") that combine information on a
+#' vessel’s observed activity (primarily derived from AIS), vessel identity
+#' records, and publicly available authorizations.
+#'
+#' The primary objective of vessel insights is to support risk-based
+#' decision-making, operational planning, and due diligence by helping users
+#' identify vessel characteristics and behaviors that may indicate an increased
+#' likelihood of involvement in Illegal, Unreported, or Unregulated (IUU)
+#' fishing.
+#'
+#' This function retrieves vessel insights for one or more vessel identifiers (IDs)
+#' over a specified time period. Users may specify which insight types to
+#' include. The response summarizes detected events and indicators; detailed
+#' event-level information can be retrieved separately using the
+#' Events API: https://globalfishingwatch.org/our-apis/documentation#events-api.
+#'
+#' @details
+#' The following insight types are supported via the `includes` argument:
+#' - Any apparent fishing events in no-take MPAs (`"FISHING"`)
+#' - Any apparent fishing events detected in areas with no known RFMO authorization (`"FISHING"`)
+#' - The vessel's AIS coverage metric (`"COVERAGE"`)
+#' - Any AIS off events (`"GAP"`)
+#' - If the vessel is present on an RFMO IUU vessel list (`"VESSEL-IDENTITY-IUU-VESSEL-LIST"`)
+#'
+#' The function returns a single-row tibble with one list-column per insight
+#' type requested. Each list-column contains the data corresponding to that insight type.
 #'
 #' For detailed information about the Insights API, please refer to the official
 #' Global Fishing Watch API documentation:
@@ -15,39 +37,89 @@
 #' Global Fishing Watch API documentation:
 #' - https://globalfishingwatch.org/our-apis/documentation#insights-api-fishing-detected-in-no-take-mpas
 #' - https://globalfishingwatch.org/our-apis/documentation#what-does-it-mean-that-an-api-dataset-is-in-prototype-stage
-#' - https://globalfishingwatch.org/our-apis/documentation#insights-api-fishing-event-detected-outside-known-authorized-areas # nolint: line_length_linter.
+#' - https://globalfishingwatch.org/our-apis/documentation#insights-api-fishing-event-detected-outside-known-authorized-areas
 #' - https://globalfishingwatch.org/our-apis/documentation#insights-api-coverage
-#' - https://globalfishingwatch.org/our-apis/documentation#insights-api-rfmo-iuu-vessel-list
+#' - https://globalfishingwatch.org/our-apis/documentation#insights-api-rfmo-iuu-vessel-listx
 #'
 #' @param includes Required. Character vector of insight types to include in
 #' the response. Allowed values: `"FISHING"`, `"GAP"`, `"COVERAGE"`,
 #' `"VESSEL-IDENTITY-IUU-VESSEL-LIST"`. Example: `c("FISHING", "GAP")`.
+#'
 #' @param start_date Required. The start date for the insights period in
 #' `"YYYY-MM-DD"` format or Date. Example: `"2020-01-01"`.
+#'
 #' @param end_date Required. The end date for the insights period in
 #' `"YYYY-MM-DD"` format or Date. Example: `"2025-03-03"`.
+#'
 #' @param vessels Required. Character vector of vessel IDs to retrieve insights for.
 #' Each vessel ID must be a non-empty character string.
-#' Example: `c("785101812-2127-e5d2-e8bf-7152c5259f5f", "2339c52c3-3a84-1603-f968-d8890f23e1ed")`.
+#' Example: `c("785101812-2127-e5d2-e8bf-7152c5259f5f", "2d26aa452-2d4f-4cae-2ec4-377f85e88dcb")`.
+#'
 #' @param key Character, API token. Defaults to [gfw_auth()].
+#'
 #' @param print_request Boolean. Whether to print the request, for debugging
 #' purposes. When contacting the GFW team it will be useful to send this string.
-#' @return List of vessel insights result.
+#'
+#' @return
+#' A single-row tibble where each column corresponds to a requested insight
+#' type. Columns are list-columns containing the data returned by the Insights API.
+#'
 #' @examples
 #' \dontrun{
 #' library(gfwr)
 #'
-#' get_vessel_insights(
+#' # Retrieve fishing-related insights for a single vessel
+#' fishing_insights <- get_vessel_insights(
 #'   includes = c("FISHING"),
+#'   start_date = "2020-01-01",
+#'   end_date = "2025-03-03",
+#'   vessels = c("785101812-2127-e5d2-e8bf-7152c5259f5f"),
+#'   print_request = TRUE
+#' )
+#'
+#' # Retrieve AIS gap (AIS-off) insights for a single vessel
+#' gap_insights <- get_vessel_insights(
+#'   includes = c("GAP"),
+#'   start_date = "2020-01-01",
+#'   end_date = "2025-03-03",
+#'   vessels = c("2339c52c3-3a84-1603-f968-d8890f23e1ed")
+#' )
+#'
+#' # Retrieve AIS coverage metrics insights for a single vessel
+#' coverage_insights <- get_vessel_insights(
+#'   includes = c("COVERAGE"),
+#'   start_date = as.Date("2020-01-01"),
+#'   end_date = as.Date("2025-03-03"),
+#'   vessels = c("2339c52c3-3a84-1603-f968-d8890f23e1ed")
+#' )
+#'
+#' # Retrieve being listed in IUU list insights for a single vessel
+#' iuu_insights <- get_vessel_insights(
+#'   includes = c("VESSEL-IDENTITY-IUU-VESSEL-LIST"),
+#'   start_date = "2020-01-01",
+#'   end_date = "2025-03-03",
+#'   vessels = c("2d26aa452-2d4f-4cae-2ec4-377f85e88dcb")
+#' )
+#'
+#' # Retrieve all available insights for multiple vessels
+#' all_insights <- get_vessel_insights(
+#'   includes = c(
+#'     "FISHING",
+#'     "GAP",
+#'     "COVERAGE",
+#'     "VESSEL-IDENTITY-IUU-VESSEL-LIST"
+#'   ),
 #'   start_date = "2020-01-01",
 #'   end_date = "2025-03-03",
 #'   vessels = c(
 #'     "785101812-2127-e5d2-e8bf-7152c5259f5f",
-#'     "2339c52c3-3a84-1603-f968-d8890f23e1ed"
+#'     "2339c52c3-3a84-1603-f968-d8890f23e1ed",
+#'     "2d26aa452-2d4f-4cae-2ec4-377f85e88dcb"
 #'   ),
 #'   print_request = TRUE
 #' )
 #' }
+#'
 #' @export
 get_vessel_insights <- function(includes = NULL,
                                 start_date = NULL,
@@ -130,12 +202,7 @@ get_vessel_insights <- function(includes = NULL,
     includes = as.list(includes),
     startDate = format(start_date, "%Y-%m-%d"),
     endDate = format(end_date, "%Y-%m-%d"),
-    vessels = purrr::map(vessels, function(vessel_id) {
-      list(
-        datasetId = dataset_id,
-        vesselId = vessel_id
-      )
-    })
+    vessels = purrr::map(vessels, \(x) list(datasetId = dataset_id, vesselId = x))
   )
 
   # Build API request ---------------------------------------------------------
@@ -153,12 +220,23 @@ get_vessel_insights <- function(includes = NULL,
   }
 
   # Attach error parser
-  req <- req |> httr2::req_error(body = function(r) parse_response_error(r)$formatted)
+  req <- req |> httr2::req_error(body = \(x) parse_response_error(x)$formatted)
 
-  #   Perform request
+  # Perform request
   resp <- req |> httr2::req_perform()
 
-  # Parse and return API response ---------------------------------------------
+  # Build API response --------------------------------------------------------
+
+  # Extract JSON response body
   resp_body <- httr2::resp_body_json(resp, check_type = TRUE, simplifyVector = FALSE)
-  return(resp_body)
+
+  # Normalize response body
+  resp_body <- resp_body |>
+    purrr::map(\(x) if (is.null(x) || identical(x, NA)) list() else x) |>
+    purrr::map(\(x) list(x))
+
+  # Transform response body to dataframe
+  resp_df <- tibble::tibble(!!!resp_body)
+
+  return(resp_df)
 }

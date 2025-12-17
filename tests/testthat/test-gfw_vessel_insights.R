@@ -201,27 +201,26 @@ test_that("get_vessel_insights: returns vessel insights for multiple insight typ
         end_date = mocked_req_body$end_date,
         vessels = mocked_req_body$vessels
       )
+
+      expect_s3_class(resp, "tbl_df")
+      expect_equal(nrow(resp), 1)
+      expect_setequal(colnames(resp), names(mocked_resp_body))
+
       expect_true(!is.null(resp$period))
-      expect_true(!is.null(resp$period$startDate))
-      expect_true(!is.null(resp$period$endDate))
+      expect_identical(resp$period[[1]], mocked_resp_body$period)
+
+      expect_true(!is.null(resp$vesselIdsWithoutIdentity))
+
       expect_true(!is.null(resp$gap))
-      expect_true(!is.null(resp$gap$datasets))
-      expect_true(!is.null(resp$gap$historicalCounters))
-      expect_true(!is.null(resp$gap$periodSelectedCounters))
-      expect_true(!is.null(resp$gap$aisOff))
+      expect_identical(resp$gap[[1]], mocked_resp_body$gap)
+
       expect_true(!is.null(resp$coverage))
-      expect_true(!is.null(resp$coverage$blocks))
-      expect_true(!is.null(resp$coverage$blocksWithPositions))
-      expect_true(!is.null(resp$coverage$percentage))
+
       expect_true(!is.null(resp$apparentFishing))
-      expect_true(!is.null(resp$apparentFishing$datasets))
-      expect_true(!is.null(resp$apparentFishing$historicalCounters))
-      expect_true(!is.null(resp$apparentFishing$periodSelectedCounters))
-      expect_true(!is.null(resp$apparentFishing$eventsInRfmoWithoutKnownAuthorization))
-      expect_true(!is.null(resp$apparentFishing$eventsInNoTakeMpas))
+      expect_identical(resp$apparentFishing[[1]], mocked_resp_body$apparentFishing)
+
       expect_true(!is.null(resp$vesselIdentity))
-      expect_true(!is.null(resp$vesselIdentity$datasets))
-      expect_true(!is.null(resp$vesselIdentity$iuuVesselList))
+      expect_identical(resp$vesselIdentity[[1]], mocked_resp_body$vesselIdentity)
     })
   })
 })
