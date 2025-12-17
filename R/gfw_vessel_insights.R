@@ -30,6 +30,8 @@
 #' Each vessel ID must be a non-empty character string.
 #' Example: `c("785101812-2127-e5d2-e8bf-7152c5259f5f", "2339c52c3-3a84-1603-f968-d8890f23e1ed")`.
 #' @param key Character, API token. Defaults to [gfw_auth()].
+#' @param print_request Boolean. Whether to print the request, for debugging
+#' purposes. When contacting the GFW team it will be useful to send this string.
 #' @return List of vessel insights result.
 #' @examples
 #' \dontrun{
@@ -42,7 +44,8 @@
 #'   vessels = c(
 #'     "785101812-2127-e5d2-e8bf-7152c5259f5f",
 #'     "2339c52c3-3a84-1603-f968-d8890f23e1ed"
-#'   )
+#'   ),
+#'   print_request = TRUE
 #' )
 #' }
 #' @export
@@ -50,7 +53,8 @@ get_vessel_insights <- function(includes = NULL,
                                 start_date = NULL,
                                 end_date = NULL,
                                 vessels = NULL,
-                                key = gfw_auth()) {
+                                key = gfw_auth(),
+                                print_request = FALSE) {
   # Validate includes ---------------------------------------------------------
 
   allowed_includes <- c(
@@ -117,7 +121,7 @@ get_vessel_insights <- function(includes = NULL,
 
   # Validate key --------------------------------------------------------------
   if (is.null(key) || identical(key, "") || is.na(key)) {
-    rlang::abort("No API token found. Set `GFW_TOKEN`` or pass `key`.")
+    rlang::abort("No API token found. Set `GFW_TOKEN` or pass `key`.")
   }
 
   # Build API request body ----------------------------------------------------
@@ -143,6 +147,10 @@ get_vessel_insights <- function(includes = NULL,
     ) |>
     httr2::req_user_agent(gfw_user_agent()) |>
     httr2::req_body_json(req_body)
+
+  if (print_request) {
+    print(req)
+  }
 
   # Attach error parser
   req <- req |> httr2::req_error(body = function(r) parse_response_error(r)$formatted)

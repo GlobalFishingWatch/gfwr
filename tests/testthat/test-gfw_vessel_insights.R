@@ -120,7 +120,20 @@ test_that("get_vessel_insights: empty or NA or NULL vessels trigger error", {
 
 # Validate key ----------------------------------------------------------------
 
-test_that("get_vessel_insights: invalid key triggers error", {
+test_that("get_vessel_insights: NULL key triggers error", {
+  expect_error(
+    get_vessel_insights(
+      includes = "FISHING",
+      start_date = "2020-01-01",
+      end_date = "2025-03-03",
+      vessels = c("785101812-2127-e5d2-e8bf-7152c5259f5f"),
+      key = NULL
+    ),
+    regexp = "No API token found"
+  )
+})
+
+test_that("get_vessel_insights: NA key triggers error", {
   expect_error(
     get_vessel_insights(
       includes = "FISHING",
@@ -133,7 +146,20 @@ test_that("get_vessel_insights: invalid key triggers error", {
   )
 })
 
-test_that("get_vessel_insights: invalid key triggers error", {
+test_that("get_vessel_insights: empty string key triggers error", {
+  expect_error(
+    get_vessel_insights(
+      includes = "FISHING",
+      start_date = "2020-01-01",
+      end_date = "2025-03-03",
+      vessels = c("785101812-2127-e5d2-e8bf-7152c5259f5f"),
+      key = ""
+    ),
+    regexp = "No API token found"
+  )
+})
+
+test_that("get_vessel_insights: NA `GFW_TOKEN` envvar key triggers error", {
   withr::with_envvar(c(GFW_TOKEN = NA_character_), {
     expect_error(
       get_vessel_insights(
