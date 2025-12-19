@@ -13,8 +13,10 @@
 #' * `get_region_id()`   -> `gfw_region_id()`
 #' * `get_last_report()` -> `gfw_last_report()`
 #'
+#'
 #' @keywords internal
 #' @rdname gfw_renamed
+#' @export
 get_raster <- function(spatial_resolution = NULL,
                        temporal_resolution = NULL,
                        start_date = "2023-01-01",
@@ -38,7 +40,9 @@ get_raster <- function(spatial_resolution = NULL,
                       print_request)
   }
 
+#' @keywords internal
 #' @rdname gfw_renamed
+#' @export
 get_event <- function(event_type,
                       start_date = "2012-01-01",
                       end_date = "2024-12-31",
@@ -77,7 +81,9 @@ get_event <- function(event_type,
             ...)
 }
 
+#' @keywords internal
 #' @rdname gfw_renamed
+#' @export
 get_event_stats <- function(event_type,
                             start_date = "2012-01-01",
                             end_date = "2024-12-31",
@@ -113,7 +119,9 @@ get_event_stats <- function(event_type,
                               ...)
   }
 
+#' @keywords internal
 #' @rdname gfw_renamed
+#' @export
 get_region_id <- function(region_name = NULL,
                           region_source = "EEZ",
                           key = gfw_auth()
@@ -124,14 +132,18 @@ get_region_id <- function(region_name = NULL,
                 key)
 }
 
+#' @keywords internal
 #' @rdname gfw_renamed
+#' @export
 get_regions <- function(region_source = "EEZ",
                         key = gfw_auth()) {
   lifecycle::deprecate_warn("3.0", "get_regions()", "gfw_regions()")
   gfw_regions(region_source, key)
 }
 
+#' @keywords internal
 #' @rdname gfw_renamed
+#' @export
 get_vessel_info <- function(query = NULL,
                             where = NULL,
                             search_type = "search",
@@ -159,7 +171,9 @@ get_vessel_info <- function(query = NULL,
                   ...)
 }
 
+#' @keywords internal
 #' @rdname gfw_renamed
+#' @export
 get_last_report <- function(key = gfw_auth()) {
   lifecycle::deprecate_warn("3.0", "get_last_report()", "gfw_last_report()")
   gfw_last_report(key)

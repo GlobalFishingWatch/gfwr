@@ -28,7 +28,7 @@ region names and ISO codes. (#196)
 dataset, which can be found in the [Global Fishing Watch map](https://globalfishingwatch.org/map/).
 This dataset aggregates the presence of all vessels (fishing and non-fishing), expressed in hours of activity in each cell.
 - `gfw_sar_vessel_detections()` incorporates the __SAR-based vessel detections__
-(presence), also found in the map. See Paolo et al 2024 for more details. 
+(presence), also found in the map. See [Paolo et al 2024](https://doi.org/10.1038/s41586-023-06825-8) for more details. 
 
 
 ## Non-breaking changes
