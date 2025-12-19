@@ -36,9 +36,9 @@ gfw_regions <- function(region_source = "EEZ",
     if (region_source == "EEZ") {
 
       # Make data available
-      utils::data("marine_regions", package = "gfwr", envir = environment())
+      utils::data("gfw_marine_regions", package = "gfwr", envir = environment())
 
-      result <- marine_regions %>%
+      result <- gfw_marine_regions %>%
         dplyr::rename(id = MRGID,
                       label = name)
     }
@@ -84,7 +84,7 @@ gfw_region_id <- function(region = NULL,
   if (lifecycle::is_present(region_name)) {
 
     # Signal the deprecation to the user
-    deprecate_warn("3.0", "gfwr::gfw_region_id(region_name = )", "gfwr::gfw_region_id(region = )")
+    lifecycle::deprecate_warn("3.0", "gfwr::gfw_region_id(region_name = )", "gfwr::gfw_region_id(region = )")
 
     # Deal with the deprecated argument for compatibility
     region <- region_name
@@ -103,9 +103,9 @@ gfw_region_id <- function(region = NULL,
   if (region_source == "EEZ") {
 
     # Make data available
-    utils::data("marine_regions", package = "gfwr", envir = environment())
+    utils::data("gfw_marine_regions", package = "gfwr", envir = environment())
 
-    result <- marine_regions %>%
+    result <- gfw_marine_regions %>%
       dplyr::rename(id = MRGID,
                     label = name,
                     iso3 = iso)

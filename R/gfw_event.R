@@ -59,8 +59,6 @@
 #' @import class
 #'
 #' @details
-#' There are currently four available event types and these events are provided
-#' for three vessel types - fishing, carrier, and support vessels.
 #' Fishing events (`event_type = "FISHING"`) are specific to fishing vessels and
 #' loitering events (`event_type = "LOITERING"`) are specific to carrier vessels.
 #' Port visits (`event_type = "PORT_VISIT"`) and encounters
@@ -126,23 +124,22 @@
 #'  start_date = "2020-01-01",
 #'  end_date = "2020-01-31",
 #'  key = gfw_auth())
-#' # fishing events in Senegal EEZ
-#'gfw_event(event_type = 'FISHING',
+#' # encounter events in Senegal EEZ
+#'gfw_event(event_type = 'ENCOUNTER',
 #'               start_date = "2020-10-01",
 #'               end_date = "2020-12-31",
 #'               region = 8371,
 #'               region_source = 'EEZ',
-#'               flags = 'CHN',
 #'               key = gfw_auth())
 #'
-#' # fishing events in user shapefile
-#' test_polygon <- sf::st_bbox(c(xmin = -70, xmax = -40, ymin = -10, ymax = 5),
+#' Encounter events in user shapefile from a bounding box
+#' test_polygon <- sf::st_bbox(c(xmin = -50, xmax = -20, ymin = -10, ymax = -30),
 #'  crs = 4326) |>
 #'  sf::st_as_sfc() |>
 #'  sf::st_as_sf()
-#'gfw_event(event_type = 'FISHING',
-#'               start_date = "2022-01-01",
-#'               end_date = "2024-01-01",
+#'gfw_event(event_type = 'ENCOUNTER',
+#'               start_date = "2023-01-01",
+#'               end_date = "2023-06-01",
 #'               region = test_polygon,
 #'               region_source = 'USER_SHAPEFILE',
 #'               key = gfw_auth())
@@ -169,7 +166,7 @@ gfw_event <- function(event_type,
     if (lifecycle::is_present(gap_intentional_disabling)) {
 
       # Signal the deprecation to the user
-      deprecate_warn("3.0",
+      lifecycle::deprecate_warn("3.0",
                      "gfwr::gfw_event(gap_intentional_disabling = )",
                      details = "Only intentional gaps are returned, equivalent to `gap_intentional_disabling = TRUE`")
 

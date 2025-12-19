@@ -8,6 +8,8 @@
 \alias{get_regions}
 \alias{get_vessel_info}
 \alias{get_last_report}
+\alias{marine_regions}
+\alias{test_shape}
 \title{Functions renamed in gfwr 3.0}
 \usage{
 get_raster(
@@ -81,11 +83,15 @@ get_vessel_info(
 )
 
 get_last_report(key = gfw_auth())
+
+marine_regions()
+
+test_shape()
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 
-Several functions were renamed in gwfr 3.0 for more descriptive names and a common \code{gfw_} suffix
+Several functions were renamed in gwfr v 3.0 for more descriptive names and a common \code{gfw_} suffix
 \itemize{
 \item \code{get_raster()}      -> \code{gfw_ais_fishing_hours()}
 \item \code{get_vessel_info()} -> \code{gfw_vessel_info()}
@@ -94,6 +100,12 @@ Several functions were renamed in gwfr 3.0 for more descriptive names and a comm
 \item \code{get_regions()}     -> \code{gfw_regions()}
 \item \code{get_region_id()}   -> \code{gfw_region_id()}
 \item \code{get_last_report()} -> \code{gfw_last_report()}
+}
+
+The two datasets were also renamed
+\itemize{
+\item \code{marine_regions} -> \code{gfw_marine_regions}
+\item \code{test_shape} -> \code{gfw_test_shape}
 }
 }
 \keyword{internal}

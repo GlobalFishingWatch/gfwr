@@ -87,8 +87,6 @@ purposes. When contacting the GFW team it will be useful to send this string}
 Get events from API and convert response to tibble
 }
 \details{
-There are currently four available event types and these events are provided
-for three vessel types - fishing, carrier, and support vessels.
 Fishing events (\code{event_type = "FISHING"}) are specific to fishing vessels and
 loitering events (\code{event_type = "LOITERING"}) are specific to carrier vessels.
 Port visits (\code{event_type = "PORT_VISIT"}) and encounters
@@ -154,23 +152,22 @@ gfw_event(event_type = "PORT_VISIT",
  start_date = "2020-01-01",
  end_date = "2020-01-31",
  key = gfw_auth())
-# fishing events in Senegal EEZ
-gfw_event(event_type = 'FISHING',
+# encounter events in Senegal EEZ
+gfw_event(event_type = 'ENCOUNTER',
               start_date = "2020-10-01",
               end_date = "2020-12-31",
               region = 8371,
               region_source = 'EEZ',
-              flags = 'CHN',
               key = gfw_auth())
 
-# fishing events in user shapefile
-test_polygon <- sf::st_bbox(c(xmin = -70, xmax = -40, ymin = -10, ymax = 5),
+Encounter events in user shapefile from a bounding box
+test_polygon <- sf::st_bbox(c(xmin = -50, xmax = -20, ymin = -10, ymax = -30),
  crs = 4326) |>
  sf::st_as_sfc() |>
  sf::st_as_sf()
-gfw_event(event_type = 'FISHING',
-              start_date = "2022-01-01",
-              end_date = "2024-01-01",
+gfw_event(event_type = 'ENCOUNTER',
+              start_date = "2023-01-01",
+              end_date = "2023-06-01",
               region = test_polygon,
               region_source = 'USER_SHAPEFILE',
               key = gfw_auth())

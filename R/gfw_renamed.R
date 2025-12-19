@@ -3,7 +3,7 @@
 #' @description
 #' `r lifecycle::badge("deprecated")`
 #'
-#' Several functions were renamed in gwfr 3.0 for more descriptive names and a common `gfw_` suffix
+#' Several functions were renamed in gwfr v 3.0 for more descriptive names and a common `gfw_` suffix
 #'
 #' * `get_raster()`      -> `gfw_ais_fishing_hours()`
 #' * `get_vessel_info()` -> `gfw_vessel_info()`
@@ -12,6 +12,10 @@
 #' * `get_regions()`     -> `gfw_regions()`
 #' * `get_region_id()`   -> `gfw_region_id()`
 #' * `get_last_report()` -> `gfw_last_report()`
+#'
+#' The two datasets were also renamed
+#' * `marine_regions` -> `gfw_marine_regions`
+#' * `test_shape` -> `gfw_test_shape`
 #'
 #'
 #' @keywords internal
@@ -178,3 +182,25 @@ get_last_report <- function(key = gfw_auth()) {
   lifecycle::deprecate_warn("3.0", "get_last_report()", "gfw_last_report()")
   gfw_last_report(key)
 }
+
+
+#' @keywords internal
+#' @rdname gfw_renamed
+#' @export
+marine_regions <- function() {
+  # Warning message:
+  # `marine_regions` was deprecated in gfwr 3.0.
+  # ℹ Please use `gfw_marine_regions` instead.
+}
+
+
+#' @keywords internal
+#' @rdname gfw_renamed
+#' @export
+test_shape <- function() {
+  # Warning message:
+  # `test_shape` was deprecated in gfwr 3.0.
+  # ℹ Please use `gfw_test_shape` instead.
+}
+
+
