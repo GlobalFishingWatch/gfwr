@@ -168,7 +168,7 @@ gfw_event <- function(event_type,
       # Signal the deprecation to the user
       lifecycle::deprecate_warn("3.0",
                      "gfwr::gfw_event(gap_intentional_disabling = )",
-                     details = "Only intentional gaps are returned, equivalent to `gap_intentional_disabling = TRUE`")
+                     details = "Only intentional gaps are returned, equivalent to `gap_intentional_disabling = TRUE`", always = TRUE)
 
     }
 
