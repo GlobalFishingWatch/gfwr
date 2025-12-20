@@ -1,6 +1,5 @@
 # gfwr 3.0
 
-__October 3 2025__
 
 This is a major release of the package, with several changes and additions.
 

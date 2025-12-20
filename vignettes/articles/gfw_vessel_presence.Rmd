@@ -393,7 +393,7 @@ Since the request retrieved the data grouped by `vessel ID`, we have gear types,
 vessel types and other identity markers that can help filter and refine the
 visualization. 
 
-```{r fishing_cargo, fig.width = 10}
+```{r fishing_cargo, fig.width=8, fig.height=6}
 vp_all_speeds |>   
   filter(`Vessel Type` %in% c("FISHING", "CARGO"),
          speed %in% c("6-10", "10-15")) |> 

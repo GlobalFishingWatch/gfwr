@@ -8,7 +8,8 @@ articles:
   contents:
   - articles/identity
   - articles/gfw_vessel_presence
-  - articles/making-maps
+  - articles/fishing_activity_maps
+  - articles/sar_vessel_detections
 
 reference:
 - title: "Vessel identity"
