@@ -58,14 +58,21 @@ get_event <- function(event_type,
                       region = NULL,
                       duration = 1,
                       encounter_types = NULL,
-                      gap_intentional_disabling = NULL,
+                      gap_intentional_disabling = deprecated(),
                       confidences = c(2, 3, 4),
                       key = gfw_auth(),
                       quiet = FALSE,
                       print_request = FALSE,
                       ...) {
   lifecycle::deprecate_warn("3.0", "get_event()", "gfw_event()")
+  if (lifecycle::is_present(gap_intentional_disabling)) {
 
+    # Signal the deprecation to the user
+    lifecycle::deprecate_warn("3.0",
+                              "gfwr::gfw_event(gap_intentional_disabling = )",
+                              details = "Only intentional gaps are returned, equivalent to `gap_intentional_disabling = TRUE`")
+
+  }
   gfw_event(event_type,
             start_date,
             end_date,
@@ -77,11 +84,11 @@ get_event <- function(event_type,
             region,
             duration,
             encounter_types,
-            gap_intentional_disabling,
             confidences,
             key,
             quiet,
             print_request,
+            gap_intentional_disabling,
             ...)
 }
 
