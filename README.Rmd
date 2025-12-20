@@ -415,9 +415,9 @@ for this area using `region_source = "USER_SHAPEFILE"` and `region = [YOUR_SHAPE
 We added a sample shapefile inside `gfwr` to show how `"USER_SHAPEFILE"` works:
 
 ```{r example_map_1}
-data("test_shape")
+data("gfw_test_shape")
 
-test_shape
+gfw_test_shape
 
 gfw_ais_fishing_hours(spatial_resolution = "LOW",
                temporal_resolution = "YEARLY",
@@ -425,7 +425,7 @@ gfw_ais_fishing_hours(spatial_resolution = "LOW",
                start_date = "2021-01-01",
                end_date = "2021-02-01",
                region_source = "USER_SHAPEFILE",
-               region = test_shape)
+               region = gfw_test_shape)
 ```
 
 ### Apparent fishing hours in preloaded EEZ, RFMOs and MPAs

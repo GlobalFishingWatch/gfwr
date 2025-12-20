@@ -197,7 +197,7 @@ map_theme <- ggplot2::theme_minimal() +
     axis.text = element_text(color = "#848b9b", size = 8)
     )
 
-map_speed_light <- viridis::turbo(6, begin = 0.3)
+map_speed_light <- viridis::turbo(3, begin = 0.5)
 ```
 
 
@@ -224,7 +224,7 @@ vp_senegal |>
   coord_sf(xlim = c(min(vp_senegal$Lon), max(vp_senegal$Lon)),
            ylim = c(min(vp_senegal$Lat), max(vp_senegal$Lat))) +
   scale_fill_gradientn(
-    trans = 'log10',
+    transform = 'log10',
     colors = map_speed_light, 
     na.value = NA,
     labels = scales::comma) +
@@ -280,7 +280,7 @@ ggplot() +
   coord_sf(xlim = c(min(vp_senegal$Lon), max(vp_senegal$Lon)),
            ylim = c(min(vp_senegal$Lat), max(vp_senegal$Lat))) +
   scale_fill_gradientn(
-    trans = 'log10',
+    transform = 'log10',
     colors = map_speed_light, 
     na.value = NA,
     labels = scales::comma) +
@@ -298,7 +298,7 @@ ggplot() +
   coord_sf(xlim = c(min(vp_senegal$Lon), max(vp_senegal$Lon)),
            ylim = c(min(vp_senegal$Lat), max(vp_senegal$Lat))) +
   scale_fill_gradientn(
-    trans = 'log10',
+    transform = 'log10',
     colors = map_speed_light, 
     na.value = NA,
     labels = scales::comma) +
@@ -309,6 +309,11 @@ ggplot() +
 ```
 
 ```{r, echo = FALSE}
+#| fig.alt: >
+#|   Above, a map Vessel Presence in the Senegalese EEZ.
+#|   Below, the same map but only for vessels present and transiting
+#|   at 6-10 knots average speed.
+#|   The scale is logarithmic
 fl_plot 
 sp_plot
 ```
@@ -320,7 +325,9 @@ Let's make another example in the Mexico EEZ.
 
 
 ```{r advanced_gfw_speed}
-gfw_region_id("Mexico")$id
+id <- gfw_region_id("Mexico") |> 
+  filter(POL_TYPE == "200NM") |> 
+  dplyr::pull(id)
 speed_categories <- c("<2",
                       "2-4",
                       "4-6",
@@ -340,7 +347,7 @@ vp_all_speeds <- purrr::map(sp,
                              filter_by = .x,
                              start_date = start_date,
                              end_date = end_date,
-                             region = 8429, 
+                             region = id, 
                              region_source = "EEZ"))
 # adding a speed column to help aggregate the data
 vp_all_speeds <- purrr::map2(vp_all_speeds,
@@ -370,7 +377,7 @@ ggplot() +
            ylim = c(min(vp_all_speeds$Lat),
                     max(vp_all_speeds$Lat))) +
   scale_fill_gradientn(
-    trans = 'log10',
+    transform = 'log10',
     colors = map_speed_light, 
     na.value = NA,
     labels = scales::comma) +
@@ -386,10 +393,11 @@ Since the request retrieved the data grouped by `vessel ID`, we have gear types,
 vessel types and other identity markers that can help filter and refine the
 visualization. 
 
-```{r, fig.width=10}
+```{r fishing_cargo, fig.width = 10}
 vp_all_speeds |>   
-  filter(`Vessel Type` %in% c("FISHING", "CARGO")) |> 
-ggplot() +
+  filter(`Vessel Type` %in% c("FISHING", "CARGO"),
+         speed %in% c("6-10", "10-15")) |> 
+  ggplot() +
   geom_tile(aes(x = Lon,
                 y = Lat,
                 fill = `Vessel Presence Hours`)) +
@@ -399,13 +407,13 @@ ggplot() +
            ylim = c(min(vp_all_speeds$Lat),
                     max(vp_all_speeds$Lat))) +
   scale_fill_gradientn(
-    trans = 'log10',
+    transform = 'log10',
     colors = map_speed_light, 
     na.value = NA,
     labels = scales::comma) +
   facet_grid(speed~`Vessel Type`) +
   labs(title = "Vessel Presence hours in Mexico's EEZ",
-       subtitle = paste("Disaggregated by speed categories and cargo vs. fishing vessel types"),
+       subtitle = paste("For 6-10 knots and 10-15 knots and cargo vs. fishing vessel types"),
        fill = "Presence hours (log10)")  + 
   map_theme
 ```
@@ -445,10 +453,10 @@ ggplot() +
   theme_minimal() +
   theme(legend.position = "none")
   p_legend <- bi_legend(pal = "DkBlue2",
-                      xlab = "Presence hours",
-                      ylab = "Speed",
-                      dim = 4,
-                      size = 12)
+                        xlab = "Presence hours",
+                        ylab = "Speed",
+                        dim = 3,
+                        size = 12)
 p_combo <- (speed_map + p_legend) 
 p_combo
 ```

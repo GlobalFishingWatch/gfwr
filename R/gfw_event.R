@@ -118,12 +118,14 @@
 #'  start_date = "2020-01-01",
 #'  end_date = "2020-01-31",
 #'  key = gfw_auth())
+#'
 #'  # vessel types
 #'  gfw_event(event_type = "ENCOUNTER",
 #'  vessel_types = c("CARRIER", "FISHING"),
 #'  start_date = "2020-01-01",
 #'  end_date = "2020-01-31",
 #'  key = gfw_auth())
+#'
 #' # encounter events in Senegal EEZ
 #'gfw_event(event_type = 'ENCOUNTER',
 #'               start_date = "2020-10-01",
@@ -132,18 +134,18 @@
 #'               region_source = 'EEZ',
 #'               key = gfw_auth())
 #'
-#' Encounter events in user shapefile from a bounding box
+#' # Encounter events in user shapefile from a bounding box
 #' test_polygon <- sf::st_bbox(c(xmin = -50, xmax = -20, ymin = -10, ymax = -30),
 #'  crs = 4326) |>
 #'  sf::st_as_sfc() |>
 #'  sf::st_as_sf()
-#'gfw_event(event_type = 'ENCOUNTER',
-#'               start_date = "2023-01-01",
-#'               end_date = "2023-06-01",
-#'               region = test_polygon,
-#'               region_source = 'USER_SHAPEFILE',
-#'               key = gfw_auth())
-#'               }
+#' gfw_event(event_type = 'ENCOUNTER',
+#'           start_date = "2023-01-01",
+#'           end_date = "2023-06-01",
+#'           region = test_polygon,
+#'           region_source = 'USER_SHAPEFILE',
+#'           key = gfw_auth())
+#' }
 #' @export
 
 gfw_event <- function(event_type,

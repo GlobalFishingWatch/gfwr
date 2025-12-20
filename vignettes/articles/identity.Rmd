@@ -1,8 +1,8 @@
 ---
-title: "Using gfw_vessel_info(): the basics of vessel identity in Global Fishing Watch and gfwr"
+title: "Using `gfw_vessel_info()`: the basics of vessel identity in Global Fishing Watch and `gfwr`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Using gfw_vessel_info(): the basics of vessel identity in Global Fishing Watch and gfwr}
+  %\VignetteIndexEntry{Using `gfw_vessel_info()`: the basics of vessel identity in Global Fishing Watch and `gfwr`}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

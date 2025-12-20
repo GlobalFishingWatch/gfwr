@@ -34,5 +34,5 @@ reference:
   - gfw_regions
 - title: "Datasets"
   contents:
-  - marine_regions
-  - test_shape
+  - gfw_marine_regions
+  - gfw_test_shape

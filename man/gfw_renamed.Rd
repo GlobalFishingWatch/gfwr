@@ -37,7 +37,7 @@ get_event(
   region = NULL,
   duration = 1,
   encounter_types = NULL,
-  gap_intentional_disabling = NULL,
+  gap_intentional_disabling = deprecated(),
   confidences = c(2, 3, 4),
   key = gfw_auth(),
   quiet = FALSE,
