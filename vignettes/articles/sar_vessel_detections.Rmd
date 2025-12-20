@@ -2,7 +2,7 @@
 title: "Introduction to SAR vessel detections"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introducing SAR vessel detections}
+  %\VignetteIndexEntry{Introduction to SAR vessel detections}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
