@@ -35,7 +35,7 @@ mr_name_iso <- mr_name %>% mutate(iso = case_when(
   POL_TYPE == "200NM" & is.na(ISO_TER1) ~ ISO_SOV1)) %>%
   relocate(iso)
 
-marine_regions <- mr_name_iso %>%
+gfw_marine_regions <- mr_name_iso %>%
   select(iso, name, MRGID, GEONAME, POL_TYPE)
 
-usethis::use_data(marine_regions, overwrite = TRUE)
+usethis::use_data(gfw_marine_regions, overwrite = TRUE)

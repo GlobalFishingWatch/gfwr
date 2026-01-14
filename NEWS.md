@@ -1,3 +1,49 @@
+# gfwr 3.0
+
+
+This is a major release of the package, with several changes and additions.
+
+
+## Breaking changes
+
+- __Prefix change: All `gfwr` functions are now prefixed with `gfw_` to make a
+direct reference to the package. This replaces the prefix `get_`.__
+This allows functions from the package to appear together in searches and menus, and avoids possible confusion with other functions starting with `"get_"` in other R packages
+
+
+- In addition to the prefix change, `get_raster()` was __renamed__ to
+`gfw_ais_fishing_hours()` to avoid confusion with the new incoming "raster"
+datasets implemented in this version and to be consistent with the output of the
+model, which is *expressed in (apparent) fishing hours*.
+
+- The two datasets in the package were also renamed to `gfw_`: `gfw_marine_regions` and `gfw_test_shape`
+
+- In `gfw_region_id()`, the parameter `region_name` was renamed to `region` for precision, since it accepts both region names and ISO codes. (#196)
+
+
+## New functions and endpoints 
+
+- `gfw_ais_presence()` implements the __AIS-based Vessel presence__ dynamic
+dataset, which can be found in the [Global Fishing Watch map](https://globalfishingwatch.org/map/).
+This dataset aggregates the presence of all vessels (fishing and non-fishing), expressed in hours of activity in each cell.
+- `gfw_sar_vessel_detections()` incorporates the __SAR-based vessel detections__
+(presence), also found in the map. See [Paolo et al 2024](https://doi.org/10.1038/s41586-023-06825-8) for more details. 
+
+
+## Non-breaking changes
+
+- `gfw_event()` has no longer the `gap_intentional_disabling` parameter because all gaps returned are high confidence and considered to be intentional: 
+    - The gap event must be at least 12 hours
+    - It must start at least 50 nautical miles from shore
+    - It must start in an area with a satellite reception quality greater than 10 positions per day
+    - The vessel must have at least 14 satellite positions in the 12 hours prior to the gap
+    See the [gap events documentation](https://globalfishingwatch.org/our-apis/documentation#ais-off-event-aka-gap) for more details behind these rules. 
+    
+## Bug fixes
+
+- fixed `gfw_event_stats()` (previously `get_event_stats()`) filter by flag (#215) 
+- fixed #224 and `marine_regions` dataset is available without attaching `gfwr` (thanks to @jaseeverett)
+
 # gfwr 2.0.4
 
 Aug 5 2025
