@@ -89,22 +89,22 @@ test_that("vector_to_array works with single-element numerics", {
 # sf_to_geojson ---------------------------------------------------------------
 
 test_that("sf_to_geojson formats correctly for raster endpoint", {
-  data("test_shape", package = "gfwr", envir = environment())
-  result <- sf_to_geojson(test_shape, endpoint = "raster")
+  data("gfw_test_shape", package = "gfwr", envir = environment())
+  result <- sf_to_geojson(gfw_test_shape, endpoint = "raster")
   expect_type(result, "character")
   expect_match(result, "^\\{\"geojson\":\\{", fixed = FALSE)
 })
 
 test_that("sf_to_geojson formats correctly for event endpoint", {
-  data("test_shape", package = "gfwr", envir = environment())
-  result <- sf_to_geojson(test_shape, endpoint = "event")
+  data("gfw_test_shape", package = "gfwr", envir = environment())
+  result <- sf_to_geojson(gfw_test_shape, endpoint = "event")
   expect_type(result, "character")
   expect_match(result, "^\"geometry\":\\{", fixed = FALSE)
 })
 
 test_that("sf_to_geojson throws for invalid endpoint", {
-  data("test_shape", package = "gfwr", envir = environment())
-  expect_error(sf_to_geojson(test_shape, endpoint = "invalid"), "Incorrect endpoint argument")
+  data("gfw_test_shape", package = "gfwr", envir = environment())
+  expect_error(sf_to_geojson(gfw_test_shape, endpoint = "invalid"), "Incorrect endpoint argument")
 })
 
 # pipe operator ---------------------------------------------------------------

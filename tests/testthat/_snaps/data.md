@@ -1,4 +1,4 @@
-# test_shape exists and is a valid sf object
+# gfw_test_shape exists and is a valid sf object
 
     {
       "type": "list",
@@ -99,7 +99,7 @@
       ]
     }
 
-# marine_regions dataset exists and has expected structure
+# gfw_marine_regions dataset exists and has expected structure
 
     {
       "type": "list",
