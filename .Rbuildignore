@@ -18,3 +18,4 @@ R/get_sar_infraes.R
 ^codecov\.yml$
 ^\.covrignore$
 ^vignettes/articles$
+^\.github$
