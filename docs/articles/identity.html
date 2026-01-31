@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Using gfw_vessel_info(): the basics of vessel identity in Global Fishing Watch and gfwr • gfwr</title>
+<title>Using `gfw_vessel_info()`: the basics of vessel identity in Global Fishing Watch and `gfwr` • gfwr</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -15,7 +15,7 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Using gfw_vessel_info(): the basics of vessel identity in Global Fishing Watch and gfwr">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Using `gfw_vessel_info()`: the basics of vessel identity in Global Fishing Watch and `gfwr`">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -38,9 +38,10 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/identity.html">Using gfw_vessel_info(): the basics of vessel identity in Global Fishing Watch and gfwr</a></li>
+<li><a class="dropdown-item" href="../articles/identity.html">Using `gfw_vessel_info()`: the basics of vessel identity in Global Fishing Watch and `gfwr`</a></li>
     <li><a class="dropdown-item" href="../articles/gfw_vessel_presence.html">Exploring the vessel presence layer in `gfwr`</a></li>
-    <li><a class="dropdown-item" href="../articles/making-maps.html">Making maps with `gfwr`</a></li>
+    <li><a class="dropdown-item" href="../articles/fishing_activity_maps.html">Making fishing activity maps with `gfwr`</a></li>
+    <li><a class="dropdown-item" href="../articles/sar_vessel_detections.html">Introduction to SAR vessel detections</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -62,7 +63,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="../logo.png" class="logo" alt=""><h1>Using gfw_vessel_info(): the basics of vessel identity in Global Fishing Watch and gfwr</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Using `gfw_vessel_info()`: the basics of vessel identity in Global Fishing Watch and `gfwr`</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/GlobalFishingWatch/gfwr/blob/HEAD/vignettes/articles/identity.Rmd" class="external-link"><code>vignettes/articles/identity.Rmd</code></a></small>
@@ -272,8 +273,8 @@ the previous search:</p>
 <span><span class="co"># <span style="color: #949494;"># A tibble: 2 × 17</span></span></span>
 <span><span class="co">#   start               end                 eventId          eventType   lat   lon</span></span>
 <span><span class="co">#   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">1</span> 2021-04-19 <span style="color: #949494;">09:40:00</span> 2021-04-19 <span style="color: #949494;">12:50:00</span> 5cdd7f497291e06… encounter  3.08 -<span style="color: #BB0000;">12.2</span></span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">2</span> 2020-09-14 <span style="color: #949494;">08:30:00</span> 2020-09-14 <span style="color: #949494;">11:50:00</span> da911addfabd3ce… encounter  8.01 -<span style="color: #BB0000;">20.8</span></span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">1</span> 2020-09-14 <span style="color: #949494;">08:30:00</span> 2020-09-14 <span style="color: #949494;">11:50:00</span> da911addfabd3ce… encounter  8.01 -<span style="color: #BB0000;">20.8</span></span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">2</span> 2021-04-19 <span style="color: #949494;">09:40:00</span> 2021-04-19 <span style="color: #949494;">12:50:00</span> 5cdd7f497291e06… encounter  3.08 -<span style="color: #BB0000;">12.2</span></span></span>
 <span><span class="co"># <span style="color: #949494;"># ℹ 11 more variables: regions &lt;list&gt;, boundingBox &lt;list&gt;, distances &lt;list&gt;,</span></span></span>
 <span><span class="co"># <span style="color: #949494;">#   vesselId &lt;chr&gt;, vessel_name &lt;chr&gt;, vessel_ssvid &lt;chr&gt;, vessel_flag &lt;chr&gt;,</span></span></span>
 <span><span class="co"># <span style="color: #949494;">#   vessel_type &lt;chr&gt;, vessel_publicAuthorizations &lt;list&gt;,</span></span></span>
@@ -312,13 +313,13 @@ transmission</li>
 </ul>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mmsi_search</span><span class="op">$</span><span class="va">registryInfo</span></span>
-<span><span class="co"># <span style="color: #949494;"># A tibble: 1 × 16</span></span></span>
+<span><span class="co"># <span style="color: #949494;"># A tibble: 1 × 17</span></span></span>
 <span><span class="co">#   index recordId        sourceCode ssvid flag  shipname nShipname callsign imo  </span></span>
 <span><span class="co">#   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
 <span><span class="co"># <span style="color: #BCBCBC;">1</span>     1 e0c9823749264a… <span style="color: #949494;">&lt;chr [7]&gt;</span>  2242… ESP   AGURTZA… AGURTZAB… EBSJ     8733…</span></span>
-<span><span class="co"># <span style="color: #949494;"># ℹ 7 more variables: transmissionDateFrom &lt;chr&gt;, transmissionDateTo &lt;chr&gt;,</span></span></span>
-<span><span class="co"># <span style="color: #949494;">#   geartypes &lt;chr&gt;, lengthM &lt;int&gt;, tonnageGt &lt;dbl&gt;, vesselInfoReference &lt;chr&gt;,</span></span></span>
-<span><span class="co"># <span style="color: #949494;">#   extraFields &lt;list&gt;</span></span></span></code></pre></div>
+<span><span class="co"># <span style="color: #949494;"># ℹ 8 more variables: latestVesselInfo &lt;lgl&gt;, transmissionDateFrom &lt;chr&gt;,</span></span></span>
+<span><span class="co"># <span style="color: #949494;">#   transmissionDateTo &lt;chr&gt;, geartypes &lt;chr&gt;, lengthM &lt;int&gt;, tonnageGt &lt;dbl&gt;,</span></span></span>
+<span><span class="co"># <span style="color: #949494;">#   vesselInfoReference &lt;chr&gt;, extraFields &lt;list&gt;</span></span></span></code></pre></div>
 <ul>
 <li>
 <code>$registryOwners</code> with their name, country of origin,
@@ -362,7 +363,7 @@ history:</p>
 <span><span class="co"># <span style="color: #949494;"># A tibble: 1 × 14</span></span></span>
 <span><span class="co">#   index vesselId   ssvid shipname nShipname flag  callsign imo   messagesCounter</span></span>
 <span><span class="co">#   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">1</span>     1 8e930bac5… 7010… ATLANTI… ATLANTIC… ARG   LW3233   8615…         8<span style="text-decoration: underline;">330</span>827</span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">1</span>     1 8e930bac5… 7010… ATLANTI… ATLANTIC… ARG   LW3233   8615…         8<span style="text-decoration: underline;">336</span>933</span></span>
 <span><span class="co"># <span style="color: #949494;"># ℹ 5 more variables: positionsCounter &lt;int&gt;, sourceCode &lt;list&gt;,</span></span></span>
 <span><span class="co"># <span style="color: #949494;">#   matchFields &lt;chr&gt;, transmissionDateFrom &lt;chr&gt;, transmissionDateTo &lt;chr&gt;</span></span></span>
 <span><span class="co">#check registry info:</span></span>
@@ -371,7 +372,7 @@ history:</p>
 <span><span class="co"># <span style="color: #949494;"># A tibble: 1 × 17</span></span></span>
 <span><span class="co">#   transmissionDateFrom transmissionDateTo  index recordId sourceCode ssvid flag </span></span>
 <span><span class="co">#   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
-<span><span class="co"># <span style="color: #BCBCBC;">1</span> 2012-01-04T05:00:00Z 2025-08-31T23:57:1…     1 4550252… <span style="color: #949494;">&lt;chr [2]&gt;</span>  7010… ARG  </span></span>
+<span><span class="co"># <span style="color: #BCBCBC;">1</span> 2012-01-04T05:00:00Z 2025-10-31T21:43:0…     1 4550252… <span style="color: #949494;">&lt;chr [2]&gt;</span>  7010… ARG  </span></span>
 <span><span class="co"># <span style="color: #949494;"># ℹ 10 more variables: shipname &lt;chr&gt;, nShipname &lt;chr&gt;, callsign &lt;chr&gt;,</span></span></span>
 <span><span class="co"># <span style="color: #949494;">#   imo &lt;chr&gt;, latestVesselInfo &lt;lgl&gt;, geartypes &lt;chr&gt;, lengthM &lt;dbl&gt;,</span></span></span>
 <span><span class="co"># <span style="color: #949494;">#   tonnageGt &lt;int&gt;, vesselInfoReference &lt;chr&gt;, extraFields &lt;list&gt;</span></span></span></code></pre></div>

@@ -38,7 +38,7 @@ gfw_auth <- function() {
 #' @keywords internal
 gfw_user_agent <- function() {
   # Define user agent version
-  return("gfwr/2.0.0 (https://github.com/GlobalFishingWatch/gfwr)")
+  return("gfwr/3.0.0 (https://github.com/GlobalFishingWatch/gfwr)")
 }
 
 #' Basic function to make length 1 lists into characters
@@ -182,11 +182,11 @@ globalVariables(c("."))
 globalVariables(c("<list>"))
 globalVariables(c("data"))
 globalVariables(c("geartypes"))
+globalVariables(c("gfw_marine_regions"))
 globalVariables(c("id"))
 globalVariables(c("includes"))
 globalVariables(c("index"))
 globalVariables(c("iso"))
-globalVariables(c("marine_regions"))
 globalVariables(c("MRGID"))
 globalVariables(c("name"))
 globalVariables(c("shiptypes"))

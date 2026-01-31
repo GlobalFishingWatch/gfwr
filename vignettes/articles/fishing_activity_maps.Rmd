@@ -1,8 +1,8 @@
 ---
-title: "Making maps with `gfwr`"
+title: "Making fishing activity maps with `gfwr`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Making maps with `gfwr`}
+  %\VignetteIndexEntry{Making fishing activity maps with `gfwr`}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
