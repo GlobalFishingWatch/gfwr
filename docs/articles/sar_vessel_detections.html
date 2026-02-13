@@ -77,15 +77,15 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></code></pre></div>
-<p>Function <code>gfw_sar_fishing_detections()</code> allows users to
+<p>Function <code><a href="../reference/gfw_sar_vessel_detections.html">gfw_sar_vessel_detections()</a></code> allows users to
 access Global Fishing Watch’s dataset containing vessels detections
 using <strong>Sentinel-1 Synthetic Aperture Radar (SAR)</strong>,
 initially published in <a href="https://doi.org/10.1038/s41586-023-06825-8" class="external-link">Paolo <em>et al.</em>
 2024</a>.</p>
 <p>This dataset is available publicly in Global Fishing Watch platforms,
 including our map, APIs, and R and python packages.</p>
-<p><code>gfw_sar_fishing_detections()</code> has the same general
-structure of functions <code>gfw_ais_vessel_presence()</code> and
+<p><code><a href="../reference/gfw_sar_vessel_detections.html">gfw_sar_vessel_detections()</a></code> has the same general
+structure of functions <code><a href="../reference/gfw_ais_presence.html">gfw_ais_presence()</a></code> and
 <code><a href="../reference/gfw_ais_fishing_hours.html">gfw_ais_fishing_hours()</a></code>, with arguments for spatial and
 temporal resolution, start and end dates, region options, and options
 for grouping and filtering the results.</p>
@@ -94,17 +94,16 @@ the help menus in the function and to the <a href="https://globalfishingwatch.gi
 presence</a> and <a href="https://globalfishingwatch.github.io/gfwr/articles/fishing_activity_maps.html">fishing
 activity</a> vignettes.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/gfw_sar_vessel_detections.html">gfw_sar_vessel_detections</a></span><span class="op">(</span></span>
-<span>  spatial_resolution <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  temporal_resolution <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  start_date <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  end_date <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  region_source <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  region <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  group_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  filter_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  key <span class="op">=</span> <span class="fu"><a href="../reference/gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  print_request <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/gfw_sar_vessel_detections.html">gfw_sar_vessel_detections</a></span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>                          temporal_resolution <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>                          start_date <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>                          end_date <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>                          region_source <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>                          region <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>                          group_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>                          filter_by <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>                          key <span class="op">=</span> <span class="fu"><a href="../reference/gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>                          print_request <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="sar-and-ais-matching">SAR and AIS matching<a class="anchor" aria-label="anchor" href="#sar-and-ais-matching"></a>
 </h2>
@@ -146,31 +145,31 @@ of detections by pixel, at the requested resolution.</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">POL_TYPE</span> <span class="op">==</span> <span class="st">"200NM"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span></span>
 <span></span>
-<span><span class="op">(</span><span class="va">brazil_sar</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gfw_sar_vessel_detections.html">gfw_sar_vessel_detections</a></span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="st">"LOW"</span>, </span>
-<span>                          temporal_resolution <span class="op">=</span> <span class="st">"MONTHLY"</span>,</span>
-<span>                          start_date <span class="op">=</span> <span class="st">"2023-01-01"</span>,</span>
-<span>                          end_date <span class="op">=</span> <span class="st">"2024-01-01"</span>,</span>
-<span>                          region_source <span class="op">=</span> <span class="st">"EEZ"</span>, </span>
-<span>                          region <span class="op">=</span> <span class="va">id</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">(</span><span class="va">brazil_sar</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gfw_sar_vessel_detections.html">gfw_sar_vessel_detections</a></span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="st">"LOW"</span>,</span>
+<span>                                         temporal_resolution <span class="op">=</span> <span class="st">"MONTHLY"</span>,</span>
+<span>                                         start_date <span class="op">=</span> <span class="st">"2023-01-01"</span>,</span>
+<span>                                         end_date <span class="op">=</span> <span class="st">"2024-01-01"</span>,</span>
+<span>                                         region_source <span class="op">=</span> <span class="st">"EEZ"</span>,</span>
+<span>                                         region <span class="op">=</span> <span class="va">id</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11,522 × 5</span></span></span>
 <span><span class="co">#&gt;      Lat   Lon `Time Range` `Vessel IDs` Detections</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> -<span style="color: #BB0000;">25.1</span> -<span style="color: #BB0000;">47.4</span> 2023-12                 1          1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  -<span style="color: #BB0000;">1.6</span> -<span style="color: #BB0000;">39.4</span> 2023-10                 1          1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  -<span style="color: #BB0000;">6.9</span> -<span style="color: #BB0000;">34.7</span> 2023-04                 1          1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> -<span style="color: #BB0000;">25.6</span> -<span style="color: #BB0000;">48.1</span> 2023-12                13         20</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>   3.4 -<span style="color: #BB0000;">48</span>   2023-10                 1          1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> -<span style="color: #BB0000;">26</span>   -<span style="color: #BB0000;">46.1</span> 2023-06                 1          1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   4.7 -<span style="color: #BB0000;">49.7</span> 2023-06                 3          3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   4.1 -<span style="color: #BB0000;">48.5</span> 2023-08                 1          1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  -<span style="color: #BB0000;">1.9</span> -<span style="color: #BB0000;">44.1</span> 2023-09                 1          1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">10.5</span> -<span style="color: #BB0000;">35.3</span> 2023-06                 1          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>   4.2 -<span style="color: #BB0000;">50.9</span> 2023-04                 1          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> -<span style="color: #BB0000;">24.8</span> -<span style="color: #BB0000;">47.5</span> 2023-01                 1          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> -<span style="color: #BB0000;">15.3</span> -<span style="color: #BB0000;">38.5</span> 2023-06                 1          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> -<span style="color: #BB0000;">34</span>   -<span style="color: #BB0000;">52</span>   2023-03                 1          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  -<span style="color: #BB0000;">0.7</span> -<span style="color: #BB0000;">37.5</span> 2023-07                 1          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  -<span style="color: #BB0000;">2.4</span> -<span style="color: #BB0000;">44.2</span> 2023-06                15         25</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  -<span style="color: #BB0000;">9.5</span> -<span style="color: #BB0000;">33.4</span> 2023-05                 1          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> -<span style="color: #BB0000;">27.1</span> -<span style="color: #BB0000;">46.8</span> 2023-01                 1          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>   4.4 -<span style="color: #BB0000;">51</span>   2023-10                 1          1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  -<span style="color: #BB0000;">2.1</span> -<span style="color: #BB0000;">44.2</span> 2023-07                 2          2</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 11,512 more rows</span></span></span></code></pre></div>
 <div class="section level3">
 <h3 id="group_by">
 <code>group_by</code><a class="anchor" aria-label="anchor" href="#group_by"></a>
 </h3>
-<p><code>gfw_sar_fishing_detections()</code> has the same
+<p><code><a href="../reference/gfw_sar_vessel_detections.html">gfw_sar_vessel_detections()</a></code> has the same
 <code>group_by</code> options than
 <code>gfw_ais_vessel_presence()</code> and
 <code><a href="../reference/gfw_ais_fishing_hours.html">gfw_ais_fishing_hours()</a></code>: <code>FLAG</code>,
@@ -178,18 +177,17 @@ of detections by pixel, at the requested resolution.</p>
 and <code>VESSELID</code>.</p>
 <p>Like in these other functions, <code>group_by = "VESSEL_ID"</code>
 returns all available identity fields.</p>
-<p>However, <code>gfw_sar_fishing_detections()</code> results can
-contain <code>NA</code> values corresponding to unmatched
-detections.</p>
+<p>However, <code><a href="../reference/gfw_sar_vessel_detections.html">gfw_sar_vessel_detections()</a></code> results can contain
+<code>NA</code> values corresponding to unmatched detections.</p>
 <p>Let’s repeat the request, this time grouping by MMSI:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">sar_by_mmsi</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gfw_sar_vessel_detections.html">gfw_sar_vessel_detections</a></span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="st">"LOW"</span>,</span>
-<span>                                         temporal_resolution <span class="op">=</span> <span class="st">"MONTHLY"</span>,</span>
-<span>                                         group_by <span class="op">=</span> <span class="st">"MMSI"</span>,</span>
-<span>                                         start_date <span class="op">=</span> <span class="st">"2023-01-01"</span>,</span>
-<span>                                         end_date <span class="op">=</span> <span class="st">"2024-01-01"</span>,</span>
-<span>                                         region_source <span class="op">=</span> <span class="st">"EEZ"</span>,</span>
-<span>                                         region <span class="op">=</span> <span class="va">id</span><span class="op">)</span><span class="op">)</span></span>
+<span>                                          temporal_resolution <span class="op">=</span> <span class="st">"MONTHLY"</span>,</span>
+<span>                                          group_by <span class="op">=</span> <span class="st">"MMSI"</span>,</span>
+<span>                                          start_date <span class="op">=</span> <span class="st">"2023-01-01"</span>,</span>
+<span>                                          end_date <span class="op">=</span> <span class="st">"2024-01-01"</span>,</span>
+<span>                                          region_source <span class="op">=</span> <span class="st">"EEZ"</span>,</span>
+<span>                                          region <span class="op">=</span> <span class="va">id</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 20,996 × 7</span></span></span>
 <span><span class="co">#&gt;      Lat   Lon `Time Range`      mmsi `Entry Timestamp`   `Exit Timestamp`   </span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>             </span></span>
@@ -249,16 +247,16 @@ unmatched detections in the region:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 16,585 × 17</span></span></span>
 <span><span class="co">#&gt;      Lat   Lon `Time Range` `Vessel ID`  Flag  `Vessel Name` `Entry Timestamp`  </span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> -<span style="color: #BB0000;">24.2</span> -<span style="color: #BB0000;">46.4</span> 2023-09      e6d126a6e-e… SGP   ELIZABETH     2023-08-08 <span style="color: #949494;">08:05:15</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  -<span style="color: #BB0000;">2.5</span> -<span style="color: #BB0000;">44.4</span> 2023-09      3757b559c-c… BRA   SAO GABRIEL   2023-01-27 <span style="color: #949494;">21:17:06</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> -<span style="color: #BB0000;">17.1</span> -<span style="color: #BB0000;">37.9</span> 2023-01      95a70d8dc-c… ATG   BBC GREENLAND 2023-01-28 <span style="color: #949494;">08:05:09</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> -<span style="color: #BB0000;">25.6</span> -<span style="color: #BB0000;">48.1</span> 2023-09      c7d265240-0… LBR   CAPTAIN CHRI… 2023-06-24 <span style="color: #949494;">08:32:01</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> -<span style="color: #BB0000;">22.4</span> -<span style="color: #BB0000;">41.8</span> 2023-03      a0a6f569d-d… BRA   LOCAR XXI     2023-02-26 <span style="color: #949494;">08:14:31</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> -<span style="color: #BB0000;">10.6</span> -<span style="color: #BB0000;">34.7</span> 2023-10      adc939607-7… LBR   EVANGELISTRIA 2023-10-14 <span style="color: #949494;">07:55:01</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   0.4 -<span style="color: #BB0000;">46.1</span> 2023-06      491b9e98b-b… HKG   JIN PING      2023-06-27 <span style="color: #949494;">08:49:43</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  -<span style="color: #BB0000;">2.3</span> -<span style="color: #BB0000;">39.6</span> 2023-01      8ce7f0dbb-b… MHL   SALSA         2023-01-26 <span style="color: #949494;">08:17:15</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> -<span style="color: #BB0000;">25.7</span> -<span style="color: #BB0000;">48.3</span> 2023-06      86d1fd275-5… PAN   GLORY LOONG   2023-02-24 <span style="color: #949494;">08:31:29</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">25.9</span> -<span style="color: #BB0000;">47.5</span> 2023-05      344aef521-1… BRA   D.MATTOS=IV   2023-05-19 <span style="color: #949494;">08:32:24</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> -<span style="color: #BB0000;">25.7</span> -<span style="color: #BB0000;">48.2</span> 2023-09      99dd5c86f-f… CYP   OCEANIA GRAE… 2023-02-17 <span style="color: #949494;">08:40:15</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> -<span style="color: #BB0000;">10.9</span> -<span style="color: #BB0000;">36.9</span> 2023-02      45513b744-4… MHL   SSI PROVIDEN… 2023-02-21 <span style="color: #949494;">08:03:26</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  -<span style="color: #BB0000;">2.4</span> -<span style="color: #BB0000;">44.2</span> 2023-07      d0c3dfc4a-a… BHS   INES CORRADO  2023-07-02 <span style="color: #949494;">21:17:41</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> -<span style="color: #BB0000;">26.2</span> -<span style="color: #BB0000;">47.7</span> 2023-09      29c294d96-6… BRA   WILLIAN SANT… 2023-02-22 <span style="color: #949494;">08:50:49</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> -<span style="color: #BB0000;">24.1</span> -<span style="color: #BB0000;">46.1</span> 2023-04      6a0833667-7… MLT   LBC GREEN     2023-03-20 <span style="color: #949494;">08:31:29</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> -<span style="color: #BB0000;">24.1</span> -<span style="color: #BB0000;">46.1</span> 2023-08      29e949513-3… MHL   HYDRUS        2023-03-08 <span style="color: #949494;">08:31:29</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> -<span style="color: #BB0000;">16.7</span> -<span style="color: #BB0000;">38.2</span> 2023-01      78a168660-0… PRT   MSC CLEA      2023-01-28 <span style="color: #949494;">08:04:42</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   1.5 -<span style="color: #BB0000;">47.2</span> 2023-03      7797c8d4f-f… PAN   CRIMSON ARK   2023-03-04 <span style="color: #949494;">08:57:20</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> -<span style="color: #BB0000;">24.1</span> -<span style="color: #BB0000;">46.2</span> 2023-01      9b04d4155-5… LBR   FENG MAY      2023-01-19 <span style="color: #949494;">08:31:30</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">24.2</span> -<span style="color: #BB0000;">46.3</span> 2023-09      7b0efbfa5-5… CYM   STOLT SUN     2023-04-13 <span style="color: #949494;">08:31:30</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 16,575 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 10 more variables: `Exit Timestamp` &lt;dttm&gt;, `Gear Type` &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   `Vessel Type` &lt;chr&gt;, MMSI &lt;dbl&gt;, IMO &lt;dbl&gt;, CallSign &lt;chr&gt;,</span></span></span>
@@ -267,15 +265,14 @@ unmatched detections in the region:</p>
 <span></span>
 <span><span class="co"># unmatched ddetections </span></span>
 <span></span>
-<span><span class="va">unmatched_sar</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gfw_sar_vessel_detections.html">gfw_sar_vessel_detections</a></span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="st">"LOW"</span>, </span>
-<span>                          temporal_resolution <span class="op">=</span> <span class="st">"MONTHLY"</span>,</span>
-<span>                          group_by <span class="op">=</span> <span class="st">"VESSEL_ID"</span>,</span>
-<span>                          start_date <span class="op">=</span> <span class="st">"2023-01-01"</span>,</span>
-<span>                          end_date <span class="op">=</span> <span class="st">"2024-01-01"</span>,</span>
-<span>                          region_source <span class="op">=</span> <span class="st">"EEZ"</span>, </span>
-<span>                          region <span class="op">=</span> <span class="va">id</span>, </span>
-<span>                          filter_by <span class="op">=</span> <span class="st">"matched='false'"</span></span>
-<span>                          <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span><span class="va">unmatched_sar</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gfw_sar_vessel_detections.html">gfw_sar_vessel_detections</a></span><span class="op">(</span>spatial_resolution <span class="op">=</span> <span class="st">"LOW"</span>,</span>
+<span>                                           temporal_resolution <span class="op">=</span> <span class="st">"MONTHLY"</span>,</span>
+<span>                                           group_by <span class="op">=</span> <span class="st">"VESSEL_ID"</span>,</span>
+<span>                                           start_date <span class="op">=</span> <span class="st">"2023-01-01"</span>,</span>
+<span>                                           end_date <span class="op">=</span> <span class="st">"2024-01-01"</span>,</span>
+<span>                                           region_source <span class="op">=</span> <span class="st">"EEZ"</span>,</span>
+<span>                                           region <span class="op">=</span> <span class="va">id</span>,</span>
+<span>                                           filter_by <span class="op">=</span> <span class="st">"matched='false'"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>matched <span class="op">=</span> <span class="st">"Unmatched"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># bind rows: </span></span>
@@ -283,16 +280,16 @@ unmatched detections in the region:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 21,006 × 17</span></span></span>
 <span><span class="co">#&gt;      Lat   Lon `Time Range` `Vessel ID`  Flag  `Vessel Name` `Entry Timestamp`  </span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>             </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> -<span style="color: #BB0000;">24.2</span> -<span style="color: #BB0000;">46.4</span> 2023-09      e6d126a6e-e… SGP   ELIZABETH     2023-08-08 <span style="color: #949494;">08:05:15</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  -<span style="color: #BB0000;">2.5</span> -<span style="color: #BB0000;">44.4</span> 2023-09      3757b559c-c… BRA   SAO GABRIEL   2023-01-27 <span style="color: #949494;">21:17:06</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> -<span style="color: #BB0000;">17.1</span> -<span style="color: #BB0000;">37.9</span> 2023-01      95a70d8dc-c… ATG   BBC GREENLAND 2023-01-28 <span style="color: #949494;">08:05:09</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> -<span style="color: #BB0000;">25.6</span> -<span style="color: #BB0000;">48.1</span> 2023-09      c7d265240-0… LBR   CAPTAIN CHRI… 2023-06-24 <span style="color: #949494;">08:32:01</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> -<span style="color: #BB0000;">22.4</span> -<span style="color: #BB0000;">41.8</span> 2023-03      a0a6f569d-d… BRA   LOCAR XXI     2023-02-26 <span style="color: #949494;">08:14:31</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> -<span style="color: #BB0000;">10.6</span> -<span style="color: #BB0000;">34.7</span> 2023-10      adc939607-7… LBR   EVANGELISTRIA 2023-10-14 <span style="color: #949494;">07:55:01</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   0.4 -<span style="color: #BB0000;">46.1</span> 2023-06      491b9e98b-b… HKG   JIN PING      2023-06-27 <span style="color: #949494;">08:49:43</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  -<span style="color: #BB0000;">2.3</span> -<span style="color: #BB0000;">39.6</span> 2023-01      8ce7f0dbb-b… MHL   SALSA         2023-01-26 <span style="color: #949494;">08:17:15</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> -<span style="color: #BB0000;">25.7</span> -<span style="color: #BB0000;">48.3</span> 2023-06      86d1fd275-5… PAN   GLORY LOONG   2023-02-24 <span style="color: #949494;">08:31:29</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">25.9</span> -<span style="color: #BB0000;">47.5</span> 2023-05      344aef521-1… BRA   D.MATTOS=IV   2023-05-19 <span style="color: #949494;">08:32:24</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> -<span style="color: #BB0000;">25.7</span> -<span style="color: #BB0000;">48.2</span> 2023-09      99dd5c86f-f… CYP   OCEANIA GRAE… 2023-02-17 <span style="color: #949494;">08:40:15</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> -<span style="color: #BB0000;">10.9</span> -<span style="color: #BB0000;">36.9</span> 2023-02      45513b744-4… MHL   SSI PROVIDEN… 2023-02-21 <span style="color: #949494;">08:03:26</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  -<span style="color: #BB0000;">2.4</span> -<span style="color: #BB0000;">44.2</span> 2023-07      d0c3dfc4a-a… BHS   INES CORRADO  2023-07-02 <span style="color: #949494;">21:17:41</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> -<span style="color: #BB0000;">26.2</span> -<span style="color: #BB0000;">47.7</span> 2023-09      29c294d96-6… BRA   WILLIAN SANT… 2023-02-22 <span style="color: #949494;">08:50:49</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> -<span style="color: #BB0000;">24.1</span> -<span style="color: #BB0000;">46.1</span> 2023-04      6a0833667-7… MLT   LBC GREEN     2023-03-20 <span style="color: #949494;">08:31:29</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> -<span style="color: #BB0000;">24.1</span> -<span style="color: #BB0000;">46.1</span> 2023-08      29e949513-3… MHL   HYDRUS        2023-03-08 <span style="color: #949494;">08:31:29</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> -<span style="color: #BB0000;">16.7</span> -<span style="color: #BB0000;">38.2</span> 2023-01      78a168660-0… PRT   MSC CLEA      2023-01-28 <span style="color: #949494;">08:04:42</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>   1.5 -<span style="color: #BB0000;">47.2</span> 2023-03      7797c8d4f-f… PAN   CRIMSON ARK   2023-03-04 <span style="color: #949494;">08:57:20</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> -<span style="color: #BB0000;">24.1</span> -<span style="color: #BB0000;">46.2</span> 2023-01      9b04d4155-5… LBR   FENG MAY      2023-01-19 <span style="color: #949494;">08:31:30</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">24.2</span> -<span style="color: #BB0000;">46.3</span> 2023-09      7b0efbfa5-5… CYM   STOLT SUN     2023-04-13 <span style="color: #949494;">08:31:30</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 20,996 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 10 more variables: `Exit Timestamp` &lt;dttm&gt;, `Gear Type` &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   `Vessel Type` &lt;chr&gt;, MMSI &lt;dbl&gt;, IMO &lt;dbl&gt;, CallSign &lt;chr&gt;,</span></span></span>
@@ -326,9 +323,13 @@ unmatched detections in the region:</p>
 <span>   <span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" class="external-link">facet_grid</a></span><span class="op">(</span><span class="op">~</span><span class="va">matched</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `summarise()` has grouped output by 'Lat', 'Lon'. You can override using the</span></span>
-<span><span class="co">#&gt; `.groups` argument.</span></span></code></pre></div>
-<p><img src="sar_vessel_detections_files/figure-html/unnamed-chunk-2-1.png" width="768"></p>
+<span><span class="co">#&gt; `summarise()` has regrouped the output.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Summaries were computed grouped by <span style="color: #0000BB;">Lat</span>, <span style="color: #0000BB;">Lon</span>, and <span style="color: #0000BB;">matched</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Output is grouped by <span style="color: #0000BB;">Lat</span> and <span style="color: #0000BB;">Lon</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use `summarise(.groups = "drop_last")` to silence this message.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use `summarise(.by = c(Lat, Lon, matched))` for per-operation grouping</span></span>
+<span><span class="co">#&gt;   (`?dplyr::dplyr_by`) instead.</span></span></code></pre></div>
+<p><img src="sar_vessel_detections_files/figure-html/unnamed-chunk-2-1.png" class="r-plt" alt="" width="768"></p>
 </div>
 </div>
 <div class="section level2">
@@ -350,7 +351,7 @@ Nature 625, 85–91. <a href="https://doi.org/10.1038/s41586-023-06825-8" class=
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

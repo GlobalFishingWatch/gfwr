@@ -222,16 +222,16 @@ degree resolution and grouped by flag State:</p>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 69,557 × 6</span></span></span>
 <span><span class="co">#&gt;      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  42.4 15.5          <span style="text-decoration: underline;">2</span>021 ITA              2                     1.9 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  40.7 18.1          <span style="text-decoration: underline;">2</span>021 ITA              2                     6.1 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  44.5 12.9          <span style="text-decoration: underline;">2</span>021 ITA              1                     2.05</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  42.9 10.6          <span style="text-decoration: underline;">2</span>021 ITA              3                    11.6 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  39.6  8.32         <span style="text-decoration: underline;">2</span>021 ITA              1                     1.87</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  44.0 13.1          <span style="text-decoration: underline;">2</span>021 ITA              6                    11.6 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  42.6 10.4          <span style="text-decoration: underline;">2</span>021 ITA              1                     2.97</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  42.0 15.9          <span style="text-decoration: underline;">2</span>021 ITA              4                     3.99</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  41.6 16.6          <span style="text-decoration: underline;">2</span>021 ITA              2                     2.02</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  38.4 16.6          <span style="text-decoration: underline;">2</span>021 ITA              2                     4.08</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  38.6  15.7         <span style="text-decoration: underline;">2</span>021 ITA              5                    22.1 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  42.3  15.3         <span style="text-decoration: underline;">2</span>021 ITA              4                     4.31</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  38.1  12.3         <span style="text-decoration: underline;">2</span>021 ITA              2                     1.34</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  37.3  13.4         <span style="text-decoration: underline;">2</span>021 ITA              3                     3.22</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  43.6  13.7         <span style="text-decoration: underline;">2</span>021 ITA              9                    12.8 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  42.2  16.1         <span style="text-decoration: underline;">2</span>021 ITA              3                     2.7 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  42.3  10.6         <span style="text-decoration: underline;">2</span>021 ITA              1                     1.07</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  42.2  11.6         <span style="text-decoration: underline;">2</span>021 ITA              8                    19.1 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  42.8  14.2         <span style="text-decoration: underline;">2</span>021 ITA              7                    15.0 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  39.2  17.3         <span style="text-decoration: underline;">2</span>021 ITA              1                     0.55</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 69,547 more rows</span></span></span></code></pre>
 <p>Because the data includes fishing by all flag states, to make a map
 of all activity, we first need to summarize activity by grid cell.</p>
@@ -239,8 +239,12 @@ of all activity, we first need to summarize activity by grid cell.</p>
 <code class="sourceCode R"><span><span class="va">eez_fish_all_df</span> <span class="op">&lt;-</span> <span class="va">eez_fish_df</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Lat</span>, <span class="va">Lon</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>fishing_hours <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">`Apparent Fishing Hours`</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `summarise()` has grouped output by 'Lat'. You can override using the `.groups`</span></span>
-<span><span class="co">#&gt; argument.</span></span></code></pre></div>
+<span><span class="co">#&gt; `summarise()` has regrouped the output.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Summaries were computed grouped by <span style="color: #0000BB;">Lat</span> and <span style="color: #0000BB;">Lon</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Output is grouped by <span style="color: #0000BB;">Lat</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use `summarise(.groups = "drop_last")` to silence this message.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use `summarise(.by = c(Lat, Lon))` for per-operation grouping</span></span>
+<span><span class="co">#&gt;   (`?dplyr::dplyr_by`) instead.</span></span></code></pre></div>
 <p>Now we can use <code>ggplot2</code> to plot the data.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">eez_fish_all_df</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -261,7 +265,7 @@ of all activity, we first need to summarize activity by grid cell.</p>
 <span>       subtitle <span class="op">=</span> <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue</a></span><span class="op">(</span><span class="st">"{start_date} to {end_date}"</span><span class="op">)</span>,</span>
 <span>       fill <span class="op">=</span> <span class="st">"Fishing hours"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="va">map_theme</span></span></code></pre></div>
-<p><img src="fishing_activity_maps_files/figure-html/ita_plot-1.png" alt="A map of apparent fishing effort in the Italian EEZ.  The scale is logarithmic and the fishing effort is concentrated around ports along the Adriatic and the Tyrrhenian Seas and the southern coast of Sicily" width="90%" style="display: block; margin: auto;"></p>
+<p><img src="fishing_activity_maps_files/figure-html/ita_plot-1.png" class="r-plt" alt="A map of apparent fishing effort in the Italian EEZ.  The scale is logarithmic and the fishing effort is concentrated around ports along the Adriatic and the Tyrrhenian Seas and the southern coast of Sicily" width="90%" style="display: block; margin: auto;"></p>
 <p>As another example, let’s request low resolution apparent fishing
 effort data within the jurisdiction of the Indian Ocean Tuna Commission
 (IOTC), grouped yearly by gear type:</p>
@@ -316,7 +320,7 @@ activity of a specific gear type:</p>
 <span>  <span class="va">map_theme</span></span>
 <span> </span>
 <span><span class="va">iotc_p1</span> </span></code></pre></div>
-<p><img src="fishing_activity_maps_files/figure-html/iotc_raster-1.png" alt="A map of apparent fishing hours in the IOTC RFMO by drifting longlines. " width="90%" style="display: block; margin: auto;"></p>
+<p><img src="fishing_activity_maps_files/figure-html/iotc_raster-1.png" class="r-plt" alt="A map of apparent fishing hours in the IOTC RFMO by drifting longlines. " width="90%" style="display: block; margin: auto;"></p>
 <div class="section level3">
 <h3 id="when-your-api-request-times-out">When your API request times out<a class="anchor" aria-label="anchor" href="#when-your-api-request-times-out"></a>
 </h3>
@@ -412,7 +416,7 @@ plot to the area with encounters.</p>
 <span>       color <span class="op">=</span> <span class="st">'Event type'</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Coordinate system already present.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Adding new coordinate system, which will replace the existing one.</span></span></code></pre></div>
-<p><img src="fishing_activity_maps_files/figure-html/iotc_plot_1-1.png" alt="A map of apparent fishing hours in the IOTC by drifting longlines and  fishing vessels encounters" width="90%" style="display: block; margin: auto;"></p>
+<p><img src="fishing_activity_maps_files/figure-html/iotc_plot_1-1.png" class="r-plt" alt="A map of apparent fishing hours in the IOTC by drifting longlines and  fishing vessels encounters" width="90%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="making-maps-for-custom-regions">Making maps for custom regions<a class="anchor" aria-label="anchor" href="#making-maps-for-custom-regions"></a>
@@ -444,7 +448,7 @@ successfully.</p>
 <span>    fill <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>    color <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="va">map_theme</span></span></code></pre></div>
-<p><img src="fishing_activity_maps_files/figure-html/plot_shp-1.png" alt="A world map with all countries and a red bounding box in the area surrounding  Ecuador, Peru and the north of Chile. " width="90%" style="display: block; margin: auto;"></p>
+<p><img src="fishing_activity_maps_files/figure-html/plot_shp-1.png" class="r-plt" alt="A world map with all countries and a red bounding box in the area surrounding  Ecuador, Peru and the north of Chile. " width="90%" style="display: block; margin: auto;"></p>
 <p>Let’s create a <code>sf</code> bounding box object for our region to
 use for plotting later. Although our shape is a simple rectangle in this
 example, this is helpful when using more complex regions.</p>
@@ -470,7 +474,7 @@ vessels</p>
 <span>                               end_date <span class="op">=</span> <span class="va">end_date</span>,</span>
 <span>                               region <span class="op">=</span> <span class="va">my_shp</span>,</span>
 <span>                               region_source <span class="op">=</span> <span class="st">"USER_SHAPEFILE"</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; [1] "Downloading 4152 events from GFW"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "Downloading 4154 events from GFW"</span></span></code></pre></div>
 <p>and loitering events by refrigerated cargo vessels</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">my_loitering_events_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/gfw_event.html">gfw_event</a></span><span class="op">(</span>event_type <span class="op">=</span> <span class="st">"LOITERING"</span>,</span>
@@ -486,8 +490,12 @@ fishing vessels</p>
 <code class="sourceCode R"><span><span class="va">my_raster_all_df</span> <span class="op">&lt;-</span> <span class="va">my_raster_df</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">Lat</span>, <span class="va">Lon</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>fishing_hours <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">`Apparent Fishing Hours`</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `summarise()` has grouped output by 'Lat'. You can override using the `.groups`</span></span>
-<span><span class="co">#&gt; argument.</span></span></code></pre></div>
+<span><span class="co">#&gt; `summarise()` has regrouped the output.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Summaries were computed grouped by <span style="color: #0000BB;">Lat</span> and <span style="color: #0000BB;">Lon</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Output is grouped by <span style="color: #0000BB;">Lat</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use `summarise(.groups = "drop_last")` to silence this message.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use `summarise(.by = c(Lat, Lon))` for per-operation grouping</span></span>
+<span><span class="co">#&gt;   (`?dplyr::dplyr_by`) instead.</span></span></code></pre></div>
 <p>and combine our two event datasets and create <code>sf</code> objects
 for each event.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
@@ -525,7 +533,7 @@ loitering events and port visits.</p>
 <span>    color <span class="op">=</span> <span class="st">'Event type'</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="va">map_theme</span></span></code></pre></div>
-<p><img src="fishing_activity_maps_files/figure-html/loitering_ports_fishing_map-1.png" alt="Apparent fishing hours in the area of interest around Ecuador, Peru and the  north of Chile, in yellow, red dots indicating loitering events and blue dots indicating port visits." width="90%" style="display: block; margin: auto;"></p>
+<p><img src="fishing_activity_maps_files/figure-html/loitering_ports_fishing_map-1.png" class="r-plt" alt="Apparent fishing hours in the area of interest around Ecuador, Peru and the  north of Chile, in yellow, red dots indicating loitering events and blue dots indicating port visits." width="90%" style="display: block; margin: auto;"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -538,7 +546,7 @@ loitering events and port visits.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
