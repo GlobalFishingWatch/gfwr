@@ -265,7 +265,18 @@ gfw_vessel_info <- function(query = NULL,
     dplyr::mutate(index = as.numeric(index))
     #tidyr::unnest(sourceCode, keep_empty = TRUE)
     # dplyr::select(-`<list>`)
-}
+  }
+
+  # matchCriteria
+  if ("MATCH_CRITERIA" %in% includes) {
+  matchCriteria <- purrr::map(all_entries, purrr::pluck, 'matchCriteria') %>%
+    unlist(recursive = F) %>%
+    purrr::map(., tibble::tibble) %>%
+    dplyr::bind_rows(.id = "index") %>%
+    dplyr::mutate(index = as.numeric(index)) %>%
+    # dplyr::rename(vesselId = reference) %>%
+    tidyr::unnest(., matches, names_sep = "_", keep_empty = TRUE)
+  }
   # 6/8 combinedSourcesInfo joins vesselId, geartypes and shiptypes.
   combinedSourcesInfo <- purrr::map(all_entries, purrr::pluck, 'combinedSourcesInfo') %>%
     unlist(recursive = F) %>%
@@ -294,11 +305,13 @@ gfw_vessel_info <- function(query = NULL,
   output <- list(
     dataset = dataset,
     registryInfoTotalRecords = registryInfoTotalRecords,
+    selfReportedInfo = selfReportedInfo,
     registryInfo = registryInfo,
     registryOwners = get0("registryOwners"),
     registryPublicAuthorizations = get0("registryPublicAuthorizations"),
-    combinedSourcesInfo = combinedSourcesInfo,
-    selfReportedInfo = selfReportedInfo)
+    matchCriteria = get0("matchCriteria"),
+    combinedSourcesInfo = combinedSourcesInfo
+    )
 
   return(output)
 }
