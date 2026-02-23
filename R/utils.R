@@ -1,12 +1,3 @@
-#' Global variables
-#'
-#' See \code{utils::\link[utils:globalVariables]{globalVariables}} for details.
-#'
-#' @name globalVariables
-#' @keywords internal
-#' @importFrom utils globalVariables
-NULL
-
 #' Pipe operator
 #'
 #' See \code{magrittr::\link[magrittr:pipe]{\%>\%}} for details.
@@ -178,20 +169,20 @@ sf_to_geojson <- function(sf_shape, endpoint = "raster") {
   return(geoj_tagged)
 }
 
-globalVariables(c("."))
-globalVariables(c("<list>"))
-globalVariables(c("data"))
-globalVariables(c("geartypes"))
-globalVariables(c("gfw_marine_regions"))
-globalVariables(c("id"))
-globalVariables(c("includes"))
-globalVariables(c("index"))
-globalVariables(c("iso"))
-globalVariables(c("MRGID"))
-globalVariables(c("name"))
-globalVariables(c("shiptypes"))
-globalVariables(c("sourceCode"))
-globalVariables(c("value"))
-globalVariables(c("vessel"))
-globalVariables(c("vessel_id"))
-globalVariables(c("registries_info_data"))
+utils::globalVariables(c("."))
+utils::globalVariables(c("<list>"))
+utils::globalVariables(c("data"))
+utils::globalVariables(c("geartypes"))
+utils::globalVariables(c("gfw_marine_regions"))
+utils::globalVariables(c("id"))
+utils::globalVariables(c("includes"))
+utils::globalVariables(c("index"))
+utils::globalVariables(c("iso"))
+utils::globalVariables(c("MRGID"))
+utils::globalVariables(c("name"))
+utils::globalVariables(c("shiptypes"))
+utils::globalVariables(c("sourceCode"))
+utils::globalVariables(c("value"))
+utils::globalVariables(c("vessel"))
+utils::globalVariables(c("vessel_id"))
+utils::globalVariables(c("registries_info_data"))
