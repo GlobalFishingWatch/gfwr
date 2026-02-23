@@ -169,6 +169,7 @@ sf_to_geojson <- function(sf_shape, endpoint = "raster") {
   return(geoj_tagged)
 }
 
+
 utils::globalVariables(c("."))
 utils::globalVariables(c("<list>"))
 utils::globalVariables(c("data"))

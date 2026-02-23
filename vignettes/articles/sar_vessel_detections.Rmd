@@ -29,29 +29,28 @@ devtools::load_all()
 ```
 
 
-Function `gfw_sar_fishing_detections()` allows users to access Global Fishing Watch's dataset containing vessels detections using __Sentinel-1 Synthetic Aperture Radar (SAR)__, initially published in [Paolo _et al._ 2024](https://doi.org/10.1038/s41586-023-06825-8). 
+Function `gfw_sar_vessel_detections()` allows users to access Global Fishing Watch's dataset containing vessels detections using __Sentinel-1 Synthetic Aperture Radar (SAR)__, initially published in [Paolo _et al._ 2024](https://doi.org/10.1038/s41586-023-06825-8). 
 
 This dataset is available publicly in Global Fishing Watch platforms, including our map, APIs, and R and python packages.
 
 
-`gfw_sar_fishing_detections()` has the same general structure of functions `gfw_ais_vessel_presence()` and `gfw_ais_fishing_hours()`, 
+`gfw_sar_vessel_detections()` has the same general structure of functions `gfw_ais_presence()` and `gfw_ais_fishing_hours()`, 
 with arguments for spatial and temporal resolution, start and end dates, region options, and options for grouping and filtering the results. 
 
 For more details about the usage of these parameters, please refer to the help menus in the function and to the [vessel presence](https://globalfishingwatch.github.io/gfwr/articles/vessel-presence.html) and [fishing activity  ](https://globalfishingwatch.github.io/gfwr/articles/fishing_activity_maps.html) vignettes. 
 
 
 ```r
-gfw_sar_vessel_detections(
-  spatial_resolution = NULL,
-  temporal_resolution = NULL,
-  start_date = NULL,
-  end_date = NULL,
-  region_source = NULL,
-  region = NULL,
-  group_by = NULL,
-  filter_by = NULL,
-  key = gfw_auth(),
-  print_request = FALSE)
+gfw_sar_vessel_detections(spatial_resolution = NULL,
+                          temporal_resolution = NULL,
+                          start_date = NULL,
+                          end_date = NULL,
+                          region_source = NULL,
+                          region = NULL,
+                          group_by = NULL,
+                          filter_by = NULL,
+                          key = gfw_auth(),
+                          print_request = FALSE)
 ```
 
 
@@ -84,33 +83,33 @@ id <- gfw_region_id(region = "Brazil", region_source = "EEZ") |>
   filter(POL_TYPE == "200NM") |> 
   dplyr::pull(id)
 
-(brazil_sar <- gfw_sar_vessel_detections(spatial_resolution = "LOW", 
-                          temporal_resolution = "MONTHLY",
-                          start_date = "2023-01-01",
-                          end_date = "2024-01-01",
-                          region_source = "EEZ", 
-                          region = id))
+(brazil_sar <- gfw_sar_vessel_detections(spatial_resolution = "LOW",
+                                         temporal_resolution = "MONTHLY",
+                                         start_date = "2023-01-01",
+                                         end_date = "2024-01-01",
+                                         region_source = "EEZ",
+                                         region = id))
 ```
 
 
 ### `group_by` 
 
-`gfw_sar_fishing_detections()` has the same `group_by` options than `gfw_ais_vessel_presence()` and `gfw_ais_fishing_hours()`: `FLAG`, `GEARTYPE`, `FLAGANDGEARTYPE`, `MMSI` and `VESSELID`. 
+`gfw_sar_vessel_detections()` has the same `group_by` options than `gfw_ais_vessel_presence()` and `gfw_ais_fishing_hours()`: `FLAG`, `GEARTYPE`, `FLAGANDGEARTYPE`, `MMSI` and `VESSELID`. 
 
 Like in these other functions, `group_by = "VESSEL_ID"` returns all available identity fields. 
 
-However, `gfw_sar_fishing_detections()` results can contain `NA` values corresponding to unmatched detections.
+However, `gfw_sar_vessel_detections()` results can contain `NA` values corresponding to unmatched detections.
 
 Let's repeat the request, this time grouping by MMSI:
 
 ```{r fgear}
 (sar_by_mmsi <- gfw_sar_vessel_detections(spatial_resolution = "LOW",
-                                         temporal_resolution = "MONTHLY",
-                                         group_by = "MMSI",
-                                         start_date = "2023-01-01",
-                                         end_date = "2024-01-01",
-                                         region_source = "EEZ",
-                                         region = id))
+                                          temporal_resolution = "MONTHLY",
+                                          group_by = "MMSI",
+                                          start_date = "2023-01-01",
+                                          end_date = "2024-01-01",
+                                          region_source = "EEZ",
+                                          region = id))
 ```
 
 
@@ -146,15 +145,14 @@ matched_sar
 
 # unmatched ddetections 
 
-unmatched_sar <- gfw_sar_vessel_detections(spatial_resolution = "LOW", 
-                          temporal_resolution = "MONTHLY",
-                          group_by = "VESSEL_ID",
-                          start_date = "2023-01-01",
-                          end_date = "2024-01-01",
-                          region_source = "EEZ", 
-                          region = id, 
-                          filter_by = "matched='false'"
-                          ) |> 
+unmatched_sar <- gfw_sar_vessel_detections(spatial_resolution = "LOW",
+                                           temporal_resolution = "MONTHLY",
+                                           group_by = "VESSEL_ID",
+                                           start_date = "2023-01-01",
+                                           end_date = "2024-01-01",
+                                           region_source = "EEZ",
+                                           region = id,
+                                           filter_by = "matched='false'") |>
   mutate(matched = "Unmatched")
 
 # bind rows: 

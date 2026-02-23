@@ -42,7 +42,8 @@ This dataset aggregates the presence of all vessels (fishing and non-fishing), e
 ## Bug fixes
 
 - fixed `gfw_event_stats()` (previously `get_event_stats()`) filter by flag (#215) 
-- fixed #224 and `marine_regions` dataset is available without attaching `gfwr` (thanks to @jaseeverett)
+- fixed #224 and `gfw_marine_regions` dataset (previously `marine_regions`)  is available without attaching `gfwr` (thanks to @jaseeverett)
+- fixes the `includes` parameter of `gfw_vessel_info()`, reported in #231 
 
 # gfwr 2.0.4
 
