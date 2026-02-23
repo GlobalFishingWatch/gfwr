@@ -1,0 +1,13 @@
+linters: linters_with_defaults(
+    line_length_linter(120L),
+    object_length_linter(70L)
+  )
+exclusions: list(
+    "data",
+    "data-raw",
+    "docs",
+    "inst",
+    "man",
+    "pkgdown",
+    "vignettes"
+  )
