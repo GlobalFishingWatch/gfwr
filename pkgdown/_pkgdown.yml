@@ -8,7 +8,8 @@ articles:
   contents:
   - articles/identity
   - articles/gfw_vessel_presence
-  - articles/making-maps
+  - articles/fishing_activity_maps
+  - articles/sar_vessel_detections
 
 reference:
 - title: "Vessel identity"
@@ -34,5 +35,5 @@ reference:
   - gfw_regions
 - title: "Datasets"
   contents:
-  - marine_regions
-  - test_shape
+  - gfw_marine_regions
+  - gfw_test_shape

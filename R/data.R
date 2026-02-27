@@ -1,12 +1,13 @@
-#' A sample shapefile
+#' A sample shapefile (previously `test_shape`)
 #'
 #' An sf shapefile to show as an example of user-defined GeoJSON in [gfw_event()],
 #' [gfw_ais_fishing_hours()], [gfw_ais_presence()], and [gfw_sar_vessel_detections()]
 #'
 #' @format A shapefile with a single polygon.
-"test_shape"
+"gfw_test_shape"
 
-#' Simplified Marine Regions v12 dataset
+
+#' Simplified Marine Regions v12 dataset (previously `marine_regions`)
 #'
 #'A tibble with the ISO codes and names derived from
 #' Marine Regions v12, to be used by [gfw_regions()] and [gfw_region_id()] to
@@ -31,7 +32,7 @@
 #' Joint regime areas, or claim Overlapping claims areas (`ISO_SOV1`, `ISO_SOV2`,
 #' `ISO_SOV3`).
 #'
-#' The table `marine_regions` unifies all these ISO markers into a single column without
+#' The table `gfw_marine_regions` unifies all these ISO markers into a single column without
 #' modifying the original data, in a reproducible way.
 #'
 #' - Joint regime and overlapping claims with no ISO receive an `NA`: `iso = NA`
@@ -39,7 +40,7 @@
 #' - Overlapping claims with an ISO receive it: `iso = ISO_TER1`
 #' - Territories within the 200NM and no ISO receive the ISO of their mainland: `iso = ISO_SOV1`
 #'
-#' Likewise, `marine_regions` also derives a `name` column from the different
+#' Likewise, `gfw_marine_regions` also derives a `name` column from the different
 #' names and `GEONAME` columns present in the original dataset.
 #'
 #' - Countries and territories within the 200NM EEZs receive their name: `name = TERRITORY1`
@@ -61,4 +62,4 @@
 #'   \item{`GEONAME`}{Original GEONAME field from the Maritime Boundaries Geodatabase v12}
 #'   \item{`POL_TYPE`}{Original POLygon TYPE from the Maritime Boundaries Geodatabase v12. Possible value are "200NM", "Overlapping claim" and "Joint regime"}
 #'  }
-"marine_regions"
+"gfw_marine_regions"

@@ -1,0 +1,198 @@
+---
+title: "Introduction to SAR vessel detections"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to SAR vessel detections}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, eval = F}
+library(gfwr)
+```
+
+```{r load_pkgs, message=FALSE, warning=TRUE}
+library(dplyr)
+library(ggplot2)
+```
+
+```{r load, eval = T, echo = F, message=FALSE, warning=FALSE}
+devtools::load_all()
+```
+
+
+Function `gfw_sar_vessel_detections()` allows users to access Global Fishing Watch's dataset containing vessels detections using __Sentinel-1 Synthetic Aperture Radar (SAR)__, initially published in [Paolo _et al._ 2024](https://doi.org/10.1038/s41586-023-06825-8). 
+
+This dataset is available publicly in Global Fishing Watch platforms, including our map, APIs, and R and python packages.
+
+
+`gfw_sar_vessel_detections()` has the same general structure of functions `gfw_ais_presence()` and `gfw_ais_fishing_hours()`, 
+with arguments for spatial and temporal resolution, start and end dates, region options, and options for grouping and filtering the results. 
+
+For more details about the usage of these parameters, please refer to the help menus in the function and to the [vessel presence](https://globalfishingwatch.github.io/gfwr/articles/vessel-presence.html) and [fishing activity  ](https://globalfishingwatch.github.io/gfwr/articles/fishing_activity_maps.html) vignettes. 
+
+
+```r
+gfw_sar_vessel_detections(spatial_resolution = NULL,
+                          temporal_resolution = NULL,
+                          start_date = NULL,
+                          end_date = NULL,
+                          region_source = NULL,
+                          region = NULL,
+                          group_by = NULL,
+                          filter_by = NULL,
+                          key = gfw_auth(),
+                          print_request = FALSE)
+```
+
+
+## SAR and AIS matching
+
+A key characteristic of the SAR vessel detections dataset is that SAR vessel detections go through a __matching process__ with AIS transmissions. 
+For details about the matching process, please refer to [Paolo _et al._ 2024](https://doi.org/10.1038/s41586-023-06825-8). 
+
+Matched detections have therefore vessel identity information and other characteristics available in Global Fishing Watch AIS pipelines.
+
+Unmatched detections can happen for several reasons, including that:
+
+- Not all vessels are required to use AIS devices, as regulations vary by country, vessel size, and activity.
+ 
+- There are large “blind spots” along coastal waters, arising from restrictions to access AIS data by satellites, or from __poor reception__ due to high vessel density and low-quality AIS devices.
+
+- Vessels can turn off their AIS transponders or manipulate the locations they broadcast, operating "in the dark", often against regulations. Not every vessel that turns off its transponder is necessarily engaging in suspicious or illicit activities, but the contrary tends to be true.
+
+
+
+## Basic usage
+
+A simple call, with no `group_by` or `filter_by` options will return a simple `tibble` object with the number of `vesselIDs` detected and the number of detections by pixel, at the requested resolution.
+
+Let's request the monthly detections in the Brazil EEZ for 2023. 
+
+```{r fct_call}
+id <- gfw_region_id(region = "Brazil", region_source = "EEZ") |> 
+  # to select only the ids corresponding to EEZs
+  filter(POL_TYPE == "200NM") |> 
+  dplyr::pull(id)
+
+(brazil_sar <- gfw_sar_vessel_detections(spatial_resolution = "LOW",
+                                         temporal_resolution = "MONTHLY",
+                                         start_date = "2023-01-01",
+                                         end_date = "2024-01-01",
+                                         region_source = "EEZ",
+                                         region = id))
+```
+
+
+### `group_by` 
+
+`gfw_sar_vessel_detections()` has the same `group_by` options than `gfw_ais_vessel_presence()` and `gfw_ais_fishing_hours()`: `FLAG`, `GEARTYPE`, `FLAGANDGEARTYPE`, `MMSI` and `VESSELID`. 
+
+Like in these other functions, `group_by = "VESSEL_ID"` returns all available identity fields. 
+
+However, `gfw_sar_vessel_detections()` results can contain `NA` values corresponding to unmatched detections.
+
+Let's repeat the request, this time grouping by MMSI:
+
+```{r fgear}
+(sar_by_mmsi <- gfw_sar_vessel_detections(spatial_resolution = "LOW",
+                                          temporal_resolution = "MONTHLY",
+                                          group_by = "MMSI",
+                                          start_date = "2023-01-01",
+                                          end_date = "2024-01-01",
+                                          region_source = "EEZ",
+                                          region = id))
+```
+
+
+In this example in the Brazilian EEZ, roughly a fifth of the detections were unmatched to AIS.
+
+```{r mmsi}
+sar_by_mmsi |> dplyr::count(is.na(mmsi))
+```
+
+### `filter_by`
+
+To filter only by matched or unmatched detections, the function allows for options `"matched='true'"` and `"matched='false'"` in the `filter_by` options: 
+
+> __Note:__ When filters are applied, the API does not return any field indicating this, so we recommend adding a column to identify the datasets. Another option is to use `NA` values in the columns as indicators of unmatched detections. 
+
+Let's fetch matched and unmatch detections, create a `matched` column and bind the two tables to map matched and unmatched detections in the region: 
+
+
+```{r matched}
+# matched ddetections 
+matched_sar <- gfw_sar_vessel_detections(spatial_resolution = "LOW", 
+                          temporal_resolution = "MONTHLY",
+                          group_by = "VESSEL_ID",
+                          start_date = "2023-01-01",
+                          end_date = "2024-01-01",
+                          region_source = "EEZ", 
+                          region = id, 
+                          filter_by = "matched='true'"
+                          ) |> 
+  mutate(matched = "Matched")
+
+matched_sar
+
+# unmatched ddetections 
+
+unmatched_sar <- gfw_sar_vessel_detections(spatial_resolution = "LOW",
+                                           temporal_resolution = "MONTHLY",
+                                           group_by = "VESSEL_ID",
+                                           start_date = "2023-01-01",
+                                           end_date = "2024-01-01",
+                                           region_source = "EEZ",
+                                           region = id,
+                                           filter_by = "matched='false'") |>
+  mutate(matched = "Unmatched")
+
+# bind rows: 
+(all_sar_detections <- dplyr::bind_rows(matched_sar, unmatched_sar))
+```
+
+Let's plot the resulting dataset: 
+
+```{r, , fig.width=8, fig.height=6}
+sar_effort_light <- rev(c("#ff4573", "#7b2e8d", "#093b76", "lightblue"))
+
+all_sar_detections |>
+   group_by(Lat, Lon, matched) |>
+   summarize(detections = sum(Detections, na.rm = T)) |>
+   ggplot() +
+   geom_tile(aes(x = Lon, y = Lat, fill = detections)) +
+   geom_sf(data = rnaturalearth::ne_countries(returnclass = "sf", scale = "medium")) +
+   coord_sf(xlim = c(min(all_sar_detections$Lon), max(all_sar_detections$Lon)),
+            ylim = c(min(all_sar_detections$Lat), max(all_sar_detections$Lat))) +
+   scale_fill_gradientn(
+      trans = "log10",
+      colors = sar_effort_light,
+      na.value = "lightblue",
+      labels = scales::label_comma()
+   ) +
+   labs(title = "",
+        subtitle = "",
+        fill = "SAR Detections") +
+   theme(
+      panel.background = element_rect(fill = "aliceblue"),
+      axis.text.x = element_text(angle = 90),
+      plot.background = element_rect(fill = "white")
+   ) + 
+  facet_grid(~matched) + 
+  theme_minimal()
+```
+
+
+
+
+## References 
+Paolo, F., Kroodsma, D., Raynor, J., Hochberg, T., Davis, P., Cleary, J., Marsaglia, L., Orofino, S., Thomas, C., Halpin, P., 2024. _Satellite mapping reveals extensive industrial activity at sea._ Nature 625, 85–91. https://doi.org/10.1038/s41586-023-06825-8
+
