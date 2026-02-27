@@ -18,9 +18,10 @@
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/identity.html">Using gfw_vessel_info(): the basics of vessel identity in Global Fishing Watch and gfwr</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/identity.html">Using `gfw_vessel_info()`: the basics of vessel identity in Global Fishing Watch and `gfwr`</a></li>
     <li><a class="dropdown-item" href="../articles/gfw_vessel_presence.html">Exploring the vessel presence layer in `gfwr`</a></li>
-    <li><a class="dropdown-item" href="../articles/making-maps.html">Making maps with `gfwr`</a></li>
+    <li><a class="dropdown-item" href="../articles/fishing_activity_maps.html">Making fishing activity maps with `gfwr`</a></li>
+    <li><a class="dropdown-item" href="../articles/sar_vessel_detections.html">Introduction to SAR vessel detections</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -41,8 +42,7 @@
 
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -58,8 +58,7 @@
 
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -70,13 +69,15 @@
 
         </dt>
         <dd>Retrieve vessel presence from AIS data and convert response to tibble</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="gfw_ais_fishing_hours.html">gfw_ais_fishing_hours()</a></code>
 
         </dt>
         <dd>Retrieve apparent fishing hours derived from AIS data and convert response to tibble</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="gfw_last_report.html">gfw_last_report()</a></code>
 
@@ -87,8 +88,7 @@
 
       <div class="section-desc"><p>AIS-based events: port visits, AIS disabling (‘gaps’), encounter and loitering events</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -99,7 +99,8 @@
 
         </dt>
         <dd>Get events from API and convert response to tibble</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="gfw_event_stats.html">gfw_event_stats()</a></code>
 
@@ -110,8 +111,7 @@
 
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -127,8 +127,7 @@
 
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -139,13 +138,15 @@
 
         </dt>
         <dd>Get user API token from .Renviron</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="gfw_region_id.html">gfw_region_id()</a></code>
 
         </dt>
         <dd>Function to pull region code using region name and viceversa</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="gfw_regions.html">gfw_regions()</a></code>
 
@@ -156,24 +157,24 @@
 
 
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
 
       <dl><dt>
 
-          <code><a href="marine_regions.html">marine_regions</a></code>
+          <code><a href="gfw_marine_regions.html">gfw_marine_regions</a></code>
 
         </dt>
-        <dd>Simplified Marine Regions v12 dataset</dd>
-      </dl><dl><dt>
+        <dd>Simplified Marine Regions v12 dataset (previously <code>marine_regions</code>)</dd>
 
-          <code><a href="test_shape.html">test_shape</a></code>
+        <dt>
+
+          <code><a href="gfw_test_shape.html">gfw_test_shape</a></code>
 
         </dt>
-        <dd>A sample shapefile</dd>
+        <dd>A sample shapefile (previously <code>test_shape</code>)</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
@@ -184,7 +185,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

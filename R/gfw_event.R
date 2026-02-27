@@ -35,6 +35,7 @@
 #' are not available for download. See the
 #' [API documentation](https://globalfishingwatch.org/our-apis/documentation#confidence-levels-of-a-port-visit)
 #' for more details
+#' @param gap_intentional_disabling Deprecated. The APIs will return only high confidence gaps (Defaults = TRUE).
 #' @param key Character, API token. Defaults to [gfw_auth()].
 #' @param quiet Boolean. Whether to print the number of events returned by the
 #' request
@@ -58,8 +59,6 @@
 #' @import class
 #'
 #' @details
-#' There are currently four available event types and these events are provided
-#' for three vessel types - fishing, carrier, and support vessels.
 #' Fishing events (`event_type = "FISHING"`) are specific to fishing vessels and
 #' loitering events (`event_type = "LOITERING"`) are specific to carrier vessels.
 #' Port visits (`event_type = "PORT_VISIT"`) and encounters
@@ -119,33 +118,34 @@
 #'  start_date = "2020-01-01",
 #'  end_date = "2020-01-31",
 #'  key = gfw_auth())
+#'
 #'  # vessel types
 #'  gfw_event(event_type = "ENCOUNTER",
 #'  vessel_types = c("CARRIER", "FISHING"),
 #'  start_date = "2020-01-01",
 #'  end_date = "2020-01-31",
 #'  key = gfw_auth())
-#' # fishing events in Senegal EEZ
-#'gfw_event(event_type = 'FISHING',
+#'
+#' # encounter events in Senegal EEZ
+#'gfw_event(event_type = 'ENCOUNTER',
 #'               start_date = "2020-10-01",
 #'               end_date = "2020-12-31",
 #'               region = 8371,
 #'               region_source = 'EEZ',
-#'               flags = 'CHN',
 #'               key = gfw_auth())
 #'
-#' # fishing events in user shapefile
-#' test_polygon <- sf::st_bbox(c(xmin = -70, xmax = -40, ymin = -10, ymax = 5),
+#' # Encounter events in user shapefile from a bounding box
+#' test_polygon <- sf::st_bbox(c(xmin = -50, xmax = -20, ymin = -10, ymax = -30),
 #'  crs = 4326) |>
 #'  sf::st_as_sfc() |>
 #'  sf::st_as_sf()
-#'gfw_event(event_type = 'FISHING',
-#'               start_date = "2022-01-01",
-#'               end_date = "2024-01-01",
-#'               region = test_polygon,
-#'               region_source = 'USER_SHAPEFILE',
-#'               key = gfw_auth())
-#'               }
+#' gfw_event(event_type = 'ENCOUNTER',
+#'           start_date = "2023-01-01",
+#'           end_date = "2023-06-01",
+#'           region = test_polygon,
+#'           region_source = 'USER_SHAPEFILE',
+#'           key = gfw_auth())
+#' }
 #' @export
 
 gfw_event <- function(event_type,
@@ -163,7 +163,17 @@ gfw_event <- function(event_type,
                       key = gfw_auth(),
                       quiet = FALSE,
                       print_request = FALSE,
+                      gap_intentional_disabling = deprecated(),
                       ...) {
+    if (lifecycle::is_present(gap_intentional_disabling)) {
+
+      # Signal the deprecation to the user
+      lifecycle::deprecate_warn("3.0",
+                     "gfwr::gfw_event(gap_intentional_disabling = )",
+                     details = "Only intentional gaps are returned, equivalent to `gap_intentional_disabling = TRUE`", always = TRUE)
+
+    }
+
   event_type <- toupper(event_type)
   # API endpoint specific parameters from ...
   args <- list(...)

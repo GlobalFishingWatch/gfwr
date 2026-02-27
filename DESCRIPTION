@@ -27,6 +27,7 @@ Imports:
     geojsonsf,
     httr2,
     jsonlite,
+    lifecycle,
     lubridate,
     magrittr,
     methods,
@@ -59,3 +60,4 @@ Depends:
 LazyData: true
 Config/testthat/edition: 3
 Config/testthat/parallel: true
+Config/Needs/website: rmarkdown

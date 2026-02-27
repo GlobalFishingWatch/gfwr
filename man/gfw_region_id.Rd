@@ -4,7 +4,12 @@
 \alias{gfw_region_id}
 \title{Function to pull region code using region name and viceversa}
 \usage{
-gfw_region_id(region = NULL, region_source = "EEZ", key = gfw_auth())
+gfw_region_id(
+  region = NULL,
+  region_source = "EEZ",
+  key = gfw_auth(),
+  region_name = deprecated()
+)
 }
 \arguments{
 \item{region}{Character or numeric EEZ MPA or RFMO name or id.}
@@ -12,6 +17,8 @@ gfw_region_id(region = NULL, region_source = "EEZ", key = gfw_auth())
 \item{region_source}{Character, source of region data, \code{"EEZ"}, \code{"MPA"} or \code{"RFMO"}.}
 
 \item{key}{Character, API token. Defaults to \code{gfw_auth()}.}
+
+\item{region_name}{Deprecated, replaced by region.}
 }
 \value{
 For \code{gfw_region_id()}, the corresponding code, region names or iso code

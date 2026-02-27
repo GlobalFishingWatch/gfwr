@@ -18,9 +18,10 @@
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/identity.html">Using gfw_vessel_info(): the basics of vessel identity in Global Fishing Watch and gfwr</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/identity.html">Using `gfw_vessel_info()`: the basics of vessel identity in Global Fishing Watch and `gfwr`</a></li>
     <li><a class="dropdown-item" href="../articles/gfw_vessel_presence.html">Exploring the vessel presence layer in `gfwr`</a></li>
-    <li><a class="dropdown-item" href="../articles/making-maps.html">Making maps with `gfwr`</a></li>
+    <li><a class="dropdown-item" href="../articles/fishing_activity_maps.html">Making fishing activity maps with `gfwr`</a></li>
+    <li><a class="dropdown-item" href="../articles/sar_vessel_detections.html">Introduction to SAR vessel detections</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -60,6 +61,7 @@
 <span>  key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  quiet <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  print_request <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  gap_intentional_disabling <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -152,15 +154,17 @@ request</p></dd>
 purposes. When contacting the GFW team it will be useful to send this string</p></dd>
 
 
+<dt id="arg-gap-intentional-disabling">gap_intentional_disabling<a class="anchor" aria-label="anchor" href="#arg-gap-intentional-disabling"></a></dt>
+<dd><p>Deprecated. The APIs will return only high confidence gaps (Defaults = TRUE).</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Other arguments</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>There are currently four available event types and these events are provided
-for three vessel types - fishing, carrier, and support vessels.
-Fishing events (<code>event_type = "FISHING"</code>) are specific to fishing vessels and
+    <p>Fishing events (<code>event_type = "FISHING"</code>) are specific to fishing vessels and
 loitering events (<code>event_type = "LOITERING"</code>) are specific to carrier vessels.
 Port visits (<code>event_type = "PORT_VISIT"</code>) and encounters
 (<code>event_type = "ENCOUNTER"</code>) are available for all vessel types. For more
@@ -220,33 +224,34 @@ in the encounter.</p>
 <span class="r-in"><span> start_date <span class="op">=</span> <span class="st">"2020-01-01"</span>,</span></span>
 <span class="r-in"><span> end_date <span class="op">=</span> <span class="st">"2020-01-31"</span>,</span></span>
 <span class="r-in"><span> key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="co"># vessel types</span></span></span>
 <span class="r-in"><span> <span class="fu">gfw_event</span><span class="op">(</span>event_type <span class="op">=</span> <span class="st">"ENCOUNTER"</span>,</span></span>
 <span class="r-in"><span> vessel_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CARRIER"</span>, <span class="st">"FISHING"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span> start_date <span class="op">=</span> <span class="st">"2020-01-01"</span>,</span></span>
 <span class="r-in"><span> end_date <span class="op">=</span> <span class="st">"2020-01-31"</span>,</span></span>
 <span class="r-in"><span> key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># fishing events in Senegal EEZ</span></span></span>
-<span class="r-in"><span><span class="fu">gfw_event</span><span class="op">(</span>event_type <span class="op">=</span> <span class="st">'FISHING'</span>,</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># encounter events in Senegal EEZ</span></span></span>
+<span class="r-in"><span><span class="fu">gfw_event</span><span class="op">(</span>event_type <span class="op">=</span> <span class="st">'ENCOUNTER'</span>,</span></span>
 <span class="r-in"><span>              start_date <span class="op">=</span> <span class="st">"2020-10-01"</span>,</span></span>
 <span class="r-in"><span>              end_date <span class="op">=</span> <span class="st">"2020-12-31"</span>,</span></span>
 <span class="r-in"><span>              region <span class="op">=</span> <span class="fl">8371</span>,</span></span>
 <span class="r-in"><span>              region_source <span class="op">=</span> <span class="st">'EEZ'</span>,</span></span>
-<span class="r-in"><span>              flags <span class="op">=</span> <span class="st">'CHN'</span>,</span></span>
 <span class="r-in"><span>              key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># fishing events in user shapefile</span></span></span>
-<span class="r-in"><span><span class="va">test_polygon</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>xmin <span class="op">=</span> <span class="op">-</span><span class="fl">70</span>, xmax <span class="op">=</span> <span class="op">-</span><span class="fl">40</span>, ymin <span class="op">=</span> <span class="op">-</span><span class="fl">10</span>, ymax <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span><span class="co"># Encounter events in user shapefile from a bounding box</span></span></span>
+<span class="r-in"><span><span class="va">test_polygon</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>xmin <span class="op">=</span> <span class="op">-</span><span class="fl">50</span>, xmax <span class="op">=</span> <span class="op">-</span><span class="fl">20</span>, ymin <span class="op">=</span> <span class="op">-</span><span class="fl">10</span>, ymax <span class="op">=</span> <span class="op">-</span><span class="fl">30</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span> crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sfc.html" class="external-link">st_as_sfc</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">gfw_event</span><span class="op">(</span>event_type <span class="op">=</span> <span class="st">'FISHING'</span>,</span></span>
-<span class="r-in"><span>              start_date <span class="op">=</span> <span class="st">"2022-01-01"</span>,</span></span>
-<span class="r-in"><span>              end_date <span class="op">=</span> <span class="st">"2024-01-01"</span>,</span></span>
-<span class="r-in"><span>              region <span class="op">=</span> <span class="va">test_polygon</span>,</span></span>
-<span class="r-in"><span>              region_source <span class="op">=</span> <span class="st">'USER_SHAPEFILE'</span>,</span></span>
-<span class="r-in"><span>              key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>              <span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="fu">gfw_event</span><span class="op">(</span>event_type <span class="op">=</span> <span class="st">'ENCOUNTER'</span>,</span></span>
+<span class="r-in"><span>          start_date <span class="op">=</span> <span class="st">"2023-01-01"</span>,</span></span>
+<span class="r-in"><span>          end_date <span class="op">=</span> <span class="st">"2023-06-01"</span>,</span></span>
+<span class="r-in"><span>          region <span class="op">=</span> <span class="va">test_polygon</span>,</span></span>
+<span class="r-in"><span>          region_source <span class="op">=</span> <span class="st">'USER_SHAPEFILE'</span>,</span></span>
+<span class="r-in"><span>          key <span class="op">=</span> <span class="fu"><a href="gfw_auth.html">gfw_auth</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -258,7 +263,7 @@ in the encounter.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>
