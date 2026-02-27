@@ -235,11 +235,12 @@ gfw_vessel_info <- function(query = NULL,
   # format if non-empty
   if (any(registryInfoTotalRecords$registryInfoTotalRecords != 0)) {
   lookup <- c(recordId = "id")
-    registryInfo <- registryInfo %>%
+
+  registryInfo <- registryInfo %>%
     dplyr::mutate(index = as.numeric(index)) %>%
     dplyr::rename(dplyr::any_of(lookup)) %>%
     #  dplyr::select(-`<list>`) %>%
-    # unnest geartypes if the column exists
+    # unnest geartypes if the column
     {
     if ("geartypes" %in% names(.))
       tidyr::unnest(., geartypes, names_sep = "_", keep_empty = TRUE)
@@ -247,14 +248,16 @@ gfw_vessel_info <- function(query = NULL,
     }
   # 4/8 registryOwners #has all records with and without registry but may have a different
   #dimension than registryInfo due to lack of data
+  if ("OWNERSHIP" %in% includes) {
   registryOwners <- purrr::map(all_entries, purrr::pluck, "registryOwners") %>%
     unlist(recursive = FALSE) %>%
     purrr::map(., tibble::tibble) %>%
     dplyr::bind_rows(.id = "index") %>%
     dplyr::mutate(index = as.numeric(index))
     # dplyr::select(-`<list>`)
-
+}
   # 5/8 registryPublicAuthorizations
+  if ("AUTHORIZATIONS" %in% includes) {
   registryPublicAuthorizations <- purrr::map(all_entries, purrr::pluck, 'registryPublicAuthorizations') %>%
     unlist(recursive = F) %>%
     purrr::map(., tibble::tibble) %>%
@@ -262,7 +265,18 @@ gfw_vessel_info <- function(query = NULL,
     dplyr::mutate(index = as.numeric(index))
     #tidyr::unnest(sourceCode, keep_empty = TRUE)
     # dplyr::select(-`<list>`)
+  }
 
+  # matchCriteria
+  if ("MATCH_CRITERIA" %in% includes) {
+  matchCriteria <- purrr::map(all_entries, purrr::pluck, 'matchCriteria') %>%
+    unlist(recursive = F) %>%
+    purrr::map(., tibble::tibble) %>%
+    dplyr::bind_rows(.id = "index") %>%
+    dplyr::mutate(index = as.numeric(index)) %>%
+    # dplyr::rename(vesselId = reference) %>%
+    tidyr::unnest(., matches, names_sep = "_", keep_empty = TRUE)
+  }
   # 6/8 combinedSourcesInfo joins vesselId, geartypes and shiptypes.
   combinedSourcesInfo <- purrr::map(all_entries, purrr::pluck, 'combinedSourcesInfo') %>%
     unlist(recursive = F) %>%
@@ -291,11 +305,13 @@ gfw_vessel_info <- function(query = NULL,
   output <- list(
     dataset = dataset,
     registryInfoTotalRecords = registryInfoTotalRecords,
+    selfReportedInfo = selfReportedInfo,
     registryInfo = registryInfo,
-    registryOwners = registryOwners,
-    registryPublicAuthorizations = registryPublicAuthorizations,
-    combinedSourcesInfo = combinedSourcesInfo,
-    selfReportedInfo = selfReportedInfo)
+    registryOwners = get0("registryOwners"),
+    registryPublicAuthorizations = get0("registryPublicAuthorizations"),
+    matchCriteria = get0("matchCriteria"),
+    combinedSourcesInfo = combinedSourcesInfo
+    )
 
   return(output)
 }

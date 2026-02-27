@@ -15,9 +15,7 @@
 #' `region_source = "USER_SHAPEFILE"`, `sf` shapefile with the area of interest.
 #' @param group_by Optional. Parameter to group by. Can be `"VESSEL_ID"`, `"FLAG"`,
 #' `"GEARTYPE"`, `"FLAGANDGEARTYPE"` or `"MMSI"`.
-#' @param filter_by Fields to filter AIS-based apparent fishing effort. Possible
-#' options are `flag`, `shipname`, `geartype` and `id` (to filter for vessel ids). Receives SQL expressions like
-#' `filter_by = "flag IN ('ESP')"`.
+#' @param filter_by Fields to filter SAR vessel detections. See Details for possible options.
 #' @param key Character, API token. Defaults to [gfw_auth()].
 #' @param print_request Boolean. Whether to print the request, for debugging
 #' purposes. When contacting the GFW team it will be useful to send this string.
@@ -36,12 +34,19 @@
 #' @import class
 #'
 #' @export
-#'
+#' @details
+#' Possible filter options are:
+#' - `matched` – Whether detection matched with AIS data Example: `"matched='true'"` or `"matched='false'"`
+#' - flag – Vessel flag state (when matched with AIS). Example: `"flag in ('ESP', 'USA')"`
+#' - `vessel_id` – Vessel identifier (when matched with AIS). See the identity vignette for details about Vessel ID.
+#' - `geartype` – Fishing gear type (when matched with AIS) → View [supported gear types](https://globalfishingwatch.org/our-apis/documentation#gear-types-supported). Example: `"geartype in ('tuna_purse_seines', 'driftnets')"`
+#' - `neural_vessel_type` – AI classification based on neural network model. Values: <= 0.1: "Likely non-fishing", >= 0.9: "Likely fishing", 0.1 - 0.9: "Other/Unknown"
+#' - `shiptype` – Vessel type classification (when matched with AIS) → See [Vessel types](https://globalfishingwatch.org/our-apis/documentation#vessel-types)
 #' @examples
 #' \dontrun{
 #' library(gfwr)
 #' # using region codes
-#' code_eez <- gfw_region_id(region_name = "CIV", region_source = "EEZ")
+#' code_eez <- gfw_region_id(region = "Chile", region_source = "EEZ")
 #' gfw_sar_vessel_detections(spatial_resolution = "LOW",
 #'            temporal_resolution = "YEARLY",
 #'            group_by = "FLAG",
@@ -49,32 +54,77 @@
 #'            end_date = "2022-01-01",
 #'            region = code_eez$id,
 #'            region_source = "EEZ",
-#'            key = gfw_auth(),
-#'            print_request = TRUE)
-#' code_mpa <- gfw_region_id(region_name = "Galapagos", region_source = "MPA")
+#'            key = gfw_auth())
+#' # filter by matched
 #' gfw_sar_vessel_detections(spatial_resolution = "LOW",
-#'            temporal_resolution = "MONTHLY",
-#'            group_by = "FLAG",
-#'            start_date = "2022-01-01",
-#'            end_date = "2023-01-01",
-#'            region = code_mpa$id[3],
-#'            region_source = "MPA")
-#' code_rfmo <- gfw_region_id(region_name = "IATTC", region_source = "RFMO")
+#'                           temporal_resolution = "YEARLY",
+#'                           group_by = "VESSEL_ID",
+#'                           filter_by = "matched = 'true'",
+#'                           start_date = "2021-01-01",
+#'                           end_date = "2022-01-01",
+#'                           region = code_eez$id,
+#'                           region_source = "EEZ",
+#'                           key = gfw_auth())
+#' ## Unmatched vessels will have no id information:
 #' gfw_sar_vessel_detections(spatial_resolution = "LOW",
-#'            temporal_resolution = "MONTHLY",
-#'            start_date = "2022-01-01",
-#'            end_date = "2023-01-01",
-#'            region = code_rfmo$id[1],
-#'            region_source = "RFMO")
-#' #using a sf from disk /loading a test sf object
-#' data(test_shape)
+#'                           temporal_resolution = "YEARLY",
+#'                           group_by = "VESSEL_ID",
+#'                           filter_by = "matched = 'false'",
+#'                           start_date = "2021-01-01",
+#'                           end_date = "2022-01-01",
+#'                           region = code_eez$id,
+#'                           region_source = "EEZ",
+#'                           key = gfw_auth())
+#' # Filter by flag
 #' gfw_sar_vessel_detections(spatial_resolution = "LOW",
-#'             temporal_resolution = "YEARLY",
-#'             start_date = "2021-01-01",
-#'             end_date = "2021-10-01",
-#'             region = test_shape,
-#'             region_source = "USER_SHAPEFILE",
-#'             print_request = TRUE)
+#'                           temporal_resolution = "YEARLY",
+#'                           group_by = "VESSEL_ID",
+#'                           filter_by = "flag IN ('PER', 'ECU')",
+#'                           start_date = "2021-01-01",
+#'                           end_date = "2022-01-01",
+#'                           region = code_eez$id,
+#'                           region_source = "EEZ",
+#'                           key = gfw_auth())
+#' # Filter by vessel ID
+#' gfw_sar_vessel_detections(spatial_resolution = "LOW",
+#'                           temporal_resolution = "YEARLY",
+#'                           filter_by = "vessel_id = '320335fcf-fbe5-54e0-9367-b36ae25b64b5'",
+#'                           start_date = "2021-01-01",
+#'                           end_date = "2022-01-01",
+#'                           region = code_eez$id,
+#'                           region_source = "EEZ",
+#'                           key = gfw_auth())
+#' # Filter by geartype
+#' gfw_sar_vessel_detections(spatial_resolution = "LOW",
+#'                           temporal_resolution = "YEARLY",
+#'                           group_by = "VESSEL_ID",
+#'                           filter_by = "geartype IN ('tuna_purse_seines',
+#'                            'driftnets')",
+#'                           start_date = "2021-01-01",
+#'                           end_date = "2022-01-01",
+#'                           region = code_eez$id,
+#'                           region_source = "EEZ",
+#'                           key = gfw_auth())
+#' # Filter by neural_vessel_type
+#' gfw_sar_vessel_detections(spatial_resolution = "LOW",
+#'                           temporal_resolution = "YEARLY",
+#'                           filter_by = "neural_vessel_type = '0.3'",
+#'                           start_date = "2021-01-01",
+#'                           end_date = "2022-01-01",
+#'                           region = code_eez$id,
+#'                           region_source = "EEZ",
+#'                           key = gfw_auth())
+#' # Filter by shiptype (vessel type)
+#' gfw_sar_vessel_detections(spatial_resolution = "LOW",
+#'                           temporal_resolution = "YEARLY",
+#'                           filter_by = "shiptype = 'CARGO'",
+#'                           start_date = "2021-01-01",
+#'                           end_date = "2022-01-01",
+#'                           region = code_eez$id,
+#'                           region_source = "EEZ",
+#'                           key = gfw_auth())
+#'
+#'
 #' }
 gfw_sar_vessel_detections <- function(spatial_resolution = NULL,
                                   temporal_resolution = NULL,
