@@ -1,9 +1,9 @@
 # Validate includes -----------------------------------------------------------
 
-test_that("get_vessel_insights: missing includes triggers error", {
+test_that("gfw_vessel_insights: missing includes triggers error", {
   with_gfw_mocked_envvar({
     expect_error(
-      get_vessel_insights(
+      gfw_vessel_insights(
         includes = NULL,
         start_date = "2020-01-01",
         end_date = "2025-03-03",
@@ -14,10 +14,10 @@ test_that("get_vessel_insights: missing includes triggers error", {
   })
 })
 
-test_that("get_vessel_insights: invalid includes triggers error", {
+test_that("gfw_vessel_insights: invalid includes triggers error", {
   with_gfw_mocked_envvar({
     expect_error(
-      get_vessel_insights(
+      gfw_vessel_insights(
         includes = "INVALID-INCLUDE",
         start_date = "2020-01-01",
         end_date = "2025-03-03",
@@ -31,10 +31,10 @@ test_that("get_vessel_insights: invalid includes triggers error", {
 
 # Validate dates -----------------------------------------------------------
 
-test_that("get_vessel_insights: invalid start_date triggers error", {
+test_that("gfw_vessel_insights: invalid start_date triggers error", {
   with_gfw_mocked_envvar({
     expect_error(
-      get_vessel_insights(
+      gfw_vessel_insights(
         includes = "FISHING",
         start_date = "2020-01",
         end_date = "2025-03-03",
@@ -45,10 +45,10 @@ test_that("get_vessel_insights: invalid start_date triggers error", {
   })
 })
 
-test_that("get_vessel_insights: invalid end_date triggers error", {
+test_that("gfw_vessel_insights: invalid end_date triggers error", {
   with_gfw_mocked_envvar({
     expect_error(
-      get_vessel_insights(
+      gfw_vessel_insights(
         includes = "FISHING",
         start_date = "2020-01-01",
         end_date = "2025-03",
@@ -59,10 +59,10 @@ test_that("get_vessel_insights: invalid end_date triggers error", {
   })
 })
 
-test_that("get_vessel_insights: start_date > end_date triggers error", {
+test_that("gfw_vessel_insights: start_date > end_date triggers error", {
   with_gfw_mocked_envvar({
     expect_error(
-      get_vessel_insights(
+      gfw_vessel_insights(
         includes = "FISHING",
         start_date = "2025-03-03",
         end_date = "2020-01-01",
@@ -76,10 +76,10 @@ test_that("get_vessel_insights: start_date > end_date triggers error", {
 
 # Validate vessels ------------------------------------------------------------
 
-test_that("get_vessel_insights: missing vessels triggers error", {
+test_that("gfw_vessel_insights: missing vessels triggers error", {
   with_gfw_mocked_envvar({
     expect_error(
-      get_vessel_insights(
+      gfw_vessel_insights(
         includes = "FISHING",
         start_date = "2020-01-01",
         end_date = "2025-03-03",
@@ -90,10 +90,10 @@ test_that("get_vessel_insights: missing vessels triggers error", {
   })
 })
 
-test_that("get_vessel_insights: non-character vessels triggers error", {
+test_that("gfw_vessel_insights: non-character vessels triggers error", {
   with_gfw_mocked_envvar({
     expect_error(
-      get_vessel_insights(
+      gfw_vessel_insights(
         includes = "FISHING",
         start_date = "2020-01-01",
         end_date = "2025-03-03",
@@ -104,10 +104,10 @@ test_that("get_vessel_insights: non-character vessels triggers error", {
   })
 })
 
-test_that("get_vessel_insights: empty or NA or NULL vessels trigger error", {
+test_that("gfw_vessel_insights: empty or NA or NULL vessels trigger error", {
   with_gfw_mocked_envvar({
     expect_error(
-      get_vessel_insights(
+      gfw_vessel_insights(
         includes = "FISHING",
         start_date = "2020-01-01",
         end_date = "2025-03-03",
@@ -120,9 +120,9 @@ test_that("get_vessel_insights: empty or NA or NULL vessels trigger error", {
 
 # Validate key ----------------------------------------------------------------
 
-test_that("get_vessel_insights: NULL key triggers error", {
+test_that("gfw_vessel_insights: NULL key triggers error", {
   expect_error(
-    get_vessel_insights(
+    gfw_vessel_insights(
       includes = "FISHING",
       start_date = "2020-01-01",
       end_date = "2025-03-03",
@@ -133,9 +133,9 @@ test_that("get_vessel_insights: NULL key triggers error", {
   )
 })
 
-test_that("get_vessel_insights: NA key triggers error", {
+test_that("gfw_vessel_insights: NA key triggers error", {
   expect_error(
-    get_vessel_insights(
+    gfw_vessel_insights(
       includes = "FISHING",
       start_date = "2020-01-01",
       end_date = "2025-03-03",
@@ -146,9 +146,9 @@ test_that("get_vessel_insights: NA key triggers error", {
   )
 })
 
-test_that("get_vessel_insights: empty string key triggers error", {
+test_that("gfw_vessel_insights: empty string key triggers error", {
   expect_error(
-    get_vessel_insights(
+    gfw_vessel_insights(
       includes = "FISHING",
       start_date = "2020-01-01",
       end_date = "2025-03-03",
@@ -159,10 +159,10 @@ test_that("get_vessel_insights: empty string key triggers error", {
   )
 })
 
-test_that("get_vessel_insights: NA `GFW_TOKEN` envvar key triggers error", {
+test_that("gfw_vessel_insights: NA `GFW_TOKEN` envvar key triggers error", {
   withr::with_envvar(c(GFW_TOKEN = NA_character_), {
     expect_error(
-      get_vessel_insights(
+      gfw_vessel_insights(
         includes = "FISHING",
         start_date = "2020-01-01",
         end_date = "2025-03-03",
@@ -176,7 +176,7 @@ test_that("get_vessel_insights: NA `GFW_TOKEN` envvar key triggers error", {
 
 # API request -----------------------------------------------------------------
 
-test_that("get_vessel_insights: returns vessel insights for multiple insight types", {
+test_that("gfw_vessel_insights: returns vessel insights for multiple insight types", {
   with_gfw_mocked_envvar({
     mocked_url <- curl::curl_modify_url(gfw_base_url(), path = "insights/vessels")
 
@@ -195,7 +195,7 @@ test_that("get_vessel_insights: returns vessel insights for multiple insight typ
     }
 
     httr2::with_mocked_responses(mocked_resp, {
-      resp <- get_vessel_insights(
+      resp <- gfw_vessel_insights(
         includes = mocked_req_body$includes,
         start_date = mocked_req_body$start_date,
         end_date = mocked_req_body$end_date,

@@ -69,7 +69,7 @@
 #' library(gfwr)
 #'
 #' # Retrieve fishing-related insights for a single vessel
-#' fishing_insights <- get_vessel_insights(
+#' fishing_insights <- gfw_vessel_insights(
 #'   includes = c("FISHING"),
 #'   start_date = "2020-01-01",
 #'   end_date = "2025-03-03",
@@ -78,7 +78,7 @@
 #' )
 #'
 #' # Retrieve AIS gap (AIS-off) insights for a single vessel
-#' gap_insights <- get_vessel_insights(
+#' gap_insights <- gfw_vessel_insights(
 #'   includes = c("GAP"),
 #'   start_date = "2020-01-01",
 #'   end_date = "2025-03-03",
@@ -86,7 +86,7 @@
 #' )
 #'
 #' # Retrieve AIS coverage metrics insights for a single vessel
-#' coverage_insights <- get_vessel_insights(
+#' coverage_insights <- gfw_vessel_insights(
 #'   includes = c("COVERAGE"),
 #'   start_date = as.Date("2020-01-01"),
 #'   end_date = as.Date("2025-03-03"),
@@ -94,7 +94,7 @@
 #' )
 #'
 #' # Retrieve being listed in IUU list insights for a single vessel
-#' iuu_insights <- get_vessel_insights(
+#' iuu_insights <- gfw_vessel_insights(
 #'   includes = c("VESSEL-IDENTITY-IUU-VESSEL-LIST"),
 #'   start_date = "2020-01-01",
 #'   end_date = "2025-03-03",
@@ -102,7 +102,7 @@
 #' )
 #'
 #' # Retrieve all available insights for multiple vessels
-#' all_insights <- get_vessel_insights(
+#' all_insights <- gfw_vessel_insights(
 #'   includes = c(
 #'     "FISHING",
 #'     "GAP",
@@ -121,7 +121,7 @@
 #' }
 #'
 #' @export
-get_vessel_insights <- function(includes = NULL,
+gfw_vessel_insights <- function(includes = NULL,
                                 start_date = NULL,
                                 end_date = NULL,
                                 vessels = NULL,
