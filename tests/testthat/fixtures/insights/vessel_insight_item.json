@@ -8,11 +8,15 @@
     "datasets": ["public-global-gaps-events:v3.0"],
     "historicalCounters": {
       "events": 1,
-      "eventsGapOff": 1
+      "eventsGapOff": 1,
+      "eventsInNoTakeMPAs": 5,
+      "eventsInRFMOWithoutKnownAuthorization": 10
     },
     "periodSelectedCounters": {
       "events": 4,
-      "eventsGapOff": 4
+      "eventsGapOff": 4,
+      "eventsInNoTakeMPAs": 5,
+      "eventsInRFMOWithoutKnownAuthorization": 10
     },
     "aisOff": [
       "5c08c6e146315b98d8569dd253681ace",
@@ -46,6 +50,17 @@
   },
   "vesselIdentity": {
     "datasets": ["public-global-vessel-identity:v3.0"],
+    "flagsChanges": {
+      "totalTimesListed": 10,
+      "totalTimesListedInThePeriod": 1,
+      "valuesInThePeriod": [
+        {
+          "from": "2012-01-19T14:24:39Z",
+          "to": "2024-03-04T23:59:41Z",
+          "value": "CHL"
+        }
+      ]
+    },
     "iuuVesselList": {
       "valuesInThePeriod": [
         {
@@ -55,6 +70,30 @@
       ],
       "totalTimesListed": 1,
       "totalTimesListedInThePeriod": 0
+    },
+    "mouList": {
+      "paris": {
+        "totalTimesListed": 3,
+        "totalTimesListedInThePeriod": 3,
+        "valuesInThePeriod": [
+          {
+            "from": "2022-12-08T13:38:20.000Z",
+            "to": "2023-11-30T22:27:07.000Z",
+            "value": "grey"
+          }
+        ]
+      },
+      "tokyo": {
+        "totalTimesListed": 3,
+        "totalTimesListedInThePeriod": 3,
+        "valuesInThePeriod": [
+          {
+            "from": "2022-12-08T13:38:20.000Z",
+            "to": "2023-11-30T22:27:07.000Z",
+            "value": "black"
+          }
+        ]
+      }
     }
   }
 }

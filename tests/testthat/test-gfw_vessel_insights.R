@@ -208,19 +208,49 @@ test_that("gfw_vessel_insights: returns vessel insights for multiple insight typ
 
       expect_true(!is.null(resp$period))
       expect_identical(resp$period[[1]], mocked_resp_body$period)
+      expect_identical(resp$period[[1]]$startDate, mocked_resp_body$period$startDate)
+      expect_identical(resp$period[[1]]$endDate, mocked_resp_body$period$endDate)
 
       expect_true(!is.null(resp$vesselIdsWithoutIdentity))
 
       expect_true(!is.null(resp$gap))
       expect_identical(resp$gap[[1]], mocked_resp_body$gap)
+      expect_identical(resp$gap[[1]]$datasets, mocked_resp_body$gap$datasets)
+      expect_identical(resp$gap[[1]]$historicalCounters, mocked_resp_body$gap$historicalCounters)
+      expect_identical(resp$gap[[1]]$periodSelectedCounters, mocked_resp_body$gap$periodSelectedCounters)
+      expect_identical(resp$gap[[1]]$aisOff, mocked_resp_body$gap$aisOff)
 
       expect_true(!is.null(resp$coverage))
+      expect_identical(resp$coverage[[1]]$blocks, mocked_resp_body$coverage$blocks)
+      expect_identical(resp$coverage[[1]]$blocksWithPositions, mocked_resp_body$coverage$blocksWithPositions)
+      expect_true(resp$coverage[[1]]$percentage <= mocked_resp_body$coverage$percentage)
 
       expect_true(!is.null(resp$apparentFishing))
       expect_identical(resp$apparentFishing[[1]], mocked_resp_body$apparentFishing)
+      expect_identical(resp$apparentFishing[[1]]$datasets, mocked_resp_body$apparentFishing$datasets)
+      expect_identical(
+        resp$apparentFishing[[1]]$historicalCounters,
+        mocked_resp_body$apparentFishing$historicalCounters
+      )
+      expect_identical(
+        resp$apparentFishing[[1]]$periodSelectedCounters,
+        mocked_resp_body$apparentFishing$periodSelectedCounters
+      )
+      expect_identical(
+        resp$apparentFishing[[1]]$eventsInRfmoWithoutKnownAuthorization,
+        mocked_resp_body$apparentFishing$eventsInRfmoWithoutKnownAuthorization
+      )
+      expect_identical(
+        resp$apparentFishing[[1]]$eventsInNoTakeMpas,
+        mocked_resp_body$apparentFishing$eventsInNoTakeMpas
+      )
 
       expect_true(!is.null(resp$vesselIdentity))
       expect_identical(resp$vesselIdentity[[1]], mocked_resp_body$vesselIdentity)
+      expect_identical(resp$vesselIdentity[[1]]$datasets, mocked_resp_body$vesselIdentity$datasets)
+      expect_identical(resp$vesselIdentity[[1]]$flagsChanges, mocked_resp_body$vesselIdentity$flagsChanges)
+      expect_identical(resp$vesselIdentity[[1]]$iuuVesselList, mocked_resp_body$vesselIdentity$iuuVesselList)
+      expect_identical(resp$vesselIdentity[[1]]$mouList, mocked_resp_body$vesselIdentity$mouList)
     })
   })
 })

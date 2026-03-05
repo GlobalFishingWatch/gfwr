@@ -1,5 +1,12 @@
 {
-  "includes": ["FISHING", "GAP", "VESSEL-IDENTITY-IUU-VESSEL-LIST", "COVERAGE"],
+  "includes": [
+    "COVERAGE",
+    "FISHING",
+    "GAP",
+    "VESSEL-IDENTITY-FLAG-CHANGES",
+    "VESSEL-IDENTITY-IUU-VESSEL-LIST",
+    "VESSEL-IDENTITY-MOU-LIST"
+  ],
   "start_date": "2020-01-01",
   "end_date": "2025-03-03",
   "vessels": [
