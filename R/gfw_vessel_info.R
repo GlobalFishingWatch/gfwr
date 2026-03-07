@@ -1,3 +1,4 @@
+
 #' Base function to get vessel information from API and convert response to tibble
 #'
 #' @param query When `search_type = "search"`, a length-1 vector with the identity
@@ -6,12 +7,23 @@
 #' @param search_type Type of vessel search to perform. Can be `"search"` (the default)
 #' or `"id"`. (Note:`"advanced"` and `"basic"` are no longer in use as of gfwr 2.0.0.).
 #' @param ids When `search_type = "id"`, a vector with the `vesselId` of interest.
-#' @param includes Enhances the response with new information, defaults to include all.
+#' @param includes Optional. Enhances the response with additional
+#' information depending on the selected `search_type`.
+#'
+#' When `search_type = "search"`, supported values are:
 #' \describe{
 #' \item{`"OWNERSHIP"`}{returns ownership information}
-#' \item{`"AUTHORIZATIONS"`}{lists public authorizations for that vessel}
+#' \item{`"AUTHORIZATIONS"`}{lists public authorizations for the vessel}
 #' \item{`"MATCH_CRITERIA"`}{adds information about the reason why a vessel is returned}
 #' }
+#'
+#' When `search_type = "id"`, supported values are:
+#' \describe{
+#' \item{`"POTENTIAL_RELATED_SELF_REPORTED_INFO"`}{returns potential related self-reported information.}
+#' }
+#'
+#' If `includes` is not provided, all supported values for the selected
+#' `search_type` will be requested.
 #' @param match_fields Optional. Allows to filter by `matchFields` levels.
 #' Possible values: `"SEVERAL_FIELDS"`, `"NO_MATCH"`, `"ALL"`. Incompatible with `where`.
 #' @param registries_info_data when `search_type == "id"`, gets all the registry
@@ -80,9 +92,7 @@ gfw_vessel_info <- function(query = NULL,
                             where = NULL,
                             search_type = "search",
                             ids = NULL,
-                            includes = c("AUTHORIZATIONS",
-                                         "OWNERSHIP",
-                                         "MATCH_CRITERIA"),
+                            includes = NULL,
                             match_fields = NULL,
                             registries_info_data = c("ALL"),
                             key = gfw_auth(),
@@ -94,6 +104,10 @@ gfw_vessel_info <- function(query = NULL,
     warning("basic or advanced search are no longer in use. Options are 'search' or 'id'")
     search_type <- "search"
   }
+
+  # Validate includes ---------------------------------------------------------
+
+  includes <- validate_gfw_vessel_info_includes(includes = includes, search_type = search_type)
 
   #endpoint <- gfw_identity_endpoint(
     #search_type = search_type,
@@ -146,13 +160,13 @@ gfw_vessel_info <- function(query = NULL,
     }
     path_append <- "vessels/search"
 
-    #format includes
-    if (!is.null(includes)) {
-      incl <- vector_to_array(includes, type = "includes")
-      args <- c(args, incl)
-      }
-    }
+  }
 
+  # format includes
+  if (!is.null(includes)) {
+    incl <- vector_to_array(includes, type = "includes")
+    args <- c(args, incl)
+  }
 
   endpoint <- base %>%
     httr2::req_url_path_append(path_append) %>%
@@ -248,7 +262,7 @@ gfw_vessel_info <- function(query = NULL,
     }
   # 4/8 registryOwners #has all records with and without registry but may have a different
   #dimension than registryInfo due to lack of data
-  if ("OWNERSHIP" %in% includes) {
+  if (any(purrr::map_lgl(all_entries, \(x) !is.null(x[['registryOwners']])))) {
   registryOwners <- purrr::map(all_entries, purrr::pluck, "registryOwners") %>%
     unlist(recursive = FALSE) %>%
     purrr::map(., tibble::tibble) %>%
@@ -257,7 +271,7 @@ gfw_vessel_info <- function(query = NULL,
     # dplyr::select(-`<list>`)
 }
   # 5/8 registryPublicAuthorizations
-  if ("AUTHORIZATIONS" %in% includes) {
+  if (any(purrr::map_lgl(all_entries, \(x) !is.null(x[['registryPublicAuthorizations']])))) {
   registryPublicAuthorizations <- purrr::map(all_entries, purrr::pluck, 'registryPublicAuthorizations') %>%
     unlist(recursive = F) %>%
     purrr::map(., tibble::tibble) %>%
@@ -268,7 +282,7 @@ gfw_vessel_info <- function(query = NULL,
   }
 
   # matchCriteria
-  if ("MATCH_CRITERIA" %in% includes) {
+  if (any(purrr::map_lgl(all_entries, \(x) !is.null(x[['matchCriteria']])))) {
   matchCriteria <- purrr::map(all_entries, purrr::pluck, 'matchCriteria') %>%
     unlist(recursive = F) %>%
     purrr::map(., tibble::tibble) %>%
@@ -314,4 +328,54 @@ gfw_vessel_info <- function(query = NULL,
     )
 
   return(output)
+}
+
+#' Validate `includes` for vessel info queries
+#'
+#' @param includes Character vector of includes requested.
+#' @param search_type Type of vessel search to performed by [gfw_vessel_info()].
+#'
+#' @return A normalized character vector of validated include values.
+#'
+#' @name validate_gfw_vessel_info_includes
+#' @keywords internal
+#' @noRd
+validate_gfw_vessel_info_includes <- function(includes = NULL, search_type = "search") {
+  search_includes <- c(
+    "AUTHORIZATIONS",
+    "OWNERSHIP",
+    "MATCH_CRITERIA"
+  )
+
+  id_includes <- c(
+    "POTENTIAL_RELATED_SELF_REPORTED_INFO"
+  )
+
+  allowed_includes <- switch(search_type,
+    search = search_includes,
+    id = id_includes
+  )
+
+  if (is.null(includes)) {
+    includes <- allowed_includes
+  }
+
+  includes <- trimws(toupper(includes))
+
+  invalid_includes <- setdiff(includes, allowed_includes)
+
+  if (length(invalid_includes) > 0) {
+    rlang::abort(
+      c(
+        "Invalid `includes` value(s).",
+        x = glue::glue_collapse(invalid_includes, sep = ", "),
+        i = glue::glue(
+          "`search_type = '{search_type}'` only supports: {glue::glue_collapse(allowed_includes, sep = ', ')}"
+        )
+      ),
+      class = "gfw_vessel_info_invalid_includes"
+    )
+  }
+
+  includes
 }
