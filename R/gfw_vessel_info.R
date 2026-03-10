@@ -1,4 +1,3 @@
-
 #' Base function to get vessel information from API and convert response to tibble
 #'
 #' @param query When `search_type = "search"`, a length-1 vector with the identity
@@ -19,11 +18,22 @@
 #'
 #' When `search_type = "id"`, supported values are:
 #' \describe{
-#' \item{`"POTENTIAL_RELATED_SELF_REPORTED_INFO"`}{returns potential related self-reported information.}
+#' \item{`"POTENTIAL_RELATED_SELF_REPORTED_INFO"`}{
+#' Returns potential related self-reported vessel information.
+#'
+#' This include provides related `vessel ids` identified through
+#' matching with vessel registry records. It represents Global Fishing Watch's
+#' best estimate for linking AIS (self-reported) vessel positions to Vessel
+#' Identity information derived from public registries.
+#'
+#' See how the Vessel API is used in the Vessel Viewer:
+#' \url{https://globalfishingwatch.org/our-apis/assets/2024_Vessel_Viewer_and_APIs_behind_It.pdf}.
+#' }
 #' }
 #'
 #' If `includes` is not provided, all supported values for the selected
 #' `search_type` will be requested.
+#'
 #' @param match_fields Optional. Allows to filter by `matchFields` levels.
 #' Possible values: `"SEVERAL_FIELDS"`, `"NO_MATCH"`, `"ALL"`. Incompatible with `where`.
 #' @param registries_info_data when `search_type == "id"`, gets all the registry
