@@ -1,41 +1,22 @@
 #' Base function to get vessel information from API and convert response to tibble
 #'
+#' @param search_type Type of vessel search to perform. Can be `"search"` (the
+#' default) to search for identity markers or `"id"` to search per `vesselId`.
+#' (Note:`"advanced"` and `"basic"` are no longer in use as of `gfwr 2.0.0.`).
 #' @param query When `search_type = "search"`, a length-1 vector with the identity
-#' variable of interest, MMSI, IMO, call sign or ship name.
+#' variable of interest, MMSI, IMO, call sign or ship name. A search by vessel
+#' name will return fuzzy results to account for variation in vessel names and
+#' potential misspellings
 #' @param where When `search_type = "search"`, an SQL expression to find the vessel of interest.
-#' @param search_type Type of vessel search to perform. Can be `"search"` (the default)
-#' or `"id"`. (Note:`"advanced"` and `"basic"` are no longer in use as of gfwr 2.0.0.).
-#' @param ids When `search_type = "id"`, a vector with the `vesselId` of interest.
+#' @param ids When `search_type = "id"`, a vector with one or more `vesselId`s
+#' of interest.
 #' @param includes Optional. Enhances the response with additional
-#' information depending on the selected `search_type`.
-#'
-#' When `search_type = "search"`, supported values are:
-#' \describe{
-#' \item{`"OWNERSHIP"`}{returns ownership information}
-#' \item{`"AUTHORIZATIONS"`}{lists public authorizations for the vessel}
-#' \item{`"MATCH_CRITERIA"`}{adds information about the reason why a vessel is returned}
-#' }
-#'
-#' When `search_type = "id"`, supported values are:
-#' \describe{
-#' \item{`"POTENTIAL_RELATED_SELF_REPORTED_INFO"`}{
-#' Returns potential related self-reported vessel information.
-#'
-#' This include provides related `vessel ids` identified through
-#' matching with vessel registry records. It represents Global Fishing Watch's
-#' best estimate for linking AIS (self-reported) vessel positions to Vessel
-#' Identity information derived from public registries.
-#'
-#' See how the Vessel API is used in the Vessel Viewer:
-#' \url{https://globalfishingwatch.org/our-apis/assets/2024_Vessel_Viewer_and_APIs_behind_It.pdf}.
-#' }
-#' }
-#'
-#' If `includes` is not provided, all supported values for the selected
-#' `search_type` will be requested.
+#' information depending on the selected `search_type`. If not specified, all
+#' supported values for the selected `search_type` will be returned. See
+#' __Details__ below
 #'
 #' @param match_fields Optional. Allows to filter by `matchFields` levels.
-#' Possible values: `"SEVERAL_FIELDS"`, `"NO_MATCH"`, `"ALL"`. Incompatible with `where`.
+#' Possible values: `"SEVERAL_FIELDS"`, `"NO_MATCH"`, `"ALL"`. Incompatible with `where`
 #' @param registries_info_data when `search_type == "id"`, gets all the registry
 #' objects, only the delta or the latest.
 #' \describe{
@@ -59,48 +40,56 @@
 #' @importFrom tibble enframe
 #'
 #' @details
-#' When `search_type = "search"` the search takes basic identity features like
+#' - When `search_type = "search"` the search takes basic identity features like
 #' MMSI, IMO, callsign, shipname as inputs, using parameter `"query"`. For more advanced
 #' SQL searches, use parameter `"where"`. You can combine logic operators like `AND`,
-#' `OR`, `=`, `>=` , <, `LIKE` (for fuzzy matching). The `id` search allows the user
-#' to search using a GFW `vesselId`.
+#' `OR`, `=`, `>=` , <, `LIKE` (for fuzzy matching).
+#'
+#' - Parameter __`includes`__: When `search_type = "search"`, supported values are:
+#' \describe{
+#' \item{`"OWNERSHIP"`}{returns ownership information}
+#' \item{`"AUTHORIZATIONS"`}{lists public authorizations for the vessel}
+#' \item{`"MATCH_CRITERIA"`}{adds information about the reason why a vessel is
+#' returned. This provides related `vesselId`s identified through
+#' matching with vessel registry records and represents Global Fishing Watch's
+#' best estimate for linking AIS (self-reported) vessel positions to Vessel
+#' Identity information derived from public registries.}
+#' }
+#' When `search_type = "id"`, the supported value is
+#' `"POTENTIAL_RELATED_SELF_REPORTED_INFO"` and will returns all potential
+#' related self-reported vessel information mentioned above.
+#'
+#' @references Park, J., Van Osdel, J., Turner, J., Farthing, C.M., Miller, N.A.,
+#' Linder, H.L., Ortuño Crespo, G., Carmine, G., Kroodsma, D.A., 2023. Tracking
+#' elusive and shifting identities of the global fishing fleet. Science Advances
+#' 9, eabp8200. [https://doi.org/10.1126/sciadv.abp8200](https://doi.org/10.1126/sciadv.abp8200)
+#' @seealso
+#' For more details check the [Vessel identity vignette](https://globalfishingwatch.github.io/gfwr/articles/identity.html)
+#'
+#' See also how the Vessel API is used in [Vessel Viewer](https://globalfishingwatch.org/our-apis/assets/2024_Vessel_Viewer_and_APIs_behind_It.pdf)
 #'
 #' @examples
 #' \dontrun{
 #' library(gfwr)
 #'
-#' # Simple searches, using includes
+#' # Simple search
 #'
 #' gfw_vessel_info(query = 224224000, search_type = "search")
 #'
 #' # Advanced search with where instead of query:
-#'
 #' gfw_vessel_info(where = "ssvid = '441618000' OR imo = '9047271'",
-#' search_type = "search")
+#'                 search_type = "search")
 #'
 #'  # Vessel id search
 #'
 #'  gfw_vessel_info(search_type = "id",
 #'  ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01",
 #'  "6583c51e3-3626-5638-866a-f47c3bc7ef7c"))
-#'
-#'  all <- gfw_vessel_info(search_type = "id",
-#'  ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
-#'  registries_info_data = c("ALL"))
-#'
-#'  none <- gfw_vessel_info(search_type = "id",
-#'  ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
-#'  registries_info_data = c("NONE"))
-#'
-#'  delta <- gfw_vessel_info(search_type = "id",
-#'  ids = c("8c7304226-6c71-edbe-0b63-c246734b3c01"),
-#'  registries_info_data = c("DELTA"))
-#'
 #'  }
 #' @export
-gfw_vessel_info <- function(query = NULL,
+gfw_vessel_info <- function(search_type = "search",
+                            query = NULL,
                             where = NULL,
-                            search_type = "search",
                             ids = NULL,
                             includes = NULL,
                             match_fields = NULL,
