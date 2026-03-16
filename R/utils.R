@@ -84,9 +84,9 @@ make_datetime <- function(x) {
 #'
 #' @examples
 #' \dontrun{
-#' resp <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/4wings/report") |>
+#' req <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/4wings/report") |>
 #'   httr2::req_headers(Authorization = paste("Bearer", "...")) |>
-#'   httr2::req_error(body = \(resp) parse_http_response_error(resp)$formatted)
+#'   httr2::req_error(body = \(resp) parse_response_error(resp)$formatted)
 #'
 #' resp <- req |> httr2::req_perform()
 #' }
@@ -100,6 +100,12 @@ parse_response_error <- function(resp) {
 
   resp_content_type <- httr2::resp_content_type(resp)
   zwsp <- "\u200B" # zero-width space for formatting
+
+  # Handle transaction-id (unique request id)
+  transaction_id <- trimws(httr2::resp_header(resp, "transaction-id", default = ""))
+  if (is.na(transaction_id) || !nzchar(transaction_id)) {
+    transaction_id <- "unknown"
+  }
 
   # Handle JSON error response bodies
   is_json <- grepl("json", resp_content_type, ignore.case = TRUE)
@@ -166,6 +172,10 @@ parse_response_error <- function(resp) {
 
   # Format error response
   formatted <- glue::glue("GFW API error ({status_code}): {error}")
+  formatted <- c(
+    formatted,
+    glue::glue("{zwsp}{zwsp}Transaction ID: {transaction_id}")
+  )
   if (length(messages) > 0) {
     bullets <- purrr::map_chr(messages, function(message) {
       glue::glue("{zwsp}{zwsp}{zwsp}{zwsp}- {message$title}: {message$detail}")
@@ -180,6 +190,7 @@ parse_response_error <- function(resp) {
 
   # Return structured error object
   gfw_api_error <- list(
+    transaction_id = transaction_id,
     status_code = status_code,
     error = error,
     messages = messages,
