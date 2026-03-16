@@ -118,7 +118,17 @@ parse_response_error <- function(resp) {
     if (is.list(resp_body_json)) {
       status_code <- resp_body_json$statusCode %||% status_code
       error <- resp_body_json$error %||% error
-      messages <- resp_body_json$messages %||% list()
+      messages <- resp_body_json$messages %||% resp_body_json$message %||% list()
+      messages <- purrr::map(messages, function(message) {
+        if (is.list(message)) { # Handle list message with title and detail
+          message
+        } else { # Handle character vector message
+          list(
+            title  = "Unknown",
+            detail = message
+          )
+        }
+      })
     }
   }
 

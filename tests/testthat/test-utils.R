@@ -410,6 +410,42 @@ test_that("parse_response_error parses multiple error messages", {
 })
 
 
+test_that("parse_response_error parses character vector messages", {
+  with_gfw_mocked_envvar({
+    mocked_url <- curl::curl_modify_url(gfw_base_url(), path = "/character-vector-messages")
+
+    mocked_resp <- function(req) {
+      httr2::response_json(
+        status_code = 400,
+        url = mocked_url,
+        headers = list("transaction-id" = mocked_transaction_id),
+        body = list(
+          statusCode = 400,
+          error = "Bad Request",
+          messages = list(
+            "limit must not be less than 1",
+            "offset must not be less than 0"
+          )
+        )
+      )
+    }
+
+    httr2::with_mocked_responses(mocked_resp, {
+      resp <- httr2::request(mocked_url) |>
+        req_error(is_error = \(.) FALSE) |>
+        httr2::req_perform()
+      gfw_api_error <- parse_response_error(resp)
+      expect_equal(gfw_api_error$transaction_id, mocked_transaction_id)
+      expect_equal(gfw_api_error$status_code, "400")
+      expect_match(gfw_api_error$error, "Bad Request")
+      expect_length(gfw_api_error$messages, 2)
+      expect_match(gfw_api_error$formatted[4], "limit must not be less than 1")
+      expect_match(gfw_api_error$formatted[5], "offset must not be less than 0")
+    })
+  })
+})
+
+
 test_that("parse_response_error parses transaction-id header", {
   scenarios <- list(
     # header names
