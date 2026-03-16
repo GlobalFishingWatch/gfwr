@@ -53,6 +53,14 @@
 #' details about the various event types, see the
 #' [GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#data-caveat).
 #'
+#' For detailed information about the Events Statistics API, please refer to the official
+#' Global Fishing Watch API documentation:
+#' - https://globalfishingwatch.org/our-apis/documentation#statistics-on-events-post
+#'
+#' For more details on the Events API data caveats, please refer to the official
+#' Global Fishing Watch API documentation:
+#' - https://globalfishingwatch.org/our-apis/documentation#how-are-the-events-estimated
+#'
 #' @examples
 #' \dontrun{
 #' library(gfwr)

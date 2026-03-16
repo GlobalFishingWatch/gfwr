@@ -1,5 +1,14 @@
 #' Retrieve apparent fishing hours derived from AIS data and convert response to tibble
 #'
+#' @details
+#' For detailed information about the 4Wings AIS apparent fishing hours API, please refer to the official
+#' Global Fishing Watch API documentation:
+#' - https://globalfishingwatch.org/our-apis/documentation#ais-apparent-fishing-effort
+#'
+#' For more details on the 4Wings apparent fishing hours API data caveats, please refer to the official
+#' Global Fishing Watch API documentation:
+#' - https://globalfishingwatch.org/our-apis/documentation#apparent-fishing-effort
+#'
 #' @param spatial_resolution Raster spatial resolution. Can be `"LOW"` (0.1 degree)
 #'  or `"HIGH"` (0.01 degree).
 #' @param temporal_resolution Raster temporal resolution. Can be `"HOURLY"`,
