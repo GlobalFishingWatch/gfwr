@@ -31,6 +31,13 @@ devtools::load_all()
 
 Function `gfw_sar_vessel_detections()` allows users to access Global Fishing Watch's dataset containing vessels detections using __Sentinel-1 Synthetic Aperture Radar (SAR)__, initially published in [Paolo _et al._ 2024](https://doi.org/10.1038/s41586-023-06825-8). 
 
+> **Note:**
+> See the [Datasets](https://globalfishingwatch.org/our-apis/documentation#api-dataset), 
+[SAR Vessel Detections Data Caveats](https://globalfishingwatch.org/our-apis/documentation#sar-vessel-detections-data-caveats), and 
+[Terms of Use](https://globalfishingwatch.org/our-apis/documentation#terms-of-use) pages in the 
+[GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#introduction) 
+for details on GFW data, API licenses, and rate limits.
+
 This dataset is available publicly in Global Fishing Watch platforms, including our map, APIs, and R and python packages.
 
 
@@ -74,6 +81,16 @@ Unmatched detections can happen for several reasons, including that:
 ## Basic usage
 
 A simple call, with no `group_by` or `filter_by` options will return a simple `tibble` object with the number of `vesselIDs` detected and the number of detections by pixel, at the requested resolution.
+
+> **Note:**
+> See the [Datasets](https://globalfishingwatch.org/our-apis/documentation#api-dataset), 
+[Region Datasets](https://globalfishingwatch.org/our-apis/documentation#regions), 
+[EEZs Data Caveats](https://globalfishingwatch.org/our-apis/documentation#exclusive-economic-zone-boundaries-definitions), 
+[MPAs Data Caveats](https://globalfishingwatch.org/our-apis/documentation#marine-protected-area-boundaries-definition-2), 
+[RFMOs Data Caveats](https://globalfishingwatch.org/our-apis/documentation#what-does-it-mean-if-an-event-is-within-a-specific-geographic-area-such-as-an-eez-mpa-or-rfmo) and 
+[Terms of Use](https://globalfishingwatch.org/our-apis/documentation#terms-of-use) pages in the 
+[GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#introduction) 
+for details on GFW data, API licenses, and rate limits.
 
 Let's request the monthly detections in the Brazil EEZ for 2023. 
 

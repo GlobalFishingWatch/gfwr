@@ -23,6 +23,13 @@ A powerful feature of `gfwr` is the ability to get data for making custom maps o
 
 > This vignette demonstrates how to use and combine multiple `gfwr` functions to make a variety of maps of fishing vessel activity. Specifically, this vignette will show how to use the `gfw_ais_fishing_hours()` function to make heatmaps of apparent fishing effort, and the `gfw_event()` function to visualize the locations of specific events. It will demonstrate how to request data for specific regions using `gfwr`'s built-in options, as well as how to use a custom region provided by the user.
 
+> **Note:**
+> See the [Datasets](https://globalfishingwatch.org/our-apis/documentation#api-dataset), 
+[AIS Apparent Fishing Hour Data Caveats](https://globalfishingwatch.org/our-apis/documentation#apparent-fishing-effort), and 
+[Terms of Use](https://globalfishingwatch.org/our-apis/documentation#terms-of-use) pages in the 
+[GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#introduction) 
+for details on GFW data, API licenses, and rate limits.
+
 ### Setup
 
 To get started, first load the `gfwr` package.
@@ -81,6 +88,16 @@ end_date <- '2021-03-31'
 ## Making heatmaps of apparent fishing effort with `gfw_ais_fishing_hours()`
 
 The `gfwr` function `gfw_ais_fishing_hours()` provides aggregated gridded (e.g. raster) data for AIS-based apparent fishing effort. It was designed to provide data for a specific region, offering users the ability to select from multiple built-in region types by specifying a specific Exclusive Economic Zone (EEZ), Marine Protected Area (MPA), or Regional Fisheries Management Organization (RFMO).
+
+> **Note:**
+> See the [Datasets](https://globalfishingwatch.org/our-apis/documentation#api-dataset), 
+[Region Datasets](https://globalfishingwatch.org/our-apis/documentation#regions), 
+[EEZs Data Caveats](https://globalfishingwatch.org/our-apis/documentation#exclusive-economic-zone-boundaries-definitions), 
+[MPAs Data Caveats](https://globalfishingwatch.org/our-apis/documentation#marine-protected-area-boundaries-definition-2), 
+[RFMOs Data Caveats](https://globalfishingwatch.org/our-apis/documentation#what-does-it-mean-if-an-event-is-within-a-specific-geographic-area-such-as-an-eez-mpa-or-rfmo) and 
+[Terms of Use](https://globalfishingwatch.org/our-apis/documentation#terms-of-use) pages in the 
+[GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#introduction) 
+for details on GFW data, API licenses, and rate limits.
 
 The list of available regions for each type, and their `label` and `id`, can be accessed with the `gfw_regions()` function.
 

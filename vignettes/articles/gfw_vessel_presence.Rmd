@@ -24,6 +24,13 @@ their AIS transponders.
 
 In this vignette we will explore several ways to call this function, and the filters that have been implemented in our APIs to support the exploration of this layer. 
 
+> **Note:**
+> See the [Datasets](https://globalfishingwatch.org/our-apis/documentation#api-dataset), 
+[AIS Vessel Presence Data Caveats](https://globalfishingwatch.org/our-apis/documentation#ais-vessel-presence-caveats), and 
+[Terms of Use](https://globalfishingwatch.org/our-apis/documentation#terms-of-use) pages in the 
+[GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#introduction) 
+for details on GFW data, API licenses, and rate limits.
+
 
 ## Setup
 
@@ -66,6 +73,16 @@ end_date <- '2024-04-01'   # will be excluded. search will be up to 2024-03-31
 `gfw_ais_presence()` was designed to provide data for a specific region, offering users the ability to select from multiple built-in region types by specifying a specific Exclusive Economic Zone (EEZ), Marine Protected Area (MPA), or Regional Fisheries Management Organization (RFMO).
 
 > __Note:__ The use of a region is mandatory, as the API is not designed to handle global requests
+
+> **Note:**
+> See the [Datasets](https://globalfishingwatch.org/our-apis/documentation#api-dataset), 
+[Region Datasets](https://globalfishingwatch.org/our-apis/documentation#regions), 
+[EEZs Data Caveats](https://globalfishingwatch.org/our-apis/documentation#exclusive-economic-zone-boundaries-definitions), 
+[MPAs Data Caveats](https://globalfishingwatch.org/our-apis/documentation#marine-protected-area-boundaries-definition-2), 
+[RFMOs Data Caveats](https://globalfishingwatch.org/our-apis/documentation#what-does-it-mean-if-an-event-is-within-a-specific-geographic-area-such-as-an-eez-mpa-or-rfmo) and 
+[Terms of Use](https://globalfishingwatch.org/our-apis/documentation#terms-of-use) pages in the 
+[GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#introduction) 
+for details on GFW data, API licenses, and rate limits.
 
 
 The list of available regions for each type, and their `label` and `id`, can be accessed with the `gfw_regions()` function.
