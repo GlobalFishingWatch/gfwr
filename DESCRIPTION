@@ -25,6 +25,7 @@ Imports:
     class,
     dplyr,
     geojsonsf,
+    glue,
     httr2,
     jsonlite,
     lifecycle,
@@ -36,12 +37,13 @@ Imports:
     rjson,
     rlang,
     tibble,
-    tidyr
+    tidyr,
+    xml2
 Suggests:
     covr,
+    curl,
     devtools,
     ggplot2,
-    glue,
     knitr,
     lintr,
     qpdf,
