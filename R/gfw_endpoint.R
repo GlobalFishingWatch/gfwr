@@ -44,7 +44,7 @@ gfw_endpoint <- function(dataset_type,
     'sar-infra' = "public-fixed-infrastructure-filtered:latest"
   )
 
-  base <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/")
+  base <- httr2::request(gfw_base_url())
   # Get dataset ID for selected API
   if (!dataset_type %in% c('EEZ', 'MPA', 'RFMO')) {
     dataset <- api_datasets[[dataset_type]]
@@ -109,7 +109,7 @@ gfw_identity_endpoint <- function(dataset_type,
     assign(names(args[i]), args[[i]])
   }
 
-  base <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/")
+  base <- httr2::request(gfw_base_url())
 
   # Only one dataset ID for selected API
   dataset <- "public-global-vessel-identity:latest"

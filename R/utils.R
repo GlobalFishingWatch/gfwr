@@ -13,6 +13,25 @@
 #' @return The result of calling `rhs(lhs)`.
 NULL
 
+#' Get the Global Fishing Watch API base URL
+#'
+#' Returns the `GFW_BASE_URL` environment variable if it is set and not empty
+#' (ignoring leading/trailing whitespace). Otherwise, returns the default
+#' production API base URL: `"https://gateway.api.globalfishingwatch.org/v3/"`.
+#'
+#' @name gfw_base_url
+#' @export
+gfw_base_url <- function() {
+  url <- Sys.getenv("GFW_BASE_URL", unset = "")
+  url <- trimws(url)
+
+  if (identical(url, "") || is.na(url)) {
+    url <- "https://gateway.api.globalfishingwatch.org/v3/"
+  }
+
+  return(url) # nolint: return_linter.
+}
+
 #'
 #' Get user API token from .Renviron
 #' @name gfw_auth
