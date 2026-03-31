@@ -250,3 +250,112 @@ gfw_get_bulk_report_by_id <- function(id = NULL,
 
   return(resp_df)
 }
+
+# gfw_get_bulk_report_file_download_url ---------------------------------------
+
+#' Get signed URL to download file of the previously created bulk report
+#'
+#' @description
+#' This is internal function to Retrieves signed URL that points to a downloadable
+#' file hosted on Global Fishing Watch's cloud infrastructure to download file(s)
+#' (i.e., `"DATA"`, `"README"`, or `"GEOM"`) of the previously created bulk report.
+#'
+#' @details
+#' For detailed information about the Download bulk Report (URL File) API endpoint,
+#' please refer to the official Global Fishing Watch API documentation:
+#' - https://globalfishingwatch.org/our-apis/documentation#download-bulk-report-url-file
+#' - https://globalfishingwatch.org/our-apis/documentation#bulk-download-api
+#'
+#' For more details on the Download bulk Report (URL File) data caveats, please refer to the
+#' official Global Fishing Watch API documentation:
+#' - https://globalfishingwatch.org/our-apis/documentation#sar-fixed-infrastructure-data-caveats
+#'
+#' @param id Required. Character. Unique identifier (ID) of the bulk report. Example:
+#' `"adbb9b62-5c08-4142-82e0-b2b575f3e058"`.
+#'
+#' @param file Required. Character. Type of bulk report file. Defaults to `"DATA"`.
+#' Allowed values: `"DATA"`, `"README"`, `"GEOM"`. Example: `"DATA"`.
+#'
+#' @param key Character. API token. Defaults to [gfw_auth()].
+#'
+#' @param print_request Boolean. Whether to print the request, for debugging
+#' purposes. When contacting the GFW team it will be useful to send this string.
+#'
+#' @return
+#' A single-row tibble with the signed URL to download bulk report file.
+#'
+#' @examples
+#' \dontrun{
+#' library(gfwr)
+#' }
+#'
+#' @keywords internal
+#' @noRd
+gfw_get_bulk_report_file_download_url <- function(id = NULL,
+                                                  file = NULL,
+                                                  key = gfw_auth(),
+                                                  print_request = FALSE) {
+  ## Validate report id -------------------------------------------------------
+  if (!rlang::is_string(id) || !nzchar(id)) {
+    rlang::abort("`id` is required and must be a non-empty character string.")
+  }
+
+  ## Validate file ------------------------------------------------------------
+
+  allowed_files <- c(
+    "DATA",
+    "README",
+    "GEOM"
+  )
+
+  if (!rlang::is_string(file) || !nzchar(file)) {
+    rlang::abort("`file` is required and must be a non-empty character string.")
+  }
+
+  file <- toupper(trimws(file))
+
+  if (!file %in% allowed_files) {
+    invalid_file_message <- glue::glue(
+      "Invalid `file` value: {file}. ",
+      "Allowed value(s): {paste(allowed_files, collapse = ', ')}."
+    )
+    rlang::abort(invalid_file_message)
+  }
+
+  ## Validate key -------------------------------------------------------------
+  if (!rlang::is_string(key) || !nzchar(key)) {
+    rlang::abort("No API token found. Set `GFW_TOKEN` or pass `key`.")
+  }
+
+  ## Build API request --------------------------------------------------------
+  req <- httr2::request(gfw_base_url()) |>
+    httr2::req_url_path_append("bulk-reports", id) |>
+    httr2::req_url_query(file = file) |>
+    httr2::req_auth_bearer_token(key) |>
+    httr2::req_headers(
+      `Content-Type` = "application/json"
+    ) |>
+    httr2::req_user_agent(gfw_user_agent()) |>
+    httr2::req_error(body = \(x) parse_response_error(x)$formatted)
+
+  if (print_request) {
+    print(req)
+  }
+
+  # Perform request
+  resp <- req |> httr2::req_perform()
+
+  ## Build API response -------------------------------------------------------
+
+  # Extract JSON response body
+  resp_body <- httr2::resp_body_json(resp, check_type = TRUE, simplifyVector = FALSE)
+
+  # Normalize response body
+  resp_body <- resp_body |>
+    purrr::map(\(x) list(x))
+
+  # Transform response body to dataframe
+  resp_df <- tibble::tibble(!!!resp_body)
+
+  return(resp_df)
+}

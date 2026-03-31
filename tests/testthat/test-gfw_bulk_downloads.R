@@ -327,3 +327,137 @@ test_that("gfw_get_bulk_report_by_id: returns bulk report tibble", {
     })
   })
 })
+
+# gfw_get_bulk_report_file_download_url ---------------------------------------
+
+## Validate id ----------------------------------------------------------------
+
+test_that("gfw_get_bulk_report_file_download_url: missing id triggers error", {
+  with_gfw_mocked_envvar({
+    expect_error(
+      gfw_get_bulk_report_file_download_url(
+        id = NULL,
+        file = "DATA"
+      ),
+      regexp = "`id` is required"
+    )
+  })
+})
+
+test_that("gfw_get_bulk_report_file_download_url: empty or NA id triggers error", {
+  with_gfw_mocked_envvar({
+    expect_error(
+      gfw_get_bulk_report_file_download_url(
+        id = "",
+        file = "DATA"
+      ),
+      regexp = "`id` is required"
+    )
+
+    expect_error(
+      gfw_get_bulk_report_file_download_url(
+        id = NA_character_,
+        file = "DATA"
+      ),
+      regexp = "`id` is required"
+    )
+  })
+})
+
+## Validate file ------------------------------------------------------------
+
+test_that("gfw_get_bulk_report_file_download_url: missing file triggers error", {
+  with_gfw_mocked_envvar({
+    expect_error(
+      gfw_get_bulk_report_file_download_url(
+        id = "adbb9b62-5c08-4142-82e0-b2b575f3e058",
+        file = NULL
+      ),
+      regexp = "`file` is required"
+    )
+  })
+})
+
+test_that("gfw_get_bulk_report_file_download_url: invalid file triggers error", {
+  with_gfw_mocked_envvar({
+    expect_error(
+      gfw_get_bulk_report_file_download_url(
+        id = "adbb9b62-5c08-4142-82e0-b2b575f3e058",
+        file = "INVALID-FILE"
+      ),
+      regexp = "Invalid `file` value"
+    )
+  })
+})
+
+## Validate key ---------------------------------------------------------------
+
+test_that("gfw_get_bulk_report_file_download_url: NULL key triggers error", {
+  expect_error(
+    gfw_get_bulk_report_file_download_url(
+      id = "adbb9b62-5c08-4142-82e0-b2b575f3e058",
+      file = "DATA",
+      key = NULL
+    ),
+    regexp = "No API token found"
+  )
+})
+
+test_that("gfw_get_bulk_report_file_download_url: empty key triggers error", {
+  expect_error(
+    gfw_get_bulk_report_file_download_url(
+      id = "adbb9b62-5c08-4142-82e0-b2b575f3e058",
+      file = "DATA",
+      key = ""
+    ),
+    regexp = "No API token found"
+  )
+})
+
+test_that("gfw_get_bulk_report_file_download_url: NA envvar token triggers error", {
+  withr::with_envvar(c(GFW_TOKEN = NA_character_), {
+    expect_error(
+      gfw_get_bulk_report_file_download_url(
+        id = "adbb9b62-5c08-4142-82e0-b2b575f3e058",
+        file = "DATA"
+      ),
+      regexp = "No API token found"
+    )
+  })
+})
+
+## API request ----------------------------------------------------------------
+
+test_that("gfw_get_bulk_report_file_download_url: returns bulk report tibble", {
+  with_gfw_mocked_envvar({
+    mocked_id <- "adbb9b62-5c08-4142-82e0-b2b575f3e058"
+    mocked_file <- "DATA"
+    mocked_url <- curl::curl_modify_url(
+      gfw_base_url(),
+      path = glue::glue("bulk-reports/{mocked_id}?file={mocked_file}")
+    )
+
+    mocked_resp_body <- with_gfw_json_fixture("bulk_downloads/bulk_report_file_item.json")
+
+    mocked_resp <- function(req) {
+      httr2::response_json(
+        status_code = 200,
+        url = mocked_url,
+        body = mocked_resp_body
+      )
+    }
+
+    httr2::with_mocked_responses(mocked_resp, {
+      resp <- gfw_get_bulk_report_file_download_url(
+        id = mocked_id,
+        file = mocked_file
+      )
+
+      expect_s3_class(resp, "tbl_df")
+      expect_equal(nrow(resp), 1)
+      expect_named(resp, names(mocked_resp_body), ignore.order = TRUE)
+
+      expect_identical(resp$url[[1]], mocked_resp_body$url)
+    })
+  })
+})
