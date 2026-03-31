@@ -213,3 +213,117 @@ test_that("gfw_create_bulk_report: returns bulk report tibble", {
     })
   })
 })
+
+# gfw_get_bulk_report_by_id ---------------------------------------------------
+
+## Validate id ----------------------------------------------------------------
+
+test_that("gfw_get_bulk_report_by_id: missing id triggers error", {
+  with_gfw_mocked_envvar({
+    expect_error(
+      gfw_get_bulk_report_by_id(
+        id = NULL,
+      ),
+      regexp = "`id` is required"
+    )
+  })
+})
+
+test_that("gfw_get_bulk_report_by_id: empty or NA id triggers error", {
+  with_gfw_mocked_envvar({
+    expect_error(
+      gfw_get_bulk_report_by_id(
+        id = "",
+      ),
+      regexp = "`id` is required"
+    )
+
+    expect_error(
+      gfw_get_bulk_report_by_id(
+        id = NA_character_,
+      ),
+      regexp = "`id` is required"
+    )
+  })
+})
+
+## Validate key ---------------------------------------------------------------
+
+test_that("gfw_get_bulk_report_by_id: NULL key triggers error", {
+  expect_error(
+    gfw_get_bulk_report_by_id(
+      id = "adbb9b62-5c08-4142-82e0-b2b575f3e058",
+      key = NULL
+    ),
+    regexp = "No API token found"
+  )
+})
+
+test_that("gfw_get_bulk_report_by_id: empty key triggers error", {
+  expect_error(
+    gfw_get_bulk_report_by_id(
+      id = "adbb9b62-5c08-4142-82e0-b2b575f3e058",
+      key = ""
+    ),
+    regexp = "No API token found"
+  )
+})
+
+test_that("gfw_get_bulk_report_by_id: NA envvar token triggers error", {
+  withr::with_envvar(c(GFW_TOKEN = NA_character_), {
+    expect_error(
+      gfw_get_bulk_report_by_id(
+        id = "adbb9b62-5c08-4142-82e0-b2b575f3e058",
+      ),
+      regexp = "No API token found"
+    )
+  })
+})
+
+## API request ----------------------------------------------------------------
+
+test_that("gfw_get_bulk_report_by_id: returns bulk report tibble", {
+  with_gfw_mocked_envvar({
+    mocked_id <- "adbb9b62-5c08-4142-82e0-b2b575f3e058"
+    mocked_url <- curl::curl_modify_url(gfw_base_url(), path = glue::glue("bulk-reports/{mocked_id}"))
+
+    mocked_resp_body <- with_gfw_json_fixture("bulk_downloads/bulk_report_item.json")
+
+    mocked_resp <- function(req) {
+      httr2::response_json(
+        status_code = 200,
+        url = mocked_url,
+        body = mocked_resp_body
+      )
+    }
+
+    httr2::with_mocked_responses(mocked_resp, {
+      resp <- gfw_get_bulk_report_by_id(
+        id = mocked_id,
+      )
+
+      expect_s3_class(resp, "tbl_df")
+      expect_equal(nrow(resp), 1)
+      expect_named(resp, names(mocked_resp_body), ignore.order = TRUE)
+
+      expect_identical(resp$id[[1]], mocked_resp_body$id)
+      expect_identical(resp$name[[1]], mocked_resp_body$name)
+      expect_identical(resp$filepath[[1]], mocked_resp_body$filepath)
+      expect_identical(resp$format[[1]], mocked_resp_body$format)
+      expect_identical(resp$status[[1]], mocked_resp_body$status)
+      expect_identical(resp$filters[[1]], mocked_resp_body$filters)
+
+      expect_true(!is.null(resp$geom))
+      expect_identical(resp$geom[[1]]$dataset, mocked_resp_body$geom$dataset)
+      expect_identical(resp$geom[[1]]$id, mocked_resp_body$geom$id)
+
+      expect_identical(resp$ownerId[[1]], mocked_resp_body$ownerId)
+      expect_identical(resp$ownerType[[1]], mocked_resp_body$ownerType)
+
+      expect_identical(resp$createdAt[[1]], mocked_resp_body$createdAt)
+      expect_identical(resp$updatedAt[[1]], mocked_resp_body$updatedAt)
+
+      expect_equal(resp$fileSize[[1]], mocked_resp_body$fileSize)
+    })
+  })
+})
