@@ -47,6 +47,7 @@
 #' }
 #'
 #' @keywords internal
+#' @noRd
 gfw_create_bulk_report <- function(name = NULL,
                                    dataset = NULL,
                                    format = NULL,
@@ -54,8 +55,8 @@ gfw_create_bulk_report <- function(name = NULL,
                                    key = gfw_auth(),
                                    print_request = FALSE) {
   ## Validate report name -----------------------------------------------------
-  if (is.null(name) || identical(name, "") || is.na(name)) {
-    rlang::abort("`name` is required and must be a non-empty character.")
+  if (!rlang::is_string(name) || !nzchar(name)) {
+    rlang::abort("`name` is required and must be a non-empty character string.")
   }
 
   ## Validate dataset ---------------------------------------------------------
@@ -64,8 +65,8 @@ gfw_create_bulk_report <- function(name = NULL,
     "public-fixed-infrastructure-data:latest"
   )
 
-  if (is.null(dataset) || identical(dataset, "") || is.na(dataset)) {
-    rlang::abort("`dataset` is required and must be a non-empty character.")
+  if (!rlang::is_string(dataset) || !nzchar(dataset)) {
+    rlang::abort("`dataset` is required and must be a non-empty character string.")
   }
 
   dataset <- trimws(dataset)
@@ -85,11 +86,11 @@ gfw_create_bulk_report <- function(name = NULL,
     "CSV"
   )
 
-  if (is.null(format) || identical(format, "") || is.na(format)) {
-    rlang::abort("`format` is required and must be a non-empty character.")
+  if (!rlang::is_string(format) || !nzchar(format)) {
+    rlang::abort("`format` is required and must be a non-empty character string.")
   }
 
-  format <- trimws(format)
+  format <- toupper(trimws(format))
 
   if (!format %in% allowed_formats) {
     invalid_format_message <- glue::glue(
@@ -118,9 +119,8 @@ gfw_create_bulk_report <- function(name = NULL,
     }
   }
 
-
   ## Validate key -------------------------------------------------------------
-  if (is.null(key) || identical(key, "") || is.na(key)) {
+  if (!rlang::is_string(key) || !nzchar(key)) {
     rlang::abort("No API token found. Set `GFW_TOKEN` or pass `key`.")
   }
 
@@ -128,28 +128,24 @@ gfw_create_bulk_report <- function(name = NULL,
   req_body <- list(
     name = name,
     dataset = dataset,
-    format = format
-  )
-  if (!is.null(filters) && is.character(filters) && length(filters) > 0) {
-    req_body$filters <- as.list(filters)
-  }
+    format = format,
+    filters = if (!is.null(filters)) as.list(filters) else NULL
+  ) |> purrr::discard(is.null)
 
   ## Build API request --------------------------------------------------------
   req <- httr2::request(gfw_base_url()) |>
     httr2::req_url_path_append("bulk-reports") |>
+    httr2::req_auth_bearer_token(key) |>
     httr2::req_headers(
-      Authorization = paste("Bearer", key),
       `Content-Type` = "application/json"
     ) |>
     httr2::req_user_agent(gfw_user_agent()) |>
-    httr2::req_body_json(req_body)
+    httr2::req_body_json(req_body) |>
+    httr2::req_error(body = \(x) parse_response_error(x)$formatted)
 
   if (print_request) {
     print(req)
   }
-
-  # Attach error parser
-  req <- req |> httr2::req_error(body = \(x) parse_response_error(x)$formatted)
 
   # Perform request
   resp <- req |> httr2::req_perform()
@@ -161,7 +157,6 @@ gfw_create_bulk_report <- function(name = NULL,
 
   # Normalize response body
   resp_body <- resp_body |>
-    purrr::map(\(x) if (is.null(x) || identical(x, NA)) list() else x) |>
     purrr::map(\(x) list(x))
 
   # Transform response body to dataframe
@@ -210,12 +205,13 @@ gfw_create_bulk_report <- function(name = NULL,
 #' }
 #'
 #' @keywords internal
+#' @noRd
 gfw_get_bulk_report_by_id <- function(id = NULL,
                                       key = gfw_auth(),
                                       print_request = FALSE) {
   ## Validate report id -------------------------------------------------------
   if (!rlang::is_string(id) || !nzchar(id)) {
-    rlang::abort("`id` is required and must be a non-empty character.")
+    rlang::abort("`id` is required and must be a non-empty character string.")
   }
 
   ## Validate key -------------------------------------------------------------
@@ -225,20 +221,17 @@ gfw_get_bulk_report_by_id <- function(id = NULL,
 
   ## Build API request --------------------------------------------------------
   req <- httr2::request(gfw_base_url()) |>
-    httr2::req_url_path_append("bulk-reports") |>
-    httr2::req_url_path_append(id) |>
+    httr2::req_url_path_append("bulk-reports", id) |>
+    httr2::req_auth_bearer_token(key) |>
     httr2::req_headers(
-      Authorization = paste("Bearer", key),
       `Content-Type` = "application/json"
     ) |>
-    httr2::req_user_agent(gfw_user_agent())
+    httr2::req_user_agent(gfw_user_agent()) |>
+    httr2::req_error(body = \(x) parse_response_error(x)$formatted)
 
   if (print_request) {
     print(req)
   }
-
-  # Attach error parser
-  req <- req |> httr2::req_error(body = \(x) parse_response_error(x)$formatted)
 
   # Perform request
   resp <- req |> httr2::req_perform()
@@ -250,7 +243,6 @@ gfw_get_bulk_report_by_id <- function(id = NULL,
 
   # Normalize response body
   resp_body <- resp_body |>
-    purrr::map(\(x) if (is.null(x) || identical(x, NA)) list() else x) |>
     purrr::map(\(x) list(x))
 
   # Transform response body to dataframe

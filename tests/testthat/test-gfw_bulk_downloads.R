@@ -190,7 +190,7 @@ test_that("gfw_create_bulk_report: returns bulk report tibble", {
 
       expect_s3_class(resp, "tbl_df")
       expect_equal(nrow(resp), 1)
-      expect_setequal(colnames(resp), names(mocked_resp_body))
+      expect_named(resp, names(mocked_resp_body), ignore.order = TRUE)
 
       expect_identical(resp$id[[1]], mocked_resp_body$id)
       expect_identical(resp$name[[1]], mocked_resp_body$name)
@@ -209,7 +209,7 @@ test_that("gfw_create_bulk_report: returns bulk report tibble", {
       expect_identical(resp$createdAt[[1]], mocked_resp_body$createdAt)
       expect_identical(resp$updatedAt[[1]], mocked_resp_body$updatedAt)
 
-      expect_identical(as.double(resp$fileSize[[1]]), as.double(mocked_resp_body$fileSize))
+      expect_equal(resp$fileSize[[1]], mocked_resp_body$fileSize)
     })
   })
 })
