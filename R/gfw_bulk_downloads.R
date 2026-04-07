@@ -59,6 +59,18 @@
 #' @examples
 #' \dontrun{
 #' library(gfwr)
+#'
+#' # Create a bulk report for SAR fixed infrastructure with oil structure filters
+#' report <- gfw_create_bulk_report(
+#'   name = "sar-vessel-detection-gfwr-package-example-1",
+#'   dataset = "public-fixed-infrastructure-data:latest",
+#'   format = "JSON",
+#'   filters = c(
+#'     "label = 'oil'",
+#'     "structure_start_date between '2020-01-01' and '2025-01-01'"
+#'   ),
+#'   print_request = TRUE
+#' )
 #' }
 #'
 #' @keywords internal
@@ -143,7 +155,7 @@ gfw_create_bulk_report <- function(name = NULL,
   # Normalize and transform response body to dataframe
   resp_df <- resp_body |>
     purrr::map(\(val) {
-      if (is.list(val) || length(val) > 1) list(val) else val
+      if (is.null(val)) NA else if (is.list(val) || length(val) > 1) list(val) else val
     }) |>
     tibble::as_tibble_row()
 
@@ -202,6 +214,25 @@ gfw_create_bulk_report <- function(name = NULL,
 #' @examples
 #' \dontrun{
 #' library(gfwr)
+#'
+#' # Retrieve most recent successfully completed report
+#' completed_reports <- gfw_get_all_bulk_reports(
+#'   limit = 1,
+#'   sort = "-createdAt",
+#'   status = "done"
+#' )
+#' report_id <- completed_reports$id[[1]]
+#'
+#' # Retrieve metadata and check status for a specific bulk report
+#' report <- gfw_get_bulk_report_by_id(
+#'   id = report_id,
+#'   print_request = TRUE
+#' )
+#'
+#' # Access status to determine if report is ready for download
+#' if (report$status == "done") {
+#'   message("Report is ready!")
+#' }
 #' }
 #'
 #' @keywords internal
@@ -244,7 +275,7 @@ gfw_get_bulk_report_by_id <- function(id = NULL,
   # Normalize and transform response body to dataframe
   resp_df <- resp_body |>
     purrr::map(\(val) {
-      if (is.list(val) || length(val) > 1) list(val) else val
+      if (is.null(val)) NA else if (is.list(val) || length(val) > 1) list(val) else val
     }) |>
     tibble::as_tibble_row()
 
@@ -291,6 +322,27 @@ gfw_get_bulk_report_by_id <- function(id = NULL,
 #' @examples
 #' \dontrun{
 #' library(gfwr)
+#'
+#' # Retrieve most recent successfully completed report
+#' completed_reports <- gfw_get_all_bulk_reports(
+#'   limit = 1,
+#'   sort = "-createdAt",
+#'   status = "done"
+#' )
+#' report_id <- completed_reports$id[[1]]
+#'
+#' # Get signed URL for the main data file
+#' data_url <- gfw_get_bulk_report_file_download_url(
+#'   id = report_id,
+#'   file = "DATA"
+#' )
+#'
+#' # Get signed URL for the README documentation file
+#' readme_url <- gfw_get_bulk_report_file_download_url(
+#'   id = report_id,
+#'   file = "README",
+#'   print_request = TRUE
+#' )
 #' }
 #'
 #' @keywords internal
@@ -346,7 +398,7 @@ gfw_get_bulk_report_file_download_url <- function(id = NULL,
   # Normalize and transform response body to dataframe
   resp_df <- resp_body |>
     purrr::map(\(val) {
-      if (is.list(val) || length(val) > 1) list(val) else val
+      if (is.null(val)) NA else if (is.list(val) || length(val) > 1) list(val) else val
     }) |>
     tibble::as_tibble_row()
 
@@ -411,6 +463,18 @@ gfw_get_bulk_report_file_download_url <- function(id = NULL,
 #' @examples
 #' \dontrun{
 #' library(gfwr)
+#'
+#' # Retrieve the 10 most recent bulk reports
+#' recent_reports <- gfw_get_all_bulk_reports(
+#'   limit = 10,
+#'   sort = "-createdAt",
+#'   print_request = TRUE
+#' )
+#'
+#' # List only reports that have successfully completed
+#' completed_reports <- gfw_get_all_bulk_reports(
+#'   status = "done"
+#' )
 #' }
 #'
 #' @keywords internal
@@ -498,7 +562,7 @@ gfw_get_all_bulk_reports <- function(limit = 99999L,
   resp_df <- resp_entries |>
     purrr::map(\(entry) {
       entry |>
-        purrr::map(\(val) if (is.list(val) || length(val) > 1) list(val) else val) |>
+        purrr::map(\(val) if (is.null(val)) NA else if (is.list(val) || length(val) > 1) list(val) else val) |>
         tibble::as_tibble_row()
     }) |>
     purrr::list_rbind()
