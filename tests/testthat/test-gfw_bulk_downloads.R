@@ -461,3 +461,218 @@ test_that("gfw_get_bulk_report_file_download_url: returns bulk report tibble", {
     })
   })
 })
+
+# gfw_gfw_get_all_bulk_reports ------------------------------------------------
+
+## Validate limit -------------------------------------------------------------
+
+test_that("gfw_get_all_bulk_reports: invalid limit triggers error", {
+  with_gfw_mocked_envvar({
+    expect_error(
+      gfw_get_all_bulk_reports(
+        limit = "INVALID-LIMIT",
+      ),
+      regexp = "`limit` must be a non-negative integer value"
+    )
+  })
+})
+
+## Validate offset ------------------------------------------------------------
+
+test_that("gfw_get_all_bulk_reports: invalid offset triggers error", {
+  with_gfw_mocked_envvar({
+    expect_error(
+      gfw_get_all_bulk_reports(
+        offset = "INVALID-OFFSET",
+      ),
+      regexp = "`offset` must be a non-negative integer value"
+    )
+  })
+})
+
+## Validate sort --------------------------------------------------------------
+
+test_that("gfw_get_all_bulk_reports: empty or NA sort triggers error", {
+  with_gfw_mocked_envvar({
+    expect_error(
+      gfw_get_all_bulk_reports(
+        sort = ""
+      ),
+      regexp = "`sort` must be a non-empty character string"
+    )
+
+    expect_error(
+      gfw_get_all_bulk_reports(
+        sort = NA_character_
+      ),
+      regexp = "`sort` must be a non-empty character string"
+    )
+  })
+})
+
+test_that("gfw_get_all_bulk_reports: invalid sort triggers error", {
+  with_gfw_mocked_envvar({
+    expect_error(
+      gfw_get_all_bulk_reports(
+        sort = 123
+      ),
+      regexp = "`sort` must be a non-empty character string"
+    )
+  })
+})
+
+## Validate status ------------------------------------------------------------
+
+test_that("gfw_get_all_bulk_reports: empty or NA status triggers error", {
+  with_gfw_mocked_envvar({
+    expect_error(
+      gfw_get_all_bulk_reports(
+        status = ""
+      ),
+      regexp = "`status` must be one of"
+    )
+
+    expect_error(
+      gfw_get_all_bulk_reports(
+        status = NA_character_
+      ),
+      regexp = "`status` must be a single string, not a character `NA`"
+    )
+  })
+})
+
+test_that("gfw_get_all_bulk_reports: invalid status triggers error", {
+  with_gfw_mocked_envvar({
+    expect_error(
+      gfw_get_all_bulk_reports(
+        status = "INVALID-STATUS"
+      ),
+      regexp = "`status` must be one of"
+    )
+  })
+})
+
+## Validate key ---------------------------------------------------------------
+
+test_that("gfw_get_all_bulk_reports: NULL key triggers error", {
+  expect_error(
+    gfw_get_all_bulk_reports(
+      status = "done",
+      key = NULL
+    ),
+    regexp = "No API token found"
+  )
+})
+
+test_that("gfw_get_all_bulk_reports: empty key triggers error", {
+  expect_error(
+    gfw_get_all_bulk_reports(
+      status = "done",
+      key = ""
+    ),
+    regexp = "No API token found"
+  )
+})
+
+test_that("gfw_get_all_bulk_reports: NA envvar token triggers error", {
+  withr::with_envvar(c(GFW_TOKEN = NA_character_), {
+    expect_error(
+      gfw_get_all_bulk_reports(
+        status = "done"
+      ),
+      regexp = "No API token found"
+    )
+  })
+})
+
+## API request ----------------------------------------------------------------
+
+test_that("gfw_get_all_bulk_reports: returns bulk reports tibble", {
+  with_gfw_mocked_envvar({
+    mocked_params <- with_gfw_json_fixture("bulk_downloads/bulk_report_list_request_params.json")
+    mocked_url <- curl::curl_modify_url(
+      gfw_base_url(),
+      path = "bulk-reports",
+      query = mocked_params
+    )
+
+    mocked_item <- with_gfw_json_fixture("bulk_downloads/bulk_report_item.json")
+    mocked_resp_body <- list(entries = list(mocked_item))
+
+    mocked_resp <- function(req) {
+      httr2::response_json(
+        status_code = 200,
+        url = mocked_url,
+        body = mocked_resp_body
+      )
+    }
+
+    httr2::with_mocked_responses(mocked_resp, {
+      resp <- gfw_get_all_bulk_reports(
+        limit = mocked_params$limit,
+        offset = mocked_params$offset,
+        sort = mocked_params$sort,
+        status = mocked_params$status
+      )
+
+      expect_s3_class(resp, "tbl_df")
+      expect_equal(nrow(resp), 1)
+      expect_named(resp, names(mocked_item), ignore.order = TRUE)
+
+      expect_type(resp$id, "character")
+      expect_type(resp$ownerId, "integer")
+      expect_type(resp$geom, "list")
+      expect_type(resp$filters, "list")
+
+      expect_identical(resp$id[[1]], mocked_item$id)
+      expect_identical(resp$name[[1]], mocked_item$name)
+      expect_identical(resp$filepath[[1]], mocked_item$filepath)
+      expect_identical(resp$format[[1]], mocked_item$format)
+      expect_identical(resp$status[[1]], mocked_item$status)
+      expect_identical(resp$filters[[1]], mocked_item$filters)
+
+      expect_true(!is.null(resp$geom))
+      expect_identical(resp$geom[[1]]$dataset, mocked_item$geom$dataset)
+      expect_identical(resp$geom[[1]]$id, mocked_item$geom$id)
+
+      expect_identical(resp$ownerId[[1]], mocked_item$ownerId)
+      expect_identical(resp$ownerType[[1]], mocked_item$ownerType)
+
+      expect_identical(resp$createdAt[[1]], mocked_item$createdAt)
+      expect_identical(resp$updatedAt[[1]], mocked_item$updatedAt)
+
+      expect_equal(resp$fileSize[[1]], mocked_item$fileSize)
+    })
+  })
+})
+
+test_that("gfw_get_all_bulk_reports: empty entries returns empty tibble", {
+  with_gfw_mocked_envvar({
+    mocked_params <- with_gfw_json_fixture("bulk_downloads/bulk_report_list_request_params.json")
+
+    mocked_resp_body <- list(entries = list())
+
+    mocked_url <- curl::curl_modify_url(
+      gfw_base_url(),
+      path = "bulk-reports",
+      query = mocked_params
+    )
+
+    mocked_resp <- function(req) {
+      httr2::response_json(
+        status_code = 200,
+        url = mocked_url,
+        body = mocked_resp_body
+      )
+    }
+
+    httr2::with_mocked_responses(mocked_resp, {
+      resp <- gfw_get_all_bulk_reports(
+        status = mocked_params$status
+      )
+
+      expect_s3_class(resp, "tbl_df")
+      expect_equal(nrow(resp), 0)
+    })
+  })
+})

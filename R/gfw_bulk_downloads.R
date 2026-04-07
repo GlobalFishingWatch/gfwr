@@ -359,3 +359,141 @@ gfw_get_bulk_report_file_download_url <- function(id = NULL,
 
   return(resp_df)
 }
+
+# gfw_get_all_bulk_reports ----------------------------------------------------
+
+#' Get all bulk reports created by user or application
+#'
+#' @description
+#' This is internal function to retrieve a list of metadata and status of the
+#' previously created bulk reports based on specified pagination, sorting, and
+#' filtering criteria.
+#'
+#' @details
+#' For detailed information about the Get All Bulk Reports API endpoint, please refer to the
+#' official Global Fishing Watch API documentation:
+#' - https://globalfishingwatch.org/our-apis/documentation#get-all-bulk-reports-by-user
+#' - https://globalfishingwatch.org/our-apis/documentation#bulk-download-api
+#'
+#' For more details on the Get All Bulk Reports data caveats, please refer to the
+#' official Global Fishing Watch API documentation:
+#' - https://globalfishingwatch.org/our-apis/documentation#sar-fixed-infrastructure-data-caveats
+#'
+#' @param limit Optional. Integer. Maximum number of bulk reports to return.
+#' Defaults to `99999`. Example: `99999`.
+#'
+#' @param offset Optional. Integer. Number of bulk reports to skip before returning results.
+#' Defaults to `0`. Example: `0`.
+#'
+#' @param sort Optional. Character. Property to sort the bulk reports by.
+#' Defaults to `"-createdAt"`. Example: `"-createdAt"`.
+#'
+#' @param status Optional. Character. Current status of the bulk report generation process.
+#' Defaults to `NULL`. Allowed values: `"pending"`, `"processing"`, `"done"`, `"failed"`.
+#' Example: `"done"`.
+#'
+#' @param key Character. API token. Defaults to [gfw_auth()].
+#'
+#' @param print_request Boolean. Whether to print the request, for debugging
+#' purposes. When contacting the GFW team it will be useful to send this string.
+#'
+#' @return
+#' A tibble with the previously created bulk reports metadata and status.
+#'
+#' @examples
+#' \dontrun{
+#' library(gfwr)
+#' }
+#'
+#' @keywords internal
+#' @noRd
+gfw_get_all_bulk_reports <- function(limit = 99999L,
+                                     offset = 0L,
+                                     sort = "-createdAt",
+                                     status = NULL,
+                                     key = gfw_auth(),
+                                     print_request = FALSE) {
+  ## Validate limit -----------------------------------------------------------
+  if (!rlang::is_integerish(limit, n = 1, finite = TRUE) || limit < 0) {
+    rlang::abort("`limit` must be a non-negative integer value.")
+  }
+  limit <- as.integer(limit)
+
+  ## Validate offset ----------------------------------------------------------
+  if (!rlang::is_integerish(offset, n = 1, finite = TRUE) || offset < 0) {
+    rlang::abort("`offset` must be a non-negative integer value.")
+  }
+  offset <- as.integer(offset)
+
+  ## Validate sort ------------------------------------------------------------
+  if (!is.null(sort)) {
+    if (!rlang::is_string(sort) || !nzchar(sort)) {
+      rlang::abort("`sort` must be a non-empty character string.")
+    }
+  }
+
+  ## Validate status ----------------------------------------------------------
+  if (!is.null(status)) {
+    status <- rlang::arg_match0(
+      arg = tolower(trimws(as.character(status))),
+      values = c("pending", "processing", "done", "failed"),
+      arg_nm = "status"
+    )
+  }
+
+  ## Validate key -------------------------------------------------------------
+  if (!rlang::is_string(key) || !nzchar(key)) {
+    rlang::abort("No API token found. Set `GFW_TOKEN` or pass `key`.")
+  }
+
+  ## Build API request parameters ---------------------------------------------
+  req_params <- list(
+    limit = limit,
+    offset = offset,
+    sort = sort,
+    status = status
+  ) |> purrr::discard(is.null)
+
+  ## Build API request --------------------------------------------------------
+  req <- httr2::request(gfw_base_url()) |>
+    httr2::req_url_path_append("bulk-reports") |>
+    httr2::req_url_query(!!!req_params) |>
+    httr2::req_auth_bearer_token(key) |>
+    httr2::req_headers(
+      `Content-Type` = "application/json"
+    ) |>
+    httr2::req_user_agent(gfw_user_agent()) |>
+    httr2::req_error(body = \(x) parse_response_error(x)$formatted)
+
+  if (print_request) {
+    print(req)
+  }
+
+  # Perform request
+  resp <- req |> httr2::req_perform()
+
+  ## Build API response -------------------------------------------------------
+
+  # Extract JSON response body
+  resp_body <- httr2::resp_body_json(resp, check_type = TRUE, simplifyVector = FALSE)
+
+  # Extract, filter and normalize response entries
+  resp_entries <- purrr::pluck(resp_body, "entries", .default = list()) |>
+    purrr::keep(\(entry) rlang::is_named(entry) && !rlang::is_empty(entry))
+
+  # Return empty tibble for invalid or empty entries
+  if (rlang::is_empty(resp_entries)) {
+    return(tibble::tibble())
+  }
+
+  # Transform response entries to dataframe
+  resp_df <- resp_entries |>
+    purrr::map(\(entry) {
+      entry |>
+        purrr::map(\(val) if (is.list(val) || length(val) > 1) list(val) else val) |>
+        tibble::as_tibble_row()
+    }) |>
+    purrr::list_rbind()
+
+  return(resp_df)
+}
