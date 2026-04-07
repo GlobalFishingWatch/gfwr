@@ -60,7 +60,7 @@ test_that("gfw_create_bulk_report: invalid dataset triggers error", {
         dataset = "INVALID-DATASET",
         format = "JSON"
       ),
-      regexp = "Invalid `dataset` value"
+      regexp = "`dataset` must be one of"
     )
   })
 })
@@ -88,7 +88,7 @@ test_that("gfw_create_bulk_report: invalid format triggers error", {
         dataset = "public-fixed-infrastructure-data:latest",
         format = "INVALID-FORMAT"
       ),
-      regexp = "Invalid `format` value"
+      regexp = "`format` must be one of"
     )
   })
 })
@@ -118,7 +118,7 @@ test_that("gfw_create_bulk_report: empty or NA filters trigger error", {
         format = "JSON",
         filters = c("", NA)
       ),
-      regexp = "Invalid `filters` value"
+      regexp = "`filters` must be a non-empty character vector with valid strings"
     )
   })
 })
@@ -306,6 +306,11 @@ test_that("gfw_get_bulk_report_by_id: returns bulk report tibble", {
       expect_equal(nrow(resp), 1)
       expect_named(resp, names(mocked_resp_body), ignore.order = TRUE)
 
+      expect_type(resp$id, "character")
+      expect_type(resp$ownerId, "integer")
+      expect_type(resp$geom, "list")
+      expect_type(resp$filters, "list")
+
       expect_identical(resp$id[[1]], mocked_resp_body$id)
       expect_identical(resp$name[[1]], mocked_resp_body$name)
       expect_identical(resp$filepath[[1]], mocked_resp_body$filepath)
@@ -385,7 +390,7 @@ test_that("gfw_get_bulk_report_file_download_url: invalid file triggers error", 
         id = "adbb9b62-5c08-4142-82e0-b2b575f3e058",
         file = "INVALID-FILE"
       ),
-      regexp = "Invalid `file` value"
+      regexp = "`file` must be one of"
     )
   })
 })
@@ -434,7 +439,7 @@ test_that("gfw_get_bulk_report_file_download_url: returns bulk report tibble", {
     mocked_file <- "DATA"
     mocked_url <- curl::curl_modify_url(
       gfw_base_url(),
-      path = glue::glue("bulk-reports/{mocked_id}?file={mocked_file}")
+      path = glue::glue("bulk-reports/{mocked_id}/download-file-url?file={mocked_file}")
     )
 
     mocked_resp_body <- with_gfw_json_fixture("bulk_downloads/bulk_report_file_item.json")
@@ -457,6 +462,7 @@ test_that("gfw_get_bulk_report_file_download_url: returns bulk report tibble", {
       expect_equal(nrow(resp), 1)
       expect_named(resp, names(mocked_resp_body), ignore.order = TRUE)
 
+      expect_type(resp$url, "character")
       expect_identical(resp$url[[1]], mocked_resp_body$url)
     })
   })

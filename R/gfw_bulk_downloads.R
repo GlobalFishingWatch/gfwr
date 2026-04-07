@@ -60,63 +60,33 @@ gfw_create_bulk_report <- function(name = NULL,
   }
 
   ## Validate dataset ---------------------------------------------------------
-
-  allowed_datasets <- c(
-    "public-fixed-infrastructure-data:latest"
-  )
-
   if (!rlang::is_string(dataset) || !nzchar(dataset)) {
     rlang::abort("`dataset` is required and must be a non-empty character string.")
   }
 
-  dataset <- trimws(dataset)
-
-  if (!dataset %in% allowed_datasets) {
-    invalid_dataset_message <- glue::glue(
-      "Invalid `dataset` value: {dataset}. ",
-      "Allowed value(s): {paste(allowed_datasets, collapse = ', ')}."
-    )
-    rlang::abort(invalid_dataset_message)
-  }
-
-  ## Validate format ----------------------------------------------------------
-
-  allowed_formats <- c(
-    "JSON",
-    "CSV"
+  dataset <- rlang::arg_match0(
+    arg = trimws(as.character(dataset)),
+    values = c("public-fixed-infrastructure-data:latest"),
+    arg_nm = "dataset"
   )
 
+  ## Validate format ----------------------------------------------------------
   if (!rlang::is_string(format) || !nzchar(format)) {
     rlang::abort("`format` is required and must be a non-empty character string.")
   }
 
-  format <- toupper(trimws(format))
-
-  if (!format %in% allowed_formats) {
-    invalid_format_message <- glue::glue(
-      "Invalid `format` value: {format}. ",
-      "Allowed value(s): {paste(allowed_formats, collapse = ', ')}."
-    )
-    rlang::abort(invalid_format_message)
-  }
+  format <- rlang::arg_match0(
+    arg = toupper(trimws(as.character(format))),
+    values = c("JSON", "CSV"),
+    arg_nm = "format"
+  )
 
   ## Validate filters ---------------------------------------------------------
-
   if (!is.null(filters)) {
-    if (!is.character(filters) || length(filters) == 0) {
-      rlang::abort("`filters` must be a non-empty character vector.")
+    if (!is.character(filters) || length(filters) == 0 || any(is.na(filters) | !nzchar(trimws(filters)))) {
+      rlang::abort("`filters` must be a non-empty character vector with valid strings.")
     }
-
-    filters <- trimws(filters)
-    invalid_filters <- filters[is.na(filters) | filters == ""]
-
-    if (length(invalid_filters) > 0) {
-      invalid_filters_message <- glue::glue(
-        "Invalid `filters` value(s): {paste(invalid_filters, collapse = ', ')}. ",
-        "Each filter must be a non-empty, non-NA character string."
-      )
-      rlang::abort(invalid_filters_message)
-    }
+    filters <- as.list(trimws(filters))
   }
 
   ## Validate key -------------------------------------------------------------
@@ -129,7 +99,7 @@ gfw_create_bulk_report <- function(name = NULL,
     name = name,
     dataset = dataset,
     format = format,
-    filters = if (!is.null(filters)) as.list(filters) else NULL
+    filters = filters
   ) |> purrr::discard(is.null)
 
   ## Build API request --------------------------------------------------------
@@ -155,12 +125,12 @@ gfw_create_bulk_report <- function(name = NULL,
   # Extract JSON response body
   resp_body <- httr2::resp_body_json(resp, check_type = TRUE, simplifyVector = FALSE)
 
-  # Normalize response body
-  resp_body <- resp_body |>
-    purrr::map(\(x) list(x))
-
-  # Transform response body to dataframe
-  resp_df <- tibble::tibble(!!!resp_body)
+  # Normalize and transform response body to dataframe
+  resp_df <- resp_body |>
+    purrr::map(\(val) {
+      if (is.list(val) || length(val) > 1) list(val) else val
+    }) |>
+    tibble::as_tibble_row()
 
   return(resp_df)
 }
@@ -241,12 +211,12 @@ gfw_get_bulk_report_by_id <- function(id = NULL,
   # Extract JSON response body
   resp_body <- httr2::resp_body_json(resp, check_type = TRUE, simplifyVector = FALSE)
 
-  # Normalize response body
-  resp_body <- resp_body |>
-    purrr::map(\(x) list(x))
-
-  # Transform response body to dataframe
-  resp_df <- tibble::tibble(!!!resp_body)
+  # Normalize and transform response body to dataframe
+  resp_df <- resp_body |>
+    purrr::map(\(val) {
+      if (is.list(val) || length(val) > 1) list(val) else val
+    }) |>
+    tibble::as_tibble_row()
 
   return(resp_df)
 }
@@ -301,26 +271,15 @@ gfw_get_bulk_report_file_download_url <- function(id = NULL,
   }
 
   ## Validate file ------------------------------------------------------------
-
-  allowed_files <- c(
-    "DATA",
-    "README",
-    "GEOM"
-  )
-
   if (!rlang::is_string(file) || !nzchar(file)) {
     rlang::abort("`file` is required and must be a non-empty character string.")
   }
 
-  file <- toupper(trimws(file))
-
-  if (!file %in% allowed_files) {
-    invalid_file_message <- glue::glue(
-      "Invalid `file` value: {file}. ",
-      "Allowed value(s): {paste(allowed_files, collapse = ', ')}."
-    )
-    rlang::abort(invalid_file_message)
-  }
+  file <- rlang::arg_match0(
+    arg = toupper(trimws(as.character(file))),
+    values = c("DATA", "README", "GEOM"),
+    arg_nm = "file"
+  )
 
   ## Validate key -------------------------------------------------------------
   if (!rlang::is_string(key) || !nzchar(key)) {
@@ -329,7 +288,7 @@ gfw_get_bulk_report_file_download_url <- function(id = NULL,
 
   ## Build API request --------------------------------------------------------
   req <- httr2::request(gfw_base_url()) |>
-    httr2::req_url_path_append("bulk-reports", id) |>
+    httr2::req_url_path_append("bulk-reports", id, "download-file-url") |>
     httr2::req_url_query(file = file) |>
     httr2::req_auth_bearer_token(key) |>
     httr2::req_headers(
@@ -350,12 +309,12 @@ gfw_get_bulk_report_file_download_url <- function(id = NULL,
   # Extract JSON response body
   resp_body <- httr2::resp_body_json(resp, check_type = TRUE, simplifyVector = FALSE)
 
-  # Normalize response body
-  resp_body <- resp_body |>
-    purrr::map(\(x) list(x))
-
-  # Transform response body to dataframe
-  resp_df <- tibble::tibble(!!!resp_body)
+  # Normalize and transform response body to dataframe
+  resp_df <- resp_body |>
+    purrr::map(\(val) {
+      if (is.list(val) || length(val) > 1) list(val) else val
+    }) |>
+    tibble::as_tibble_row()
 
   return(resp_df)
 }
