@@ -93,6 +93,289 @@ test_that("gfw_create_bulk_report: invalid format triggers error", {
   })
 })
 
+## Validate region ------------------------------------------------------------
+
+test_that("gfw_create_bulk_report: invalid region type triggers error", {
+  with_gfw_mocked_envvar({
+    expect_error(
+      gfw_create_bulk_report(
+        name = "test",
+        dataset = "public-fixed-infrastructure-data:latest",
+        format = "JSON",
+        region = "INVALID-REGION"
+      ),
+      regexp = "`region` must be a list"
+    )
+  })
+})
+
+test_that("gfw_create_bulk_report: invalid region$dataset triggers error", {
+  with_gfw_mocked_envvar({
+    expect_error(
+      gfw_create_bulk_report(
+        name = "test",
+        dataset = "public-fixed-infrastructure-data:latest",
+        format = "JSON",
+        region = list(
+          id = "8466"
+        )
+      ),
+      regexp = "`region\\$dataset` is required"
+    )
+
+    expect_error(
+      gfw_create_bulk_report(
+        name = "test",
+        dataset = "public-fixed-infrastructure-data:latest",
+        format = "JSON",
+        region = list(
+          dataset = NULL,
+          id = "8466"
+        )
+      ),
+      regexp = "`region\\$dataset` is required"
+    )
+
+    expect_error(
+      gfw_create_bulk_report(
+        name = "test",
+        dataset = "public-fixed-infrastructure-data:latest",
+        format = "JSON",
+        region = list(
+          dataset = NA,
+          id = "8466"
+        )
+      ),
+      regexp = "`region\\$dataset` is required"
+    )
+
+    expect_error(
+      gfw_create_bulk_report(
+        name = "test",
+        dataset = "public-fixed-infrastructure-data:latest",
+        format = "JSON",
+        region = list(
+          dataset = NA_character_,
+          id = "8466"
+        )
+      ),
+      regexp = "`region\\$dataset` is required"
+    )
+
+    expect_error(
+      gfw_create_bulk_report(
+        name = "test",
+        dataset = "public-fixed-infrastructure-data:latest",
+        format = "JSON",
+        region = list(
+          dataset = " ",
+          id = "8466"
+        )
+      ),
+      regexp = "`region\\$dataset` is required"
+    )
+
+    expect_error(
+      gfw_create_bulk_report(
+        name = "test",
+        dataset = "public-fixed-infrastructure-data:latest",
+        format = "JSON",
+        region = list(
+          dataset = "INVALID-REGION-DATASET",
+          id = "8466"
+        )
+      ),
+      regexp = "`region\\$dataset` must be one of"
+    )
+  })
+})
+
+test_that("gfw_create_bulk_report: invalid region$id triggers error", {
+  with_gfw_mocked_envvar({
+    expect_error(
+      gfw_create_bulk_report(
+        name = "test",
+        dataset = "public-fixed-infrastructure-data:latest",
+        format = "JSON",
+        region = list(
+          dataset = "public-eez-areas"
+        )
+      ),
+      regexp = "`region\\$id` is required"
+    )
+
+    expect_error(
+      gfw_create_bulk_report(
+        name = "test",
+        dataset = "public-fixed-infrastructure-data:latest",
+        format = "JSON",
+        region = list(
+          dataset = "public-eez-areas",
+          id = NULL
+        )
+      ),
+      regexp = "`region\\$id` is required"
+    )
+
+    expect_error(
+      gfw_create_bulk_report(
+        name = "test",
+        dataset = "public-fixed-infrastructure-data:latest",
+        format = "JSON",
+        region = list(
+          dataset = "public-eez-areas",
+          id = NA
+        )
+      ),
+      regexp = "`region\\$id` is required"
+    )
+
+    expect_error(
+      gfw_create_bulk_report(
+        name = "test",
+        dataset = "public-fixed-infrastructure-data:latest",
+        format = "JSON",
+        region = list(
+          dataset = "public-eez-areas",
+          id = NA_character_
+        )
+      ),
+      regexp = "`region\\$id` is required"
+    )
+
+    expect_error(
+      gfw_create_bulk_report(
+        name = "test",
+        dataset = "public-fixed-infrastructure-data:latest",
+        format = "JSON",
+        region = list(
+          dataset = "public-eez-areas",
+          id = " "
+        )
+      ),
+      regexp = "`region\\$id` is required"
+    )
+  })
+})
+
+## Validate geojson -----------------------------------------------------------
+
+test_that("gfw_create_bulk_report: invalid gejson type triggers error", {
+  with_gfw_mocked_envvar({
+    expect_error(
+      gfw_create_bulk_report(
+        name = "test",
+        dataset = "public-fixed-infrastructure-data:latest",
+        format = "JSON",
+        geojson = 12345
+      ),
+      regexp = "`geojson` could not be parsed"
+    )
+  })
+})
+
+test_that("gfw_create_bulk_report: invalid geojson string triggers error", {
+  with_gfw_mocked_envvar({
+    expect_error(
+      gfw_create_bulk_report(
+        name = "test",
+        dataset = "public-fixed-infrastructure-data:latest",
+        format = "JSON",
+        geojson = "INVALID-GEOJSON-JSON-STRING"
+      ),
+      regexp = "`geojson` could not be parsed"
+    )
+
+    expect_error(
+      gfw_create_bulk_report(
+        name = "test",
+        dataset = "public-fixed-infrastructure-data:latest",
+        format = "JSON",
+        geojson = "{'type': 'Polygon'}"
+      ),
+      regexp = "`geojson` could not be parsed"
+    )
+
+    expect_error(
+      gfw_create_bulk_report(
+        name = "test",
+        dataset = "public-fixed-infrastructure-data:latest",
+        format = "JSON",
+        geojson = "{'type': 'Polygon', 'coordinates': null}"
+      ),
+      regexp = "`geojson` could not be parsed"
+    )
+  })
+})
+
+test_that("gfw_create_bulk_report: invalid geojson list triggers error", {
+  with_gfw_mocked_envvar({
+    expect_error(
+      gfw_create_bulk_report(
+        name = "test",
+        dataset = "public-fixed-infrastructure-data:latest",
+        format = "JSON",
+        geojson = list()
+      ),
+      regexp = "`geojson` could not be parsed"
+    )
+
+    expect_error(
+      gfw_create_bulk_report(
+        name = "test",
+        dataset = "public-fixed-infrastructure-data:latest",
+        format = "JSON",
+        geojson = list(type = "Polygon")
+      ),
+      regexp = "`geojson` could not be parsed"
+    )
+
+    expect_error(
+      gfw_create_bulk_report(
+        name = "test",
+        dataset = "public-fixed-infrastructure-data:latest",
+        format = "JSON",
+        geojson = list(type = "Polygon", coordinates = NULL)
+      ),
+      regexp = "`geojson` could not be parsed"
+    )
+  })
+})
+
+test_that("gfw_create_bulk_report: invalid sf/sfc/sfg object triggers error", {
+  with_gfw_mocked_envvar({
+    expect_error(
+      gfw_create_bulk_report(
+        name = "test",
+        dataset = "public-fixed-infrastructure-data:latest",
+        format = "JSON",
+        geojson = sf::st_polygon()
+      ),
+      regexp = "`geojson` is not a valid"
+    )
+
+    expect_error(
+      gfw_create_bulk_report(
+        name = "test",
+        dataset = "public-fixed-infrastructure-data:latest",
+        format = "JSON",
+        geojson = sf::st_sfc(sf::st_polygon(), crs = 4326)
+      ),
+      regexp = "`geojson` is not a valid"
+    )
+
+    expect_error(
+      gfw_create_bulk_report(
+        name = "test",
+        dataset = "public-fixed-infrastructure-data:latest",
+        format = "JSON",
+        geojson = sf::st_sf(geometry = sf::st_sfc(sf::st_polygon(), crs = 4326))
+      ),
+      regexp = "`geojson` is not a valid"
+    )
+  })
+})
+
 ## Validate filters -----------------------------------------------------------
 
 test_that("gfw_create_bulk_report: invalid filters type triggers error", {

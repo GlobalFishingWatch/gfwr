@@ -3,8 +3,8 @@
 #' Create a bulk report based on specified filters and spatial parameters
 #'
 #' @description
-#' This is internal function to generate a bulk report based on specified
-#' filters and spatial parameters.
+#' This is an internal function to generate a bulk report based on specified
+#' filters and spatial parameters (GeoJSON or predefined regions).
 #'
 #' **Disclaimer:**
 #' Depending on the complexity and size of your request (e.g., large geojson or region,
@@ -25,13 +25,23 @@
 #' `"sar-fixed-infrastructure-data-20240903"`.
 #'
 #' @param dataset Required. Character. Dataset that will be used to create the bulk report.
-#' Allowed values: `"public-fixed-infrastructure-data:latest"`. Example: `"public-fixed-infrastructure-data:latest"`.
+#' Defaults to `"public-fixed-infrastructure-data:latest"`.
+#' Allowed values: `"public-fixed-infrastructure-data:latest"`.
+#' Example: `"public-fixed-infrastructure-data:latest"`.
 #'
-#' @param format Required. Character. Bulk report result format.
+#' @param geojson Optional. Character string, a nested list representing GeoJSON or an `sf`, `sfc`, `sfg` object.
+#' Custom GeoJSON geometry to filter the bulk report. Defaults to `NULL`.
+#' Example: `list(type = "Polygon", coordinates = [...])`.
+#'
+#' @param format Required. Character. Bulk report result format. Defaults to `"CSV"`.
 #' Allowed values: `"JSON"`, `"CSV"`. Example: `"CSV"`.
 #'
+#' @param region Optional. List. Predefined region information to filter the bulk report.
+#' Must contain `dataset` (one of `"public-eez-areas"`, `"public-mpa-all"`, `"public-rfmo"`)
+#' and `id` (non-empty string). Defaults to `NULL`. Example: `list(dataset = "public-eez-areas", id = "8466")`.
+#'
 #' @param filters Optional. Character vector. Filters to apply when generating the bulk report.
-#' Example: `["label = 'oil'"]`.
+#' Example: `c("label = 'oil'")`.
 #'
 #' @param key Character. API token. Defaults to [gfw_auth()].
 #'
@@ -60,11 +70,41 @@
 #' \dontrun{
 #' library(gfwr)
 #'
-#' # Create a bulk report for SAR fixed infrastructure with oil structure filters
-#' report <- gfw_create_bulk_report(
+#' # Create a bulk report for SAR fixed infrastructure with oil structure filters in Argentina EEZ
+#' report_region <- gfw_create_bulk_report(
 #'   name = "sar-vessel-detection-gfwr-package-example-1",
 #'   dataset = "public-fixed-infrastructure-data:latest",
-#'   format = "JSON",
+#'   format = "CSV",
+#'   region = list(
+#'     dataset = "public-eez-areas",
+#'     id = "8466"
+#'   ),
+#'   filters = c(
+#'     "label = 'oil'",
+#'     "structure_start_date between '2020-01-01' and '2025-01-01'"
+#'   ),
+#'   print_request = TRUE
+#' )
+#'
+#' # Create a bulk report for SAR fixed infrastructure with oil structure filters using custom GeoJSON
+#' geojson <- list(
+#'   type = "Polygon",
+#'   coordinates = list(
+#'     list(
+#'       c(-180.0, -85.0511287798066),
+#'       c(-180.0, 0.0),
+#'       c(0.0, 0.0),
+#'       c(0.0, -85.0511287798066),
+#'       c(-180.0, -85.0511287798066)
+#'     )
+#'   )
+#' )
+#'
+#' report_geojson <- gfw_create_bulk_report(
+#'   name = "sar-vessel-detection-gfwr-package-example-2",
+#'   dataset = "public-fixed-infrastructure-data:latest",
+#'   format = "CSV",
+#'   geojson = geojson,
 #'   filters = c(
 #'     "label = 'oil'",
 #'     "structure_start_date between '2020-01-01' and '2025-01-01'"
@@ -76,8 +116,10 @@
 #' @keywords internal
 #' @noRd
 gfw_create_bulk_report <- function(name = NULL,
-                                   dataset = NULL,
-                                   format = NULL,
+                                   dataset = "public-fixed-infrastructure-data:latest",
+                                   geojson = NULL,
+                                   format = "CSV",
+                                   region = NULL,
                                    filters = NULL,
                                    key = gfw_auth(),
                                    print_request = FALSE) {
@@ -116,6 +158,72 @@ gfw_create_bulk_report <- function(name = NULL,
     filters <- as.list(trimws(filters))
   }
 
+  ## Validate region ----------------------------------------------------------
+  if (!is.null(region)) {
+    if (!is.list(region)) {
+      rlang::abort("`region` must be a list containing `dataset` and `id`.")
+    }
+
+    region_dataset <- trimws(as.character(region$dataset))
+    if (!rlang::is_string(region_dataset) || !nzchar(region_dataset)) {
+      rlang::abort("`region$dataset` is required and must be a non-empty character string.")
+    }
+    region_dataset <- rlang::arg_match0(
+      arg = region_dataset,
+      values = c("public-eez-areas", "public-mpa-all", "public-rfmo"),
+      arg_nm = "region$dataset"
+    )
+
+    region_id <- trimws(as.character(region$id))
+    if (!rlang::is_string(region_id) || !nzchar(region_id)) {
+      rlang::abort("`region$id` is required and must be a non-empty character string.")
+    }
+
+    region <- list(dataset = region_dataset, id = region_id)
+  }
+
+  ## Validate geojson ---------------------------------------------------------
+  if (!is.null(geojson)) {
+    geojson_sf_obj <- tryCatch(
+      {
+        if (inherits(geojson, "sf")) {
+          geojson
+        } else if (inherits(geojson, "sfc")) {
+          sf::st_sf(geometry = geojson)
+        } else if (inherits(geojson, "sfg")) {
+          sf::st_sf(geometry = sf::st_sfc(geojson, crs = 4326))
+        } else if (rlang::is_string(geojson)) {
+          geojsonsf::geojson_sf(geojson)
+        } else if (is.list(geojson) && !rlang::is_empty(geojson) && rlang::is_named(geojson)) {
+          geojson |>
+            jsonlite::toJSON(auto_unbox = TRUE) |>
+            geojsonsf::geojson_sf()
+        } else {
+          rlang::abort("`geojson` must be a sf/sfc/sfg object, character string (JSON)
+          or a nested list representing GeoJSON.")
+        }
+      },
+      error = function(e) {
+        rlang::abort(
+          message = "`geojson` could not be parsed into a valid spatial object.
+          Ensure it is a valid sf/sfc/sfg object, character string (JSON) or a nested list representing GeoJSON.",
+          parent = e
+        )
+      }
+    )
+
+    if (sf::st_is_empty(geojson_sf_obj) || !all(sf::st_is_valid(geojson_sf_obj))) {
+      rlang::abort(
+        message = "`geojson` is not a valid spatial object.
+          Ensure it is a valid sf/sfc/sfg object, character string (JSON) or a nested list representing GeoJSON.",
+      )
+    }
+
+    geojson <- geojson_sf_obj |>
+      geojsonsf::sf_geojson(atomise = TRUE) |>
+      jsonlite::fromJSON(simplifyVector = FALSE)
+  }
+
   ## Validate key -------------------------------------------------------------
   if (!rlang::is_string(key) || !nzchar(key)) {
     rlang::abort("No API token found. Set `GFW_TOKEN` or pass `key`.")
@@ -125,7 +233,9 @@ gfw_create_bulk_report <- function(name = NULL,
   req_body <- list(
     name = name,
     dataset = dataset,
+    geojson = geojson,
     format = format,
+    region = region,
     filters = filters
   ) |> purrr::discard(is.null)
 
