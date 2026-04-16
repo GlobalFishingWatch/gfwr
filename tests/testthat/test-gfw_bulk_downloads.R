@@ -751,7 +751,7 @@ test_that("gfw_get_bulk_report_file_download_url: returns bulk report tibble", {
   })
 })
 
-# gfw_gfw_get_all_bulk_reports ------------------------------------------------
+# gfw_get_all_bulk_reports ------------------------------------------------
 
 ## Validate limit -------------------------------------------------------------
 
@@ -962,6 +962,123 @@ test_that("gfw_get_all_bulk_reports: empty entries returns empty tibble", {
 
       expect_s3_class(resp, "tbl_df")
       expect_equal(nrow(resp), 0)
+    })
+  })
+})
+
+# gfw_wait_for_bulk_report ----------------------------------------------------
+
+test_that("gfw_wait_for_bulk_report: returns bulk report tibble when status is 'done'", {
+  with_gfw_mocked_envvar({
+    mocked_id <- "adbb9b62-5c08-4142-82e0-b2b575f3e058"
+    mocked_url <- curl::curl_modify_url(gfw_base_url(), path = glue::glue("bulk-reports/{mocked_id}"))
+
+    mocked_resp_body <- with_gfw_json_fixture("bulk_downloads/bulk_report_item.json")
+    mocked_resp_body$status <- "done"
+
+    mocked_resp <- function(req) {
+      httr2::response_json(
+        status_code = 200,
+        url = mocked_url,
+        body = mocked_resp_body
+      )
+    }
+
+    httr2::with_mocked_responses(mocked_resp, {
+      resp <- gfw_wait_for_bulk_report(
+        id = mocked_id,
+        initial_delay = 0.1
+      )
+
+      expect_equal(resp$status[[1]], "done")
+    })
+  })
+})
+
+test_that("gfw_wait_for_bulk_report: returns bulk report tibble when status is 'failed'", {
+  with_gfw_mocked_envvar({
+    mocked_id <- "adbb9b62-5c08-4142-82e0-b2b575f3e058"
+    mocked_url <- curl::curl_modify_url(gfw_base_url(), path = glue::glue("bulk-reports/{mocked_id}"))
+
+    mocked_resp_body <- with_gfw_json_fixture("bulk_downloads/bulk_report_item.json")
+    mocked_resp_body$status <- "failed"
+
+    mocked_resp <- function(req) {
+      httr2::response_json(
+        status_code = 200,
+        url = mocked_url,
+        body = mocked_resp_body
+      )
+    }
+
+    httr2::with_mocked_responses(mocked_resp, {
+      resp <- gfw_wait_for_bulk_report(
+        id = mocked_id,
+        initial_delay = 0.1
+      )
+
+      expect_equal(resp$status[[1]], "failed")
+    })
+  })
+})
+
+test_that("gfw_wait_for_report: polls and returns bulk report tibble when status is 'failed'", {
+  with_gfw_mocked_envvar({
+    mocked_id <- "adbb9b62-5c08-4142-82e0-b2b575f3e058"
+    mocked_url <- curl::curl_modify_url(gfw_base_url(), path = glue::glue("bulk-reports/{mocked_id}"))
+
+    mocked_resp_body <- with_gfw_json_fixture("bulk_downloads/bulk_report_item.json")
+
+    poll_counter <- 0
+
+    mocked_resp <- function(req) {
+      poll_counter <<- poll_counter + 1
+      poll_status <- if (poll_counter == 1) "processing" else "done"
+      mocked_resp_body$status <- poll_status
+      httr2::response_json(
+        status_code = 200,
+        url = mocked_url,
+        body = mocked_resp_body
+      )
+    }
+
+    httr2::with_mocked_responses(mocked_resp, {
+      resp <- gfw_wait_for_bulk_report(
+        id = mocked_id,
+        initial_delay = 0.1
+      )
+
+      expect_equal(resp$status[[1]], "done")
+      expect_equal(poll_counter, 2)
+    })
+  })
+})
+
+test_that("gfw_wait_for_bulk_report: `max_runtime` triggers error", {
+  with_gfw_mocked_envvar({
+    mocked_id <- "adbb9b62-5c08-4142-82e0-b2b575f3e058"
+    mocked_url <- curl::curl_modify_url(gfw_base_url(), path = glue::glue("bulk-reports/{mocked_id}"))
+
+    mocked_resp_body <- with_gfw_json_fixture("bulk_downloads/bulk_report_item.json")
+    mocked_resp_body$status <- "processing"
+
+    mocked_resp <- function(req) {
+      httr2::response_json(
+        status_code = 200,
+        url = mocked_url,
+        body = mocked_resp_body
+      )
+    }
+
+    httr2::with_mocked_responses(mocked_resp, {
+      expect_error(
+        gfw_wait_for_bulk_report(
+          id = mocked_id,
+          max_runtime = 0.1,
+          initial_delay = 0.1
+        ),
+        regexp = "Max runtime"
+      )
     })
   })
 })
