@@ -1082,3 +1082,261 @@ test_that("gfw_wait_for_bulk_report: `max_runtime` triggers error", {
     })
   })
 })
+
+# gfw_download_bulk_report_file -----------------------------------------------
+
+## Validate url ---------------------------------------------------------------
+
+test_that("gfw_download_bulk_report_file: missing url triggers error", {
+  with_gfw_mocked_envvar({
+    expect_error(
+      gfw_download_bulk_report_file(
+        url = NULL
+      ),
+      regexp = "`url` is required"
+    )
+  })
+})
+
+test_that("gfw_download_bulk_report_file: empty or NA url triggers error", {
+  with_gfw_mocked_envvar({
+    expect_error(
+      gfw_download_bulk_report_file(
+        url = ""
+      ),
+      regexp = "`url` is required"
+    )
+
+    expect_error(
+      gfw_download_bulk_report_file(
+        url = NA_character_
+      ),
+      regexp = "`url` is required"
+    )
+  })
+})
+
+test_that("gfw_download_bulk_report_file: invalid url triggers error", {
+  with_gfw_mocked_envvar({
+    expect_error(
+      gfw_download_bulk_report_file(
+        url = "INVALID-URL"
+      ),
+      regexp = "`url` must be a valid"
+    )
+  })
+})
+
+test_that("gfw_download_bulk_report_file: invalid url path triggers error", {
+  with_gfw_mocked_envvar({
+    mocked_url <- curl::curl_modify_url(gfw_base_url(), path = "data.csv.gz")
+
+    expect_error(
+      gfw_download_bulk_report_file(
+        url = mocked_url
+      ),
+      regexp = "`url` path structure must follow"
+    )
+  })
+})
+
+## Validate key ---------------------------------------------------------------
+
+test_that("gfw_download_bulk_report_file: NULL key triggers error", {
+  mocked_id <- "adbb9b62-5c08-4142-82e0-b2b575f3e058"
+  mocked_url <- curl::curl_modify_url(
+    gfw_base_url(),
+    path = glue::glue("api-bulk-release-us-central1/{mocked_id}/data.csv.gz")
+  )
+
+  expect_error(
+    gfw_download_bulk_report_file(
+      url = mocked_url,
+      key = NULL
+    ),
+    regexp = "No API token found"
+  )
+})
+
+test_that("gfw_download_bulk_report_file: empty key triggers error", {
+  mocked_id <- "adbb9b62-5c08-4142-82e0-b2b575f3e058"
+  mocked_url <- curl::curl_modify_url(
+    gfw_base_url(),
+    path = glue::glue("api-bulk-release-us-central1/{mocked_id}/data.csv.gz")
+  )
+
+  expect_error(
+    gfw_download_bulk_report_file(
+      url = mocked_url,
+      key = ""
+    ),
+    regexp = "No API token found"
+  )
+})
+
+test_that("gfw_download_bulk_report_file: NA envvar token triggers error", {
+  withr::with_envvar(c(GFW_TOKEN = NA_character_), {
+    mocked_id <- "adbb9b62-5c08-4142-82e0-b2b575f3e058"
+    mocked_url <- curl::curl_modify_url(
+      gfw_base_url(),
+      path = glue::glue("api-bulk-release-us-central1/{mocked_id}/data.csv.gz")
+    )
+
+    expect_error(
+      gfw_download_bulk_report_file(
+        url = mocked_url,
+      ),
+      regexp = "No API token found"
+    )
+  })
+})
+
+## API request ----------------------------------------------------------------
+
+test_that("gfw_download_bulk_report_file: download file into `data_dir`", {
+  with_gfw_mocked_envvar({
+    mocked_id <- "adbb9b62-5c08-4142-82e0-b2b575f3e058"
+    mocked_file <- "README.md"
+    mocked_url <- curl::curl_modify_url(
+      gfw_base_url(),
+      path = glue::glue("bulk-reports/{mocked_id}/{mocked_file}")
+    )
+    mocked_data_dir <- withr::local_tempdir()
+
+    mocked_resp_body <- with_gfw_file_fixture("bulk_downloads/build_report_readme.md")
+
+    mock_req_perform <- function(req, path = NULL, ...) {
+      if (!is.null(path)) {
+        writeBin(mocked_resp_body, path)
+      }
+
+      resp <- httr2::response(
+        status_code = 200,
+        url = mocked_url,
+        headers = list("Content-Type" = "text/plain; charset=utf-8"),
+        body = mocked_resp_body
+      )
+
+      return(resp)
+    }
+
+    with_mocked_bindings(
+      req_perform = mock_req_perform,
+      {
+        file_path <- gfw_download_bulk_report_file(
+          url = mocked_url,
+          data_dir = mocked_data_dir
+        )
+
+        expect_match(file_path, regexp = glue::glue("{mocked_id}/{mocked_file}"))
+        expect_match(file_path, regexp = mocked_data_dir)
+        expect_true(dir.exists(dirname(file_path)))
+        expect_true(startsWith(file_path, mocked_data_dir))
+        expect_true(dir.exists(file.path(mocked_data_dir, "bulk-reports")))
+        expect_true(dir.exists(file.path(mocked_data_dir, "bulk-reports", mocked_id)))
+        expect_true(file.exists(file_path), info = file_path)
+        expect_identical(readBin(file_path, what = "raw", n = file.info(file_path)$size), mocked_resp_body)
+      },
+      .package = "httr2"
+    )
+  })
+})
+
+
+test_that("gfw_download_bulk_report_file: download file into `GFW_DATA_DIR`", {
+  with_gfw_mocked_envvar({
+    mocked_id <- "adbb9b62-5c08-4142-82e0-b2b575f3e058"
+    mocked_file <- "README.md"
+    mocked_url <- curl::curl_modify_url(
+      gfw_base_url(),
+      path = glue::glue("bulk-reports/{mocked_id}/{mocked_file}")
+    )
+
+    mocked_resp_body <- with_gfw_file_fixture("bulk_downloads/build_report_readme.md")
+
+    mock_req_perform <- function(req, path = NULL, ...) {
+      if (!is.null(path)) {
+        writeBin(mocked_resp_body, path)
+      }
+
+      resp <- httr2::response(
+        status_code = 200,
+        url = mocked_url,
+        headers = list("Content-Type" = "text/plain; charset=utf-8"),
+        body = mocked_resp_body
+      )
+
+      return(resp)
+    }
+
+    with_mocked_bindings(
+      req_perform = mock_req_perform,
+      {
+        file_path <- gfw_download_bulk_report_file(
+          url = mocked_url
+        )
+
+        expect_match(file_path, regexp = glue::glue("{mocked_id}/{mocked_file}"))
+        expect_match(file_path, regexp = MOCK_GFW_DATA_DIR)
+        expect_true(dir.exists(dirname(file_path)))
+        expect_true(startsWith(file_path, MOCK_GFW_DATA_DIR))
+        expect_true(dir.exists(file.path(MOCK_GFW_DATA_DIR, "bulk-reports")))
+        expect_true(dir.exists(file.path(MOCK_GFW_DATA_DIR, "bulk-reports", mocked_id)))
+        expect_true(file.exists(file_path), info = file_path)
+        expect_identical(readBin(file_path, what = "raw", n = file.info(file_path)$size), mocked_resp_body)
+      },
+      .package = "httr2"
+    )
+  })
+})
+
+test_that("gfw_download_bulk_report_file: download file into `R_user_dir` cache", {
+  with_gfw_mocked_envvar({
+    mocked_id <- "adbb9b62-5c08-4142-82e0-b2b575f3e058"
+    mocked_file <- "README.md"
+    mocked_url <- curl::curl_modify_url(
+      gfw_base_url(),
+      path = glue::glue("bulk-reports/{mocked_id}/{mocked_file}")
+    )
+    mocked_data_dir <- withr::local_tempdir()
+
+    mocked_resp_body <- with_gfw_file_fixture("bulk_downloads/build_report_readme.md")
+
+    mock_req_perform <- function(req, path = NULL, ...) {
+      if (!is.null(path)) {
+        writeBin(mocked_resp_body, path)
+      }
+
+      resp <- httr2::response(
+        status_code = 200,
+        url = mocked_url,
+        headers = list("Content-Type" = "text/plain; charset=utf-8"),
+        body = mocked_resp_body
+      )
+
+      return(resp)
+    }
+
+    local_mocked_bindings(R_user_dir = function(...) mocked_data_dir, .package = "tools")
+
+    with_mocked_bindings(
+      req_perform = mock_req_perform,
+      {
+        file_path <- gfw_download_bulk_report_file(
+          url = mocked_url,
+          data_dir = mocked_data_dir
+        )
+
+        expect_match(file_path, regexp = glue::glue("{mocked_id}/{mocked_file}"))
+        expect_match(file_path, regexp = mocked_data_dir)
+        expect_true(dir.exists(dirname(file_path)))
+        expect_true(startsWith(file_path, mocked_data_dir))
+        expect_true(dir.exists(file.path(mocked_data_dir, "bulk-reports")))
+        expect_true(dir.exists(file.path(mocked_data_dir, "bulk-reports", mocked_id)))
+        expect_true(file.exists(file_path), info = file_path)
+        expect_identical(readBin(file_path, what = "raw", n = file.info(file_path)$size), mocked_resp_body)
+      },
+      .package = "httr2"
+    )
+  })
+})

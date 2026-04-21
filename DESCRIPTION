@@ -23,6 +23,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Imports: 
     class,
+    cli,
     dplyr,
     geojsonsf,
     glue,

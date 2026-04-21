@@ -1,0 +1,1 @@
+Offshore infrastructure between 2017 to 3 months ago that were detected with satellite imagery and classified with deep learning ([Paolo et al. 2024, Nature](https://www.nature.com/articles/s41586-023-06825-8)).
