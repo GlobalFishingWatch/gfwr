@@ -34,7 +34,14 @@ endpoints.
 
 We discuss basic identity markers, why Vessel ID was created, the structure of 
 the `gfw_vessel_info()` response and how to get __`vesselId`__ for use in the 
-functions `gfw_event()` and `gfw_event_stats()`. 
+functions `gfw_event()` and `gfw_event_stats()`.
+
+> **Note:**
+> See the [Datasets](https://globalfishingwatch.org/our-apis/documentation#api-dataset), 
+[Vessel Data Caveats](https://globalfishingwatch.org/our-apis/documentation#vessel-api-vessel-identity-information), 
+and [Terms of Use](https://globalfishingwatch.org/our-apis/documentation#terms-of-use) pages in the 
+[GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#introduction) 
+for details on GFW data, API licenses, and rate limits.
 
 
 ## Automatic Identification System (AIS) 

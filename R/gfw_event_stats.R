@@ -53,6 +53,14 @@
 #' details about the various event types, see the
 #' [GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#data-caveat).
 #'
+#' For detailed information about the Events Statistics API, please refer to the official
+#' Global Fishing Watch API documentation:
+#' - https://globalfishingwatch.org/our-apis/documentation#statistics-on-events-post
+#'
+#' For more details on the Events API data caveats, please refer to the official
+#' Global Fishing Watch API documentation:
+#' - https://globalfishingwatch.org/our-apis/documentation#how-are-the-events-estimated
+#'
 #' @examples
 #' \dontrun{
 #' library(gfwr)
@@ -224,7 +232,10 @@ gfw_event_stats <- function(event_type,
 
     #
     if (quiet == FALSE) {
-      print(paste("There are", df_out$numEvents, tolower(event_type), "events for ", df_out$numVessels, " vessels from ", df_out$numFlags, "flag(s) in the selected area in the Global Fishing Watch database"))
+      print(paste("There are", df_out$numEvents, tolower(event_type),
+                  "events for ", df_out$numVessels, " vessels from ",
+                  df_out$numFlags,
+                  "flag(s) in the selected area in the Global Fishing Watch database"))
     }
   } else {
     if (quiet == FALSE) {

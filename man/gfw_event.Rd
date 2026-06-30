@@ -103,6 +103,18 @@ separated by a \code{.}. The first component is the unique id for the encounter
 event and will be the same for all vessels involved in the encounter. The
 second component is an integer used to distinguish between different vessels
 in the encounter.
+
+For detailed information about the Events API, please refer to the official
+Global Fishing Watch API documentation:
+\itemize{
+\item https://globalfishingwatch.org/our-apis/documentation#events-api
+}
+
+For more details on the Events API data caveats, please refer to the official
+Global Fishing Watch API documentation:
+\itemize{
+\item https://globalfishingwatch.org/our-apis/documentation#how-are-the-events-estimated
+}
 }
 \examples{
 \dontrun{

@@ -111,7 +111,8 @@
 #'   vessels = c("2d26aa452-2d4f-4cae-2ec4-377f85e88dcb")
 #' )
 #'
-#' # Retrieve flag state presence under the Tokyo/Paris MOU black or grey lists insights for a single vessel
+#' # Retrieve flag state presence under the Tokyo/Paris MOU black or grey lists
+#' # insights for a single vessel
 #' mou_insights <- gfw_vessel_insights(
 #'   includes = c("VESSEL-IDENTITY-MOU-LIST"),
 #'   start_date = "2020-01-01",

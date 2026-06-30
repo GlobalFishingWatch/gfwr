@@ -39,6 +39,14 @@
 #'  + `15-25` – 15 to 25 knots
 #'  + `>25` – Greater than 25 knots
 #'
+#' For detailed information about the 4Wings AIS vessel presence API, please refer to the official
+#' Global Fishing Watch API documentation:
+#' - https://globalfishingwatch.org/our-apis/documentation#ais-vessel-presence
+#'
+#' For more details on the 4Wings AIS vessel presence API data caveats, please refer to the official
+#' Global Fishing Watch API documentation:
+#' - https://globalfishingwatch.org/our-apis/documentation#ais-vessel-presence-caveats
+#'
 #' @param key Character, API token. Defaults to [gfw_auth()].
 #' @param print_request Boolean. Whether to print the request, for debugging
 #' purposes. When contacting the GFW team it will be useful to send this string.

@@ -52,6 +52,19 @@ purposes. When contacting the GFW team it will be useful to send this string.}
 \description{
 Retrieve apparent fishing hours derived from AIS data and convert response to tibble
 }
+\details{
+For detailed information about the 4Wings AIS apparent fishing hours API, please refer to the official
+Global Fishing Watch API documentation:
+\itemize{
+\item https://globalfishingwatch.org/our-apis/documentation#ais-apparent-fishing-effort
+}
+
+For more details on the 4Wings apparent fishing hours API data caveats, please refer to the official
+Global Fishing Watch API documentation:
+\itemize{
+\item https://globalfishingwatch.org/our-apis/documentation#apparent-fishing-effort
+}
+}
 \examples{
 \dontrun{
 library(gfwr)

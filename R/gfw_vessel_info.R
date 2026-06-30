@@ -59,6 +59,15 @@
 #' `"POTENTIAL_RELATED_SELF_REPORTED_INFO"` and will returns all potential
 #' related self-reported vessel information mentioned above.
 #'
+#' For detailed information about the Vessels API, please refer to the official
+#' Global Fishing Watch API documentation:
+#' - https://globalfishingwatch.org/our-apis/documentation#vessels-api
+#'
+#' For more details on the Vessels API data caveats, please refer to the official
+#' Global Fishing Watch API documentation:
+#' - https://globalfishingwatch.org/our-apis/documentation#vessel-api-vessel-identity-information
+#' - https://globalfishingwatch.org/our-apis/documentation#api-dataset
+#'
 #' @references Park, J., Van Osdel, J., Turner, J., Farthing, C.M., Miller, N.A.,
 #' Linder, H.L., Ortuño Crespo, G., Carmine, G., Kroodsma, D.A., 2023. Tracking
 #' elusive and shifting identities of the global fishing fleet. Science Advances

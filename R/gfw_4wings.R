@@ -5,6 +5,17 @@
 #' split because the source data (AIS vs SAR) their documentation and parameters
 #' differ
 #'
+#' @details
+#' For detailed information about the 4Wings API, please refer to the official
+#' Global Fishing Watch API documentation:
+#' - https://globalfishingwatch.org/our-apis/documentation#map-visualization-4wings-api
+#'
+#' For more details on the 4Wings API data caveats, please refer to the official
+#' Global Fishing Watch API documentation:
+#' - https://globalfishingwatch.org/our-apis/documentation#apparent-fishing-effort
+#' - https://globalfishingwatch.org/our-apis/documentation#sar-vessel-detections-data-caveats
+#' - https://globalfishingwatch.org/our-apis/documentation#ais-vessel-presence-caveats
+#'
 #' @param api_endpoint API endpoint
 #' @param spatial_resolution Raster spatial resolution. Can be `"LOW"` (0.1 degree)
 #'  or `"HIGH"` (0.01 degree).

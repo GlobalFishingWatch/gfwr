@@ -42,6 +42,15 @@
 #' - `geartype` – Fishing gear type (when matched with AIS) → View [supported gear types](https://globalfishingwatch.org/our-apis/documentation#gear-types-supported). Example: `"geartype in ('tuna_purse_seines', 'driftnets')"`
 #' - `neural_vessel_type` – AI classification based on neural network model. Values: <= 0.1: "Likely non-fishing", >= 0.9: "Likely fishing", 0.1 - 0.9: "Other/Unknown"
 #' - `shiptype` – Vessel type classification (when matched with AIS) → See [Vessel types](https://globalfishingwatch.org/our-apis/documentation#vessel-types)
+#'
+#' For detailed information about the 4Wings SAR vessel detections API, please refer to the official
+#' Global Fishing Watch API documentation:
+#' - https://globalfishingwatch.org/our-apis/documentation#sar-vessel-detections
+#'
+#' For more details on the 4Wings SAR vessel detections API data caveats, please refer to the official
+#' Global Fishing Watch API documentation:
+#' - https://globalfishingwatch.org/our-apis/documentation#sar-vessel-detections-data-caveats
+#'
 #' @examples
 #' \dontrun{
 #' library(gfwr)

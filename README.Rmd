@@ -53,8 +53,11 @@ based on AIS data
 
 
 > **Note**:
-> See the [Terms of Use](https://globalfishingwatch.org/our-apis/documentation#reference-data) 
-page for Global Fishing Watch APIs for information on our API licenses and rate limits.
+> See the [Datasets](https://globalfishingwatch.org/our-apis/documentation#api-dataset), 
+[Data Caveats](https://globalfishingwatch.org/our-apis/documentation#data-caveat), and 
+[Terms of Use](https://globalfishingwatch.org/our-apis/documentation#terms-of-use) pages in the 
+[GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#introduction) for 
+details on GFW data, API licenses, and rate limits.
 
 
 ## Installation
@@ -129,6 +132,13 @@ The examples in the package documentation will omit an explicit call to key.
 
 The `gfw_vessel_info()` function allows you to get vessel identity details from
 the [Vessels API](https://globalfishingwatch.org/our-apis/documentation#introduction-vessels-api).
+
+> **Note:**
+> See the [Datasets](https://globalfishingwatch.org/our-apis/documentation#api-dataset), 
+[Vessel Data Caveats](https://globalfishingwatch.org/our-apis/documentation#vessel-api-vessel-identity-information), 
+and [Terms of Use](https://globalfishingwatch.org/our-apis/documentation#terms-of-use) pages in the 
+[GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#introduction) 
+for details on GFW data, API licenses, and rate limits.
 
 There are two search types: `search`, and `id`.
 
@@ -208,8 +218,13 @@ from the
 Event types include apparent fishing events, potential transshipment events 
 (two-vessel encounters and loitering by refrigerated carrier vessels), port 
 visits, and AIS-disabling events ("gaps").
-Find more information about events in our 
-[caveat documentation](https://globalfishingwatch.org/our-apis/documentation#data-caveat).
+
+> **Note:**
+> See the [Datasets](https://globalfishingwatch.org/our-apis/documentation#api-dataset), 
+[Events Data Caveats](https://globalfishingwatch.org/our-apis/documentation#how-are-the-events-estimated), and 
+[Terms of Use](https://globalfishingwatch.org/our-apis/documentation#terms-of-use) pages in the 
+[GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#introduction) 
+for details on GFW data, API licenses, and rate limits.
 
 ### Events in a given time range
 
@@ -407,6 +422,12 @@ filter the raster
 * The source for the specified region. Currently, `EEZ`, `MPA`, `RFMO` or 
 `USER_SHAPEFILE` (for `sf` shapefiles).
 
+> **Note:**
+> See the [Datasets](https://globalfishingwatch.org/our-apis/documentation#api-dataset), 
+[AIS Apparent Fishing Hours Data Caveats](https://globalfishingwatch.org/our-apis/documentation#apparent-fishing-effort), and 
+[Terms of Use](https://globalfishingwatch.org/our-apis/documentation#terms-of-use) pages in the 
+[GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#introduction) 
+for details on GFW data, API licenses, and rate limits.
 
 ### User-defined shapefile
 
@@ -436,6 +457,14 @@ gfw_ais_fishing_hours(spatial_resolution = "LOW",
 If you want raster data from a particular EEZ, you can use the `gfw_region_id()`
 function to get the EEZ id, and enter that code in the `region` argument
 of `gfw_ais_fishing_hours()` instead of the region shapefile (with `region_source = "EEZ"`):
+
+> **Note:**
+> See the [Datasets](https://globalfishingwatch.org/our-apis/documentation#api-dataset), 
+[Region Datasets](https://globalfishingwatch.org/our-apis/documentation#regions), 
+[EEZs Data Caveats](https://globalfishingwatch.org/our-apis/documentation#exclusive-economic-zone-boundaries-definitions), and 
+[Terms of Use](https://globalfishingwatch.org/our-apis/documentation#terms-of-use) pages in the 
+[GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#introduction) 
+for details on GFW data, API licenses, and rate limits.
 
 ```{r example_map_2, eval= TRUE}
 # use EEZ function to get EEZ code of Cote d'Ivoire
@@ -476,6 +505,14 @@ gfw_ais_fishing_hours(spatial_resolution = "LOW",
 A similar approach can be used to search for a specific Marine Protected Area,
 in this case the Phoenix Island Protected Area (PIPA)
 
+> **Note:**
+> See the [Datasets](https://globalfishingwatch.org/our-apis/documentation#api-dataset), 
+[Region Datasets](https://globalfishingwatch.org/our-apis/documentation#regions), 
+[MPAs Data Caveats](https://globalfishingwatch.org/our-apis/documentation#marine-protected-area-boundaries-definition-2), and 
+[Terms of Use](https://globalfishingwatch.org/our-apis/documentation#terms-of-use) pages in the 
+[GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#introduction) 
+for details on GFW data, API licenses, and rate limits.
+
 ```{r example_map_4, eval= TRUE}
 # use region id function to get MPA code of Phoenix Island Protected Area
 code_mpa <- gfw_region_id(region = "Phoenix",
@@ -495,6 +532,14 @@ gfw_ais_fishing_hours(spatial_resolution = "LOW",
 It is also possible to filter rasters to regional fisheries management 
 organizations (RFMO) like `"ICCAT"`, `"IATTC"`, `"IOTC"`, `"CCSBT"` and
 `"WCPFC"`.
+
+> **Note:**
+> See the [Datasets](https://globalfishingwatch.org/our-apis/documentation#api-dataset), 
+[Region Datasets](https://globalfishingwatch.org/our-apis/documentation#regions), 
+[RFMOs Data Caveats](https://globalfishingwatch.org/our-apis/documentation#what-does-it-mean-if-an-event-is-within-a-specific-geographic-area-such-as-an-eez-mpa-or-rfmo) and 
+[Terms of Use](https://globalfishingwatch.org/our-apis/documentation#terms-of-use) pages in the 
+[GFW API documentation](https://globalfishingwatch.org/our-apis/documentation#introduction) 
+for details on GFW data, API licenses, and rate limits.
 
 
 ```{r example_map_5, eval=T}
