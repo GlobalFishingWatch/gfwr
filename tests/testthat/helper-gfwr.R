@@ -72,3 +72,27 @@ with_gfw_mocked_envvar <- function(code) {
     GFW_TOKEN = MOCK_GFW_TOKEN
   ), code)
 }
+
+#' Load a JSON fixture for testing
+#'
+#' @description
+#' Reads a JSON file from `tests/testthat/fixtures/` and converts it
+#' into an R object. This is useful for mocking API responses or
+#' providing consistent test data.
+#'
+#' @param filename Name of the JSON file in the `fixtures` folder.
+#'
+#' @return An R list or data frame representing the JSON contents.
+#' @keywords testing internal
+#'
+#' @examples
+#' \dontrun{
+#' fixture <- with_json_fixture("sample.json")
+#' fixture$id # access elements
+#' fixture$name
+#' }
+with_gfw_json_fixture <- function(filename) {
+  fixture_path <- testthat::test_path("fixtures", filename)
+  fixture_data <- jsonlite::fromJSON(fixture_path, simplifyVector = FALSE)
+  return(fixture_data) # nolint: return_linter.
+}
