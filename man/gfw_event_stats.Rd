@@ -83,6 +83,18 @@ Port visits (\code{event_type = "PORT_VISIT"}) and encounters
 (\code{event_type = "ENCOUNTER"}) are available for all vessel types. For more
 details about the various event types, see the
 \href{https://globalfishingwatch.org/our-apis/documentation#data-caveat}{GFW API documentation}.
+
+For detailed information about the Events Statistics API, please refer to the official
+Global Fishing Watch API documentation:
+\itemize{
+\item https://globalfishingwatch.org/our-apis/documentation#statistics-on-events-post
+}
+
+For more details on the Events API data caveats, please refer to the official
+Global Fishing Watch API documentation:
+\itemize{
+\item https://globalfishingwatch.org/our-apis/documentation#how-are-the-events-estimated
+}
 }
 \examples{
 \dontrun{

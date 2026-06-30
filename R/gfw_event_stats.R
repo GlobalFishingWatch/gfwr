@@ -232,7 +232,10 @@ gfw_event_stats <- function(event_type,
 
     #
     if (quiet == FALSE) {
-      print(paste("There are", df_out$numEvents, tolower(event_type), "events for ", df_out$numVessels, " vessels from ", df_out$numFlags, "flag(s) in the selected area in the Global Fishing Watch database"))
+      print(paste("There are", df_out$numEvents, tolower(event_type),
+                  "events for ", df_out$numVessels, " vessels from ",
+                  df_out$numFlags,
+                  "flag(s) in the selected area in the Global Fishing Watch database"))
     }
   } else {
     if (quiet == FALSE) {

@@ -56,4 +56,19 @@ It is used under the hood by \code{gfw_ais_} and \code{gfw_sar_} functions, whic
 split because the source data (AIS vs SAR) their documentation and parameters
 differ
 }
+\details{
+For detailed information about the 4Wings API, please refer to the official
+Global Fishing Watch API documentation:
+\itemize{
+\item https://globalfishingwatch.org/our-apis/documentation#map-visualization-4wings-api
+}
+
+For more details on the 4Wings API data caveats, please refer to the official
+Global Fishing Watch API documentation:
+\itemize{
+\item https://globalfishingwatch.org/our-apis/documentation#apparent-fishing-effort
+\item https://globalfishingwatch.org/our-apis/documentation#sar-vessel-detections-data-caveats
+\item https://globalfishingwatch.org/our-apis/documentation#ais-vessel-presence-caveats
+}
+}
 \keyword{internal}

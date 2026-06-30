@@ -70,6 +70,18 @@ ranges are the following:
 \item \code{15-25} – 15 to 25 knots
 \item \verb{>25} – Greater than 25 knots
 }
+
+For detailed information about the 4Wings AIS vessel presence API, please refer to the official
+Global Fishing Watch API documentation:
+\itemize{
+\item https://globalfishingwatch.org/our-apis/documentation#ais-vessel-presence
+}
+
+For more details on the 4Wings AIS vessel presence API data caveats, please refer to the official
+Global Fishing Watch API documentation:
+\itemize{
+\item https://globalfishingwatch.org/our-apis/documentation#ais-vessel-presence-caveats
+}
 }
 \examples{
 \dontrun{

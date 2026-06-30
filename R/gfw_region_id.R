@@ -8,13 +8,11 @@
 #'
 #' For more details on the Regions API data caveats, please refer to the official
 #' Global Fishing Watch API documentation:
-#' - https://globalfishingwatch.org/our-apis/documentation#exclusive-economic-zone-boundaries-definition
+#' - https://globalfishingwatch.org/our-apis/documentation#exclusive-economic-zone-boundaries-definitions
 #' - https://globalfishingwatch.org/our-apis/documentation#marine-protected-area-boundaries-definition
 #' - https://globalfishingwatch.org/our-apis/documentation#what-does-it-mean-if-an-event-is-within-a-specific-geographic-area-such-as-an-eez-mpa-or-rfmo
 #' - https://globalfishingwatch.org/our-apis/documentation#how-does-gfw-calculate-that-an-event-has-a-publicly-listed-authorization
 #' - https://globalfishingwatch.org/our-apis/documentation#insights-api-rfmo-iuu-vessel-list
-#' - https://globalfishingwatch.org/our-apis/documentation#exclusive-economic-zone-boundaries-definitions
-#' - https://globalfishingwatch.org/our-apis/documentation#marine-protected-area-boundaries-definition-2
 #'
 #' @param region_source string, source of region data ("EEZ", "MPA", "RFMO')
 #' @param key Character, API token. Defaults to [gfw_auth()].
@@ -71,13 +69,11 @@ gfw_regions <- function(region_source = "EEZ",
 #'
 #' For more details on the Regions API data caveats, please refer to the official
 #' Global Fishing Watch API documentation:
-#' - https://globalfishingwatch.org/our-apis/documentation#exclusive-economic-zone-boundaries-definition
+#' - https://globalfishingwatch.org/our-apis/documentation#exclusive-economic-zone-boundaries-definitions
 #' - https://globalfishingwatch.org/our-apis/documentation#marine-protected-area-boundaries-definition
 #' - https://globalfishingwatch.org/our-apis/documentation#what-does-it-mean-if-an-event-is-within-a-specific-geographic-area-such-as-an-eez-mpa-or-rfmo
 #' - https://globalfishingwatch.org/our-apis/documentation#how-does-gfw-calculate-that-an-event-has-a-publicly-listed-authorization
 #' - https://globalfishingwatch.org/our-apis/documentation#insights-api-rfmo-iuu-vessel-list
-#' - https://globalfishingwatch.org/our-apis/documentation#exclusive-economic-zone-boundaries-definitions
-#' - https://globalfishingwatch.org/our-apis/documentation#marine-protected-area-boundaries-definition-2
 #'
 #' @name gfw_region_id
 #' @param region Character or numeric EEZ MPA or RFMO name or id.

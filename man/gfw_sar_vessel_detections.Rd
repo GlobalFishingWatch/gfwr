@@ -60,6 +60,18 @@ Possible filter options are:
 \item \code{neural_vessel_type} – AI classification based on neural network model. Values: <= 0.1: "Likely non-fishing", >= 0.9: "Likely fishing", 0.1 - 0.9: "Other/Unknown"
 \item \code{shiptype} – Vessel type classification (when matched with AIS) → See \href{https://globalfishingwatch.org/our-apis/documentation#vessel-types}{Vessel types}
 }
+
+For detailed information about the 4Wings SAR vessel detections API, please refer to the official
+Global Fishing Watch API documentation:
+\itemize{
+\item https://globalfishingwatch.org/our-apis/documentation#sar-vessel-detections
+}
+
+For more details on the 4Wings SAR vessel detections API data caveats, please refer to the official
+Global Fishing Watch API documentation:
+\itemize{
+\item https://globalfishingwatch.org/our-apis/documentation#sar-vessel-detections-data-caveats
+}
 }
 \examples{
 \dontrun{

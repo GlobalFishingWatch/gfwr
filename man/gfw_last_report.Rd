@@ -18,7 +18,19 @@ will download the results if the request has finished successfully. You will rec
 if the request finished but resulted in an error or if it's been >30 minutes since the last report was
 generated using \code{\link[=gfw_ais_fishing_hours]{gfw_ais_fishing_hours()}}.
 
-For more information, see the https://globalfishingwatch.org/our-apis/documentation#get-last-report-generated.
+For detailed information about the 4Wings last report generated API, please refer to the official
+Global Fishing Watch API documentation:
+\itemize{
+\item https://globalfishingwatch.org/our-apis/documentation#get-last-report-generated
+}
+
+For more details on the 4Wings last report generated API data caveats, please refer to the official
+Global Fishing Watch API documentation:
+\itemize{
+\item https://globalfishingwatch.org/our-apis/documentation#apparent-fishing-effort
+\item https://globalfishingwatch.org/our-apis/documentation#sar-vessel-detections-data-caveats
+\item https://globalfishingwatch.org/our-apis/documentation#ais-vessel-presence-caveats
+}
 }
 \examples{
 \dontrun{

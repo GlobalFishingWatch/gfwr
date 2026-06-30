@@ -2,16 +2,41 @@
 % Please edit documentation in R/utils.R
 \name{parse_response_error}
 \alias{parse_response_error}
-\title{Helper function to parse error message data
-and display appropriately to user}
+\title{Parse a GFW API error response into a structured, user-friendly format}
 \usage{
 parse_response_error(resp)
 }
+\arguments{
+\item{resp}{An \code{httr2} response object.}
+}
+\value{
+A list with:
+\itemize{
+\item \code{status_code} – character string API/HTTP status code
+\item \code{error}        – error name/description
+\item \code{messages}     – list of \verb{\{title, detail\}} entries
+\item \code{formatted}    – pretty multi-line summary
+}
+}
 \description{
-Helper function to parse error message data
-and display appropriately to user
+This function extracts detailed, structured error information from an
+\code{httr2} response object. It supports:
+\itemize{
+\item JSON error bodies that follow the GFW API error schema
+\item HTML error bodies (e.g., "413 Request Entity Too Large")
+}
 }
 \details{
-Taken from httr2 docs: https://httr2.r-lib.org/articles/wrapping-apis.html#sending-data
+Taken from httr2 docs: https://httr2.r-lib.org/articles/wrapping-apis.html
+}
+\examples{
+\dontrun{
+req <- httr2::request("https://gateway.api.globalfishingwatch.org/v3/4wings/report") |>
+  httr2::req_headers(Authorization = paste("Bearer", "...")) |>
+  httr2::req_error(body = \(resp) parse_response_error(resp)$formatted)
+
+resp <- req |> httr2::req_perform()
+}
+
 }
 \keyword{internal}

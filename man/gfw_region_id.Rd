@@ -27,6 +27,23 @@ for the EEZ, MPA or RFMO label
 \description{
 Function to pull region code using region name and viceversa
 }
+\details{
+For detailed information about the Regions API, please refer to the official
+Global Fishing Watch API documentation:
+\itemize{
+\item https://globalfishingwatch.org/our-apis/documentation#regions
+}
+
+For more details on the Regions API data caveats, please refer to the official
+Global Fishing Watch API documentation:
+\itemize{
+\item https://globalfishingwatch.org/our-apis/documentation#exclusive-economic-zone-boundaries-definitions
+\item https://globalfishingwatch.org/our-apis/documentation#marine-protected-area-boundaries-definition
+\item https://globalfishingwatch.org/our-apis/documentation#what-does-it-mean-if-an-event-is-within-a-specific-geographic-area-such-as-an-eez-mpa-or-rfmo
+\item https://globalfishingwatch.org/our-apis/documentation#how-does-gfw-calculate-that-an-event-has-a-publicly-listed-authorization
+\item https://globalfishingwatch.org/our-apis/documentation#insights-api-rfmo-iuu-vessel-list
+}
+}
 \examples{
 \dontrun{
 gfw_region_id(region = "COL", region_source = "EEZ")
