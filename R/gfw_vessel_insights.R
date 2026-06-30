@@ -3,7 +3,7 @@
 #' @description
 #' The Global Fishing Watch (GFW) Insights API provides a set of vessel-level
 #' analytical indicators ("vessel insights") that combine information on a
-#' vessel’s observed activity (primarily derived from AIS), vessel identity
+#' vessel's observed activity (primarily derived from AIS), vessel identity
 #' records, and publicly available authorizations.
 #'
 #' The primary objective of vessel insights is to support risk-based
@@ -23,8 +23,10 @@
 #' - Any apparent fishing events in no-take MPAs (`"FISHING"`)
 #' - Any apparent fishing events detected in areas with no known RFMO authorization (`"FISHING"`)
 #' - The vessel's AIS coverage metric (`"COVERAGE"`)
-#' - Any AIS off events (`"GAP"`)
+#' - Any AIS off/disabling events (`"GAP"`)
 #' - If the vessel is present on an RFMO IUU vessel list (`"VESSEL-IDENTITY-IUU-VESSEL-LIST"`)
+#' - The vessel's flag changes (`"VESSEL-IDENTITY-FLAG-CHANGES"`)
+#' - The vessel's flag state presence under the Tokyo/Paris MOU black or grey lists (`"VESSEL-IDENTITY-MOU-LIST"`)
 #'
 #' The function returns a single-row tibble with one list-column per insight
 #' type requested. Each list-column contains the data corresponding to that insight type.
@@ -39,11 +41,11 @@
 #' - https://globalfishingwatch.org/our-apis/documentation#what-does-it-mean-that-an-api-dataset-is-in-prototype-stage
 #' - https://globalfishingwatch.org/our-apis/documentation#insights-api-fishing-event-detected-outside-known-authorized-areas
 #' - https://globalfishingwatch.org/our-apis/documentation#insights-api-coverage
-#' - https://globalfishingwatch.org/our-apis/documentation#insights-api-rfmo-iuu-vessel-listx
+#' - https://globalfishingwatch.org/our-apis/documentation#insights-api-rfmo-iuu-vessel-list
 #'
 #' @param includes Required. Character vector of insight types to include in
-#' the response. Allowed values: `"FISHING"`, `"GAP"`, `"COVERAGE"`,
-#' `"VESSEL-IDENTITY-IUU-VESSEL-LIST"`. Example: `c("FISHING", "GAP")`.
+#' the response. Allowed values: `"COVERAGE"`, `"FISHING"`, `"GAP"`, `"VESSEL-IDENTITY-FLAG-CHANGES"`,
+#' `"VESSEL-IDENTITY-IUU-VESSEL-LIST"`, `"VESSEL-IDENTITY-MOU-LIST"`. Example: `c("FISHING", "GAP")`.
 #'
 #' @param start_date Required. The start date for the insights period in
 #' `"YYYY-MM-DD"` format or Date. Example: `"2020-01-01"`.
@@ -68,7 +70,7 @@
 #' \dontrun{
 #' library(gfwr)
 #'
-#' # Retrieve fishing-related insights for a single vessel
+#' # Retrieve apparent fishing-related insights for a single vessel
 #' fishing_insights <- gfw_vessel_insights(
 #'   includes = c("FISHING"),
 #'   start_date = "2020-01-01",
@@ -101,13 +103,31 @@
 #'   vessels = c("2d26aa452-2d4f-4cae-2ec4-377f85e88dcb")
 #' )
 #'
+#' # Retrieve flag changes insights for a single vessel
+#' flag_changes_insights <- gfw_vessel_insights(
+#'   includes = c("VESSEL-IDENTITY-FLAG-CHANGES"),
+#'   start_date = "2020-01-01",
+#'   end_date = "2025-03-03",
+#'   vessels = c("2d26aa452-2d4f-4cae-2ec4-377f85e88dcb")
+#' )
+#'
+#' # Retrieve flag state presence under the Tokyo/Paris MOU black or grey lists insights for a single vessel
+#' mou_insights <- gfw_vessel_insights(
+#'   includes = c("VESSEL-IDENTITY-MOU-LIST"),
+#'   start_date = "2020-01-01",
+#'   end_date = "2025-03-03",
+#'   vessels = c("2339c52c3-3a84-1603-f968-d8890f23e1ed")
+#' )
+#'
 #' # Retrieve all available insights for multiple vessels
 #' all_insights <- gfw_vessel_insights(
 #'   includes = c(
+#'     "COVERAGE",
 #'     "FISHING",
 #'     "GAP",
-#'     "COVERAGE",
-#'     "VESSEL-IDENTITY-IUU-VESSEL-LIST"
+#'     "VESSEL-IDENTITY-FLAG-CHANGES",
+#'     "VESSEL-IDENTITY-IUU-VESSEL-LIST",
+#'     "VESSEL-IDENTITY-MOU-LIST"
 #'   ),
 #'   start_date = "2020-01-01",
 #'   end_date = "2025-03-03",
@@ -130,7 +150,12 @@ gfw_vessel_insights <- function(includes = NULL,
   # Validate includes ---------------------------------------------------------
 
   allowed_includes <- c(
-    "FISHING", "GAP", "COVERAGE", "VESSEL-IDENTITY-IUU-VESSEL-LIST"
+    "COVERAGE",
+    "FISHING",
+    "GAP",
+    "VESSEL-IDENTITY-FLAG-CHANGES",
+    "VESSEL-IDENTITY-IUU-VESSEL-LIST",
+    "VESSEL-IDENTITY-MOU-LIST"
   )
 
   if (!is.character(includes) || length(includes) == 0) {
