@@ -40,7 +40,8 @@ YYYY-MM-DD format and excluding this date.}
 \item{group_by}{Optional. Parameter to group by. Can be \code{"VESSEL_ID"}, \code{"FLAG"},
 \code{"GEARTYPE"}, \code{"FLAGANDGEARTYPE"} or \code{"MMSI"}.}
 
-\item{filter_by}{Fields to filter SAR vessel detections. See Details for possible options.}
+\item{filter_by}{Fields to filter SAR vessel detections. See Details for
+possible options.}
 
 \item{key}{Character, API token. Defaults to \code{\link[=gfw_auth]{gfw_auth()}}.}
 
@@ -53,22 +54,29 @@ Retrieve vessel presence detected using SAR and convert response to tibble
 \details{
 Possible filter options are:
 \itemize{
-\item \code{matched} – Whether detection matched with AIS data Example: \code{"matched='true'"} or \code{"matched='false'"}
-\item flag – Vessel flag state (when matched with AIS). Example: \code{"flag in ('ESP', 'USA')"}
-\item \code{vessel_id} – Vessel identifier (when matched with AIS). See the identity vignette for details about Vessel ID.
-\item \code{geartype} – Fishing gear type (when matched with AIS) → View \href{https://globalfishingwatch.org/our-apis/documentation#gear-types-supported}{supported gear types}. Example: \code{"geartype in ('tuna_purse_seines', 'driftnets')"}
-\item \code{neural_vessel_type} – AI classification based on neural network model. Values: <= 0.1: "Likely non-fishing", >= 0.9: "Likely fishing", 0.1 - 0.9: "Other/Unknown"
-\item \code{shiptype} – Vessel type classification (when matched with AIS) → See \href{https://globalfishingwatch.org/our-apis/documentation#vessel-types}{Vessel types}
+\item \code{matched} – Whether detection matched with AIS data Example:
+\code{"matched='true'"} or \code{"matched='false'"}
+\item flag – Vessel flag state (when matched with AIS). Example:
+\code{"flag in ('ESP', 'USA')"}
+\item \code{vessel_id} – Vessel identifier (when matched with AIS). See the identity
+vignette for details about Vessel ID.
+\item \code{geartype} – Fishing gear type (when matched with AIS) → View
+\href{https://globalfishingwatch.org/our-apis/documentation#gear-types-supported}{supported gear types}.
+Example: \code{"geartype in ('tuna_purse_seines', 'driftnets')"}
+\item \code{neural_vessel_type} – AI classification based on neural network model.
+Values: <= 0.1: "Likely non-fishing", >= 0.9: "Likely fishing", 0.1 - 0.9: "Other/Unknown"
+\item \code{shiptype} – Vessel type classification (when matched with AIS) → See
+\href{https://globalfishingwatch.org/our-apis/documentation#vessel-types}{Vessel types}
 }
 
-For detailed information about the 4Wings SAR vessel detections API, please refer to the official
-Global Fishing Watch API documentation:
+For detailed information about the 4Wings SAR vessel detections API, please
+refer to the official Global Fishing Watch API documentation:
 \itemize{
 \item https://globalfishingwatch.org/our-apis/documentation#sar-vessel-detections
 }
 
-For more details on the 4Wings SAR vessel detections API data caveats, please refer to the official
-Global Fishing Watch API documentation:
+For more details on the 4Wings SAR vessel detections API data caveats, please
+refer to the official Global Fishing Watch API documentation:
 \itemize{
 \item https://globalfishingwatch.org/our-apis/documentation#sar-vessel-detections-data-caveats
 }

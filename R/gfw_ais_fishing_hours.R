@@ -1,12 +1,12 @@
 #' Retrieve apparent fishing hours derived from AIS data and convert response to tibble
 #'
 #' @details
-#' For detailed information about the 4Wings AIS apparent fishing hours API, please refer to the official
-#' Global Fishing Watch API documentation:
+#' For detailed information about the 4Wings AIS apparent fishing hours API,
+#' please refer to the official Global Fishing Watch API documentation:
 #' - https://globalfishingwatch.org/our-apis/documentation#ais-apparent-fishing-effort
 #'
-#' For more details on the 4Wings apparent fishing hours API data caveats, please refer to the official
-#' Global Fishing Watch API documentation:
+#' For more details on the 4Wings apparent fishing hours API data caveats,
+#' please refer to the official Global Fishing Watch API documentation:
 #' - https://globalfishingwatch.org/our-apis/documentation#apparent-fishing-effort
 #'
 #' @param spatial_resolution Raster spatial resolution. Can be `"LOW"` (0.1 degree)
@@ -25,8 +25,8 @@
 #' @param group_by Optional. Parameter to group by. Can be `"VESSEL_ID"`, `"FLAG"`,
 #' `"GEARTYPE"`, `"FLAGANDGEARTYPE"` or `"MMSI"`.
 #' @param filter_by Fields to filter AIS-based apparent fishing effort. Possible
-#' options are `flag`, `shipname`, `geartype` and `id` (to filter for vessel ids). Receives SQL expressions like
-#' `filter_by = "flag IN ('ESP')"`.
+#' options are `flag`, `shipname`, `geartype` and `id` (to filter for vessel ids).
+#'  Receives SQL expressions like `filter_by = "flag IN ('ESP')"`.
 #' @param key Character, API token. Defaults to [gfw_auth()].
 #' @param print_request Boolean. Whether to print the request, for debugging
 #' purposes. When contacting the GFW team it will be useful to send this string.

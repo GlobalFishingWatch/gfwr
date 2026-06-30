@@ -20,7 +20,6 @@ Description: This package connects to several Global Fishing Watch APIs to get v
 License: Apache License (>= 2)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3
 Imports: 
     class,
     dplyr,
@@ -63,3 +62,4 @@ LazyData: true
 Config/testthat/edition: 3
 Config/testthat/parallel: true
 Config/Needs/website: rmarkdown
+Config/roxygen2/version: 8.0.0

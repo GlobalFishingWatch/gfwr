@@ -71,14 +71,14 @@ ranges are the following:
 \item \verb{>25} – Greater than 25 knots
 }
 
-For detailed information about the 4Wings AIS vessel presence API, please refer to the official
-Global Fishing Watch API documentation:
+For detailed information about the 4Wings AIS vessel presence API, please
+refer to the official Global Fishing Watch API documentation:
 \itemize{
 \item https://globalfishingwatch.org/our-apis/documentation#ais-vessel-presence
 }
 
-For more details on the 4Wings AIS vessel presence API data caveats, please refer to the official
-Global Fishing Watch API documentation:
+For more details on the 4Wings AIS vessel presence API data caveats, please
+refer to the official Global Fishing Watch API documentation:
 \itemize{
 \item https://globalfishingwatch.org/our-apis/documentation#ais-vessel-presence-caveats
 }
@@ -143,5 +143,6 @@ gfw_ais_presence(spatial_resolution = "LOW",
 }
 }
 \references{
-AIS vessel presence examples in the API documentation https://globalfishingwatch.org/our-apis/documentation#report-ais-vessel-presence-examples
+AIS vessel presence examples in the API documentation
+https://globalfishingwatch.org/our-apis/documentation#report-ais-vessel-presence-examples
 }

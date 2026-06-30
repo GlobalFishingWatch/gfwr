@@ -41,8 +41,8 @@ YYYY-MM-DD format and excluding this date.}
 \code{"GEARTYPE"}, \code{"FLAGANDGEARTYPE"} or \code{"MMSI"}.}
 
 \item{filter_by}{Fields to filter AIS-based apparent fishing effort. Possible
-options are \code{flag}, \code{shipname}, \code{geartype} and \code{id} (to filter for vessel ids). Receives SQL expressions like
-\code{filter_by = "flag IN ('ESP')"}.}
+options are \code{flag}, \code{shipname}, \code{geartype} and \code{id} (to filter for vessel ids).
+Receives SQL expressions like \code{filter_by = "flag IN ('ESP')"}.}
 
 \item{key}{Character, API token. Defaults to \code{\link[=gfw_auth]{gfw_auth()}}.}
 
@@ -53,14 +53,14 @@ purposes. When contacting the GFW team it will be useful to send this string.}
 Retrieve apparent fishing hours derived from AIS data and convert response to tibble
 }
 \details{
-For detailed information about the 4Wings AIS apparent fishing hours API, please refer to the official
-Global Fishing Watch API documentation:
+For detailed information about the 4Wings AIS apparent fishing hours API,
+please refer to the official Global Fishing Watch API documentation:
 \itemize{
 \item https://globalfishingwatch.org/our-apis/documentation#ais-apparent-fishing-effort
 }
 
-For more details on the 4Wings apparent fishing hours API data caveats, please refer to the official
-Global Fishing Watch API documentation:
+For more details on the 4Wings apparent fishing hours API data caveats,
+please refer to the official Global Fishing Watch API documentation:
 \itemize{
 \item https://globalfishingwatch.org/our-apis/documentation#apparent-fishing-effort
 }

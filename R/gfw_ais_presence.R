@@ -39,12 +39,12 @@
 #'  + `15-25` – 15 to 25 knots
 #'  + `>25` – Greater than 25 knots
 #'
-#' For detailed information about the 4Wings AIS vessel presence API, please refer to the official
-#' Global Fishing Watch API documentation:
+#' For detailed information about the 4Wings AIS vessel presence API, please
+#' refer to the official Global Fishing Watch API documentation:
 #' - https://globalfishingwatch.org/our-apis/documentation#ais-vessel-presence
 #'
-#' For more details on the 4Wings AIS vessel presence API data caveats, please refer to the official
-#' Global Fishing Watch API documentation:
+#' For more details on the 4Wings AIS vessel presence API data caveats, please
+#' refer to the official Global Fishing Watch API documentation:
 #' - https://globalfishingwatch.org/our-apis/documentation#ais-vessel-presence-caveats
 #'
 #' @param key Character, API token. Defaults to [gfw_auth()].
@@ -66,7 +66,8 @@
 #'
 #' @export
 #'
-#' @references AIS vessel presence examples in the API documentation https://globalfishingwatch.org/our-apis/documentation#report-ais-vessel-presence-examples
+#' @references AIS vessel presence examples in the API documentation
+#' https://globalfishingwatch.org/our-apis/documentation#report-ais-vessel-presence-examples
 #'
 #' @examples
 #' \dontrun{

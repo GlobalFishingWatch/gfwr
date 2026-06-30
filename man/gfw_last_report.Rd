@@ -13,19 +13,20 @@ gfw_last_report(key = gfw_auth())
 Function to check the status of the last API request sent with \code{\link[=gfw_ais_fishing_hours]{gfw_ais_fishing_hours()}}.
 }
 \details{
-The \code{\link[=gfw_last_report]{gfw_last_report()}} function will tell you if the APIs are still processing your request and
-will download the results if the request has finished successfully. You will receive an error message
-if the request finished but resulted in an error or if it's been >30 minutes since the last report was
-generated using \code{\link[=gfw_ais_fishing_hours]{gfw_ais_fishing_hours()}}.
+The \code{\link[=gfw_last_report]{gfw_last_report()}} function will tell you if the APIs are still
+processing your request and will download the results if the request has
+finished successfully. You will receive an error message if the request
+finished but resulted in an error or if it's been >30 minutes since the last
+report was generated using \code{\link[=gfw_ais_fishing_hours]{gfw_ais_fishing_hours()}}.
 
-For detailed information about the 4Wings last report generated API, please refer to the official
-Global Fishing Watch API documentation:
+For detailed information about the 4Wings last report generated API, please
+refer to the official Global Fishing Watch API documentation:
 \itemize{
 \item https://globalfishingwatch.org/our-apis/documentation#get-last-report-generated
 }
 
-For more details on the 4Wings last report generated API data caveats, please refer to the official
-Global Fishing Watch API documentation:
+For more details on the 4Wings last report generated API data caveats, please
+refer to the official Global Fishing Watch API documentation:
 \itemize{
 \item https://globalfishingwatch.org/our-apis/documentation#apparent-fishing-effort
 \item https://globalfishingwatch.org/our-apis/documentation#sar-vessel-detections-data-caveats
