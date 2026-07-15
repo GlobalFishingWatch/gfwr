@@ -5,9 +5,9 @@
 \title{Base function to get vessel information from API and convert response to tibble}
 \usage{
 gfw_vessel_info(
-  search_type = "search",
   query = NULL,
   where = NULL,
+  search_type = "search",
   ids = NULL,
   includes = NULL,
   match_fields = NULL,
@@ -19,16 +19,16 @@ gfw_vessel_info(
 )
 }
 \arguments{
-\item{search_type}{Type of vessel search to perform. Can be \code{"search"} (the
-default) to search for identity markers or \code{"id"} to search per \code{vesselId}.
-(Note:\code{"advanced"} and \code{"basic"} are no longer in use as of \verb{gfwr 2.0.0.}).}
-
 \item{query}{When \code{search_type = "search"}, a length-1 vector with the identity
 variable of interest, MMSI, IMO, call sign or ship name. A search by vessel
 name will return fuzzy results to account for variation in vessel names and
 potential misspellings}
 
 \item{where}{When \code{search_type = "search"}, an SQL expression to find the vessel of interest.}
+
+\item{search_type}{Type of vessel search to perform. Can be \code{"search"} (the
+default) to search for identity markers or \code{"id"} to search per \code{vesselId}.
+(Note:\code{"advanced"} and \code{"basic"} are no longer in use as of \verb{gfwr 2.0.0.}).}
 
 \item{ids}{When \code{search_type = "id"}, a vector with one or more \code{vesselId}s
 of interest.}

@@ -96,9 +96,9 @@
 #'  "6583c51e3-3626-5638-866a-f47c3bc7ef7c"))
 #'  }
 #' @export
-gfw_vessel_info <- function(search_type = "search",
-                            query = NULL,
+gfw_vessel_info <- function(query = NULL,
                             where = NULL,
+                            search_type = "search",
                             ids = NULL,
                             includes = NULL,
                             match_fields = NULL,
