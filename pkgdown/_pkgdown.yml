@@ -7,6 +7,7 @@ articles:
   navbar: ~
   contents:
   - articles/identity
+  - articles/insights
   - articles/gfw_vessel_presence
   - articles/fishing_activity_maps
   - articles/sar_vessel_detections
