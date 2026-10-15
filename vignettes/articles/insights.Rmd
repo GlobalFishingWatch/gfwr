@@ -70,9 +70,10 @@ With `gfw_vessel_insights()` you choose which indicators to request with the
 
 You also have to give a period (`start_date` and `end_date`, as `"YYYY-MM-DD"`
 or `Date`) and one or more `vessels`, a character vector of `vesselId`s.
+At the time of writing, the API rejects a `start_date` before 1 January 2020.
 
 
-## Step 1: get the `vesselId`
+## Step 1: get the `vesselId`s
 
 `gfw_vessel_insights()` works with `vesselId`s, not with MMSI or ship names. If
 you only know an MMSI, an IMO number or a ship name, find the `vesselId` first
@@ -80,42 +81,74 @@ with `gfw_vessel_info()`. See the
 [identity vignette](https://globalfishingwatch.github.io/gfwr/articles/identity.html)
 for details on what a `vesselId` is and why one vessel can have several.
 
-In this vignette we use three `vesselId`s that are also used in the examples of
-the function documentation. We use `gfw_vessel_info()` to see which vessels they
-correspond to:
+`gfw_vessel_info()` accepts several `vesselId`s in a single call, so there is no
+need to loop over them. In this vignette we use two vessels that are also used in
+the examples of the function documentation, KAO FENG NO.101 and ZUMAYA DOUS:
 
 ```{r vessel_ids}
-vessel_ids <- c(
-  "785101812-2127-e5d2-e8bf-7152c5259f5f",
-  "2339c52c3-3a84-1603-f968-d8890f23e1ed",
-  "2d26aa452-2d4f-4cae-2ec4-377f85e88dcb"
+kao_id <- "2339c52c3-3a84-1603-f968-d8890f23e1ed"
+zumaya_id <- "785101812-2127-e5d2-e8bf-7152c5259f5f"
+
+vessel_info <- gfw_vessel_info(
+  ids = c(kao_id, zumaya_id),
+  search_type = "id",
+  quiet = TRUE
 )
 
-vessel_names <- map(
-  vessel_ids,
-  \(id) {
-    gfw_vessel_info(ids = id, search_type = "id", quiet = TRUE)$selfReportedInfo |>
-      filter(vesselId == id) |>
-      select(vesselId, shipname, flag, ssvid) |>
-      distinct()
-  }
-) |>
-  list_rbind()
+vessel_ids <- vessel_info$selfReportedInfo |>
+  distinct(vesselId, shipname, flag, ssvid, transmissionDateFrom, transmissionDateTo) |>
+  mutate(across(starts_with("transmissionDate"), \(x) substr(x, 1, 10)))
 
-vessel_names
+vessel_ids
+```
+
+We asked for two `vesselId`s and received three. This is because of how
+`vesselId`s work, which matters a lot for insights.
+
+
+## A `vesselId` is not a vessel
+
+A `vesselId` identifies a vessel __during a specific period of time__. A vessel
+can have several `vesselId`s over its life, for example when its identity
+information changes. In the table above KAO FENG NO.101 has a single `vesselId`,
+while ZUMAYA DOUS has two: `gfw_vessel_info()` returned the second one even
+though we only asked for one of them. They cover different periods, as you can
+see in `transmissionDateFrom` and `transmissionDateTo`.
+
+> **Important:**
+> Insights are calculated for the `vesselId`s you send. To get insights for the
+__whole history of a vessel__ that has several `vesselId`s, you have to send
+__all__ of them. If you send only one, the result only covers what that
+`vesselId` covers.
+
+In this example, the older `vesselId` of ZUMAYA DOUS stopped transmitting before
+the period we use below, so it does not change the numbers. For a vessel whose
+`vesselId` changed during your period, sending only one of them would give you an
+incomplete result.
+
+A simple way to keep track of this is to build a table with one row per vessel
+and the list of all its `vesselId`s:
+
+```{r vessels}
+vessels <- vessel_ids |>
+  group_by(ssvid, shipname, flag) |>
+  summarise(vesselIds = list(vesselId), n_vesselIds = n(), .groups = "drop")
+
+vessels
 ```
 
 
 ## Step 2: request insights for one vessel
 
-We ask for four insights for the first vessel over a period of five years.
+We ask for four insights over a period of five years for KAO FENG NO.101, a
+vessel with a single `vesselId`.
 
 ```{r one_vessel}
 insights <- gfw_vessel_insights(
   includes = c("COVERAGE", "FISHING", "GAP", "VESSEL-IDENTITY-IUU-VESSEL-LIST"),
   start_date = "2020-01-01",
   end_date = "2025-03-03",
-  vessels = vessel_ids[1]
+  vessels = kao_id
 )
 
 insights
@@ -159,11 +192,12 @@ insights$vesselIdentity[[1]]$iuuVesselList
 __How to read each one__
 
 - __`apparentFishing`__ gives the number of *apparent* fishing events. They are
-model-based detections, not confirmed fishing. `eventsInNoTakeMPAs` and `eventsInRFMOWithoutKnownAuthorization`
-are the subset that fall inside no-take MPAs or in RFMO areas where GFW has no
-record of an authorization for the vessel. A missing authorization can also mean
-that the authorization data is incomplete, so treat it as a reason to look
-further and not as proof of a violation.
+model-based detections, not confirmed fishing. `eventsInNoTakeMPAs` and
+`eventsInRFMOWithoutKnownAuthorization` are the subset that fall inside no-take
+MPAs or in RFMO areas where GFW has no record of an authorization for the
+vessel. A missing authorization can also mean that the authorization data is
+incomplete, so treat it as a reason to look further and not as proof of a
+violation.
 - __`gap`__ counts AIS disabling events. A gap can have many causes, including
 poor satellite reception and equipment problems, and it does not by itself mean
 that a vessel was hiding its activity.
@@ -182,24 +216,25 @@ list, which is useful to cite and to detect changes in dataset versions.
 ## One row per vessel, or one combined result?
 
 You can pass several `vesselId`s to `vessels`, but be careful: __the API returns
-one combined result for all the vessels you send, not one result per vessel__.
+one combined result for all the `vesselId`s you send, not one result per
+`vesselId`__, even when they belong to different vessels.
 
-We can check this by running the same request for each vessel separately and
-summing the counts:
+To compare vessels, send one request per vessel, with __all__ the `vesselId`s of
+that vessel (see [A `vesselId` is not a vessel](#a-vesselid-is-not-a-vessel)),
+and bind the results into a table:
 
 ```{r per_vessel}
 requested_insights <- c("COVERAGE", "FISHING", "GAP", "VESSEL-IDENTITY-IUU-VESSEL-LIST")
 
-summarise_insights <- function(vessel_id) {
+summarise_insights <- function(vessel_ids) {
   x <- gfw_vessel_insights(
     includes = requested_insights,
     start_date = "2020-01-01",
     end_date = "2025-03-03",
-    vessels = vessel_id
+    vessels = vessel_ids
   )
 
   tibble(
-    vesselId = vessel_id,
     coverage_pct = x$coverage[[1]]$percentage,
     fishing_events = x$apparentFishing[[1]]$periodSelectedCounters$events,
     fishing_in_no_take_mpas = x$apparentFishing[[1]]$periodSelectedCounters$eventsInNoTakeMPAs,
@@ -209,44 +244,47 @@ summarise_insights <- function(vessel_id) {
   )
 }
 
-per_vessel <- map(vessel_ids, summarise_insights) |>
-  list_rbind() |>
-  left_join(vessel_names, by = "vesselId") |>
-  relocate(shipname, flag, .after = vesselId) |>
-  select(-ssvid, -vesselId)
+per_vessel <- vessels |>
+  mutate(insights = map(vesselIds, summarise_insights)) |>
+  unnest(insights) |>
+  select(shipname, flag, n_vesselIds, coverage_pct, fishing_events,
+         fishing_in_no_take_mpas, ais_off_events)
 
 per_vessel
 ```
 
-Now the same request with the three `vesselId`s together:
+If instead we send the `vesselId`s of both vessels in a single request, we get
+one result for the two vessels together:
 
 ```{r combined}
 combined <- gfw_vessel_insights(
   includes = requested_insights,
   start_date = "2020-01-01",
   end_date = "2025-03-03",
-  vessels = vessel_ids
+  vessels = vessel_ids$vesselId
 )
 
 combined$apparentFishing[[1]]$periodSelectedCounters$events
 combined$gap[[1]]$periodSelectedCounters$eventsGapOff
 
-# Compare with the sum of the individual requests
+# Compare with the sum of the per-vessel results
 sum(per_vessel$fishing_events)
 sum(per_vessel$ais_off_events)
 ```
 
-The counts of the combined request match the sums of the individual requests.
+The counts of the combined request match the sums of the per-vessel results.
 Percentages such as `coverage` are not summed: the combined value is a single
 figure for the request, not the sum of the individual ones.
 
 This gives you two ways of working, depending on your question:
 
 - To __compare vessels__, send one request per vessel, as in `summarise_insights()`
-above, and bind the results into a table.
-- To __summarise a vessel that has several `vesselId`s__ over time (see the
+above.
+- To __summarise a vessel that has several `vesselId`s__ over time (see
+[A `vesselId` is not a vessel](#a-vesselid-is-not-a-vessel) and the
 [identity vignette](https://globalfishingwatch.github.io/gfwr/articles/identity.html)),
-send all its `vesselId`s in one request to get a single combined result.
+send all its `vesselId`s in one request to get a single combined result for the
+whole vessel.
 
 > **Note:**
 > Each request counts against your API rate limits. When you loop over many
@@ -259,13 +297,20 @@ for the current limits.
 
 The insights give you counts and lists of event identifiers, not the details of
 each event. To find out when and where something happened, use `gfw_event()`
-with the same vessel and period. For example, the first vessel has
-`r per_vessel$ais_off_events[1]` AIS disabling events in the period:
+with the same vessel and period. As with insights, send all the `vesselId`s of
+the vessel. For example, ZUMAYA DOUS has
+`r per_vessel$ais_off_events[per_vessel$shipname == "ZUMAYA DOUS"]` AIS disabling
+events in the period:
 
 ```{r gap_events}
+zumaya_ids <- vessels |>
+  filter(shipname == "ZUMAYA DOUS") |>
+  pull(vesselIds) |>
+  unlist()
+
 gaps <- gfw_event(
   event_type = "GAP",
-  vessels = vessel_ids[1],
+  vessels = zumaya_ids,
   start_date = "2020-01-01",
   end_date = "2025-03-03",
   quiet = TRUE
