@@ -73,17 +73,17 @@ type requested. Each list-column contains the data corresponding to that insight
 For detailed information about the Insights API, please refer to the official
 Global Fishing Watch API documentation:
 \itemize{
-\item https://globalfishingwatch.org/our-apis/documentation#insights-api
+\item \href{https://globalfishingwatch.org/our-apis/documentation#insights-api}{Vessel Insights API}
 }
 
 For more details on the Insights API data caveats, please refer to the official
 Global Fishing Watch API documentation:
 \itemize{
-\item https://globalfishingwatch.org/our-apis/documentation#insights-api-fishing-detected-in-no-take-mpas
-\item https://globalfishingwatch.org/our-apis/documentation#what-does-it-mean-that-an-api-dataset-is-in-prototype-stage
-\item https://globalfishingwatch.org/our-apis/documentation#insights-api-fishing-event-detected-outside-known-authorized-areas
-\item https://globalfishingwatch.org/our-apis/documentation#insights-api-coverage
-\item https://globalfishingwatch.org/our-apis/documentation#insights-api-rfmo-iuu-vessel-list
+\item \href{https://globalfishingwatch.org/our-apis/documentation#insights-api-fishing-detected-in-no-take-mpas}{Fishing detected in no-take mpas}
+\item \href{https://globalfishingwatch.org/our-apis/documentation#insights-api-fishing-event-detected-outside-known-authorized-areas}{Fishing event detected outside known authorized areas}
+\item \href{https://globalfishingwatch.org/our-apis/documentation#insights-api-coverage}{Coverage}
+\item \href{https://globalfishingwatch.org/our-apis/documentation#insights-api-rfmo-iuu-vessel-list}{RFMO IUU vessel list}
+\item \href{https://globalfishingwatch.org/our-apis/documentation#what-does-it-mean-that-an-api-dataset-is-in-prototype-stage}{What does it mean that an API dataset is in prototype stage?}
 }
 }
 \examples{

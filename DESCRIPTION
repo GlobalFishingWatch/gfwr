@@ -1,6 +1,6 @@
 Package: gfwr
 Title: Access data from Global Fishing Watch APIs
-Version: 3.0
+Version: 3.1
 Authors@R: c(
     person("Andrea", "Sánchez-Tapia", , "andrea.sanchez-tapia@globalfishingwatch.org",
           role = c("aut", "cre"),

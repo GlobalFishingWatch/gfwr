@@ -1,3 +1,57 @@
+# gfwr 3.1
+
+This is a minor release of the package, with no breaking changes but some key 
+additions.
+
+## New functions and endpoints 
+
+- **`gfw_vessel_insights()`** — new function implementing the GFW Insights API. 
+Returns analytical indicators for one or more vessels. The `includes` parameter
+accepts up to six insight types:
+
+  - `"FISHING"` — apparent fishing events
+  - `"GAP"` — AIS-off gap events
+  - `"COVERAGE"` — AIS coverage percentage
+  - `"VESSEL-IDENTITY-IUU-VESSEL-LIST"` — RFMO IUU vessel list status
+  - `"VESSEL-IDENTITY-FLAG-CHANGES"` — flag state changes over time
+  - `"VESSEL-IDENTITY-MOU-LIST"` — Paris/Tokyo MOU black and grey list status
+
+
+- `$matchCriteria` was implemented in `gfw_vessel_info()`. It was previously 
+missing from the function response
+
+
+## Bug fixes
+
+- **`gfw_vessel_info()`** — the `includes` parameter now behaves correctly 
+depending on `search_type` (#231). When `search_type = "search"`, valid values 
+are `"OWNERSHIP"`, `"AUTHORIZATIONS"`, and `"MATCH_CRITERIA"`. When 
+`search_type = "id"`, the valid value is `"POTENTIAL_RELATED_SELF_REPORTED_INFO"`.
+Previously, `includes` was not validated against `search_type` and could produce
+silently incorrect API requests.
+
+## Improvements
+
+- **Documentation** — all endpoint functions (`gfw_4wings()`, 
+`gfw_ais_fishing_hours()`, `gfw_ais_presence()`, `gfw_event()`, 
+`gfw_event_stats()`, `gfw_last_report()`, `gfw_region_id()`, `gfw_regions()`,
+`gfw_sar_vessel_detections()`, `gfw_vessel_info()`) now have a `Details` section
+linking to the relevant GFW API documentation page and data-caveats reference. 
+Vignettes were similarly updated with `Note` sections pointing to datasets, data
+caveats, and terms of use. This applies to all four vignettes: fishing activity 
+maps, vessel presence, vessel identity, and SAR vessel detections.
+
+- **`gfw_vessel_info()`** — vessel name searches now explicitly note that fuzzy 
+matching is used to account for spelling variation. `ids` parameter clarified to
+accept a vector of one or more `vesselId`s.
+
+- **Error handling** — `parse_response_error()` now handles both structured API 
+error objects (with `title`/`detail` fields) and plain character error messages,
+and includes the API `transaction-id` in parsed error responses to aid support 
+requests.
+
+
+
 # gfwr 3.0
 
 
@@ -8,7 +62,9 @@ This is a major release of the package, with several changes and additions.
 
 - __Prefix change: All `gfwr` functions are now prefixed with `gfw_` to make a
 direct reference to the package. This replaces the prefix `get_`.__
-This allows functions from the package to appear together in searches and menus, and avoids possible confusion with other functions starting with `"get_"` in other R packages
+This allows functions from the package to appear together in searches and menus,
+and avoids possible confusion with other functions starting with `"get_"` in 
+other R packages
 
 
 - In addition to the prefix change, `get_raster()` was __renamed__ to
@@ -16,33 +72,42 @@ This allows functions from the package to appear together in searches and menus,
 datasets implemented in this version and to be consistent with the output of the
 model, which is *expressed in (apparent) fishing hours*.
 
-- The two datasets in the package were also renamed to `gfw_`: `gfw_marine_regions` and `gfw_test_shape`
+- The two datasets in the package were also renamed to `gfw_`: 
+`gfw_marine_regions` and `gfw_test_shape`
 
-- In `gfw_region_id()`, the parameter `region_name` was renamed to `region` for precision, since it accepts both region names and ISO codes. (#196)
+- In `gfw_region_id()`, the parameter `region_name` was renamed to `region` for
+precision, since it accepts both region names and ISO codes. (#196)
 
 
 ## New functions and endpoints 
 
 - `gfw_ais_presence()` implements the __AIS-based Vessel presence__ dynamic
 dataset, which can be found in the [Global Fishing Watch map](https://globalfishingwatch.org/map/).
-This dataset aggregates the presence of all vessels (fishing and non-fishing), expressed in hours of activity in each cell.
+This dataset aggregates the presence of all vessels (fishing and non-fishing), 
+expressed in hours of activity in each cell.
 - `gfw_sar_vessel_detections()` incorporates the __SAR-based vessel detections__
-(presence), also found in the map. See [Paolo et al 2024](https://doi.org/10.1038/s41586-023-06825-8) for more details. 
+(presence), also found in the map. See 
+[Paolo et al 2024](https://doi.org/10.1038/s41586-023-06825-8) for more details. 
 
 
 ## Non-breaking changes
 
-- `gfw_event()` has no longer the `gap_intentional_disabling` parameter because all gaps returned are high confidence and considered to be intentional: 
+- `gfw_event()` has no longer the `gap_intentional_disabling` parameter because 
+all gaps returned are high confidence and considered to be intentional: 
     - The gap event must be at least 12 hours
     - It must start at least 50 nautical miles from shore
-    - It must start in an area with a satellite reception quality greater than 10 positions per day
-    - The vessel must have at least 14 satellite positions in the 12 hours prior to the gap
-    See the [gap events documentation](https://globalfishingwatch.org/our-apis/documentation#ais-off-event-aka-gap) for more details behind these rules. 
+    - It must start in an area with a satellite reception quality greater than 
+    10 positions per day
+    - The vessel must have at least 14 satellite positions in the 12 hours prior
+    to the gap
+
+See the [gap events documentation](https://globalfishingwatch.org/our-apis/documentation#ais-off-event-aka-gap) for more details behind these rules. 
     
 ## Bug fixes
 
 - fixed `gfw_event_stats()` (previously `get_event_stats()`) filter by flag (#215) 
-- fixed #224 and `gfw_marine_regions` dataset (previously `marine_regions`)  is available without attaching `gfwr` (thanks to @jaseeverett)
+- fixed #224 and `gfw_marine_regions` dataset (previously `marine_regions`)  is 
+available without attaching `gfwr` (thanks to @jaseeverett)
 - fixes the `includes` parameter of `gfw_vessel_info()`, reported in #231 
 
 # gfwr 2.0.4

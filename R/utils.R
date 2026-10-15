@@ -20,7 +20,7 @@ NULL
 #' production API base URL: `"https://gateway.api.globalfishingwatch.org/v3/"`.
 #'
 #' @name gfw_base_url
-#' @export
+#' @keywords internal
 gfw_base_url <- function() {
   url <- Sys.getenv("GFW_BASE_URL", unset = "")
   url <- trimws(url)
