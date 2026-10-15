@@ -25,6 +25,7 @@ reference:
   contents:
   - gfw_event
   - gfw_event_stats
+  - gfw_vessel_insights
 - title: "SAR-based vessel detections"
   contents:
   - gfw_sar_vessel_detections

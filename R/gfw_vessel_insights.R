@@ -33,15 +33,15 @@
 #'
 #' For detailed information about the Insights API, please refer to the official
 #' Global Fishing Watch API documentation:
-#' - https://globalfishingwatch.org/our-apis/documentation#insights-api
+#' - [Vessel Insights API](https://globalfishingwatch.org/our-apis/documentation#insights-api)
 #'
 #' For more details on the Insights API data caveats, please refer to the official
 #' Global Fishing Watch API documentation:
-#' - https://globalfishingwatch.org/our-apis/documentation#insights-api-fishing-detected-in-no-take-mpas
-#' - https://globalfishingwatch.org/our-apis/documentation#what-does-it-mean-that-an-api-dataset-is-in-prototype-stage
-#' - https://globalfishingwatch.org/our-apis/documentation#insights-api-fishing-event-detected-outside-known-authorized-areas
-#' - https://globalfishingwatch.org/our-apis/documentation#insights-api-coverage
-#' - https://globalfishingwatch.org/our-apis/documentation#insights-api-rfmo-iuu-vessel-list
+#' - [Fishing detected in no-take mpas](https://globalfishingwatch.org/our-apis/documentation#insights-api-fishing-detected-in-no-take-mpas)
+#' - [Fishing event detected outside known authorized areas](https://globalfishingwatch.org/our-apis/documentation#insights-api-fishing-event-detected-outside-known-authorized-areas)
+#' - [Coverage](https://globalfishingwatch.org/our-apis/documentation#insights-api-coverage)
+#' - [RFMO IUU vessel list](https://globalfishingwatch.org/our-apis/documentation#insights-api-rfmo-iuu-vessel-list)
+#' - [What does it mean that an API dataset is in prototype stage?](https://globalfishingwatch.org/our-apis/documentation#what-does-it-mean-that-an-api-dataset-is-in-prototype-stage)
 #'
 #' @param includes Required. Character vector of insight types to include in
 #' the response. Allowed values: `"COVERAGE"`, `"FISHING"`, `"GAP"`, `"VESSEL-IDENTITY-FLAG-CHANGES"`,

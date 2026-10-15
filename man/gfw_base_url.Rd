@@ -11,3 +11,4 @@ Returns the \code{GFW_BASE_URL} environment variable if it is set and not empty
 (ignoring leading/trailing whitespace). Otherwise, returns the default
 production API base URL: \code{"https://gateway.api.globalfishingwatch.org/v3/"}.
 }
+\keyword{internal}
