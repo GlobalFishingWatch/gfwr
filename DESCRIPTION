@@ -22,6 +22,7 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 Imports: 
     class,
+    cli,
     dplyr,
     geojsonsf,
     glue,

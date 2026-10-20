@@ -1,0 +1,18 @@
+{
+  "id": "adbb9b62-5c08-4142-82e0-b2b575f3e058",
+  "name": "sar-fixed-infrastructure-data-202409",
+  "filepath": "sar_fixed_infrastructure_data_202409.json",
+  "format": "JSON",
+  "filters": ["label = 'oil'"],
+  "geom": {
+    "type": "dataset",
+    "dataset": "public-eez-areas",
+    "id": 8466
+  },
+  "status": "done",
+  "ownerId": 509,
+  "ownerType": "user-application",
+  "createdAt": "2025-06-24T14:21:27.517Z",
+  "updatedAt": "2025-06-24T14:21:27.517Z",
+  "fileSize": 1207.0
+}

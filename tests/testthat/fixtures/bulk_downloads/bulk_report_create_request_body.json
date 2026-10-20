@@ -1,0 +1,22 @@
+{
+  "name": "sar-fixed-infrastructure-data-202409",
+  "dataset": "public-fixed-infrastructure-data:latest",
+  "format": "JSON",
+  "filters": ["label = 'oil'"],
+  "region": {
+    "dataset": "public-eez-areas",
+    "id": 8466
+  },
+  "geojson": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [-180.0, -85.0511287798066],
+        [-180.0, 0.0],
+        [0.0, 0.0],
+        [0.0, -85.0511287798066],
+        [-180.0, -85.0511287798066]
+      ]
+    ]
+  }
+}
