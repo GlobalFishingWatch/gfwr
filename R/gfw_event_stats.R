@@ -143,7 +143,7 @@ gfw_event_stats <- function(event_type,
     'FISHING' = "public-global-fishing-events:latest",
     'GAP' = "public-global-gaps-events:latest",
     'LOITERING' = "public-global-loitering-events:latest",
-    'PORT_VISIT' = "public-global-port-visits-c2-events:latest"
+    'PORT_VISIT' = "public-global-port-visits-events:latest"
   )
 
   # Modify base URL with query parameters
