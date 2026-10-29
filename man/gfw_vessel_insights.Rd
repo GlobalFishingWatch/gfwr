@@ -104,7 +104,7 @@ gap_insights <- gfw_vessel_insights(
   includes = c("GAP"),
   start_date = "2020-01-01",
   end_date = "2025-03-03",
-  vessels = c("2339c52c3-3a84-1603-f968-d8890f23e1ed")
+  vessels = c("bc4a3e144-4222-1616-ead0-c80f153c7a8c")
 )
 
 # Retrieve AIS coverage metrics insights for a single vessel
@@ -112,7 +112,7 @@ coverage_insights <- gfw_vessel_insights(
   includes = c("COVERAGE"),
   start_date = as.Date("2020-01-01"),
   end_date = as.Date("2025-03-03"),
-  vessels = c("2339c52c3-3a84-1603-f968-d8890f23e1ed")
+  vessels = c("bc4a3e144-4222-1616-ead0-c80f153c7a8c")
 )
 
 # Retrieve being listed in IUU list insights for a single vessel
@@ -137,7 +137,7 @@ mou_insights <- gfw_vessel_insights(
   includes = c("VESSEL-IDENTITY-MOU-LIST"),
   start_date = "2020-01-01",
   end_date = "2025-03-03",
-  vessels = c("2339c52c3-3a84-1603-f968-d8890f23e1ed")
+  vessels = c("bc4a3e144-4222-1616-ead0-c80f153c7a8c")
 )
 
 # Retrieve all available insights for multiple vessels
@@ -154,7 +154,7 @@ all_insights <- gfw_vessel_insights(
   end_date = "2025-03-03",
   vessels = c(
     "785101812-2127-e5d2-e8bf-7152c5259f5f",
-    "2339c52c3-3a84-1603-f968-d8890f23e1ed",
+    "bc4a3e144-4222-1616-ead0-c80f153c7a8c",
     "3df6b8616-648d-385a-ec75-b9a0779f6d70"
   ),
   print_request = TRUE

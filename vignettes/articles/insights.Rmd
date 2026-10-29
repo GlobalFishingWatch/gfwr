@@ -82,17 +82,17 @@ with `gfw_vessel_info()`. See the
 for details on what a `vesselId` is and why one vessel can have several.
 
 `gfw_vessel_info()` accepts several `vesselId`s in a single call, so there is no
-need to loop over them. In this vignette we use three vessels: KAO FENG NO.101 and
-ZUMAYA DOUS, which are also used in the examples of the function documentation,
-and ISRAR2, a vessel that appears on an RFMO IUU vessel list:
+need to loop over them. In this vignette we use three vessels that are also used
+in the examples of the function documentation: SHUN SHENG NO.398, ZUMAYA DOUS and
+ISRAR2, a vessel that appears on an RFMO IUU vessel list:
 
 ```{r vessel_ids}
-kao_id <- "2339c52c3-3a84-1603-f968-d8890f23e1ed"
+shun_id <- "bc4a3e144-4222-1616-ead0-c80f153c7a8c"
 zumaya_id <- "785101812-2127-e5d2-e8bf-7152c5259f5f"
 israr_id <- "3df6b8616-648d-385a-ec75-b9a0779f6d70"
 
 vessel_info <- gfw_vessel_info(
-  ids = c(kao_id, zumaya_id, israr_id),
+  ids = c(shun_id, zumaya_id, israr_id),
   search_type = "id",
   quiet = TRUE
 )
@@ -112,8 +112,8 @@ We asked for three `vesselId`s and received four. This is because of how
 
 A `vesselId` identifies a vessel __during a specific period of time__. A vessel
 can have several `vesselId`s over its life, for example when its identity
-information changes. In the table above KAO FENG NO.101 and ISRAR2 have a single
-`vesselId` each, while ZUMAYA DOUS has two: `gfw_vessel_info()` returned the
+information changes. In the table above SHUN SHENG NO.398 and ISRAR2 have a
+single `vesselId` each, while ZUMAYA DOUS has two: `gfw_vessel_info()` returned the
 second one even though we only asked for one of them. They cover different
 periods, as you can see in `transmissionDateFrom` and `transmissionDateTo`.
 
