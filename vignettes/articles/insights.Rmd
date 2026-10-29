@@ -82,15 +82,17 @@ with `gfw_vessel_info()`. See the
 for details on what a `vesselId` is and why one vessel can have several.
 
 `gfw_vessel_info()` accepts several `vesselId`s in a single call, so there is no
-need to loop over them. In this vignette we use two vessels that are also used in
-the examples of the function documentation, KAO FENG NO.101 and ZUMAYA DOUS:
+need to loop over them. In this vignette we use three vessels: KAO FENG NO.101 and
+ZUMAYA DOUS, which are also used in the examples of the function documentation,
+and ISRAR2, a vessel that appears on an RFMO IUU vessel list:
 
 ```{r vessel_ids}
 kao_id <- "2339c52c3-3a84-1603-f968-d8890f23e1ed"
 zumaya_id <- "785101812-2127-e5d2-e8bf-7152c5259f5f"
+israr_id <- "3df6b8616-648d-385a-ec75-b9a0779f6d70"
 
 vessel_info <- gfw_vessel_info(
-  ids = c(kao_id, zumaya_id),
+  ids = c(kao_id, zumaya_id, israr_id),
   search_type = "id",
   quiet = TRUE
 )
@@ -102,7 +104,7 @@ vessel_ids <- vessel_info$selfReportedInfo |>
 vessel_ids
 ```
 
-We asked for two `vesselId`s and received three. This is because of how
+We asked for three `vesselId`s and received four. This is because of how
 `vesselId`s work, which matters a lot for insights.
 
 
@@ -110,10 +112,10 @@ We asked for two `vesselId`s and received three. This is because of how
 
 A `vesselId` identifies a vessel __during a specific period of time__. A vessel
 can have several `vesselId`s over its life, for example when its identity
-information changes. In the table above KAO FENG NO.101 has a single `vesselId`,
-while ZUMAYA DOUS has two: `gfw_vessel_info()` returned the second one even
-though we only asked for one of them. They cover different periods, as you can
-see in `transmissionDateFrom` and `transmissionDateTo`.
+information changes. In the table above KAO FENG NO.101 and ISRAR2 have a single
+`vesselId` each, while ZUMAYA DOUS has two: `gfw_vessel_info()` returned the
+second one even though we only asked for one of them. They cover different
+periods, as you can see in `transmissionDateFrom` and `transmissionDateTo`.
 
 > **Important:**
 > Insights are calculated for the `vesselId`s you send. To get insights for the
@@ -140,15 +142,15 @@ vessels
 
 ## Step 2: request insights for one vessel
 
-We ask for four insights over a period of five years for KAO FENG NO.101, a
-vessel with a single `vesselId`.
+We ask for four insights over a period of five years for ISRAR2, a vessel with a
+single `vesselId` that has been listed on an RFMO IUU vessel list.
 
 ```{r one_vessel}
 insights <- gfw_vessel_insights(
   includes = c("COVERAGE", "FISHING", "GAP", "VESSEL-IDENTITY-IUU-VESSEL-LIST"),
   start_date = "2020-01-01",
   end_date = "2025-03-03",
-  vessels = kao_id
+  vessels = israr_id
 )
 
 insights
@@ -207,10 +209,26 @@ is based on. Check the Insights API documentation for how it is defined before
 you use it to compare vessels.
 - __`iuuVesselList`__ reports how many times the vessel has been listed
 (`totalTimesListed`) and how many of those fall inside your period
-(`totalTimesListedInThePeriod`).
+(`totalTimesListedInThePeriod`). `valuesInThePeriod` gives the `from` and `to`
+dates of each listing in the period.
 
 The datasets used for each insight are shown in the `datasets` element of each
 list, which is useful to cite and to detect changes in dataset versions.
+
+> **Note: Pipeline 5 (v5.0 datasets)**
+> Since 21 October 2026 the datasets behind the insights are the v5.0 versions
+(`public-global-fishing-events:v5.0`, `public-global-gaps-events:v5.0` and
+`public-global-vessel-identity:v5.0`). Apparent fishing events in v5.0 are fewer
+and shorter than in v4.0, and events in ports are largely removed, so counts
+requested before that date can differ from the ones you get now. Do not compare
+numbers across dataset versions, and cite the version shown in `datasets`. The
+fishing model in v5.0 is also more conservative and can miss some real fishing,
+especially for seines, fixed gear, pots and traps, set gillnets, set longlines,
+trollers and shallow nearshore activity (see the stated limitations in the
+[Pipeline 5 release notes](https://globalfishingwatch.org/our-apis/documentation/docs/release-notes/pipeline-v5)),
+so a low count is not proof of low activity. The
+`vesselId`s do not change between v4.0 and v5.0, so IDs you saved earlier are
+still valid.
 
 
 ## One row per vessel, or one combined result?
@@ -240,7 +258,7 @@ summarise_insights <- function(vessel_ids) {
     fishing_in_no_take_mpas = x$apparentFishing[[1]]$periodSelectedCounters$eventsInNoTakeMPAs,
     fishing_without_rfmo_auth = x$apparentFishing[[1]]$periodSelectedCounters$eventsInRFMOWithoutKnownAuthorization,
     ais_off_events = x$gap[[1]]$periodSelectedCounters$eventsGapOff,
-    iuu_listings = x$vesselIdentity[[1]]$iuuVesselList$totalTimesListed
+    iuu_listings_in_period = x$vesselIdentity[[1]]$iuuVesselList$totalTimesListedInThePeriod
   )
 }
 
@@ -248,13 +266,13 @@ per_vessel <- vessels |>
   mutate(insights = map(vesselIds, summarise_insights)) |>
   unnest(insights) |>
   select(shipname, flag, n_vesselIds, coverage_pct, fishing_events,
-         fishing_in_no_take_mpas, ais_off_events)
+         ais_off_events, iuu_listings_in_period)
 
 per_vessel
 ```
 
-If instead we send the `vesselId`s of both vessels in a single request, we get
-one result for the two vessels together:
+If instead we send the `vesselId`s of all the vessels in a single request, we get
+one result for the vessels together:
 
 ```{r combined}
 combined <- gfw_vessel_insights(
