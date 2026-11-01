@@ -800,8 +800,7 @@ should specify:
   (0.01 degree)
 - The temporal resolution, which can be `HOURLY`, `DAILY`, `MONTHLY`,
   `YEARLY` or `ENTIRE`.
-- The variable to group by: `FLAG`, `GEARTYPE`, `FLAGANDGEARTYPE`,
-  `MMSI` or `VESSEL_ID`
+- The variable to group by: `FLAG`, `GEARTYPE` or `FLAGANDGEARTYPE`
 - The date range `note: this must be 366 days or less`
 - The region polygon in `sf` format or the region code (such as an EEZ
   code) to filter the raster
