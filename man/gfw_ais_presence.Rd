@@ -113,18 +113,19 @@ gfw_ais_presence(spatial_resolution = "LOW",
 code_rfmo <- gfw_region_id(region_name = "GFCM", region_source = "RFMO")
 gfw_ais_presence(spatial_resolution = "LOW",
            temporal_resolution = "YEARLY",
+           group_by = "FLAG",
            start_date = "2022-01-01",
            end_date = "2023-01-01",
            region = code_rfmo$id[1],
            region_source = "RFMO")
 
 # Using a sf from disk /loading a test sf object
-data(test_shape)
+data(gfw_test_shape)
 gfw_ais_presence(spatial_resolution = "LOW",
             temporal_resolution = "YEARLY",
             start_date = "2021-01-01",
             end_date = "2021-02-01",
-            region = test_shape,
+            region = gfw_test_shape,
             region_source = "USER_SHAPEFILE",
             key = gfw_auth(),
             print_request = TRUE)

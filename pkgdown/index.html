@@ -1105,9 +1105,9 @@ and fetch apparent the data of interest. for this area using
 <code>region_source = &quot;USER_SHAPEFILE&quot;</code> and
 <code>region = [YOUR_SHAPE]</code>. We added a sample shapefile inside
 <code>gfwr</code> to show how <code>&quot;USER_SHAPEFILE&quot;</code> works:</p>
-<pre class="r"><code>data(&quot;test_shape&quot;)
+<pre class="r"><code>data(&quot;gfw_test_shape&quot;)
 
-test_shape
+gfw_test_shape
 #&gt; Simple feature collection with 1 feature and 0 fields
 #&gt; Geometry type: MULTIPOLYGON
 #&gt; Dimension:     XY
@@ -1122,7 +1122,7 @@ gfw_ais_fishing_hours(spatial_resolution = &quot;LOW&quot;,
                start_date = &quot;2021-01-01&quot;,
                end_date = &quot;2021-02-01&quot;,
                region_source = &quot;USER_SHAPEFILE&quot;,
-               region = test_shape)
+               region = gfw_test_shape)
 #&gt; # A tibble: 2,686 × 6
 #&gt;      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`
 #&gt;    &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;        &lt;dbl&gt;                    &lt;dbl&gt;
