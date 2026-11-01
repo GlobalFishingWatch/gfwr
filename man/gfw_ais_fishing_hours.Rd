@@ -37,8 +37,8 @@ YYYY-MM-DD format and excluding this date.}
 \code{"RFMO"}, GFW region code (see \code{\link[=gfw_region_id]{gfw_region_id()}}). If
 \code{region_source = "USER_SHAPEFILE"}, \code{sf} shapefile with the area of interest.}
 
-\item{group_by}{Optional. Parameter to group by. Can be \code{"VESSEL_ID"}, \code{"FLAG"},
-\code{"GEARTYPE"}, \code{"FLAGANDGEARTYPE"} or \code{"MMSI"}.}
+\item{group_by}{Optional. Parameter to group by. Can be \code{"FLAG"},
+\code{"GEARTYPE"} or \code{"FLAGANDGEARTYPE"}.}
 
 \item{filter_by}{Fields to filter AIS-based apparent fishing effort. Possible
 options are \code{flag}, \code{shipname}, \code{geartype} and \code{id} (to filter for vessel ids).
