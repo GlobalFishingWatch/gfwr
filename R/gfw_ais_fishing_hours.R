@@ -66,12 +66,12 @@
 #'            region = code_rfmo$id[1],
 #'            region_source = "RFMO")
 #' #using a sf from disk /loading a test sf object
-#' data(test_shape)
+#' data(gfw_test_shape)
 #' gfw_ais_fishing_hours(spatial_resolution = "LOW",
 #'             temporal_resolution = "YEARLY",
 #'             start_date = "2021-01-01",
 #'             end_date = "2021-10-01",
-#'             region = test_shape,
+#'             region = gfw_test_shape,
 #'             region_source = "USER_SHAPEFILE",
 #'             print_request = TRUE)
 #' }

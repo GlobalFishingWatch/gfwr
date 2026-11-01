@@ -815,9 +815,9 @@ apparent the data of interest. for this area using
 a sample shapefile inside `gfwr` to show how `"USER_SHAPEFILE"` works:
 
 ``` r
-data("test_shape")
+data("gfw_test_shape")
 
-test_shape
+gfw_test_shape
 #> Simple feature collection with 1 feature and 0 fields
 #> Geometry type: MULTIPOLYGON
 #> Dimension:     XY
@@ -832,7 +832,7 @@ gfw_ais_fishing_hours(spatial_resolution = "LOW",
                start_date = "2021-01-01",
                end_date = "2021-02-01",
                region_source = "USER_SHAPEFILE",
-               region = test_shape)
+               region = gfw_test_shape)
 #> # A tibble: 2,686 × 6
 #>      Lat   Lon `Time Range` flag  `Vessel IDs` `Apparent Fishing Hours`
 #>    <dbl> <dbl>        <dbl> <chr>        <dbl>                    <dbl>
