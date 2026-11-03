@@ -33,7 +33,7 @@ gfw_endpoint <- function(dataset_type,
 
   # API datasets to pass to param list
   api_datasets <- c(
-    'PORT_VISIT' = "public-global-port-visits-c2-events:latest",
+    'PORT_VISIT' = "public-global-port-visits-events:latest",
     'ENCOUNTER' = "public-global-encounters-events:latest",
     'LOITERING' = "public-global-loitering-events:latest",
     'FISHING' = "public-global-fishing-events:latest",

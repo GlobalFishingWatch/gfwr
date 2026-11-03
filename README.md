@@ -4,7 +4,6 @@
 # `gfwr`: Access data from Global Fishing Watch APIs <img src="man/figures/gfwr_hex_rgb.png" align="right" width="200px"/>
 
 <!-- badges: start -->
-
 [![DOI](https://zenodo.org/badge/450635054.svg)](https://zenodo.org/badge/latestdoi/450635054)
 [![Project Status: Active - The project has reached a stable, usable
 state and is being actively
@@ -14,6 +13,9 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 badge](https://globalfishingwatch.r-universe.dev/badges/:registry)](https://github.com/r-universe/globalfishingwatch/actions/workflows/sync.yml)
 <!-- badges: end -->
 
+> [!WARNING]
+> 2026-11-03 - Due to infrastructure constraints and an upstream data dependency issue, we have paused the following specific query parameters: `group-by = MMSI` and `group-by = VESSEL_ID` when `spatial-aggregation=false`. The API parameter `spatial-aggregation` was not exposed in the package and its default was `false`, so current requests will fail. The package is being updated to implement `spatial-aggregation` and reflect these changes. 
+>
 > **Important**  
 > This is a major release of the package, with several breaking changes
 > in function names and two new endpoints: AIS vessel presence and SAR
