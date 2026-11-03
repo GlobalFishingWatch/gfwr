@@ -13,8 +13,8 @@
 #' @param region Required. If `region_source` is set to `"EEZ"`, `"MPA"` or
 #' `"RFMO"`, GFW region code (see [gfw_region_id()]). If
 #' `region_source = "USER_SHAPEFILE"`, `sf` shapefile with the area of interest.
-#' @param group_by Optional. Parameter to group by. Can be `"VESSEL_ID"`, `"FLAG"`,
-#' `"GEARTYPE"`, `"FLAGANDGEARTYPE"` or `"MMSI"`.
+#' @param group_by Optional. Parameter to group by. Can be `"FLAG"`,
+#' `"GEARTYPE"` or `"FLAGANDGEARTYPE"`.
 #' @param filter_by Fields to filter AIS-based apparent fishing effort. Possible
 #' options are `flag`, `shipname`, `geartype` and `id` (to filter for vessel ids). Receives SQL expressions like
 #' `filter_by = "flag IN ('ESP')"`.
@@ -66,12 +66,12 @@
 #'            region = code_rfmo$id[1],
 #'            region_source = "RFMO")
 #' #using a sf from disk /loading a test sf object
-#' data(test_shape)
+#' data(gfw_test_shape)
 #' gfw_ais_fishing_hours(spatial_resolution = "LOW",
 #'             temporal_resolution = "YEARLY",
 #'             start_date = "2021-01-01",
 #'             end_date = "2021-10-01",
-#'             region = test_shape,
+#'             region = gfw_test_shape,
 #'             region_source = "USER_SHAPEFILE",
 #'             print_request = TRUE)
 #' }

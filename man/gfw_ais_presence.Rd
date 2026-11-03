@@ -37,8 +37,8 @@ YYYY-MM-DD format and \strong{excluding this date}.}
 \code{"RFMO"}, GFW region code (see \code{\link[=gfw_region_id]{gfw_region_id()}}). If
 \code{region_source = "USER_SHAPEFILE"}, \code{sf} shapefile with the area of interest.}
 
-\item{group_by}{Optional. Parameter to group by. Can be \code{"VESSEL_ID"}, \code{"FLAG"},
-\code{"GEARTYPE"}, \code{"FLAGANDGEARTYPE"} or \code{"MMSI"}.}
+\item{group_by}{Optional. Parameter to group by. Can be \code{"FLAG"},
+\code{"GEARTYPE"} or \code{"FLAGANDGEARTYPE"}.}
 
 \item{filter_by}{Fields to filter AIS-based vessel presence. Possible options
 are \code{flag}, \code{vessel_type}, \code{speed}. See Details for more information}
@@ -98,33 +98,22 @@ gfw_ais_presence(spatial_resolution = "LOW",
            region = code_mpa$id[3],
            region_source = "MPA")
 
-# Filter by flag but grouping by VESSEL_ID
-
-code_mpa <- gfw_region_id(region_name = "Galapagos", region_source = "MPA")
-gfw_ais_presence(spatial_resolution = "LOW",
-           temporal_resolution = "MONTHLY",
-           group_by = "VESSEL_ID",
-           filter_by = "flag in ('ECU')",
-           start_date = "2022-01-01",
-           end_date = "2022-02-01",
-           region = code_mpa$id[3],
-           region_source = "MPA")
-
 code_rfmo <- gfw_region_id(region_name = "GFCM", region_source = "RFMO")
 gfw_ais_presence(spatial_resolution = "LOW",
            temporal_resolution = "YEARLY",
+           group_by = "FLAG",
            start_date = "2022-01-01",
            end_date = "2023-01-01",
            region = code_rfmo$id[1],
            region_source = "RFMO")
 
 # Using a sf from disk /loading a test sf object
-data(test_shape)
+data(gfw_test_shape)
 gfw_ais_presence(spatial_resolution = "LOW",
             temporal_resolution = "YEARLY",
             start_date = "2021-01-01",
             end_date = "2021-02-01",
-            region = test_shape,
+            region = gfw_test_shape,
             region_source = "USER_SHAPEFILE",
             key = gfw_auth(),
             print_request = TRUE)

@@ -1,3 +1,7 @@
+# gfwr 3.0.0.9000
+
+- Due to infrastructure constraints and an upstream data dependency issue, we have paused the following specific query parameters: `group-by = MMSI` and `group-by = VESSEL_ID` when `spatial-aggregation=false`. The API parameter `spatial-aggregation` was not exposed in the package, and its default was `false`, so current requests will fail. The package is being updated to implement `spatial-aggregation` and reflect these changes. All documentation has been updated to remove the grouping parameters while we apply these changes. 
+
 # gfwr 3.0
 
 

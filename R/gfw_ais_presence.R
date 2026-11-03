@@ -20,8 +20,8 @@
 #' @param region Required. If `region_source` is set to `"EEZ"`, `"MPA"` or
 #' `"RFMO"`, GFW region code (see [gfw_region_id()]). If
 #' `region_source = "USER_SHAPEFILE"`, `sf` shapefile with the area of interest.
-#' @param group_by Optional. Parameter to group by. Can be `"VESSEL_ID"`, `"FLAG"`,
-#' `"GEARTYPE"`, `"FLAGANDGEARTYPE"` or `"MMSI"`.
+#' @param group_by Optional. Parameter to group by. Can be `"FLAG"`,
+#' `"GEARTYPE"` or `"FLAGANDGEARTYPE"`.
 #' @param filter_by Fields to filter AIS-based vessel presence. Possible options
 #' are `flag`, `vessel_type`, `speed`. See Details for more information
 #'
@@ -87,33 +87,22 @@
 #'            region = code_mpa$id[3],
 #'            region_source = "MPA")
 #'
-#' # Filter by flag but grouping by VESSEL_ID
-#'
-#' code_mpa <- gfw_region_id(region_name = "Galapagos", region_source = "MPA")
-#' gfw_ais_presence(spatial_resolution = "LOW",
-#'            temporal_resolution = "MONTHLY",
-#'            group_by = "VESSEL_ID",
-#'            filter_by = "flag in ('ECU')",
-#'            start_date = "2022-01-01",
-#'            end_date = "2022-02-01",
-#'            region = code_mpa$id[3],
-#'            region_source = "MPA")
-#'
 #' code_rfmo <- gfw_region_id(region_name = "GFCM", region_source = "RFMO")
 #' gfw_ais_presence(spatial_resolution = "LOW",
 #'            temporal_resolution = "YEARLY",
+#'            group_by = "FLAG",
 #'            start_date = "2022-01-01",
 #'            end_date = "2023-01-01",
 #'            region = code_rfmo$id[1],
 #'            region_source = "RFMO")
 #'
 #' # Using a sf from disk /loading a test sf object
-#' data(test_shape)
+#' data(gfw_test_shape)
 #' gfw_ais_presence(spatial_resolution = "LOW",
 #'             temporal_resolution = "YEARLY",
 #'             start_date = "2021-01-01",
 #'             end_date = "2021-02-01",
-#'             region = test_shape,
+#'             region = gfw_test_shape,
 #'             region_source = "USER_SHAPEFILE",
 #'             key = gfw_auth(),
 #'             print_request = TRUE)
