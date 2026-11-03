@@ -95,5 +95,39 @@
         ]
       }
     }
+  },
+  "apparentLongLineSetEvents": {
+    "datasets": ["public-global-longline-fishing-events:v5.0"],
+    "count": 30,
+    "entirelyDay": {
+      "count": 19,
+      "entries": [
+        "eb17c4cd0aac6baa9eb8ffc9dd816abf",
+        "47ab328bad9b002a69354c6b032e0002"
+      ]
+    },
+    "mostlyDay": {
+      "count": 9,
+      "entries": [
+        "47681554bc3035d9a4dfb7817b5b3513",
+        "ee64822a44e127ad7babdc27f964fbd8"
+      ]
+    },
+    "dayAndNight": {
+      "count": 1,
+      "entries": ["2cd93adb39124903898a68bcafe2576b"]
+    },
+    "mostlyNight": {
+      "count": 1,
+      "entries": ["29b078c24cf897402fa4498112dea2b6"]
+    },
+    "entirelyNight": {
+      "count": 0,
+      "entries": []
+    },
+    "unclassified": {
+      "count": 0,
+      "entries": []
+    }
   }
 }

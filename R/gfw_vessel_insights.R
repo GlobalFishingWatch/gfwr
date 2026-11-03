@@ -16,7 +16,7 @@
 #' over a specified time period. Users may specify which insight types to
 #' include. The response summarizes detected events and indicators; detailed
 #' event-level information can be retrieved separately using the
-#' Events API: https://globalfishingwatch.org/our-apis/documentation#events-api.
+#' Events API: https://globalfishingwatch.org/our-apis/documentation/docs/v3/events.
 #'
 #' @details
 #' The following insight types are supported via the `includes` argument:
@@ -27,25 +27,28 @@
 #' - If the vessel is present on an RFMO IUU vessel list (`"VESSEL-IDENTITY-IUU-VESSEL-LIST"`)
 #' - The vessel's flag changes (`"VESSEL-IDENTITY-FLAG-CHANGES"`)
 #' - The vessel's flag state presence under the Tokyo/Paris MOU black or grey lists (`"VESSEL-IDENTITY-MOU-LIST"`)
+#' - Longline Set events (`"LONGLINE-SETS"`)
 #'
 #' The function returns a single-row tibble with one list-column per insight
 #' type requested. Each list-column contains the data corresponding to that insight type.
 #'
 #' For detailed information about the Insights API, please refer to the official
 #' Global Fishing Watch API documentation:
-#' - [Vessel Insights API](https://globalfishingwatch.org/our-apis/documentation#insights-api)
+#' - [Vessel Insights API](https://globalfishingwatch.org/our-apis/documentation/docs/v3/insights)
 #'
 #' For more details on the Insights API data caveats, please refer to the official
 #' Global Fishing Watch API documentation:
-#' - [Fishing detected in no-take mpas](https://globalfishingwatch.org/our-apis/documentation#insights-api-fishing-detected-in-no-take-mpas)
-#' - [Fishing event detected outside known authorized areas](https://globalfishingwatch.org/our-apis/documentation#insights-api-fishing-event-detected-outside-known-authorized-areas)
-#' - [Coverage](https://globalfishingwatch.org/our-apis/documentation#insights-api-coverage)
-#' - [RFMO IUU vessel list](https://globalfishingwatch.org/our-apis/documentation#insights-api-rfmo-iuu-vessel-list)
-#' - [What does it mean that an API dataset is in prototype stage?](https://globalfishingwatch.org/our-apis/documentation#what-does-it-mean-that-an-api-dataset-is-in-prototype-stage)
+#' - [Fishing detected in no-take mpas](https://globalfishingwatch.org/our-apis/documentation/docs/v3/general-api-doc/data-caveats#insights-api-fishing-detected-in-no-take-mpas)
+#' - [Fishing event detected outside known authorized areas](https://globalfishingwatch.org/our-apis/documentation/docs/v3/general-api-doc/data-caveats#insights-api-fishing-event-detected-outside-known-authorized-areas)
+#' - [Coverage](https://globalfishingwatch.org/our-apis/documentation/docs/v3/general-api-doc/data-caveats#insights-api-coverage)
+#' - [Longline Set events](https://globalfishingwatch.org/our-apis/documentation/docs/v3/general-api-doc/data-caveats#insights-api---longline-set-events)
+#' - [RFMO IUU vessel list](https://globalfishingwatch.org/our-apis/documentation/docs/v3/general-api-doc/data-caveats#insights-api---rfmo-iuu-vessel-list)
+#' - [What does it mean that an API dataset is in prototype stage?](https://globalfishingwatch.org/our-apis/documentation/docs/v3/general-api-doc/data-caveats#what-does-it-mean-that-an-api-dataset-is-in-prototype-stage)
 #'
 #' @param includes Required. Character vector of insight types to include in
-#' the response. Allowed values: `"COVERAGE"`, `"FISHING"`, `"GAP"`, `"VESSEL-IDENTITY-FLAG-CHANGES"`,
-#' `"VESSEL-IDENTITY-IUU-VESSEL-LIST"`, `"VESSEL-IDENTITY-MOU-LIST"`. Example: `c("FISHING", "GAP")`.
+#' the response. Allowed values: `"COVERAGE"`, `"FISHING"`, `"GAP"`, `"LONGLINE-SETS"`,
+#' `"VESSEL-IDENTITY-FLAG-CHANGES"`, `"VESSEL-IDENTITY-IUU-VESSEL-LIST"`, `"VESSEL-IDENTITY-MOU-LIST"`.
+#' Example: `c("FISHING", "GAP")`.
 #'
 #' @param start_date Required. The start date for the insights period in
 #' `"YYYY-MM-DD"` format or Date. Example: `"2020-01-01"`.
@@ -95,6 +98,14 @@
 #'   vessels = c("2339c52c3-3a84-1603-f968-d8890f23e1ed")
 #' )
 #'
+#' # Retrieve longline set insights for a single vessel
+#' longline_set_insights <- gfw_vessel_insights(
+#'   includes = c("LONGLINE-SETS"),
+#'   start_date = as.Date("2020-01-01"),
+#'   end_date = as.Date("2025-03-03"),
+#'   vessels = c("2339c52c3-3a84-1603-f968-d8890f23e1ed")
+#' )
+#'
 #' # Retrieve being listed in IUU list insights for a single vessel
 #' iuu_insights <- gfw_vessel_insights(
 #'   includes = c("VESSEL-IDENTITY-IUU-VESSEL-LIST"),
@@ -126,6 +137,7 @@
 #'     "COVERAGE",
 #'     "FISHING",
 #'     "GAP",
+#'     "LONGLINE-SETS",
 #'     "VESSEL-IDENTITY-FLAG-CHANGES",
 #'     "VESSEL-IDENTITY-IUU-VESSEL-LIST",
 #'     "VESSEL-IDENTITY-MOU-LIST"
@@ -154,6 +166,7 @@ gfw_vessel_insights <- function(includes = NULL,
     "COVERAGE",
     "FISHING",
     "GAP",
+    "LONGLINE-SETS",
     "VESSEL-IDENTITY-FLAG-CHANGES",
     "VESSEL-IDENTITY-IUU-VESSEL-LIST",
     "VESSEL-IDENTITY-MOU-LIST"
