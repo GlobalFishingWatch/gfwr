@@ -14,8 +14,7 @@ badge](https://globalfishingwatch.r-universe.dev/badges/:registry)](https://gith
 <!-- badges: end -->
 
 > [!WARNING]
-> 2026-11-03 - Due to infrastructure constraints and an upstream data dependency issue, we have paused the following specific query parameters: `group-by = MMSI` and `group-by = VESSEL_ID`.
-> The package is being updated to reflect these changes. 
+> 2026-11-03 - Due to infrastructure constraints and an upstream data dependency issue, we have paused the following specific query parameters: `group-by = MMSI` and `group-by = VESSEL_ID` when `spatial-aggregation=false`. The API parameter `spatial-aggregation` was not exposed in the package and its default was `false`, so current requests will fail. The package is being updated to implement `spatial-aggregation` and reflect these changes. 
 >
 > **Important**  
 > This is a major release of the package, with several breaking changes
