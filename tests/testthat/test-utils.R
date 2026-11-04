@@ -170,9 +170,12 @@ test_that("pipe operator from magrittr is available", {
 
 # null coalescing operator ----------------------------------------------------
 
-test_that("null coalescing operator from rlang is available", {
-  result <- NULL %||% 1
-  expect_equal(result, 1)
+test_that("null coalescing operator is available and behaves correctly", {
+  expect_equal(NULL %||% 1, 1)
+  expect_equal(0 %||% 1, 0)
+  expect_equal(FALSE %||% TRUE, FALSE)
+  expect_equal("" %||% "fallback", "")
+  expect_null(NULL %||% NULL)
 })
 
 # globalVariables -------------------------------------------------------------
