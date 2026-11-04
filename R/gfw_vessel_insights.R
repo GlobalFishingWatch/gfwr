@@ -172,20 +172,24 @@ gfw_vessel_insights <- function(includes = NULL,
     "VESSEL-IDENTITY-MOU-LIST"
   )
 
-  if (!is.character(includes) || length(includes) == 0) {
-    rlang::abort("`includes` is required and must be a non-empty character vector.")
+  if (!is.character(includes) || length(includes) == 0L) {
+    cli::cli_abort("{.arg includes} is required and must be a non-empty character vector.")
   }
 
   includes <- trimws(toupper(includes))
-  invalid_includes <- setdiff(includes, allowed_includes)
+  invalid_includes <- unique(setdiff(includes, allowed_includes))
 
-  if (length(invalid_includes) > 0) {
-    invalid_includes_message <- glue::glue(
-      "Invalid `includes` value(s): {paste(invalid_includes, collapse = ', ')}. ",
-      "Allowed value(s): {paste(allowed_includes, collapse = ', ')}."
+  if (length(invalid_includes) > 0L) {
+    cli::cli_abort(
+      c(
+        "Invalid {.arg includes} value(s).",
+        "x" = "Unknown value(s): {.val {invalid_includes}}.",
+        "i" = "Allowed values: {.or {.val {allowed_includes}}}."
+      )
     )
-    rlang::abort(invalid_includes_message)
   }
+
+  includes <- unique(includes)
 
   # Validate dates ------------------------------------------------------------
 
@@ -199,40 +203,58 @@ gfw_vessel_insights <- function(includes = NULL,
         return(parsed)
       }
     }
-    invalid_date_message <- glue::glue(
-      "Invalid `{name}`: {x}. ",
-      "`{name}` must be in YYYY-MM-DD format or Date object."
+
+    cli::cli_abort(
+      c(
+        "Invalid {.arg {name}} value.",
+        "x" = "Supplied value: {.val {x}}.",
+        "i" = "{.arg {name}} must be in {.val YYYY-MM-DD} format or a {.cls Date} object."
+      )
     )
-    rlang::abort(invalid_date_message)
   }
 
   start_date <- parse_date(start_date, "start_date")
   end_date <- parse_date(end_date, "end_date")
 
   if (start_date > end_date) {
-    rlang::abort("`start_date` must be less than or equal to `end_date`.")
+    cli::cli_abort(
+      c(
+        "Invalid date range.",
+        "x" = "{.arg start_date} must be less than or equal to {.arg end_date}.",
+        "i" = "Supplied range: {.val {start_date}} to {.val {end_date}}."
+      )
+    )
   }
 
   # Validate vessels ----------------------------------------------------------
 
-  if (!is.character(vessels) || length(vessels) == 0) {
-    rlang::abort("`vessels` is required and must be a non-empty character vector.")
+  if (!is.character(vessels) || length(vessels) == 0L) {
+    cli::cli_abort("{.arg vessels} is required and must be a non-empty character vector.")
   }
 
   vessels <- trimws(vessels)
   invalid_vessels <- vessels[is.na(vessels) | vessels == ""]
 
-  if (length(invalid_vessels) > 0) {
-    invalid_vessels_message <- glue::glue(
-      "Invalid `vessels` value(s): {paste(invalid_vessels, collapse = ', ')}. ",
-      "Each vessel ID must be a non-empty, non-NA character string."
+  if (length(invalid_vessels) > 0L) {
+    cli::cli_abort(
+      c(
+        "Invalid {.arg vessels} value(s).",
+        "x" = "Invalid value(s): {.val {invalid_vessels}}.",
+        "i" = "Each vessel ID must be a non-empty, non-NA character string."
+      )
     )
-    rlang::abort(invalid_vessels_message)
   }
+
+  vessels <- unique(vessels)
 
   # Validate key --------------------------------------------------------------
   if (is.null(key) || identical(key, "") || is.na(key)) {
-    rlang::abort("No API token found. Set `GFW_TOKEN` or pass `key`.")
+    cli::cli_abort(
+      c(
+        "No API token found.",
+        "i" = "Set {.envvar GFW_TOKEN} or pass a valid {.arg key}."
+      )
+    )
   }
 
   # Build API request body ----------------------------------------------------
@@ -247,19 +269,17 @@ gfw_vessel_insights <- function(includes = NULL,
   # Build API request ---------------------------------------------------------
   req <- httr2::request(gfw_base_url()) |>
     httr2::req_url_path_append("insights/vessels") |>
+    httr2::req_auth_bearer_token(key) |>
     httr2::req_headers(
-      Authorization = paste("Bearer", key),
       `Content-Type` = "application/json"
     ) |>
     httr2::req_user_agent(gfw_user_agent()) |>
-    httr2::req_body_json(req_body)
+    httr2::req_body_json(req_body) |>
+    httr2::req_error(body = \(x) parse_response_error(x)$formatted)
 
   if (print_request) {
     print(req)
   }
-
-  # Attach error parser
-  req <- req |> httr2::req_error(body = \(x) parse_response_error(x)$formatted)
 
   # Perform request
   resp <- req |> httr2::req_perform()

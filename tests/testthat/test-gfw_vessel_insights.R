@@ -40,7 +40,7 @@ test_that("gfw_vessel_insights: invalid start_date triggers error", {
         end_date = "2025-03-03",
         vessels = c("785101812-2127-e5d2-e8bf-7152c5259f5f")
       ),
-      regexp = "must be in YYYY-MM-DD"
+      regexp = 'must be in "YYYY-MM-DD" format'
     )
   })
 })
@@ -54,7 +54,7 @@ test_that("gfw_vessel_insights: invalid end_date triggers error", {
         end_date = "2025-03",
         vessels = c("785101812-2127-e5d2-e8bf-7152c5259f5f")
       ),
-      regexp = "must be in YYYY-MM-DD"
+      regexp = 'must be in "YYYY-MM-DD" format'
     )
   })
 })
