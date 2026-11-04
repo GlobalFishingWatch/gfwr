@@ -55,7 +55,7 @@
 #'
 #' @param vessels Required. Character vector of vessel IDs to retrieve insights for.
 #' Each vessel ID must be a non-empty character string.
-#' Example: `c("785101812-2127-e5d2-e8bf-7152c5259f5f", "2d26aa452-2d4f-4cae-2ec4-377f85e88dcb")`.
+#' Example: `c("785101812-2127-e5d2-e8bf-7152c5259f5f", "3df6b8616-648d-385a-ec75-b9a0779f6d70")`.
 #'
 #' @param key Character, API token. Defaults to [gfw_auth()].
 #'
@@ -84,7 +84,7 @@
 #'   includes = c("GAP"),
 #'   start_date = "2020-01-01",
 #'   end_date = "2025-03-03",
-#'   vessels = c("2339c52c3-3a84-1603-f968-d8890f23e1ed")
+#'   vessels = c("bc4a3e144-4222-1616-ead0-c80f153c7a8c")
 #' )
 #'
 #' # Retrieve AIS coverage metrics insights for a single vessel
@@ -92,7 +92,7 @@
 #'   includes = c("COVERAGE"),
 #'   start_date = as.Date("2020-01-01"),
 #'   end_date = as.Date("2025-03-03"),
-#'   vessels = c("2339c52c3-3a84-1603-f968-d8890f23e1ed")
+#'   vessels = c("bc4a3e144-4222-1616-ead0-c80f153c7a8c")
 #' )
 #'
 #' # Retrieve being listed in IUU list insights for a single vessel
@@ -100,7 +100,7 @@
 #'   includes = c("VESSEL-IDENTITY-IUU-VESSEL-LIST"),
 #'   start_date = "2020-01-01",
 #'   end_date = "2025-03-03",
-#'   vessels = c("2d26aa452-2d4f-4cae-2ec4-377f85e88dcb")
+#'   vessels = c("3df6b8616-648d-385a-ec75-b9a0779f6d70")
 #' )
 #'
 #' # Retrieve flag changes insights for a single vessel
@@ -108,7 +108,7 @@
 #'   includes = c("VESSEL-IDENTITY-FLAG-CHANGES"),
 #'   start_date = "2020-01-01",
 #'   end_date = "2025-03-03",
-#'   vessels = c("2d26aa452-2d4f-4cae-2ec4-377f85e88dcb")
+#'   vessels = c("3df6b8616-648d-385a-ec75-b9a0779f6d70")
 #' )
 #'
 #' # Retrieve flag state presence under the Tokyo/Paris MOU black or grey lists
@@ -117,7 +117,7 @@
 #'   includes = c("VESSEL-IDENTITY-MOU-LIST"),
 #'   start_date = "2020-01-01",
 #'   end_date = "2025-03-03",
-#'   vessels = c("2339c52c3-3a84-1603-f968-d8890f23e1ed")
+#'   vessels = c("bc4a3e144-4222-1616-ead0-c80f153c7a8c")
 #' )
 #'
 #' # Retrieve all available insights for multiple vessels
@@ -134,8 +134,8 @@
 #'   end_date = "2025-03-03",
 #'   vessels = c(
 #'     "785101812-2127-e5d2-e8bf-7152c5259f5f",
-#'     "2339c52c3-3a84-1603-f968-d8890f23e1ed",
-#'     "2d26aa452-2d4f-4cae-2ec4-377f85e88dcb"
+#'     "bc4a3e144-4222-1616-ead0-c80f153c7a8c",
+#'     "3df6b8616-648d-385a-ec75-b9a0779f6d70"
 #'   ),
 #'   print_request = TRUE
 #' )
