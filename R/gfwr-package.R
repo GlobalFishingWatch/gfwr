@@ -5,3 +5,6 @@
 #' @importFrom lifecycle deprecated
 ## usethis namespace: end
 NULL
+
+#' @importFrom rlang %||%
+NULL

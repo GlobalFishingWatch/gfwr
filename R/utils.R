@@ -13,29 +13,6 @@
 #' @return The result of calling `rhs(lhs)`.
 NULL
 
-#' Null coalescing operator
-#'
-#' Returns the left-hand side if it is not `NULL`; otherwise, returns the
-#' right-hand side.
-#'
-#' This operator is re-exported from \pkg{rlang}. Starting with \pkg{rlang}
-#' 1.1.3, \code{\%||\%} is re-exported from \pkg{base} on newer R versions
-#' to avoid namespace conflicts. On older R versions, \pkg{rlang} provides
-#' the operator.
-#'
-#' See \code{rlang::\link[rlang:op-null-default]{\%||\%}} for details.
-#'
-#' @name %||%
-#' @rdname null-coalesce
-#' @keywords internal
-#' @export
-#' @importFrom rlang %||%
-#' @usage lhs \%||% rhs
-#' @param lhs A value that may be `NULL`.
-#' @param rhs A fallback value returned when `lhs` is `NULL`.
-#' @return `lhs` if it is not `NULL`; otherwise, `rhs`.
-NULL
-
 #' Get the Global Fishing Watch API base URL
 #'
 #' Returns the `GFW_BASE_URL` environment variable if it is set and not empty

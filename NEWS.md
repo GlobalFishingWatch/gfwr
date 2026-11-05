@@ -1,7 +1,26 @@
-# gfwr 3.1
+# gfwr 4.0
 
-This is a minor release of the package, with no breaking changes but some key 
-additions.
+This is a major release of the package, with one key breaking change and many 
+additions and corrections.
+
+## Breaking change - `group-by = MMSI` and `group-by = VESSEL_ID` and new 
+`spatial-aggregation` parameter
+
+- Due to infrastructure constraints and an upstream data dependency issue, we 
+have paused the following specific query parameters: `group-by = MMSI` and 
+`group-by = VESSEL_ID` when `spatial-aggregation=false` in `gfw_ais_presence()`,
+ `gfw_ais_fishing_hours()` and `gfw_sar_detections()`.
+
+- The API parameter `spatial-aggregation` was not previously exposed in the 
+package, and its default is `false`, so requests in previous versions of the 
+package will fail. 
+
+- This version has been updated to implement `spatial_aggregation` and reflect 
+these changes. The main effect of this change is that 4wings requests grouped by
+`MMSI` and `VESSEL_ID` require `spatial_agreggation = TRUE`, and these results 
+will no longer have `lat` and `lon` columns. Only requests grouped by other 
+parameters (`FLAG`, `GEARTYPE`, `FLAGANDGEARTYPE`) will have spatialized results. 
+
 
 ## New functions and endpoints 
 
@@ -16,19 +35,26 @@ accepts up to six insight types:
   - `"VESSEL-IDENTITY-FLAG-CHANGES"` — flag state changes over time
   - `"VESSEL-IDENTITY-MOU-LIST"` — Paris/Tokyo MOU black and grey list status
 
+Insights `"VESSEL-IDENTITY-IUU-VESSEL-LIST"`, `"VESSEL-IDENTITY-FLAG-CHANGES"` 
+and `"VESSEL-IDENTITY-MOU-LIST"` are not publicly available. Please reach out to
+apis@globalfishingwatch.org in case you want access to them.
 
-- `$matchCriteria` was implemented in `gfw_vessel_info()`. It was previously 
-missing from the function response
+An accompanying vignette has been added to the package website.
 
 
 ## Bug fixes
 
-- **`gfw_vessel_info()`** — the `includes` parameter now behaves correctly 
-depending on `search_type` (#231). When `search_type = "search"`, valid values 
-are `"OWNERSHIP"`, `"AUTHORIZATIONS"`, and `"MATCH_CRITERIA"`. When 
-`search_type = "id"`, the valid value is `"POTENTIAL_RELATED_SELF_REPORTED_INFO"`.
-Previously, `includes` was not validated against `search_type` and could produce
-silently incorrect API requests.
+- **`gfw_vessel_info()`** 
+    - `$matchCriteria` was implemented in `gfw_vessel_info()`. It was previously 
+    missing from the function response this addition could break some workflows 
+    that rely on the number of elements of the response. This slot adds key 
+    information about the matching between AIS and registry information
+    - the `includes` parameter now behaves correctly depending on `search_type` 
+    (#231). When `search_type = "search"`, valid values are `"OWNERSHIP"`, 
+    `"AUTHORIZATIONS"`, and `"MATCH_CRITERIA"`. When `search_type = "id"`, the 
+    valid value is `"POTENTIAL_RELATED_SELF_REPORTED_INFO"`. Previously, 
+    `includes` was not validated against `search_type` and could produce 
+    silently incorrect API requests.
 
 ## Improvements
 

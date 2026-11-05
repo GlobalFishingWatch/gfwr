@@ -112,7 +112,8 @@ The `gfw_ais_presence()` function allows users to specify multiple criteria to c
 
 Spatial resolution can be LOW = 0.1 degree or HIGH = 0.01 degree, 
 
-```{r vp}
+<!--
+```r vp
 vp_senegal <- gfw_ais_presence(spatial_resolution = "LOW",
                                temporal_resolution = "MONTHLY",
                                start_date = start_date,
@@ -123,12 +124,13 @@ vp_senegal
 ```
 
 Without grouping variables, the function will return a number of `vessel ID`s present (for a definition of `Vessel ID` see our [vessel identity vignette](https://globalfishingwatch.github.io/gfwr/articles/identity)) and the total vessel presence hours for each cell (lat, lon). 
+-->
 
 The `Time Range` column will be expressed in the temporal units of the temporal resolution selected. In this example, `MONTHLY` will create a Time Range expressed in months: `YYYY-MM`
 
 Explore other temporal resolution and how the results vary.
-
-```{r vp_time}
+<!--
+```r vp_time
 vp_senegal <- gfw_ais_presence(spatial_resolution = "LOW",
                                temporal_resolution = "YEARLY",
                                start_date = start_date,
@@ -137,11 +139,13 @@ vp_senegal <- gfw_ais_presence(spatial_resolution = "LOW",
                                region = 8371)
 vp_senegal
 ```
+--> 
 
 ## Grouping variables
 
-The outputs of `gfw_ais_presence()` can be grouped by `FLAG`, `GEARTYPE`, `FLAGANDGEARTYPE`, `MMSI` or `VESSEL_ID`. 
+The outputs of `gfw_ais_presence()` can be grouped by `FLAG`, `MMSI` or `VESSEL_ID`. 
 This will create extra grouping columns, and the number of vessel presence hours will be expressed accordingly. 
+
 
 ```{r group_flag}
 vp_senegal_flag <- gfw_ais_presence(spatial_resolution = "LOW",
@@ -155,42 +159,27 @@ vp_senegal_flag |> count(flag) |> arrange((desc(n)))
 
 ```
 
-__Note__ that these results are grouped by `Vessel ID`, which is not the same as grouping by number of vessels. 
-Check our [vessel identity vignette](https://globalfishingwatch.github.io/gfwr/articles/identity) for more information.
+> __Note:__ To get spatialized data, only `group_by = 'FLAG'` will work. `MMSI` and `VESSEL_ID` can be used only if `spatial_aggregation = TRUE` and will return regional summaries of active vessels in the area. 
 
-
-Grouping by MMSI will group the results at the MMSI scale, which can correspond to individual vessels, but this is not always the case. 
 
 ```{r group_mmsi}
-vp_senegal_MMSI <- gfw_ais_presence(spatial_resolution = "LOW",
+vp_senegal_VesselID <- gfw_ais_presence(spatial_resolution = "LOW",
                                     temporal_resolution = "MONTHLY",
-                                    group_by = "MMSI",
+                                    group_by = "VESSEL_ID",
+                                    spatial_aggregation = TRUE,
                                     start_date = start_date,
                                     end_date = end_date,
                                     region_source = "EEZ",
                                     region = 8371)
-vp_senegal_MMSI
+vp_senegal_VesselID
 ```
 
 
-Finally, grouping by `Vessel ID` not only returns the `Vessel ID`s of the active vessels in the area, it also returns all the identity details about the vessels. Knowing this can help a lot in workflows that need detailed information about vessel identity, gears, and characteristics.
 
-```{r group_vesselid}
-vp_senegal_vesselID <- gfw_ais_presence(spatial_resolution = "LOW",
-                                        temporal_resolution = "MONTHLY",
-                                        group_by = "VESSEL_ID",
-                                        start_date = start_date,
-                                        end_date = end_date,
-                                        region_source = "EEZ",
-                                        region = 8371)
-vp_senegal_vesselID
-```
-
-The columns include `r paste(names(vp_senegal_vesselID), collapse = ", ")`.
+The columns include `r paste(names(vp_senegal_VesselID), collapse = ", ")` and the geartype and vessel type information from GFW's vessel classification model. 
  
 ```{r gears_vesseltypes}
-vp_senegal_vesselID |> count(`Gear Type`)
-vp_senegal_vesselID |> count(`Vessel Type`)
+vp_senegal_VesselID |> count(`Gear Type`, sort = TRUE)
 ```
 
 
@@ -218,11 +207,17 @@ map_speed_light <- viridis::turbo(3, begin = 0.5)
 ```
 
 
-And let's map the original vessel presence dataset for January-March 2024: 
-
+And let's map the original vessel presence dataset for January-March 2024. To get spatialized data, we need to `group_by = 'FLAG'`.
 
 ```{r eez_df}
-vp_senegal
+
+vp_senegal <- gfw_ais_presence(spatial_resolution = "LOW",
+                               temporal_resolution = "MONTHLY",
+                               group_by = "FLAG",
+                               start_date = start_date,
+                               end_date = end_date,
+                               region_source = "EEZ",
+                               region = 8371)
 ```
 
 
@@ -233,10 +228,12 @@ We can use `ggplot2` and `geom_tile` to plot the data.
 #|   A map of Vessel Presence in the Senegalese EEZ. 
 #|   The scale is logarithmic
 vp_senegal |> 
+  group_by(Lat, Lon) |> 
+  summarize(`Total Presence Hours` = sum(`Vessel Presence Hours`)) |> 
   ggplot() +
   geom_tile(aes(x = Lon,
                 y = Lat,
-                fill = `Vessel Presence Hours`)) +
+                fill = `Total Presence Hours`)) +
   geom_sf(data = ne_countries(returnclass = "sf", scale = "medium")) +
   coord_sf(xlim = c(min(vp_senegal$Lon), max(vp_senegal$Lon)),
            ylim = c(min(vp_senegal$Lat), max(vp_senegal$Lat))) +
@@ -360,7 +357,7 @@ vp_all_speeds <- purrr::map(sp,
                            ~gfw_ais_presence(
                              spatial_resolution = "LOW",
                              temporal_resolution = "MONTHLY",
-                             group_by = "VESSEL_ID",
+                             group_by = "FLAG",
                              filter_by = .x,
                              start_date = start_date,
                              end_date = end_date,
@@ -406,34 +403,6 @@ ggplot() +
 
 ```
 
-Since the request retrieved the data grouped by `vessel ID`, we have gear types,
-vessel types and other identity markers that can help filter and refine the
-visualization. 
-
-```{r fishing_cargo, fig.width=8, fig.height=6}
-vp_all_speeds |>   
-  filter(`Vessel Type` %in% c("FISHING", "CARGO"),
-         speed %in% c("6-10", "10-15")) |> 
-  ggplot() +
-  geom_tile(aes(x = Lon,
-                y = Lat,
-                fill = `Vessel Presence Hours`)) +
-  geom_sf(data = ne_countries(returnclass = "sf", scale = "medium")) +
-  coord_sf(xlim = c(min(vp_all_speeds$Lon),
-                    max(vp_all_speeds$Lon)),
-           ylim = c(min(vp_all_speeds$Lat),
-                    max(vp_all_speeds$Lat))) +
-  scale_fill_gradientn(
-    transform = 'log10',
-    colors = map_speed_light, 
-    na.value = NA,
-    labels = scales::comma) +
-  facet_grid(speed~`Vessel Type`) +
-  labs(title = "Vessel Presence hours in Mexico's EEZ",
-       subtitle = paste("For 6-10 knots and 10-15 knots and cargo vs. fishing vessel types"),
-       fill = "Presence hours (log10)")  + 
-  map_theme
-```
 
 ### Bivariate plots of speed and vessel presence hours
 

@@ -1,6 +1,6 @@
 Package: gfwr
 Title: Access data from Global Fishing Watch APIs
-Version: 3.1
+Version: 4.0
 Authors@R: c(
     person("Andrea", "Sánchez-Tapia", , "andrea.sanchez-tapia@globalfishingwatch.org",
           role = c("aut", "cre"),
@@ -62,4 +62,4 @@ LazyData: true
 Config/testthat/edition: 3
 Config/testthat/parallel: true
 Config/Needs/website: rmarkdown
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.1

@@ -23,7 +23,10 @@
 #' `"RFMO"`, GFW region code (see [gfw_region_id()]). If
 #' `region_source = "USER_SHAPEFILE"`, `sf` shapefile with the area of interest.
 #' @param group_by Optional. Parameter to group by. Can be `"VESSEL_ID"`, `"FLAG"`,
-#' `"GEARTYPE"`, `"FLAGANDGEARTYPE"` or `"MMSI"`.
+#' `"GEARTYPE"`, `"FLAGANDGEARTYPE"` or `"MMSI"`. If either `"VESSEL_ID"` or
+#' `"MMSI"` is chosen, `spatial_aggregation` must be set to `TRUE`.
+#' @param spatial_aggregation Whether outputs should be aggregated. Must be `TRUE`
+#' if `group_by` is set to `"VESSEL_ID"` or `"MMSI"`
 #' @param filter_by Fields to filter AIS-based apparent fishing effort. Possible
 #' options are `flag`, `shipname`, `geartype` and `id` (to filter for vessel ids).
 #'  Receives SQL expressions like `filter_by = "flag IN ('ESP')"`.
@@ -70,17 +73,18 @@
 #' code_rfmo <- gfw_region_id(region_name = "IATTC", region_source = "RFMO")
 #' gfw_ais_fishing_hours(spatial_resolution = "LOW",
 #'            temporal_resolution = "MONTHLY",
+#'            spatial_aggregation = TRUE,
 #'            start_date = "2022-01-01",
 #'            end_date = "2023-01-01",
 #'            region = code_rfmo$id[1],
 #'            region_source = "RFMO")
 #' #using a sf from disk /loading a test sf object
-#' data(test_shape)
+#' data(gfw_test_shape)
 #' gfw_ais_fishing_hours(spatial_resolution = "LOW",
 #'             temporal_resolution = "YEARLY",
 #'             start_date = "2021-01-01",
 #'             end_date = "2021-10-01",
-#'             region = test_shape,
+#'             region = gfw_test_shape,
 #'             region_source = "USER_SHAPEFILE",
 #'             print_request = TRUE)
 #' }
@@ -90,7 +94,8 @@ gfw_ais_fishing_hours <- function(spatial_resolution = NULL,
                                   end_date = NULL,
                                   region_source = NULL,
                                   region = NULL,
-                                  group_by = NULL,
+                                  group_by = "VESSEL_ID",
+                                  spatial_aggregation = NULL,
                                   filter_by = NULL,
                                   key = gfw_auth(),
                                   print_request = FALSE) {
@@ -103,6 +108,7 @@ gfw_ais_fishing_hours <- function(spatial_resolution = NULL,
                            region_source = region_source,
                            region = region,
                            group_by = group_by,
+                           spatial_aggregation = spatial_aggregation,
                            filter_by = filter_by,
                            key = key,
                            print_request = print_request)

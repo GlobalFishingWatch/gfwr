@@ -36,6 +36,8 @@
 #' @param key Character, API token. Defaults to [gfw_auth()].
 #' @param print_request Boolean. Whether to print the request, for debugging
 #' purposes. When contacting the GFW team it will be useful to send this string.
+#' @param spatial_aggregation Whether outputs should be aggregated. Must be TRUE
+#' if `group_by` is set to `"VESSEL_ID"` or `"MMSI"`
 #'
 #' @keywords internal
 #'
@@ -62,7 +64,8 @@ gfw_4wings <- function(api_endpoint = "AIS",
                        end_date = "2023-12-31",
                        region_source = NULL,
                        region = NULL,
-                       group_by = NULL,
+                       group_by = "VESSEL_ID",
+                       spatial_aggregation = NULL,
                        filter_by = NULL,
                        key = gfw_auth(),
                        print_request = FALSE) {
@@ -87,6 +90,7 @@ gfw_4wings <- function(api_endpoint = "AIS",
     `temporal-resolution` = temporal_resolution,
     `filters[0]` = filter_by,
     `group-by` = group_by,
+    `spatial-aggregation` = spatial_aggregation,
     `date-range` = date_range,
     format = "CSV"
   )

@@ -14,7 +14,10 @@
 #' `"RFMO"`, GFW region code (see [gfw_region_id()]). If
 #' `region_source = "USER_SHAPEFILE"`, `sf` shapefile with the area of interest.
 #' @param group_by Optional. Parameter to group by. Can be `"VESSEL_ID"`, `"FLAG"`,
-#' `"GEARTYPE"`, `"FLAGANDGEARTYPE"` or `"MMSI"`.
+#' `"GEARTYPE"`, `"FLAGANDGEARTYPE"` or `"MMSI"`. If either `"VESSEL_ID"` or
+#' `"MMSI"` is chosen, `spatial_aggregation` must be set to `TRUE`.
+#' @param spatial_aggregation Whether outputs should be aggregated. Must be `TRUE`
+#' if `group_by` is set to `"VESSEL_ID"` or `"MMSI"`
 #' @param filter_by Fields to filter SAR vessel detections. See Details for
 #' possible options.
 #' @param key Character, API token. Defaults to [gfw_auth()].
@@ -76,6 +79,7 @@
 #' gfw_sar_vessel_detections(spatial_resolution = "LOW",
 #'                           temporal_resolution = "YEARLY",
 #'                           group_by = "VESSEL_ID",
+#'                           spatial_aggregation = FALSE,
 #'                           filter_by = "matched = 'true'",
 #'                           start_date = "2021-01-01",
 #'                           end_date = "2022-01-01",
@@ -150,6 +154,7 @@ gfw_sar_vessel_detections <- function(spatial_resolution = NULL,
                                   region_source = NULL,
                                   region = NULL,
                                   group_by = NULL,
+                                  spatial_aggregation = NULL,
                                   filter_by = NULL,
                                   key = gfw_auth(),
                                   print_request = FALSE) {
@@ -162,6 +167,7 @@ gfw_sar_vessel_detections <- function(spatial_resolution = NULL,
                              region_source = region_source,
                              region = region,
                              group_by = group_by,
+                             spatial_aggregation = spatial_aggregation,
                              filter_by = filter_by,
                              key = key,
                              print_request = print_request)
